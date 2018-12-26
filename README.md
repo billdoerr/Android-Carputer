@@ -13,7 +13,7 @@
 4.  STRETCH GOAL -> Location services.  Maps.
 
 ##  Tasks - Android
-[ ]
+[ ] x
 - [ ]
 - [ ]
 - [ ]

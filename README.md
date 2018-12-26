@@ -2,8 +2,8 @@
 
 ## Carputer project
 
-** Will be based on a RaspberryPI running motioneye. **
-** Android tablet will be used for the user interface. **
+** Will be based on a RaspberryPI running motioneye. **  <br />
+** Android tablet will be used for the user interface. **  <br />
 
 ## Goals of POC
 1.  PRIMARY GOAL -> Display streaming video from RaspberryPI running motioneye.
@@ -12,7 +12,7 @@
 4.  STRETCH GOAL -> Location services.
 
 
-## Camera Module Issues
+## Camera Module Issues from proof of concept project 'Android-CarputerPOC'.
 1. PERFORMANCE:  Snapshot fragment slows everything down. Probably since it is capturing every frame, but there is no control over this.
 	- [ ]  Disabled displaying fps.  This improved performance a bit.
 	- [ ]  Snapshot view is the performance hog and do not have any control over this.

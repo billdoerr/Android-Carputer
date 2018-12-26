@@ -19,7 +19,7 @@
 	- [ ]  Use WebView to display streaming video.  Mjpeg has poor performance when implementing the snapshot feature.  Able to implment on-click event to capture image of screen.
 	- [ ]  Create new activity and menu item for viewing snapshots rather than as a tab in the Camera view.
 		- [ ] Draw menu:  Camera, MotionEye, Snapshots, Settings.
-	- [ ]  Disable settings for features: flip image, rotate image and possibly authentication settings.
+	- [x]  Disable settings for features: flip image, rotate image and possibly authentication settings.
 	- [ ]
 - [ ]
 - [ ]

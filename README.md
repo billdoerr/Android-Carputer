@@ -14,7 +14,7 @@
 5. **STRETCH GOAL** -> Sync data.  Upload data to cloud.
 
 ##  Tasks - Android
-- [ ]  Migrate code from Android-CarputerPOC (the proof of concept project).
+- [x]  Migrate code from Android-CarputerPOC (the proof of concept project).
 - [ ]  Design change from CarputerPOC
 	- [ ]  Use WebView to display streaming video.  Mjpeg has poor performance when implementing the snapshot feature.  Able to implment on-click event to capture image of screen.
 	- [ ]  Create new activity and menu item for viewing snapshots rather than as a tab in the Camera view.

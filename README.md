@@ -11,18 +11,23 @@
 2. **SECONDARY GOAL** -> Display of OBD-II/CANBUS data.  RaspberryPI will connect to OBD-II/CANBUS.
 3. **STRETCH GOAL** -> Play music.
 4. **STRETCH GOAL** -> Location services.  Maps.
+5. **STRETCH GOAL** -> Sync data.  Upload data to cloud.
 
 ##  Tasks - Android
 - [ ]  Migrate code from Android-CarputerPOC (the proof of concept project).
-- [ ]  Use WebView to display streaming video.  Mjpeg has poor performance when implementing the snapshot feature.  Able to implment on-click event to capture image of screen.
-- [ ]  Create new activity and menu item for viewing snapshots rather than as a tab in the Camera view.
+- [ ]  Design change from CarputerPOC
+	- [ ]  Use WebView to display streaming video.  Mjpeg has poor performance when implementing the snapshot feature.  Able to implment on-click event to capture image of screen.
+	- [ ]  Create new activity and menu item for viewing snapshots rather than as a tab in the Camera view.
+		- [ ] Draw menu:  Camera, MotionEye, Snapshots, Settings.
+	- [ ]  Disable settings for features: flip image, rotate image and possibly authentication settings.
+	- [ ]
 - [ ]
 - [ ]
 - [ ]
-- [ ]
+- [ ]  Code cleanup.
 - [ ]  Test and validate performance using RaspberryPi with USBStick + two USB Cameras + router.
 - [ ]
-- [ ]
+- [ ]  Put some effort into style/themes.
 - [ ]
 - [ ]
 - [ ]

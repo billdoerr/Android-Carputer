@@ -17,7 +17,7 @@ import com.github.niqdev.mjpeg.Mjpeg;
 public class CameraFragmentMjpegView extends Fragment {
 
     private static final String TAG = "CameraFragmentMjpegView";
-    private static final String ARG_CAMERA_ADDRESS_1 = "CAMERA_ADDRESS_1";
+    private static final String ARG_CAMERA_ADDRESS = "CAMERA_ADDRESS";
     private static final int TIMEOUT = 5;
 
     private com.github.niqdev.mjpeg.MjpegView mjpegView;
@@ -116,7 +116,7 @@ public class CameraFragmentMjpegView extends Fragment {
 
     private void getCameraAddress() {
         Bundle bundle = getArguments();
-        mCameraAddress = bundle.getString(ARG_CAMERA_ADDRESS_1);
+        mCameraAddress = bundle.getString(ARG_CAMERA_ADDRESS);
     }
 
 }

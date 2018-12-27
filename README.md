@@ -30,12 +30,12 @@
 	- [x]  CameraFragment.java
 	- [x]  CameraFragmentMotionEye.java
 	- [x]  CameraFragmentSnapshot.java
-	- [ ]  CameraFragmentSnapshotFileExplorer.java
-	- [ ]  CameraFragmentTwoPane.java
+	- [ ]  CameraFragmentSnapshotFileExplorer.java		**Will address when creating new activity to launch this fragment.**
+	- [x]  CameraFragmentTwoPane.java
 	- [x]  CameraFragmentMjpegView.java
 	- [x]  CarputerActivity.java
-	- [ ]  CarputerFragment.java
-	- [ ]  SingleFragmentActivity.java
+	- [x]  CarputerFragment.java
+	- [x]  SingleFragmentActivity.java
 	- [x]  SettingsActivity.java
 - [ ]  Address TODO's.	
 - [ ]  Test and validate performance using RaspberryPi with USBStick + two USB Cameras + router.
@@ -59,7 +59,7 @@
 - [ ]
 - [ ]
 
-##  Features Creep
+##  Feature Creep
 - [ ]  Android:  View images/videos archived on the RaspberryPi USBStick.
 - [ ]  Android:  cron job to delete old snapshots.  Would also need new shared preferences and fragment added to SettingsActivity.
 - [ ]  
@@ -92,10 +92,22 @@ Url should have this syntax:  http://username:password@host or http://username:p
 
  
  
+###  Save for later use
+
+//  Android Web Browser common intent
+Intent i = new Intent(Intent.ACTION_VIEW, uri);
+startActivity(i); 
  
  
- 
- 
+CameraFragmentImageArchiveViewer  CameraFragmentImageArchiveExplorer
+
+//  TODO :  Remove this from Camera Fragment.  Will launch from new activity and menu item.
+//  Snapshot fragment
+	CameraFragmentSnapshotFileExplorer mCameraFragmentFileExplorer = new CameraFragmentSnapshotFileExplorer();
+	adapter.addFragment(mCameraFragmentFileExplorer, getResources().getString(R.string.tab_camera_file_explorer));
+
+	viewPager.setAdapter(adapter);
+} 
  
  
  

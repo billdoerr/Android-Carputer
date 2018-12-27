@@ -61,6 +61,8 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
         actionbar.setHomeAsUpIndicator(R.drawable.ic_baseline_menu_24px);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        //  TODO :  Do I need this or can I comment out the code
         mDrawerLayout.addDrawerListener(
                 new DrawerLayout.DrawerListener() {
                     @Override
@@ -94,13 +96,12 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        // set item as selected to persist highlight
+                        // Set item as selected to persist highlight
                         menuItem.setChecked(true);
-                        // close drawer when item is tapped
+                        // Close drawer when item is tapped
                         mDrawerLayout.closeDrawers();
 
-                        // Add code here to update the UI based on the item selected
-                        // For example, swap UI fragments here
+                        // Launch activities
                         switch (menuItem.getItemId()) {
                             case R.id.nav_camera:
                                 startActivity(new Intent(SingleFragmentActivity.this, CameraActivityMjpeg.class));
@@ -110,18 +111,12 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
                                         .getString(PREF_CAMERA_MOTIONEYE_URL, null);
                                 if (s != null) {
                                     Uri uri = Uri.parse(s);
-
-                                    //  TODO :  Preferred option.  Not working displays empty view.  No errors.
                                     Intent i = CameraActivityMotionEye.newIntent(SingleFragmentActivity.this, uri);
-//                                    startActivity(i);
-
-                                    //  TODO : Not the preferred option
-                                    //  Android Web Browser common intent
-//                                    Intent i = new Intent(Intent.ACTION_VIEW, uri);
                                     startActivity(i);
                                 }
                                 return true;
-                            case R.id.nav_view_snapshots:
+                            //  TODO:  This is planned but need to create activity to launch snapshot fragment.
+                            case R.id.nav_image_archive:
                                 //  Snapshot fragment
                                 FragmentManager manager = getSupportFragmentManager();
                                 FragmentTransaction transaction = manager.beginTransaction();
@@ -132,8 +127,9 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
                             case R.id.nav_settings:
                                 startActivity(new Intent(SingleFragmentActivity.this, SettingsActivity.class));
                                 return true;
+                            default:
+                                return true;
                         }
-                        return true;
                     }
                 });
     }

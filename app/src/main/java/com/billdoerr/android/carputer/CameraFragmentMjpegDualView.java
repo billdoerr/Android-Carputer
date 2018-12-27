@@ -3,7 +3,6 @@ package com.billdoerr.android.carputer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,9 +13,9 @@ import android.widget.Toast;
 import com.github.niqdev.mjpeg.DisplayMode;
 import com.github.niqdev.mjpeg.Mjpeg;
 
-public class CameraFragmentTwoPane extends Fragment {
+public class CameraFragmentMjpegDualView extends Fragment {
 
-    private static final String TAG = "CameraFragmentTwoPane";
+    private static final String TAG = "CameraFragmentMjpegDualView";
     private static final String ARG_CAMERA_ADDRESS_1 = "CAMERA_ADDRESS_1";
     private static final String ARG_CAMERA_ADDRESS_2 = "CAMERA_ADDRESS_2";
     private static final int TIMEOUT = 5;
@@ -27,7 +26,7 @@ public class CameraFragmentTwoPane extends Fragment {
     private String mCameraAddress1;
     private String mCameraAddress2;
 
-    public CameraFragmentTwoPane() {
+    public CameraFragmentMjpegDualView() {
         // Required empty public constructor
     }
 
@@ -75,6 +74,7 @@ public class CameraFragmentTwoPane extends Fragment {
         }
     }
 
+    //  TODO : Do I need this or can I comment out the code?
     final Handler MjpegViewHandler = new Handler(){
         @Override
         public void handleMessage(Message msg){
@@ -116,8 +116,8 @@ public class CameraFragmentTwoPane extends Fragment {
                             mjpegView1.showFps(false);
                         },
                         throwable -> {
-                            Log.e(getClass().getSimpleName(), "mjpeg error", throwable);
-                            Toast.makeText(getActivity(), "Camera connection Error:  Camera #1", Toast.LENGTH_LONG).show();
+                            Log.e(getClass().getSimpleName(), getResources().getString(R.string.toast_camera_connection_error), throwable);
+                            Toast.makeText(getActivity(), getResources().getString(R.string.toast_camera_connection_error), Toast.LENGTH_LONG).show();
                         });
     }
 
@@ -131,8 +131,8 @@ public class CameraFragmentTwoPane extends Fragment {
                             mjpegView2.showFps(false);
                         },
                         throwable -> {
-                            Log.e(getClass().getSimpleName(), "mjpeg error", throwable);
-                            Toast.makeText(getActivity(), "Camera connection Error:  Camera #2", Toast.LENGTH_LONG).show();
+                            Log.e(getClass().getSimpleName(), getResources().getString(R.string.toast_camera_connection_error), throwable);
+                            Toast.makeText(getActivity(), getResources().getString(R.string.toast_camera_connection_error), Toast.LENGTH_LONG).show();
                         });
     }
 

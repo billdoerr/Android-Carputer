@@ -28,14 +28,14 @@ public class CarputerFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.activity_fragment, container, false);
 
+        //  TODO :  Make decision on default view.  Should we add a new SharedPreference?
         //  Default view
-        startActivity(new Intent(getActivity(), CameraActivityMjpeg.class));
+//        startActivity(new Intent(getActivity(), CameraActivityMjpeg.class));
 
         String s = PreferenceManager.getDefaultSharedPreferences(getActivity())
                 .getString(PREF_CAMERA_MOTIONEYE_URL, null);
         if (s != null) {
             Uri uri = Uri.parse(s);
-
             Intent i = CameraActivityMotionEye.newIntent(getActivity(), uri);
             startActivity(i);
         }

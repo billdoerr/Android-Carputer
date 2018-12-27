@@ -18,10 +18,10 @@ import com.github.niqdev.mjpeg.DisplayMode;
 import com.github.niqdev.mjpeg.Mjpeg;
 import com.github.niqdev.mjpeg.OnFrameCapturedListener;
 
-public class CameraFragmentSnapshot extends Fragment implements OnFrameCapturedListener {
+public class CameraFragmentMjpegSnapshot extends Fragment implements OnFrameCapturedListener {
 
-    private static final String TAG = "CameraFragmentSnapshot";
-    private static final String ARG_CAMERA_ADDRESS_2 = "CAMERA_ADDRESS_2";
+    private static final String TAG = "CameraFragmentMjpegSnapshot";
+    private static final String ARG_CAMERA_ADDRESS = "CAMERA_ADDRESS";
     private static final int TIMEOUT = 5;
 
     private com.github.niqdev.mjpeg.MjpegView mjpegView;
@@ -29,7 +29,7 @@ public class CameraFragmentSnapshot extends Fragment implements OnFrameCapturedL
     private Bitmap mLastPreview = null;
     private String mCameraAddress;
 
-    public CameraFragmentSnapshot() {
+    public CameraFragmentMjpegSnapshot() {
         // Required empty public constructor
     }
 
@@ -97,7 +97,7 @@ public class CameraFragmentSnapshot extends Fragment implements OnFrameCapturedL
         mLastPreview = bitmap;
     }
 
-    //  TODO :  Do I need this or should I comment out the code
+    //  TODO :  Do I need this or should I comment out the code?
     @SuppressLint("HandlerLeak")
     final Handler MjpegViewHandler = new Handler(){
         @Override
@@ -147,7 +147,7 @@ public class CameraFragmentSnapshot extends Fragment implements OnFrameCapturedL
 
     private void getCameraAddress() {
         Bundle bundle = getArguments();
-        mCameraAddress = bundle.getString(ARG_CAMERA_ADDRESS_2);
+        mCameraAddress = bundle.getString(ARG_CAMERA_ADDRESS);
     }
 
 }

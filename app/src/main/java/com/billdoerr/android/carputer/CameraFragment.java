@@ -23,6 +23,7 @@ public class CameraFragment extends Fragment {
     private static final String TAG = "CameraFragment";
 
     //  Fragment arguments
+    private static final String ARG_CAMERA_ADDRESS = "CAMERA_ADDRESS";
     private static final String ARG_CAMERA_ADDRESS_1 = "CAMERA_ADDRESS_1";
     private static final String ARG_CAMERA_ADDRESS_2 = "CAMERA_ADDRESS_2";
 
@@ -92,10 +93,12 @@ public class CameraFragment extends Fragment {
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
 
-        //  Camera View fragment
+        //  TODO : Need to decide if both camera's should use CameraFragmentMjpegView or CameraFragmentMjpegSnapshot?
+
+        //  Camera view fragment
         if (getPreferenceBoolean(PREF_CAMERA_1_ENABLED)) {
             Bundle args = new Bundle();
-            args.putString(ARG_CAMERA_ADDRESS_1,getPreferenceString(PREF_CAMERA_1_URL));
+            args.putString(ARG_CAMERA_ADDRESS,getPreferenceString(PREF_CAMERA_1_URL));
 
             CameraFragmentMjpegView mCameraFragmentMjpegView = new CameraFragmentMjpegView();
             mCameraFragmentMjpegView.setArguments(args);
@@ -103,27 +106,27 @@ public class CameraFragment extends Fragment {
             adapter.addFragment(mCameraFragmentMjpegView, getResources().getString(R.string.tab_camera_one));
         }
 
-        //  Camera #2 fragment
+        //  Camera snapshot fragment
         if (getPreferenceBoolean(PREF_CAMERA_2_ENABLED)) {
             Bundle args = new Bundle();
-            args.putString(ARG_CAMERA_ADDRESS_2,getPreferenceString(PREF_CAMERA_2_URL));
+            args.putString(ARG_CAMERA_ADDRESS,getPreferenceString(PREF_CAMERA_2_URL));
 
-            CameraFragmentSnapshot mCameraFragmentSnapshot = new CameraFragmentSnapshot();
-            mCameraFragmentSnapshot.setArguments(args);
+            CameraFragmentMjpegSnapshot mCameraFragmentMjpegSnapshot = new CameraFragmentMjpegSnapshot();
+            mCameraFragmentMjpegSnapshot.setArguments(args);
 
-            adapter.addFragment(mCameraFragmentSnapshot, getResources().getString(R.string.tab_camera_two));
+            adapter.addFragment(mCameraFragmentMjpegSnapshot, getResources().getString(R.string.tab_camera_two));
         }
 
-        //  Two-camera view fragment
+        //  Dual-camera view fragment
         if (getPreferenceBoolean(PREF_CAMERA_TWO_PANE_ENABLED)) {
             Bundle args = new Bundle();
             args.putString(ARG_CAMERA_ADDRESS_1,getPreferenceString(PREF_CAMERA_1_URL));
             args.putString(ARG_CAMERA_ADDRESS_2,getPreferenceString(PREF_CAMERA_2_URL));
 
-            CameraFragmentTwoPane mCameraFragmentTwoPane = new CameraFragmentTwoPane();
-            mCameraFragmentTwoPane.setArguments(args);
+            CameraFragmentMjpegDualView mCameraFragmentMjpegDualView = new CameraFragmentMjpegDualView();
+            mCameraFragmentMjpegDualView.setArguments(args);
 
-            adapter.addFragment(mCameraFragmentTwoPane, getResources().getString(R.string.tab_camera_two_pane));
+            adapter.addFragment(mCameraFragmentMjpegDualView, getResources().getString(R.string.tab_camera_two_pane));
     }
 
     //  TODO :  Remove this from Camera Fragment.  Will launch from new activity and menu item.

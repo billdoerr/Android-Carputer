@@ -18,13 +18,23 @@
 - [ ]  Design change from CarputerPOC
 	- [ ]  Use WebView to display streaming video.  Mjpeg has poor performance when implementing the snapshot feature.  Able to implment on-click event to capture image of screen.
 	- [ ]  Create new activity and menu item for viewing snapshots rather than as a tab in the Camera view.
-		- [ ] Draw menu:  Camera, MotionEye, Snapshots, Settings.
+	- [x]  Draw menu:  Camera - mjpeg, Camera MotionEye, Image Archive, Settings.
 	- [x]  Disable settings for features: flip image, rotate image and possibly authentication settings.
 	- [ ]
 - [ ]
 - [ ]
 - [ ]
-- [ ]  Code cleanup.
+- [ ]  Code review.  Code cleanup.
+	- []  CameraActivity.java
+	- []  CameraActivityMotionEye.java
+	- []  CameraFragment.java
+	- []  CameraFragmentMotionEye.java
+	- []  CameraFragmentSnapshot.java
+	- []  CameraFragmentSnapshotFileExplorer.java
+	- []  CameraFragmentTwoPane.java
+	- []  CameraFragmentView.java
+	- []  CarputerActivity.java
+	- []  CarputerFragment.java
 - [ ]  Test and validate performance using RaspberryPi with USBStick + two USB Cameras + router.
 - [ ]
 - [ ]  Put some effort into style/themes.
@@ -45,6 +55,13 @@
 - [ ]
 - [ ]
 - [ ]
+
+##  Features Creep
+- [ ]  Android:  View images/videos archived on the RaspberryPi USBStick.
+- [ ]  
+- [ ]  
+- [ ]  
+
 
 ## Camera Module Issues from proof of concept project 'Android-CarputerPOC'.
 1. PERFORMANCE:  Snapshot fragment slows everything down. Probably since it is capturing every frame, but there is no control over this.

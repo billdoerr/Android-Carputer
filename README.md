@@ -32,7 +32,7 @@
 	- [x]  CameraFragmentSnapshot.java
 	- [ ]  CameraFragmentSnapshotFileExplorer.java
 	- [ ]  CameraFragmentTwoPane.java
-	- [ ]  CameraFragmentMjpegView.java
+	- [x]  CameraFragmentMjpegView.java
 	- [x]  CarputerActivity.java
 	- [ ]  CarputerFragment.java
 	- [ ]  SingleFragmentActivity.java

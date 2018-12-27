@@ -25,16 +25,16 @@
 - [ ]
 - [ ]
 - [ ]  Code review.  Code cleanup.
-	- []  CameraActivity.java
-	- []  CameraActivityMotionEye.java
-	- []  CameraFragment.java
-	- []  CameraFragmentMotionEye.java
-	- []  CameraFragmentSnapshot.java
-	- []  CameraFragmentSnapshotFileExplorer.java
-	- []  CameraFragmentTwoPane.java
-	- []  CameraFragmentView.java
-	- []  CarputerActivity.java
-	- []  CarputerFragment.java
+	- [ ]  CameraActivity.java
+	- [ ]  CameraActivityMotionEye.java
+	- [ ]  CameraFragment.java
+	- [ ]  CameraFragmentMotionEye.java
+	- [ ]  CameraFragmentSnapshot.java
+	- [ ]  CameraFragmentSnapshotFileExplorer.java
+	- [ ]  CameraFragmentTwoPane.java
+	- [ ]  CameraFragmentView.java
+	- [ ]  CarputerActivity.java
+	- [ ]  CarputerFragment.java
 - [ ]  Test and validate performance using RaspberryPi with USBStick + two USB Cameras + router.
 - [ ]
 - [ ]  Put some effort into style/themes.

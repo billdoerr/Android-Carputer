@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,7 +21,7 @@ import com.github.niqdev.mjpeg.OnFrameCapturedListener;
 
 public class CameraFragmentMjpegSnapshot extends Fragment implements OnFrameCapturedListener {
 
-    private static final String TAG = "CameraFragmentMjpegSnapshot";
+    private static final String TAG = "MjpegSnapshot";
     private static final String ARG_CAMERA_ADDRESS = "CAMERA_ADDRESS";
     private static final int TIMEOUT = 5;
 
@@ -40,10 +41,10 @@ public class CameraFragmentMjpegSnapshot extends Fragment implements OnFrameCapt
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_camera_snapshot, container, false);
+        View view = inflater.inflate(R.layout.fragment_camera_mjpeg_snapshot, container, false);
 
         mjpegView = (com.github.niqdev.mjpeg.MjpegView) view.findViewById(R.id.video_view);
 

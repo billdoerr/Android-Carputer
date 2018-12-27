@@ -17,7 +17,7 @@
 - [x]  Migrate code from Android-CarputerPOC (the proof of concept project).
 - [ ]  Design change from CarputerPOC
 	- [ ]  Use WebView to display streaming video.  Mjpeg has poor performance when implementing the snapshot feature.  Able to implment on-click event to capture image of screen.
-	- [ ]  Create new activity and menu item for viewing snapshots rather than as a tab in the Camera view.
+	- [ ]  Create new activity and menu item for viewing snapshots rather than as a tab in the Camera view.  Use TabLayout for future expansion.
 	- [x]  Draw menu:  Camera - mjpeg, Camera MotionEye, Image Archive, Settings.
 	- [x]  Disable settings for features: flip image, rotate image and possibly authentication settings.
 	- [ ]
@@ -111,7 +111,27 @@ CameraFragmentImageArchiveViewer  CameraFragmentImageArchiveExplorer
  
  
  
- 
+content_main.xml
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".CarputerActivity"
+    tools:showIn="@layout/app_bar_main">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello World!"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</android.support.constraint.ConstraintLayout> 
  
  
  

@@ -74,7 +74,7 @@ public class ImageStorage {
 
     //  Get size of bitmap
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)
-    protected int sizeOf(Bitmap data) {
+    private int sizeOf(Bitmap data) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB_MR1) {
             return data.getRowBytes() * data.getHeight();
         } else {

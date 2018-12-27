@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -30,7 +31,6 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
-    private Toolbar mToolbar;
 
     protected abstract Fragment createFragment();
 
@@ -42,7 +42,7 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.carputer_drawer_view);
+        setContentView(R.layout.drawer_view);
 
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.fragment_container);
@@ -54,8 +54,8 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
                     .commit();
         }
 
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(mToolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_baseline_menu_24px);
@@ -66,17 +66,17 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
         mDrawerLayout.addDrawerListener(
                 new DrawerLayout.DrawerListener() {
                     @Override
-                    public void onDrawerSlide(View drawerView, float slideOffset) {
+                    public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
                         // Respond when the drawer's position changes
                     }
 
                     @Override
-                    public void onDrawerOpened(View drawerView) {
+                    public void onDrawerOpened(@NonNull View drawerView) {
                         // Respond when the drawer is opened
                     }
 
                     @Override
-                    public void onDrawerClosed(View drawerView) {
+                    public void onDrawerClosed(@NonNull View drawerView) {
                         // Respond when the drawer is closed
                     }
 
@@ -87,7 +87,7 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
                 }
         );
 
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.drawer_open, R.string.drawer_close);
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close);
         mDrawerLayout.addDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
 
@@ -95,7 +95,7 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
-                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                         // Set item as selected to persist highlight
                         menuItem.setChecked(true);
                         // Close drawer when item is tapped

@@ -53,7 +53,7 @@ public class CameraFragmentSnapshotFileExplorer extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, final Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_camera_file_explorer, container, false);
 
@@ -160,14 +160,14 @@ public class CameraFragmentSnapshotFileExplorer extends Fragment {
         private TextView mItemTextView;
         private List<String> mListItems = new ArrayList<>();
 
-        public ListHolder(View itemView) {
+        private ListHolder(View itemView) {
             super(itemView);
             mTextView = (TextView) itemView.findViewById(R.id.text_view);
             mImageView = (ImageView) itemView.findViewById(R.id.image_view);
             itemView.setOnClickListener(this);
         }
 
-        public void bindListItem(String listItem) {
+        private void bindListItem(String listItem) {
             //  TODO:  This is a bug since the last item is the one that is always set and used in PhotoHolder.onClick()
             Log.d(TAG, "bindListItem");
             mListItem = listItem;
@@ -192,7 +192,7 @@ public class CameraFragmentSnapshotFileExplorer extends Fragment {
         private static final String TAG = "ListAdapter";
         private List<String> mListItems;
 
-        public ListAdapter(List<String> listItems) {
+        private ListAdapter(List<String> listItems) {
             Log.d(TAG, "List Adapter called!");
             mListItems = listItems;
         }

@@ -10,7 +10,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +37,6 @@ public class CameraFragment extends Fragment {
     //  Camera Two_Pane view preferences
     private static final String PREF_CAMERA_TWO_PANE_ENABLED = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_TWO_PANE_ENABLED";
 
-    private Toolbar mToolbar;
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
 
@@ -139,8 +137,8 @@ public class CameraFragment extends Fragment {
 
     //  Setup action bar
     private void setupActionBar(View view) {
-        mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        ((CameraActivityMjpeg)getActivity()).setSupportActionBar(mToolbar);
+        Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        ((CameraActivityMjpeg)getActivity()).setSupportActionBar(toolbar);
         ActionBar actionbar = ((CameraActivityMjpeg)getActivity()).getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_baseline_menu_24px);
@@ -171,7 +169,7 @@ public class CameraFragment extends Fragment {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
 
-        public ViewPagerAdapter(FragmentManager manager) {
+        private ViewPagerAdapter(FragmentManager manager) {
             super(manager);
         }
 
@@ -185,7 +183,7 @@ public class CameraFragment extends Fragment {
             return mFragmentList.size();
         }
 
-        public void addFragment(Fragment fragment, String title) {
+        private void addFragment(Fragment fragment, String title) {
             mFragmentList.add(fragment);
             mFragmentTitleList.add(title);
         }

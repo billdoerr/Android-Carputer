@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -22,7 +23,6 @@ public class CameraFragmentMotionEye extends Fragment {
     private static final String TAG = "CameraFragmentMotionEye";
     private static final String ARG_URI = "MOTIONEYE_URI";
 
-    private Toolbar mToolbar;
     private Uri mUri;
     private WebView mWebView;
 
@@ -44,7 +44,7 @@ public class CameraFragmentMotionEye extends Fragment {
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_camera_motioneye, container, false);
 
@@ -111,8 +111,8 @@ public class CameraFragmentMotionEye extends Fragment {
 
     //  Setup action bar
     private void setupActionBar(View view) {
-        mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        ((CameraActivityMotionEye)getActivity()).setSupportActionBar(mToolbar);
+        Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        ((CameraActivityMotionEye)getActivity()).setSupportActionBar(toolbar);
         ActionBar actionbar = ((CameraActivityMotionEye)getActivity()).getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_baseline_menu_24px);

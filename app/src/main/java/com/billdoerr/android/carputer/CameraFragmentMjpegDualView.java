@@ -3,6 +3,7 @@ package com.billdoerr.android.carputer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,7 +16,7 @@ import com.github.niqdev.mjpeg.Mjpeg;
 
 public class CameraFragmentMjpegDualView extends Fragment {
 
-    private static final String TAG = "CameraFragmentMjpegDualView";
+    private static final String TAG = "MjpegDualView";
     private static final String ARG_CAMERA_ADDRESS_1 = "CAMERA_ADDRESS_1";
     private static final String ARG_CAMERA_ADDRESS_2 = "CAMERA_ADDRESS_2";
     private static final int TIMEOUT = 5;
@@ -37,10 +38,10 @@ public class CameraFragmentMjpegDualView extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_camera_two_pane, container, false);
+        View view = inflater.inflate(R.layout.fragment_camera_mjpeg_dual_view, container, false);
 
         mjpegView1 = (com.github.niqdev.mjpeg.MjpegView) view.findViewById(R.id.mjpegViewDefault1);
         mjpegView2 = (com.github.niqdev.mjpeg.MjpegView) view.findViewById(R.id.mjpegViewDefault2);

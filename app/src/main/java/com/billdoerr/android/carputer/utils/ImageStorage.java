@@ -68,11 +68,8 @@ public class ImageStorage {
 
     //  Check if space available to save bitmap
     private boolean isSpaceAvailable(File path, Bitmap bitmap) {
-        if ( (path.getFreeSpace() - 2*sizeOf(bitmap)) > 0 ) {    //  Being conservative and looking for space 2x bitmap size
-            return true;
-        } else {
-            return false;
-        }
+        //  Being conservative and looking for space 2x bitmap size
+        return (path.getFreeSpace() - 2 * sizeOf(bitmap)) > 0;
     }
 
     //  Get size of bitmap

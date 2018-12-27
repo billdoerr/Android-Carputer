@@ -25,16 +25,19 @@
 - [ ]
 - [ ]
 - [ ]  Code review.  Code cleanup.
-	- [ ]  CameraActivity.java
-	- [ ]  CameraActivityMotionEye.java
-	- [ ]  CameraFragment.java
-	- [ ]  CameraFragmentMotionEye.java
-	- [ ]  CameraFragmentSnapshot.java
+	- [x]  CameraActivityMjpeg.java
+	- [x]  CameraActivityMotionEye.java
+	- [x]  CameraFragment.java
+	- [x]  CameraFragmentMotionEye.java
+	- [x]  CameraFragmentSnapshot.java
 	- [ ]  CameraFragmentSnapshotFileExplorer.java
 	- [ ]  CameraFragmentTwoPane.java
-	- [ ]  CameraFragmentView.java
-	- [ ]  CarputerActivity.java
+	- [ ]  CameraFragmentMjpegView.java
+	- [x]  CarputerActivity.java
 	- [ ]  CarputerFragment.java
+	- [ ]  SingleFragmentActivity.java
+	- [x]  SettingsActivity.java
+- [ ]  Address TODO's.	
 - [ ]  Test and validate performance using RaspberryPi with USBStick + two USB Cameras + router.
 - [ ]
 - [ ]  Put some effort into style/themes.
@@ -58,7 +61,7 @@
 
 ##  Features Creep
 - [ ]  Android:  View images/videos archived on the RaspberryPi USBStick.
-- [ ]  
+- [ ]  Android:  cron job to delete old snapshots.  Would also need new shared preferences and fragment added to SettingsActivity.
 - [ ]  
 - [ ]  
 

@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,7 +26,7 @@ public class CameraFragmentSnapshot extends Fragment implements OnFrameCapturedL
 
     private com.github.niqdev.mjpeg.MjpegView mjpegView;
     private ImageView mImageView;
-    private Bitmap mlastPreview = null;
+    private Bitmap mLastPreview = null;
     private String mCameraAddress;
 
     public CameraFragmentSnapshot() {
@@ -37,7 +36,7 @@ public class CameraFragmentSnapshot extends Fragment implements OnFrameCapturedL
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getCameraAddress(savedInstanceState);
+        getCameraAddress();
     }
 
     @Override
@@ -55,17 +54,13 @@ public class CameraFragmentSnapshot extends Fragment implements OnFrameCapturedL
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "Image clicked.");
-                if (mlastPreview != null) {
+                if (mLastPreview != null) {
                     Log.d(TAG, "Image captured.");
 
-                    mImageView.setImageBitmap(mlastPreview);
+                    mImageView.setImageBitmap(mLastPreview);
 
-                    String url = new ImageStorage().saveImage(getActivity(), mlastPreview);
-//
-//                    Picasso mPicasso = Picasso.with(getActivity());
-//                    mPicasso.setIndicatorsEnabled(true);
-//                    mPicasso.setLoggingEnabled(true);
-//                    mPicasso.load(url).into(mImageView);
+                    new ImageStorage().saveImage(getActivity(), mLastPreview);
+                    Toast.makeText(getActivity(), getResources().getString(R.string.toast_image_saved), Toast.LENGTH_LONG).show();
 
                     Log.d(TAG, "Image saved!");
 
@@ -99,9 +94,10 @@ public class CameraFragmentSnapshot extends Fragment implements OnFrameCapturedL
 
     @Override
     public void onFrameCaptured(Bitmap bitmap) {
-        mlastPreview = bitmap;
+        mLastPreview = bitmap;
     }
 
+    //  TODO :  Do I need this or should I comment out the code
     @SuppressLint("HandlerLeak")
     final Handler MjpegViewHandler = new Handler(){
         @Override
@@ -145,18 +141,12 @@ public class CameraFragmentSnapshot extends Fragment implements OnFrameCapturedL
                         },
                         throwable -> {
                             Log.e(getClass().getSimpleName(), "mjpeg error", throwable);
-                            Toast.makeText(getActivity(), "Camera connection Error:  Camera #2", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(), getResources().getString(R.string.toast_camera_connection_error), Toast.LENGTH_LONG).show();
                         });
     }
 
-    private String getPreference(String key) {
-        return PreferenceManager
-                .getDefaultSharedPreferences(getActivity())
-                .getString(key, "");
-    }
-
-    private void getCameraAddress(Bundle bundle) {
-        bundle = getArguments();
+    private void getCameraAddress() {
+        Bundle bundle = getArguments();
         mCameraAddress = bundle.getString(ARG_CAMERA_ADDRESS_2);
     }
 

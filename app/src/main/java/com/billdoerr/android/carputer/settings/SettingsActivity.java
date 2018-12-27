@@ -39,30 +39,30 @@ import java.util.List;
 public class SettingsActivity extends AppCompatPreferenceActivity {
 
     //  Camera #1 preferences
-    public static final String PREF_CAMERA_1_ENABLED = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_1_ENABLED";
-    public static final String PREF_CAMERA_1_URL = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_1_URL";
-    public static final String PREF_CAMERA_1_FLIP_HORIZONTAL = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_1_FLIP_HORIZONTAL";
-    public static final String PREF_CAMERA_1_FLIP_VERTICAL= "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_1_FLIP_VERTICAL";
-    public static final String PREF_CAMERA_1_ROTATE_DEGREES = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_1_ROTATE_DEGREES";
-    public static final String PREF_CAMERA_1_AUTH_USERNAME = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_1_AUTH_USERNAME";
-    public static final String PREF_CAMERA_1_AUTH_PASSWORD = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_1_AUTH_PASSWORD";
+    private static final String PREF_CAMERA_1_ENABLED = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_1_ENABLED";
+    private static final String PREF_CAMERA_1_URL = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_1_URL";
+    private static final String PREF_CAMERA_1_FLIP_HORIZONTAL = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_1_FLIP_HORIZONTAL";
+    private static final String PREF_CAMERA_1_FLIP_VERTICAL= "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_1_FLIP_VERTICAL";
+    private static final String PREF_CAMERA_1_ROTATE_DEGREES = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_1_ROTATE_DEGREES";
+    private static final String PREF_CAMERA_1_AUTH_USERNAME = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_1_AUTH_USERNAME";
+    private static final String PREF_CAMERA_1_AUTH_PASSWORD = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_1_AUTH_PASSWORD";
 
     //  Camera #1 preferences
-    public static final String PREF_CAMERA_2_ENABLED = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_2_ENABLED";
-    public static final String PREF_CAMERA_2_URL = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_2_URL";
-    public static final String PREF_CAMERA_2_FLIP_HORIZONTAL = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_2_FLIP_HORIZONTAL";
-    public static final String PREF_CAMERA_2_FLIP_VERTICAL= "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_2_FLIP_VERTICAL";
-    public static final String PREF_CAMERA_2_ROTATE_DEGREES = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_2_ROTATE_DEGREES";
-    public static final String PREF_CAMERA_2_AUTH_USERNAME = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_2_AUTH_USERNAME";
-    public static final String PREF_CAMERA_2_AUTH_PASSWORD = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_2_AUTH_PASSWORD";
+    private static final String PREF_CAMERA_2_ENABLED = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_2_ENABLED";
+    private static final String PREF_CAMERA_2_URL = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_2_URL";
+    private static final String PREF_CAMERA_2_FLIP_HORIZONTAL = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_2_FLIP_HORIZONTAL";
+    private static final String PREF_CAMERA_2_FLIP_VERTICAL = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_2_FLIP_VERTICAL";
+    private static final String PREF_CAMERA_2_ROTATE_DEGREES = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_2_ROTATE_DEGREES";
+    private static final String PREF_CAMERA_2_AUTH_USERNAME = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_2_AUTH_USERNAME";
+    private static final String PREF_CAMERA_2_AUTH_PASSWORD = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_2_AUTH_PASSWORD";
 
     //  Camera Two_Pane view preferences
-    public static final String PREF_CAMERA_TWO_PANE_ENABLED = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_TWO_PANE_ENABLED";
+    private static final String PREF_CAMERA_TWO_PANE_ENABLED = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_TWO_PANE_ENABLED";
 
     //  Motion Eye preferences
-    public static final String PREF_CAMERA_MOTIONEYE_URL = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_MOTIONEYE_URL";
-    public static final String PREF_CAMERA_MOTIONEYE_AUTH_USERNAME = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_MOTIONEYE_AUTH_USERNAME";
-    public static final String PREF_CAMERA_MOTIONEYE_AUTH_PASSWORD = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_MOTIONEYE_AUTH_PASSWORD";
+    private static final String PREF_CAMERA_MOTIONEYE_URL = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_MOTIONEYE_URL";
+    private static final String PREF_CAMERA_MOTIONEYE_AUTH_USERNAME = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_MOTIONEYE_AUTH_USERNAME";
+    private static final String PREF_CAMERA_MOTIONEYE_AUTH_PASSWORD = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_MOTIONEYE_AUTH_PASSWORD";
 
 
     /**
@@ -175,6 +175,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     /**
      * Set up the {@link android.app.ActionBar}, if the API is available.
      */
+    //  TODO :  Unable to get drawer menu to work but does present a toolbar with back action
     //  Setup action bar
     private void setupActionBar() {
         // get the root container of the preferences list
@@ -185,7 +186,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-//        actionBar.setHomeAsUpIndicator(R.drawable.ic_baseline_menu_24px);
     }
 
     //  Adds padding so toolbar doesn't overlap list

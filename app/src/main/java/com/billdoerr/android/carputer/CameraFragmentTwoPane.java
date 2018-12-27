@@ -34,7 +34,7 @@ public class CameraFragmentTwoPane extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getCameraAddress(savedInstanceState);
+        getCameraAddress();
     }
 
     @Override
@@ -136,14 +136,8 @@ public class CameraFragmentTwoPane extends Fragment {
                         });
     }
 
-    private String getPreference(String key) {
-        return PreferenceManager
-                .getDefaultSharedPreferences(getActivity())
-                .getString(key, "");
-    }
-
-    private void getCameraAddress(Bundle bundle) {
-        bundle = getArguments();
+    private void getCameraAddress() {
+        Bundle bundle = getArguments();
         mCameraAddress1 = bundle.getString(ARG_CAMERA_ADDRESS_1);
         mCameraAddress2 = bundle.getString(ARG_CAMERA_ADDRESS_2);
     }

@@ -20,7 +20,7 @@ import com.billdoerr.android.carputer.utils.ImageStorage;
 public class CameraFragmentMotionEye extends Fragment {
 
     private static final String TAG = "CameraFragmentMotionEye";
-    private static final String ARG_URI = "motioneye_uri";
+    private static final String ARG_URI = "MOTIONEYE_URI";
 
     private Toolbar mToolbar;
     private Uri mUri;
@@ -40,8 +40,6 @@ public class CameraFragmentMotionEye extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mUri = getArguments().getParcelable(ARG_URI);
-        //  TODO :  Can't get action bar to display
-//        setupActionBar();
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -49,7 +47,6 @@ public class CameraFragmentMotionEye extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_camera_motioneye, container, false);
-
 
         //  Setup action bar
         setupActionBar(view);
@@ -62,10 +59,10 @@ public class CameraFragmentMotionEye extends Fragment {
 
         mWebView.setOnTouchListener(new View.OnTouchListener() {
 
-            public final static int FINGER_RELEASED = 0;
-            public final static int FINGER_TOUCHED = 1;
-            public final static int FINGER_DRAGGING = 2;
-            public final static int FINGER_UNDEFINED = 3;
+            final static int FINGER_RELEASED = 0;
+            final static int FINGER_TOUCHED = 1;
+            final static int FINGER_DRAGGING = 2;
+            final static int FINGER_UNDEFINED = 3;
 
             private int fingerState = FINGER_RELEASED;
 
@@ -84,11 +81,11 @@ public class CameraFragmentMotionEye extends Fragment {
                         if(fingerState != FINGER_DRAGGING) {
                             fingerState = FINGER_RELEASED;
 
-                            // Your onClick codes
+                            // Take screen shot
                             Bitmap bitmap = Bitmap.createBitmap(mWebView.getWidth(), mWebView.getHeight(), Bitmap.Config.ARGB_8888);
                             Canvas canvas = new Canvas(bitmap);
                             mWebView.draw(canvas);
-                            String url = new ImageStorage().saveImage(getActivity(), bitmap);
+                            new ImageStorage().saveImage(getActivity(), bitmap);
 
                         }
                         else if (fingerState == FINGER_DRAGGING) fingerState = FINGER_RELEASED;

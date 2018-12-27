@@ -14,9 +14,9 @@ import android.widget.Toast;
 import com.github.niqdev.mjpeg.DisplayMode;
 import com.github.niqdev.mjpeg.Mjpeg;
 
-public class CameraFragmentView extends Fragment {
+public class CameraFragmentMjpegView extends Fragment {
 
-    private static final String TAG = "CameraFragmentView";
+    private static final String TAG = "CameraFragmentMjpegView";
     private static final String ARG_CAMERA_ADDRESS_1 = "CAMERA_ADDRESS_1";
     private static final int TIMEOUT = 5;
 
@@ -24,7 +24,7 @@ public class CameraFragmentView extends Fragment {
 
     private String mCameraAddress;
 
-    public CameraFragmentView() {
+    public CameraFragmentMjpegView() {
         // Required empty public constructor
     }
 
@@ -32,7 +32,7 @@ public class CameraFragmentView extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getCameraAddress(savedInstanceState);
+        getCameraAddress();
     }
 
     @Override
@@ -65,6 +65,7 @@ public class CameraFragmentView extends Fragment {
         }
     }
 
+    //  TODO :  Is this needed or can I comment out the code
     @SuppressLint("HandlerLeak")
     final Handler MjpegViewHandler = new Handler(){
         @Override
@@ -107,14 +108,14 @@ public class CameraFragmentView extends Fragment {
                             mjpegView.showFps(false);
                         },
                         throwable -> {
-                            Log.e(getClass().getSimpleName(), "mjpeg error", throwable);
-                            Toast.makeText(getActivity(), "Camera connection Error:  Camera #1", Toast.LENGTH_LONG).show();
+                            Log.e(getClass().getSimpleName(), getResources().getString(R.string.toast_camera_connection_error), throwable);
+                            Toast.makeText(getActivity(), getResources().getString(R.string.toast_camera_connection_error), Toast.LENGTH_LONG).show();
                         });
     }
 
 
-    private void getCameraAddress(Bundle bundle) {
-        bundle = getArguments();
+    private void getCameraAddress() {
+        Bundle bundle = getArguments();
         mCameraAddress = bundle.getString(ARG_CAMERA_ADDRESS_1);
     }
 

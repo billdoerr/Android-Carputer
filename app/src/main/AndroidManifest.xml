@@ -22,7 +22,7 @@
             </intent-filter>
         </activity>
 		<activity
-            android:name=".CameraActivity"
+            android:name=".CameraActivityMjpeg"
             android:label="@string/activity_title_camera">
         </activity>
         <activity

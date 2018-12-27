@@ -17,11 +17,13 @@
         android:title="@string/pref_category_camera_authentication">
 
         <SwitchPreference
+            android:enabled="false"
             android:defaultValue="false"
             android:key="motioneye_authentication"
             android:title="@string/pref_title_authentication"/>
 
         <EditTextPreference
+            android:enabled="false"
             android:dependency="motioneye_authentication"
             android:inputType="text"
             android:key="com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_MOTIONEYE_AUTH_USERNAME"
@@ -31,6 +33,7 @@
             android:title="@string/pref_title_authentication_username"/>
 
         <EditTextPreference
+            android:enabled="false"
             android:dependency="motioneye_authentication"
             android:inputType="textPassword"
             android:key="com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_MOTIONEYE_AUTH_PASSWORD"

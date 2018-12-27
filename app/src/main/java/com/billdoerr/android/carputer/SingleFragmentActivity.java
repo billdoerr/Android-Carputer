@@ -26,9 +26,7 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
     private static final String TAG = "SingleFragmentActivity";
 
     //  Motion Eye preferences
-    public static final String PREF_CAMERA_MOTIONEYE_URL = "com.billdoerr.android.carputerpoc.settings.SettingsActivity.PREF_CAMERA_MOTIONEYE_URL";
-    public static final String PREF_CAMERA_MOTIONEYE_AUTH_USERNAME = "com.billdoerr.android.carputerpoc.settings.SettingsActivity.PREF_CAMERA_MOTIONEYE_AUTH_USERNAME";
-    public static final String PREF_CAMERA_MOTIONEYE_AUTH_PASSWORD = "com.billdoerr.android.carputerpoc.settings.SettingsActivity.PREF_CAMERA_MOTIONEYE_AUTH_PASSWORD";
+    private static final String PREF_CAMERA_MOTIONEYE_URL = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_MOTIONEYE_URL";
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -44,7 +42,7 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_carputer_drawer_view);
+        setContentView(R.layout.carputer_drawer_view);
 
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.fragment_container);
@@ -105,7 +103,7 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
                         // For example, swap UI fragments here
                         switch (menuItem.getItemId()) {
                             case R.id.nav_camera:
-                                startActivity(new Intent(SingleFragmentActivity.this, CameraActivity.class));
+                                startActivity(new Intent(SingleFragmentActivity.this, CameraActivityMjpeg.class));
                                 return true;
                             case R.id.nav_motioneye:
                                 String s = PreferenceManager.getDefaultSharedPreferences(SingleFragmentActivity.this)

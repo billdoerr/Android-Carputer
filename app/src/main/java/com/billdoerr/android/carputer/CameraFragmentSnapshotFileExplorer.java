@@ -29,7 +29,7 @@ import static android.support.v7.widget.RecyclerView.SCROLL_STATE_SETTLING;
  */
 public class CameraFragmentSnapshotFileExplorer extends Fragment {
 
-    private static final String TAG = "CameraFragSnapshotFileExplorer";
+    private static final String TAG = "CameraFragImgExplore";
 
     private RecyclerView mRecyclerView;
     private ImageView mImageView;

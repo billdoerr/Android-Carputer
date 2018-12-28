@@ -32,7 +32,6 @@ public class ImageStorage {
 
     //  Return list of snapshot files
     public List<String> getSnapshotFileList(Context context) {
-        //  TODO : TESTING PURPOSES ONLY
         String[] fileList1 = context.getFilesDir().list();
         return new ArrayList<String>(Arrays.asList(fileList1)); //new ArrayList is only needed if you absolutely need an ArrayList
     }
@@ -61,7 +60,7 @@ public class ImageStorage {
                 e.printStackTrace();
             }
         } else {
-            //  TODO : Generate custom exception?
+            //  TODO : Generate custom exception?  How?
         }
         return url;
     }
@@ -73,13 +72,8 @@ public class ImageStorage {
     }
 
     //  Get size of bitmap
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)
     private int sizeOf(Bitmap data) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB_MR1) {
-            return data.getRowBytes() * data.getHeight();
-        } else {
-            return data.getByteCount();
-        }
+        return data.getByteCount();
     }
 
     //  Generate file name

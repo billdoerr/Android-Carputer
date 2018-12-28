@@ -9,7 +9,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -30,7 +29,6 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
     private static final String PREF_CAMERA_MOTIONEYE_URL = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_MOTIONEYE_URL";
 
     private DrawerLayout mDrawerLayout;
-    private ActionBarDrawerToggle mDrawerToggle;
 
     protected abstract Fragment createFragment();
 
@@ -87,9 +85,9 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
                 }
         );
 
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close);
-        mDrawerLayout.addDrawerListener(mDrawerToggle);
-        mDrawerToggle.syncState();
+        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close);
+        mDrawerLayout.addDrawerListener(drawerToggle);
+        drawerToggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(
@@ -103,27 +101,19 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
 
                         // Launch activities
                         switch (menuItem.getItemId()) {
+                            //  Activity:  Mjpeg
                             case R.id.nav_camera:
                                 startActivity(new Intent(SingleFragmentActivity.this, CameraActivityMjpeg.class));
                                 return true;
+                            //  Activity:  MotionEye
                             case R.id.nav_motioneye:
-                                String s = PreferenceManager.getDefaultSharedPreferences(SingleFragmentActivity.this)
-                                        .getString(PREF_CAMERA_MOTIONEYE_URL, null);
-                                if (s != null) {
-                                    Uri uri = Uri.parse(s);
-                                    Intent i = CameraActivityMotionEye.newIntent(SingleFragmentActivity.this, uri);
-                                    startActivity(i);
-                                }
+                                startActivity(new Intent(SingleFragmentActivity.this, CameraActivityMotionEye.class));
                                 return true;
-                            //  TODO:  This is planned but need to create activity to launch snapshot fragment.
+                            //  Activity:  Image Archive
                             case R.id.nav_image_archive:
-                                //  Snapshot fragment
-                                FragmentManager manager = getSupportFragmentManager();
-                                FragmentTransaction transaction = manager.beginTransaction();
-                                transaction.add(R.id.fragment_container, new CameraFragmentSnapshotFileExplorer());
-                                transaction.addToBackStack(null);
-                                transaction.commit();
+                                startActivity(new Intent(SingleFragmentActivity.this, CameraActivityImageArchive.class));
                                 return true;
+                            //  Activity:  Settings
                             case R.id.nav_settings:
                                 startActivity(new Intent(SingleFragmentActivity.this, SettingsActivity.class));
                                 return true;

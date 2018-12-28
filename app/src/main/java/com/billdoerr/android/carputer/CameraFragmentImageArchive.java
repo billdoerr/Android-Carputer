@@ -1,7 +1,6 @@
 package com.billdoerr.android.carputer;
 
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -17,17 +16,15 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CameraFragmentMotionEye extends Fragment {
+public class CameraFragmentImageArchive extends Fragment {
 
-    private static final String TAG = "CameraFragmentMotionEye";
-    private static final String PREF_CAMERA_MOTIONEYE_URL = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_MOTIONEYE_URL";
-    private static final String ARG_URI = "MOTIONEYE_URI";
+    private static final String TAG = "CameraFragmentImageArchive";
 
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
 
-    public static CameraFragmentMotionEye newInstance() {
-        return new CameraFragmentMotionEye();
+    public static CameraFragmentImageArchive newInstance() {
+        return new CameraFragmentImageArchive();
     }
 
     @Override
@@ -37,6 +34,7 @@ public class CameraFragmentMotionEye extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, final Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_camera, container, false);
 
         //  Setup action bar
@@ -49,7 +47,7 @@ public class CameraFragmentMotionEye extends Fragment {
         mTabLayout.setupWithViewPager(mViewPager);
 
         //  Add icons
-        addTabLayoutIcons();
+        addTablayoutIcons();
 
         //  TODO : Are these needed or should I just comment out the code?
         mTabLayout.addOnTabSelectedListener(new TabLayout.BaseOnTabSelectedListener() {
@@ -76,12 +74,8 @@ public class CameraFragmentMotionEye extends Fragment {
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
 
-        //  MotionEye cameras
-        Bundle args = new Bundle();
-        args.putString(ARG_URI,getPreferenceString(PREF_CAMERA_MOTIONEYE_URL));
-        CameraFragmentMotionEyeView cameraFragmentMotionEyeView = new CameraFragmentMotionEyeView();
-        cameraFragmentMotionEyeView.setArguments(args);
-        adapter.addFragment(cameraFragmentMotionEyeView, getResources().getString(R.string.tab_camera_motioneye_view));
+        //  Image archive fragment
+        adapter.addFragment(new CameraFragmentSnapshotFileExplorer(), getResources().getString(R.string.tab_camera_file_explorer));
 
         //  Set adapter to view pager
         viewPager.setAdapter(adapter);
@@ -90,22 +84,16 @@ public class CameraFragmentMotionEye extends Fragment {
     //  Setup action bar
     private void setupActionBar(View view) {
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        ((CameraActivityMotionEye)getActivity()).setSupportActionBar(toolbar);
-        ActionBar actionbar = ((CameraActivityMotionEye)getActivity()).getSupportActionBar();
+        ((CameraActivityImageArchive)getActivity()).setSupportActionBar(toolbar);
+        ActionBar actionbar = ((CameraActivityImageArchive)getActivity()).getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_baseline_menu_24px);
     }
 
-    private void addTabLayoutIcons() {
+    private void addTablayoutIcons() {
         for (int i = 0; i < mViewPager.getAdapter().getCount(); i++) {
             mTabLayout.getTabAt(i).setIcon(R.drawable.ic_camera);
         }
-    }
-
-    private String getPreferenceString(String key) {
-        return PreferenceManager
-                .getDefaultSharedPreferences(getActivity())
-                .getString(key, "");
     }
 
     // View Adapter
@@ -140,4 +128,3 @@ public class CameraFragmentMotionEye extends Fragment {
     }
 
 }
-

@@ -33,13 +33,7 @@ public class CarputerFragment extends Fragment {
         //  Default view
 //        startActivity(new Intent(getActivity(), CameraActivityMjpeg.class));
 
-        String s = PreferenceManager.getDefaultSharedPreferences(getActivity())
-                .getString(PREF_CAMERA_MOTIONEYE_URL, null);
-        if (s != null) {
-            Uri uri = Uri.parse(s);
-            Intent i = CameraActivityMotionEye.newIntent(getActivity(), uri);
-            startActivity(i);
-        }
+        startActivity(new Intent(getActivity(), CameraActivityMotionEye.class));
 
         return view;
     }

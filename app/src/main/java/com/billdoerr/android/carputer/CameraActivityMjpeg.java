@@ -8,7 +8,7 @@ public class CameraActivityMjpeg extends SingleFragmentActivity {
 
     @Override
     protected Fragment createFragment() {
-        return CameraFragment.newInstance();
+        return CameraFragmentMjpeg.newInstance();
     }
 
 }

@@ -46,6 +46,7 @@ public class CameraFragmentSnapshotFileExplorer extends Fragment {
     public static CameraFragmentSnapshotFileExplorer newInstance() {
         return new CameraFragmentSnapshotFileExplorer();
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

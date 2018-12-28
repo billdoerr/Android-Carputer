@@ -16,12 +16,15 @@
 ##  Tasks - Android
 - [x]  Migrate code from Android-CarputerPOC (the proof of concept project).
 - [ ]  Design change from CarputerPOC
-	- [ ]  Use WebView to display streaming video.  Mjpeg has poor performance when implementing the snapshot feature.  Able to implment on-click event to capture image of screen.
-	- [ ]  Create new activity and menu item for viewing snapshots rather than as a tab in the Camera view.  Use TabLayout for future expansion.
+	- [ ]  Use MotionEye to display streaming video.  Mjpeg has poor performance when implementing the snapshot feature.  Able to implment on-click event to capture image of screen.
+		- [x]  Create activity/fragment to host tab layout to host MotionEye.  Currently only one tab is needed.
+		- [ ]  Improve image capture.  Currently senses FINGER_ACTION_UP so sensitive and creates unnecessary snapshots.
+		- [ ]  ~~Use TabLayout to also host WebChromeClient for viewing MotionEye admin console.~~
+	- [x]  Create new activity and menu item for viewing snapshots rather than as a tab in the Camera view.  Use TabLayout for future expansion.
 	- [x]  Draw menu:  Camera - mjpeg, Camera MotionEye, Image Archive, Settings.
 	- [x]  Disable settings for features: flip image, rotate image and possibly authentication settings.
 	- [ ]
-- [ ]
+- [ ]  Review use of icons.
 - [ ]
 - [ ]
 - [ ]  Code review.  Code cleanup.
@@ -97,9 +100,11 @@ Url should have this syntax:  http://username:password@host or http://username:p
 //  Android Web Browser common intent
 Intent i = new Intent(Intent.ACTION_VIEW, uri);
 startActivity(i); 
- 
- 
-CameraFragmentImageArchiveViewer  CameraFragmentImageArchiveExplorer
+
+CameraActivityImageArchive 
+CameraFragmentImageArchive 
+CameraFragmentImageArchiveViewer  
+CameraFragmentImageArchiveExplorer
 
 //  TODO :  Remove this from Camera Fragment.  Will launch from new activity and menu item.
 //  Snapshot fragment

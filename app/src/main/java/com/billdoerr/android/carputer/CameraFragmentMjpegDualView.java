@@ -83,23 +83,18 @@ public class CameraFragmentMjpegDualView extends Fragment {
 
             switch (msg.obj.toString()){
                 case "DISCONNECTED" :
-                    // TODO : When video stream disconnected
                     Log.d(TAG, "DISCONNECTED");
                     break;
                 case "CONNECTION_PROGRESS" :
-                    // TODO : When connection progress
                     Log.d(TAG, "CONNECTION_PROGRESS");
                     break;
                 case "CONNECTED" :
-                    // TODO : When video streaming connected
                     Log.d(TAG, "CONNECTED");
                     break;
                 case "CONNECTION_ERROR" :
-                    // TODO : When connection error
                     Log.d(TAG, "CONNECTION_ERROR");
                     break;
                 case "STOPPING_PROGRESS" :
-                    // TODO : When MjpegViewer is in stopping progress
                     Log.d(TAG, "STOPPING_PROGRESS");
                     break;
             }

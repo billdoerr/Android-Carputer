@@ -1,8 +1,11 @@
 package com.billdoerr.android.carputer;
 
+import android.content.DialogInterface;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -11,9 +14,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.billdoerr.android.carputer.utils.ImageStorage;
-import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -23,13 +26,14 @@ import java.util.List;
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_DRAGGING;
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_SETTLING;
+import static android.view.View.getDefaultSize;
 
 /**
- * CameraFragmentSnapshotFileExplorer
+ * CameraFragmentSnapshotViewer
  */
-public class CameraFragmentSnapshotFileExplorer extends Fragment {
+public class CameraFragmentSnapshotViewer extends Fragment {
 
-    private static final String TAG = "CameraFragImgExplore";
+    private static final String TAG = "CameraFragmentSnapshotViewer";
 
     private RecyclerView mRecyclerView;
     private ImageView mImageView;
@@ -43,8 +47,8 @@ public class CameraFragmentSnapshotFileExplorer extends Fragment {
     private boolean mUserScrolling = false;
     private boolean mViewCreated = false;
 
-    public static CameraFragmentSnapshotFileExplorer newInstance() {
-        return new CameraFragmentSnapshotFileExplorer();
+    public static CameraFragmentSnapshotViewer newInstance() {
+        return new CameraFragmentSnapshotViewer();
     }
 
     @Override
@@ -55,11 +59,9 @@ public class CameraFragmentSnapshotFileExplorer extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, final Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_camera_file_explorer, container, false);
 
         mImageView = (ImageView) view.findViewById(R.id.image_view);
-
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), mSpanCount));
@@ -100,7 +102,6 @@ public class CameraFragmentSnapshotFileExplorer extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Log.d(TAG, "onResume called!");
     }
 
     @Override
@@ -110,18 +111,11 @@ public class CameraFragmentSnapshotFileExplorer extends Fragment {
         if( isVisibleToUser && mViewCreated) {
             update();
         }
-
     }
 
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        Log.d(TAG, "is Hidden: " + hidden);
-    }
-
-    private void updateItems() {
-        mFileList = new ImageStorage().getSnapshotFileList(getContext());
-        mySort(mFileList);
     }
 
     private void setupAdapter() {
@@ -130,15 +124,21 @@ public class CameraFragmentSnapshotFileExplorer extends Fragment {
         }
     }
 
+    private void updateItems() {
+        mFileList = new ImageStorage().getSnapshotFileList(getContext());
+        mySort(mFileList);
+    }
+
     private void update() {
-        Log.d(TAG, "Camera Fragment Snapshot File Explorer update called!");
         mFileList.clear();  //  Clear all data
-//        updateItems();      //  Get new data
         List<String> newFileList = new ImageStorage().getSnapshotFileList(getContext());
         mFileList.addAll(newFileList);
         mySort(mFileList);
-        mRecyclerView.getAdapter().notifyDataSetChanged();  //  Notify of change
+        //  TODO : This is not updating the list correctly even though the data is correct.  Calling setupAdapter() corrects the issue for now.
+//        mRecyclerView.getAdapter().notifyDataSetChanged();  //  Notify of change
+        setupAdapter();
     }
+
 
     class IgnoreCaseComparator implements Comparator<String> {
         public int compare(String strA, String strB) {
@@ -169,21 +169,14 @@ public class CameraFragmentSnapshotFileExplorer extends Fragment {
         }
 
         private void bindListItem(String listItem) {
-            //  TODO:  This is a bug since the last item is the one that is always set and used in PhotoHolder.onClick()
-            Log.d(TAG, "bindListItem");
             mListItem = listItem;
-        }
-
-        public void bindListItems(List<String> listItem) {
-            //  TODO:  Resolves above bug
-            mListItems = listItem;
         }
 
         @Override
         public void onClick(View view) {
-            Log.i(TAG, "onClick: ----------------> " + mListItem);
-            Log.i(TAG, "onClick.getLayoutPosition: ----------------> " + this.getLayoutPosition());
+            //  TODO : Do I even need this?
         }
+
     }
 
     /**
@@ -194,14 +187,12 @@ public class CameraFragmentSnapshotFileExplorer extends Fragment {
         private List<String> mListItems;
 
         private ListAdapter(List<String> listItems) {
-            Log.d(TAG, "List Adapter called!");
             mListItems = listItems;
         }
 
         @NonNull
         @Override
         public ListHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-            Log.d(TAG, "onCreateViewHolder called!");
             LayoutInflater inflater = LayoutInflater.from(getActivity());
             View view = inflater.inflate(R.layout.fragment_camera_file_list_item, viewGroup, false);
             return new ListHolder(view);
@@ -210,30 +201,88 @@ public class CameraFragmentSnapshotFileExplorer extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull ListHolder listHolder, int position) {
             Log.i(TAG, "onBindViewHolder Position: ------------> " + position);
+
+            //  On-click listener
+            listHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String path = getActivity().getFilesDir().toString();
+                    File imgFile = new  File( path + "/" + mListItems.get(position));
+                    if (imgFile.exists()) {
+                        Log.d(TAG, "FILE --> " + imgFile + " <-- DOES EXIST!");
+                        deleteFile(imgFile);
+                    }
+                }
+            });
+
             String listItem = mListItems.get(position);
-            //  TODO:  This is a bug since the last item is the one that is always set and used in PhotoHolder.onClick()
             listHolder.bindListItem(listItem);
-            mTextView.setText(listItem);
-//            Bitmap bitmap = new ImageStorage().getSnapshot(getActivity(), listItem);
-//            mImageView.setImageBitmap(bitmap);
+
             String path = getActivity().getFilesDir().toString();
             File imgFile = new  File( path + "/" + listItem);
             if (imgFile.exists()) {
-                Log.d(TAG, "FILE DOES EXIST!");
-            }
-            Picasso mPicasso = Picasso.with(getActivity());
-            mPicasso.setIndicatorsEnabled(true);
-            mPicasso.setLoggingEnabled(true);
-            mPicasso.load(imgFile).into(mImageView);
+                Log.d(TAG, "FILE -> " + imgFile + " <- DOES  EXIST!");
 
-            //  TODO:  Resolves above bug
-//            listHolder.bindListItems(mListItems);
+                //  Display filename
+                mTextView.setText(listItem);
+
+                //  Display image
+                Bitmap bitmap = new ImageStorage().getSnapshot(getActivity(), listItem);
+                mImageView.setImageBitmap(bitmap);
+            }
         }
 
         @Override
         public int getItemCount() {
             return mListItems.size();
         }
+
+        //  Delete file
+        private void deleteFile(File file) {
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
+
+            // Setting Dialog Title
+            alertDialog.setTitle(getResources().getString(R.string.alert_title_delete_files));
+
+            // Setting Dialog Message
+            alertDialog.setMessage(getResources().getString(R.string.alert_message_confirm_delete));
+
+            // Setting Icon to Dialog
+//            alertDialog.setIcon(android.R.drawable.ic_dialog_alert);
+            alertDialog.setIconAttribute(android.R.attr.alertDialogIcon);
+
+            // Setting Positive "Yes" Btn
+            alertDialog.setPositiveButton(R.string.alert_positive_button,
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Write your code here to execute after dialog
+                            if ( file.exists() ) {
+                                try {
+                                    file.delete();
+                                    Toast.makeText(getActivity(), R.string.toast_file_delete_ok, Toast.LENGTH_SHORT)
+                                            .show();
+                                    update();
+                                } catch (SecurityException e) {
+                                    Log.e(TAG, e.getMessage());
+                                }
+                            }
+                        }
+                    });
+            // Setting Negative "NO" Btn
+            alertDialog.setNegativeButton(R.string.alert_negative_button,
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Write your code here to execute after dialog
+                            Toast.makeText(getActivity(), R.string.toast_file_delete_cancel, Toast.LENGTH_SHORT)
+                                    .show();
+                            dialog.cancel();
+                        }
+                    });
+
+            // Showing Alert Dialog
+            alertDialog.show();
+        }
+
     }
 
 }

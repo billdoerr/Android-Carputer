@@ -132,7 +132,7 @@ public class CameraFragmentMjpegSnapshot extends Fragment implements OnFrameCapt
                 .subscribe(
                         inputStream -> {
                             mjpegView.setSource(inputStream);
-                            mjpegView.setDisplayMode(DisplayMode.STANDARD);
+                            mjpegView.setDisplayMode(DisplayMode.BEST_FIT);
                             mjpegView.showFps(false);
                         },
                         throwable -> {

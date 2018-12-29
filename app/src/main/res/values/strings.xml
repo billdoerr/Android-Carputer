@@ -19,6 +19,13 @@
     <string name="tab_camera_two_pane">Dual Camera</string>
     <string name="tab_camera_file_explorer">Snapshots</string>
     <string name="tab_camera_motioneye_view">motionEye</string>
+
+    <!--  Image Archive -->
+    <string name="alert_title_delete_files">Confirm Delete...</string>
+    <string name="alert_message_confirm_delete">Are you sure you want delete this file?</string>
+    <string name="alert_positive_button">YES</string>
+    <string name="alert_negative_button">NO</string>
+
     <!--  End Camera Activity -->
 
 <!-- Begin Shared Preference Settings -->
@@ -49,5 +56,7 @@
     <!--  Toast messages -->
     <string name="toast_image_saved">Image has been saved.</string>
     <string name="toast_camera_connection_error">Camera connection error!</string>
+    <string name="toast_file_delete_ok">You file has been deleted!</string>
+    <string name="toast_file_delete_cancel">You file has NOT been deleted!</string>
 
 </resources>

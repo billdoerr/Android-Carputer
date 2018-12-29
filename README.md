@@ -18,13 +18,12 @@
 - [ ]  Design change from CarputerPOC
 	- [ ]  Use MotionEye to display streaming video.  Mjpeg has poor performance when implementing the snapshot feature.  Able to implment on-click event to capture image of screen.
 		- [x]  Create activity/fragment to host tab layout to host MotionEye.  Currently only one tab is needed.
-		- [ ]  Improve image capture.  Currently senses FINGER_ACTION_UP so sensitive and creates unnecessary snapshots.
 		- [ ]  ~~Use TabLayout to also host WebChromeClient for viewing MotionEye admin console.~~
 	- [x]  Create new activity and menu item for viewing snapshots rather than as a tab in the Camera view.  Use TabLayout for future expansion.
 	- [x]  Draw menu:  Camera - mjpeg, Camera MotionEye, Image Archive, Settings.
 	- [x]  Disable settings for features: flip image, rotate image and possibly authentication settings.
 	- [ ]
-- [ ]  Review use of icons.
+- [ ]  Improve image capture.  Currently senses FINGER_ACTION_UP so sensitive and creates unnecessary snapshots.	
 - [ ]
 - [ ]
 - [ ]  Code review.  Code cleanup.
@@ -33,13 +32,15 @@
 	- [x]  CameraFragment.java
 	- [x]  CameraFragmentMotionEye.java
 	- [x]  CameraFragmentSnapshot.java
-	- [ ]  CameraFragmentSnapshotFileExplorer.java		**Will address when creating new activity to launch this fragment.**
+	- [ ]  CameraFragmentSnapshotViewer.java		**Will address when creating new activity to launch this fragment.**
 	- [x]  CameraFragmentTwoPane.java
 	- [x]  CameraFragmentMjpegView.java
 	- [x]  CarputerActivity.java
 	- [x]  CarputerFragment.java
 	- [x]  SingleFragmentActivity.java
 	- [x]  SettingsActivity.java
+
+- [ ]  Review use of icons.	
 - [ ]  Address TODO's.	
 - [ ]  Test and validate performance using RaspberryPi with USBStick + two USB Cameras + router.
 - [ ]
@@ -65,8 +66,8 @@
 ##  Feature Creep
 - [ ]  Android:  View images/videos archived on the RaspberryPi USBStick.
 - [ ]  Android:  cron job to delete old snapshots.  Would also need new shared preferences and fragment added to SettingsActivity.
-- [ ]  
-- [ ]  
+- [ ]  RaspberryPi:  Create REST API to obtain files (images, videos, data, etc).  Example using Python -> https://codeburst.io/this-is-how-easy-it-is-to-create-a-rest-api-8a25122ab1f3.
+- [ ]  Android:  Simple SSH connect with JSch to RaspberryPi. 
 
 
 ## Camera Module Issues from proof of concept project 'Android-CarputerPOC'.

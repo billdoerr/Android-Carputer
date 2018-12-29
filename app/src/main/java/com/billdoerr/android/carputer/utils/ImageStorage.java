@@ -1,10 +1,8 @@
 package com.billdoerr.android.carputer.utils;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Build;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -41,7 +39,6 @@ public class ImageStorage {
 //        File[] fileList = context.getFilesDir().listFiles();
 //        List<String> stringList = new ArrayList<String>(Arrays.asList(fileList)); //new ArrayList is only needed if you absolutely need an ArrayList
 //    }
-
 
     //  Save image
     public String saveImage(Context context, Bitmap bitmap) {

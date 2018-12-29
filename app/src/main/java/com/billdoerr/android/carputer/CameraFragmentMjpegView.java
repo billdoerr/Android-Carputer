@@ -105,7 +105,7 @@ public class CameraFragmentMjpegView extends Fragment {
                 .subscribe(
                         inputStream -> {
                             mjpegView.setSource(inputStream);
-                            mjpegView.setDisplayMode(DisplayMode.STANDARD);
+                            mjpegView.setDisplayMode(DisplayMode.BEST_FIT);
                             mjpegView.showFps(false);
                         },
                         throwable -> {

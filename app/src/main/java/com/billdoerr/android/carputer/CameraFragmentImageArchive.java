@@ -75,7 +75,7 @@ public class CameraFragmentImageArchive extends Fragment {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
 
         //  Image archive fragment
-        adapter.addFragment(new CameraFragmentSnapshotFileExplorer(), getResources().getString(R.string.tab_camera_file_explorer));
+        adapter.addFragment(new CameraFragmentSnapshotViewer(), getResources().getString(R.string.tab_camera_file_explorer));
 
         //  Set adapter to view pager
         viewPager.setAdapter(adapter);

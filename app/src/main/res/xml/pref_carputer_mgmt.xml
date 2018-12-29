@@ -1,0 +1,63 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="@string/pref_category_raspberrypi">
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="com.billdoerr.android.carputer.settings.SettingsActivity.PREF_RASPBERRYPI_ENABLED"
+            android:title="@string/pref_title_raspberrypi_enable"/>
+
+        <EditTextPreference
+            android:dependency="com.billdoerr.android.carputer.settings.SettingsActivity.PREF_RASPBERRYPI_ENABLED"
+            android:defaultValue="@string/pref_default_raspberrypi_ip"
+            android:inputType="textUri"
+            android:key="com.billdoerr.android.carputer.settings.SettingsActivity.PREF_RASPBERRYPI_IP"
+            android:selectAllOnFocus="true"
+            android:singleLine="false"
+            android:title="@string/pref_title_raspberrypi_ip" />
+
+        <EditTextPreference
+            android:dependency="com.billdoerr.android.carputer.settings.SettingsActivity.PREF_RASPBERRYPI_ENABLED"
+            android:defaultValue="@string/pref_default_raspberrypi_ssh_port"
+            android:inputType="text"
+            android:maxLines="1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:key="com.billdoerr.android.carputer.settings.SettingsActivity.PREF_RASPBERRYPI_SSH_PORT"
+            android:title="@string/pref_title_raspberrypi_ssh_port" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/pref_category_camera_authentication">
+
+        <SwitchPreference
+            android:enabled="true"
+            android:dependency="com.billdoerr.android.carputer.settings.SettingsActivity.PREF_RASPBERRYPI_ENABLED"
+            android:defaultValue="false"
+            android:key="raspberrypi_authentication"
+            android:title="@string/pref_title_authentication"/>
+
+        <EditTextPreference
+            android:enabled="true"
+            android:dependency="raspberrypi_authentication"
+            android:inputType="text"
+            android:key="com.billdoerr.android.carputer.settings.SettingsActivity.PREF_RASPBERRYPI_AUTH_USERNAME"
+            android:maxLines="1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/pref_title_authentication_username"/>
+
+        <EditTextPreference
+            android:enabled="true"
+            android:dependency="raspberrypi_authentication"
+            android:inputType="textPassword"
+            android:key="com.billdoerr.android.carputer.settings.SettingsActivity.PREF_RASPBERRYPI_AUTH_PASSWORD"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/pref_title_authentication_password"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

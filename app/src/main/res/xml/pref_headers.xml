@@ -17,5 +17,10 @@
         android:icon="@drawable/ic_camera"
         android:title="@string/pref_header_camera_motioneye"/>
 
+    <header
+        android:fragment="com.billdoerr.android.carputer.settings.SettingsActivity$CarputerMgmtPreferenceFragment"
+        android:icon="@drawable/ic_camera"
+        android:title="@string/pref_header_raspberrypi"/>
+
 </preference-headers>
 

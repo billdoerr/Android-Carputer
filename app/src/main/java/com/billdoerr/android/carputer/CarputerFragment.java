@@ -13,7 +13,13 @@ import android.view.ViewGroup;
 public class CarputerFragment extends Fragment {
 
     private static final String TAG = "CarputerFragment";
-    private static final String PREF_CAMERA_MOTIONEYE_URL = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_MOTIONEYE_URL";
+
+    private static final String PREF_RASPBERRYPI_ENABLED = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_RASPBERRYPI_ENABLED";
+    private static final String PREF_RASPBERRYPI_IP = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_RASPBERRYPI_IP";
+    private static final String PREF_RASPBERRYPI_SSH_PORT = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_RASPBERRYPI_SSH_PORT";
+    private static final String PREF_RASPBERRYPI_AUTH_USERNAME = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_RASPBERRYPI_AUTH_USERNAME";
+    private static final String PREF_RASPBERRYPI_AUTH_PASSWORD = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_RASPBERRYPI_AUTH_PASSWORD";
+
 
     public static CarputerFragment newInstance() {
         return new CarputerFragment();
@@ -33,8 +39,8 @@ public class CarputerFragment extends Fragment {
         //  Default view
 //        startActivity(new Intent(getActivity(), CameraActivityMjpeg.class));
 
-        startActivity(new Intent(getActivity(), CameraActivityMotionEye.class));
-
+//        startActivity(new Intent(getActivity(), CameraActivityMotionEye.class));
+        startActivity(new Intent(getActivity(), CarputerActivityMgmt.class));
         return view;
     }
 

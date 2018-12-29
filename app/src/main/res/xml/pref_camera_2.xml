@@ -6,7 +6,7 @@
         <SwitchPreference
             android:defaultValue="false"
             android:key="com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_2_ENABLED"
-            android:title="Enable Camera #2"/>
+            android:title="@string/pref_title_camera_2_enable"/>
 
         <EditTextPreference
             android:dependency="com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_2_ENABLED"

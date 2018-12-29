@@ -64,6 +64,13 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     private static final String PREF_CAMERA_MOTIONEYE_AUTH_USERNAME = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_MOTIONEYE_AUTH_USERNAME";
     private static final String PREF_CAMERA_MOTIONEYE_AUTH_PASSWORD = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_MOTIONEYE_AUTH_PASSWORD";
 
+    //  Carputer Management preferences
+    private static final String PREF_RASPBERRYPI_ENABLED = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_RASPBERRYPI_ENABLED";
+    private static final String PREF_RASPBERRYPI_IP = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_RASPBERRYPI_IP";
+    private static final String PREF_RASPBERRYPI_SSH_PORT = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_RASPBERRYPI_SSH_PORT";
+    private static final String PREF_RASPBERRYPI_AUTH_USERNAME = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_RASPBERRYPI_AUTH_USERNAME";
+    private static final String PREF_RASPBERRYPI_AUTH_PASSWORD = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_RASPBERRYPI_AUTH_PASSWORD";
+
 
     /**
      * A preference value change listener that updates the preference's summary
@@ -83,8 +90,10 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 // Set the summary to reflect the new value.
                 preference.setSummary(index >= 0 ? listPreference.getEntries()[index] : null);
 
-            } else if ( preference.getKey().equals(PREF_CAMERA_1_AUTH_PASSWORD) || preference.getKey().equals(PREF_CAMERA_2_AUTH_PASSWORD)
-                    || preference.getKey().equals(PREF_CAMERA_MOTIONEYE_AUTH_PASSWORD) ) {
+            } else if ( preference.getKey().equals(PREF_CAMERA_1_AUTH_PASSWORD)
+                    || preference.getKey().equals(PREF_CAMERA_2_AUTH_PASSWORD)
+                    || preference.getKey().equals(PREF_CAMERA_MOTIONEYE_AUTH_PASSWORD)
+                    || preference.getKey().equals(PREF_RASPBERRYPI_AUTH_PASSWORD) ) {
                 if (!TextUtils.isEmpty(stringValue)) {
                     preference.setSummary(R.string.pref_hidden_password);
                 }
@@ -222,7 +231,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         return PreferenceFragment.class.getName().equals(fragmentName)
                 || CameraOnePreferenceFragment.class.getName().equals(fragmentName)
                 || CameraTwoPreferenceFragment.class.getName().equals(fragmentName)
-                || CameraMotionEyePreferenceFragment.class.getName().equals(fragmentName);
+                || CameraMotionEyePreferenceFragment.class.getName().equals(fragmentName)
+                || CarputerMgmtPreferenceFragment.class.getName().equals(fragmentName);
     }
 
     /**
@@ -318,6 +328,39 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             bindPreferenceSummaryToValue(findPreference(PREF_CAMERA_MOTIONEYE_AUTH_PASSWORD));
         }
 
+
+        @Override
+        public boolean onOptionsItemSelected(MenuItem item) {
+            int id = item.getItemId();
+            if (id == android.R.id.home) {
+                startActivity(new Intent(getActivity(), SettingsActivity.class));
+                return true;
+            }
+            return super.onOptionsItemSelected(item);
+        }
+    }
+
+    /**
+     * This fragment shows Carputer Management preferences only.
+     */
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    public static class CarputerMgmtPreferenceFragment extends PreferenceFragment {
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            addPreferencesFromResource(R.xml.pref_carputer_mgmt);
+            setHasOptionsMenu(true);
+
+            // Bind the summaries of EditText/List/Dialog/Ringtone preferences
+            // to their values. When their values change, their summaries are
+            // updated to reflect the new value, per the Android Design
+            // guidelines.
+            bindPreferenceSummaryToValue(findPreference(PREF_RASPBERRYPI_ENABLED));
+            bindPreferenceSummaryToValue(findPreference(PREF_RASPBERRYPI_IP));
+            bindPreferenceSummaryToValue(findPreference(PREF_RASPBERRYPI_SSH_PORT));
+            bindPreferenceSummaryToValue(findPreference(PREF_RASPBERRYPI_AUTH_USERNAME));
+            bindPreferenceSummaryToValue(findPreference(PREF_RASPBERRYPI_AUTH_PASSWORD));
+        }
 
         @Override
         public boolean onOptionsItemSelected(MenuItem item) {

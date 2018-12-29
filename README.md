@@ -67,7 +67,10 @@
 - [ ]  Android:  View images/videos archived on the RaspberryPi USBStick.
 - [ ]  Android:  cron job to delete old snapshots.  Would also need new shared preferences and fragment added to SettingsActivity.
 - [ ]  RaspberryPi:  Create REST API to obtain files (images, videos, data, etc).  Example using Python -> https://codeburst.io/this-is-how-easy-it-is-to-create-a-rest-api-8a25122ab1f3.
-- [ ]  Android:  Simple SSH connect with JSch to RaspberryPi. 
+- [ ]  (**IN PROGESS**) Android:  Simple SSH connect with JSch to RaspberryPi. http://eridem.net/android-tip-021-ssh-execute-remote-commands-with-android
+- [ ]
+- [ ]
+- [ ]
 
 
 ## Camera Module Issues from proof of concept project 'Android-CarputerPOC'.
@@ -94,7 +97,7 @@
 Url should have this syntax:  http://username:password@host or http://username:password@IP:PORT
 
 
- 
+
  
 ###  Save for later use
 
@@ -102,43 +105,7 @@ Url should have this syntax:  http://username:password@host or http://username:p
 Intent i = new Intent(Intent.ACTION_VIEW, uri);
 startActivity(i); 
 
-CameraActivityImageArchive 
-CameraFragmentImageArchive 
-CameraFragmentImageArchiveViewer  
-CameraFragmentImageArchiveExplorer
 
-//  TODO :  Remove this from Camera Fragment.  Will launch from new activity and menu item.
-//  Snapshot fragment
-	CameraFragmentSnapshotFileExplorer mCameraFragmentFileExplorer = new CameraFragmentSnapshotFileExplorer();
-	adapter.addFragment(mCameraFragmentFileExplorer, getResources().getString(R.string.tab_camera_file_explorer));
-
-	viewPager.setAdapter(adapter);
-} 
- 
- 
- 
-content_main.xml
-<?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".CarputerActivity"
-    tools:showIn="@layout/app_bar_main">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-</android.support.constraint.ConstraintLayout> 
- 
  
  
  

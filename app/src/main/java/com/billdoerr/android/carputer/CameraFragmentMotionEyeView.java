@@ -3,12 +3,9 @@ package com.billdoerr.android.carputer;
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -34,7 +31,7 @@ public class CameraFragmentMotionEyeView extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getCameraAddress();
+        getArgs();
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -101,7 +98,7 @@ public class CameraFragmentMotionEyeView extends Fragment {
         return view;
     }
 
-    private void getCameraAddress() {
+    private void getArgs() {
         Bundle bundle = getArguments();
         mCameraAddress = bundle.getString(ARG_URI);
     }

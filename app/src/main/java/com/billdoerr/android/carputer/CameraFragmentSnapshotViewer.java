@@ -26,7 +26,6 @@ import java.util.List;
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_DRAGGING;
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_SETTLING;
-import static android.view.View.getDefaultSize;
 
 /**
  * CameraFragmentSnapshotViewer
@@ -64,6 +63,14 @@ public class CameraFragmentSnapshotViewer extends Fragment {
         mImageView = (ImageView) view.findViewById(R.id.image_view);
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+
+        //  TODO :  Think about horizontal scrolling
+//        LinearLayoutManager layoutManager
+//                = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+//
+//        RecyclerView myList = (RecyclerView) findViewById(R.id.my_recycler_view);
+//        myList.setLayoutManager(layoutManager);
+
         mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), mSpanCount));
 
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {

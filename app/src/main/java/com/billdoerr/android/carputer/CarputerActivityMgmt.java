@@ -11,7 +11,7 @@ public class CarputerActivityMgmt extends SingleFragmentActivity {
 
     @Override
     protected Fragment createFragment() {
-        return SSHFragment.newInstance();
+        return CarputerFragmentMgmt.newInstance();
     }
 
 }

@@ -70,6 +70,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     private static final String PREF_RASPBERRYPI_SSH_PORT = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_RASPBERRYPI_SSH_PORT";
     private static final String PREF_RASPBERRYPI_AUTH_USERNAME = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_RASPBERRYPI_AUTH_USERNAME";
     private static final String PREF_RASPBERRYPI_AUTH_PASSWORD = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_RASPBERRYPI_AUTH_PASSWORD";
+    private static final String PREF_RASPBERRYPI_PHPSYSINFO_ENABLED = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_RASPBERRYPI_PHPSYSINFO_ENABLED";
+    private static final String PREF_RASPBERRYPI_PHPSYSINFO_URL = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_RASPBERRYPI_PHPSYSINFO_URL";
 
 
     /**
@@ -360,6 +362,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             bindPreferenceSummaryToValue(findPreference(PREF_RASPBERRYPI_SSH_PORT));
             bindPreferenceSummaryToValue(findPreference(PREF_RASPBERRYPI_AUTH_USERNAME));
             bindPreferenceSummaryToValue(findPreference(PREF_RASPBERRYPI_AUTH_PASSWORD));
+            bindPreferenceSummaryToValue(findPreference(PREF_RASPBERRYPI_PHPSYSINFO_ENABLED));
+            bindPreferenceSummaryToValue(findPreference(PREF_RASPBERRYPI_PHPSYSINFO_URL));
         }
 
         @Override

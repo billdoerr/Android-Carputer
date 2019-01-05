@@ -7,7 +7,7 @@
     <string name="activity_title_camera_motioneye">Camera - motionEye</string>
     <string name="activity_title_camera_image_archive">Image Archive</string>
     <string name="activity_title_settings">Settings</string>
-    <string name="activity_title_ssh">SSH</string>
+    <string name="activity_title_carputer_mgmt">Carputer Managment</string>
 
     <!--  Draw Layout -->
     <string name="drawer_open">drawer open</string>
@@ -29,6 +29,22 @@
 
     <!--  End Camera Activity -->
 
+    <!--  Begin CarputerMgmt Activity -->
+    <!--  Tab Layout Titles -->
+    <string name="tab_carputer_mgmt_ssh">SSH</string>
+    <string name="tab_carputer_mgmt_phpsysinfo">phpSysInfo</string>
+
+
+    <!-- Widgets -->
+    <string name="btn_carputer_mgmt_ssh_poweroff">Poweroff</string>
+    <string name="btn_carputer_mgmt_ssh_ping">Ping</string>
+    <string name="btn_carputer_mgmt_execute_command">Execute Command</string>
+    <string name="txt_carputer_mgmt_execute_command">Enter command...</string>
+    <string name="txt_carputer_mgmt_ssh_results">Command results...</string>
+    <string name="txt_carputer_mgmt_ssh_command_processing">Command processing...</string>
+
+    <!--  End CarputerMgmt Activity -->
+
 <!-- Begin Shared Preference Settings -->
     <string name="pref_header_camera_one">Camera #1</string>
     <string name="pref_header_camera_two">Camera #2</string>
@@ -40,6 +56,7 @@
     <string name="pref_category_camera_two_pane">Two-Pane View</string>
     <string name="pref_category_camera_motioneye">motionEye</string>
     <string name="pref_category_raspberrypi">RaspberryPi Settings</string>
+    <string name="pref_category_raspberrypi_physysinfo">phySysInfo</string>
 
     <!--  Settings Titles -->
     <string name="pref_title_camera_1_enable">Enable Camera #1</string>
@@ -53,14 +70,17 @@
     <string name="pref_title_camera_motioneye_url">motionEye Url</string>
     <string name="pref_title_raspberrypi_ip">RaspberryPi IP</string>
     <string name="pref_title_raspberrypi_ssh_port">SSH Port</string>
+    <string name="pref_title_raspberrypi_phySysInfo">phySysInfo</string>
+    <string name="pref_title_raspberrypi_phySysInfo_url">phySysInfo Url</string>
 
     <!--  Default Shared Preference Values -->
-    <string name="pref_default_camera_url">http://192.168.1.104:8081</string>
-    <string name="pref_default_camera_motioneye_url">http://192.168.1.104:8765</string>
+    <string name="pref_default_camera_url">http://192.168.4.1:8081</string>
+    <string name="pref_default_camera_motioneye_url">http://192.168.4.1:8765</string>
     <string name="pref_hidden_password">&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;</string>
-    <string name="pref_default_raspberrypi_ip">http://192.168.1.104</string>
+    <string name="pref_default_raspberrypi_ip">192.168.4.1</string>
     <string name="pref_default_raspberrypi_ssh_port">22</string>
-    <!--  End Shared Preference Settings -->
+    <string name="pref_default_raspberrypi_physysinfo_url">http://192.168.4.1/phpsysinfo</string>
+<!--  End Shared Preference Settings -->
 
     <!--  Toast messages -->
     <string name="toast_image_saved">Image has been saved.</string>

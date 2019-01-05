@@ -39,8 +39,7 @@ public class CarputerFragment extends Fragment {
         //  Default view
 //        startActivity(new Intent(getActivity(), CameraActivityMjpeg.class));
 
-//        startActivity(new Intent(getActivity(), CameraActivityMotionEye.class));
-        startActivity(new Intent(getActivity(), CarputerActivityMgmt.class));
+        startActivity(new Intent(getActivity(), CameraActivityMotionEye.class));
         return view;
     }
 

@@ -113,6 +113,10 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
                             case R.id.nav_image_archive:
                                 startActivity(new Intent(SingleFragmentActivity.this, CameraActivityImageArchive.class));
                                 return true;
+                            //  Activity:  Carputer Management
+                            case R.id.nav_management:
+                                startActivity(new Intent(SingleFragmentActivity.this, CarputerActivityMgmt.class));
+                                return true;
                             //  Activity:  Settings
                             case R.id.nav_settings:
                                 startActivity(new Intent(SingleFragmentActivity.this, SettingsActivity.class));

@@ -16,6 +16,12 @@
             android:id="@+id/nav_image_archive"
             android:icon="@android:drawable/picture_frame"
             android:title="@string/activity_title_camera_image_archive" />
+
+        <item
+            android:id="@+id/nav_management"
+            android:icon="@android:drawable/picture_frame"
+            android:title="@string/activity_title_carputer_mgmt" />
+
         <item
             android:id="@+id/nav_settings"
             android:icon="@android:drawable/ic_menu_preferences"

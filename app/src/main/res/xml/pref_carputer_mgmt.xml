@@ -60,4 +60,27 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory
+        android:title="@string/pref_category_raspberrypi_physysinfo">
+
+        <SwitchPreference
+            android:enabled="true"
+            android:dependency="com.billdoerr.android.carputer.settings.SettingsActivity.PREF_RASPBERRYPI_ENABLED"
+            android:defaultValue="false"
+            android:key="com.billdoerr.android.carputer.settings.SettingsActivity.PREF_RASPBERRYPI_PHPSYSINFO_ENABLED"
+            android:title="@string/pref_title_raspberrypi_phySysInfo"/>
+
+        <EditTextPreference
+            android:enabled="true"
+            android:dependency="com.billdoerr.android.carputer.settings.SettingsActivity.PREF_RASPBERRYPI_PHPSYSINFO_ENABLED"
+            android:inputType="text"
+            android:defaultValue="@string/pref_default_raspberrypi_physysinfo_url"
+            android:key="com.billdoerr.android.carputer.settings.SettingsActivity.PREF_RASPBERRYPI_PHPSYSINFO_URL"
+            android:maxLines="1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/pref_title_raspberrypi_phySysInfo_url"/>
+
+    </PreferenceCategory>
+
 </PreferenceScreen>

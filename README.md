@@ -32,7 +32,7 @@
 	- [x]  CameraFragment.java
 	- [x]  CameraFragmentMotionEye.java
 	- [x]  CameraFragmentSnapshot.java
-	- [ ]  CameraFragmentSnapshotViewer.java		**Will address when creating new activity to launch this fragment.**
+	- [x]  CameraFragmentSnapshotViewer.java		**Will address when creating new activity to launch this fragment.**
 	- [x]  CameraFragmentTwoPane.java
 	- [x]  CameraFragmentMjpegView.java
 	- [x]  CarputerActivity.java
@@ -55,6 +55,8 @@
 - [x]  Enable VNC.
 - [x]  Install MotionEye.
 - [ ]  Setup RaspberryPi as Router.  https://www.instructables.com/id/Use-Raspberry-Pi-3-As-Router/
+  - [x]  Access point.
+  - [ ]  IP Bridge
 - [ ]  Test and validate using RaspberryPi as router.  If this does not work out as planned then plan B would be to buy small router.
 - [ ]  USBStick (16/32GB) for image archive.
 - [ ]  Determine power usage with RaspberryPi + USBStick + two USB Cameras + router.
@@ -106,16 +108,59 @@ Intent i = new Intent(Intent.ACTION_VIEW, uri);
 startActivity(i); 
 
 
+    <View android:id="@+id/divider"
+        style="@style/Divider" />
+
+https://medium.com/exploring-android/exploring-the-new-android-constraintlayout-eed37fe8d8f1
+
+phpSysInfo 
+http://192.168.4.1/phpsysinfo 
+http://192.168.1.104/phpsysinfo/xml.php?plugin=complete&json
  
  
+        <TextView
+            android:id="@+id/txtReply"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="top|start"
+            android:enabled="false"
+            android:inputType="textMultiLine"
+            android:lines="30"
+            android:maxLines="100"
+            android:minLines="30"
+            android:scrollbars="vertical"
+            android:text="@string/txt_carputer_mgmt_ssh_results"
+            android:background="@android:color/black"
+            android:textColor="@android:color/holo_red_dark" />
+		
+
+editor.putString("jsondata", jobj.toString());
+And to get it back:
+
+String strJson = sharedPref.getString("jsondata","0");//second parameter is necessary ie.,Value to return if this preference does not exist. 
+
+if (strJson != null) {
+           try {
+               JSONObject response = new JSONObject(strJson);
+
+         } catch (JSONException e) {
+
+         }
+  }
+	
+ 
+//  Play video HTML5
+<video class="motionpicture" width="720" height="480" autobuffer
+controls preload="auto">
+
+<source src="/path/to/vid.webm" />
+Your browser does not appear to support HTML5 media. Try updating
+your browser or (if you are not already) using an open source
+browser like Firefox." </video>
  
  
- 
- 
- 
- 
- 
- 
+ <View style="@style/Divider"/>
  
  
  

@@ -98,7 +98,7 @@ public class CameraFragmentMotionEye extends Fragment {
 
     private void addTabLayoutIcons() {
         for (int i = 0; i < mViewPager.getAdapter().getCount(); i++) {
-            mTabLayout.getTabAt(i).setIcon(R.drawable.ic_camera);
+            mTabLayout.getTabAt(i).setIcon(R.drawable.ic_baseline_visibility_24px);
         }
     }
 

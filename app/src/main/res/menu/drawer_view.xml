@@ -6,20 +6,20 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_camera"
-            android:icon="@android:drawable/ic_menu_camera"
+            android:icon="@drawable/ic_baseline_camera_24px"
             android:title="@string/activity_title_camera" />
         <item
             android:id="@+id/nav_motioneye"
-            android:icon="@android:drawable/ic_menu_view"
+            android:icon="@drawable/ic_baseline_visibility_24px"
             android:title="@string/activity_title_camera_motioneye" />
         <item
             android:id="@+id/nav_image_archive"
-            android:icon="@android:drawable/picture_frame"
+            android:icon="@drawable/ic_baseline_camera_roll_24px"
             android:title="@string/activity_title_camera_image_archive" />
 
         <item
             android:id="@+id/nav_management"
-            android:icon="@android:drawable/picture_frame"
+            android:icon="@drawable/ic_baseline_device_hub_24px"
             android:title="@string/activity_title_carputer_mgmt" />
 
         <item

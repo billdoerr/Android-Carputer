@@ -5,37 +5,40 @@
 
         <SwitchPreference
             android:defaultValue="false"
-            android:key="com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_1_ENABLED"
-            android:title="@string/pref_title_camera_1_enable"/>
+            android:key="com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_FRONT_ENABLED"
+            android:title="@string/pref_title_camera_front_enable"/>
 
         <EditTextPreference
-            android:dependency="com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_1_ENABLED"
+            android:dependency="com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_FRONT_ENABLED"
             android:defaultValue="@string/pref_default_camera_url"
             android:inputType="textUri"
-            android:key="com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_1_URL"
+            android:key="com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_FRONT_URL"
             android:selectAllOnFocus="true"
             android:singleLine="false"
             android:title="@string/pref_title_camera_url" />
 
         <SwitchPreference
             android:enabled="false"
-            android:dependency="com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_1_ENABLED"
+            android:visibility="gone"
+            android:dependency="com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_FRONT_ENABLED"
             android:defaultValue="false"
-            android:key="com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_1_FLIP_HORIZONTAL"
+            android:key="com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_FRONT_FLIP_HORIZONTAL"
             android:title="Flip image horizontally" />
 
         <SwitchPreference
             android:enabled="false"
-            android:dependency="com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_1_ENABLED"
+            android:visibility="gone"
+            android:dependency="com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_FRONT_ENABLED"
             android:defaultValue="false"
-            android:key="com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_1_FLIP_VERTICAL"
+            android:key="com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_FRONT_FLIP_VERTICAL"
             android:title="Flip image vertically" />
 
         <ListPreference
             android:enabled="false"
-            android:dependency="com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_1_ENABLED"
+            android:visibility="gone"
+            android:dependency="com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_FRONT_ENABLED"
             android:defaultValue="0"
-            android:key="com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_1_ROTATE_DEGREES"
+            android:key="com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_FRONT_ROTATE_DEGREES"
             android:entries="@array/rotate_degrees_entries"
             android:entryValues="@array/rotate_degrees_entry_values"
             android:summary="%s"
@@ -48,7 +51,7 @@
 
         <SwitchPreference
             android:enabled="false"
-            android:dependency="com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_1_ENABLED"
+            android:dependency="com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_FRONT_ENABLED"
             android:defaultValue="false"
             android:key="camera_1_authentication"
             android:title="@string/pref_title_authentication"/>
@@ -57,7 +60,7 @@
             android:enabled="false"
             android:dependency="camera_1_authentication"
             android:inputType="text"
-            android:key="com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_1_AUTH_USERNAME"
+            android:key="com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_FRONT_AUTH_USERNAME"
             android:maxLines="1"
             android:selectAllOnFocus="true"
             android:singleLine="true"
@@ -67,7 +70,7 @@
             android:enabled="false"
             android:dependency="camera_1_authentication"
             android:inputType="textPassword"
-            android:key="com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_1_AUTH_PASSWORD"
+            android:key="com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_FRONT_AUTH_PASSWORD"
             android:selectAllOnFocus="true"
             android:singleLine="true"
             android:title="@string/pref_title_authentication_password"/>

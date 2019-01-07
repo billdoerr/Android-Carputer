@@ -122,6 +122,17 @@ public class CarputerFragmentMgmt extends Fragment {
     private void addTabLayoutIcons() {
         for (int i = 0; i < mViewPager.getAdapter().getCount(); i++) {
             mTabLayout.getTabAt(i).setIcon(R.drawable.ic_camera);
+            String s = mTabLayout.getTabAt(i).getText().toString();
+            //  SSH
+            if (s.equals(getResources().getString(R.string.tab_carputer_mgmt_ssh).toString())) {
+                mTabLayout.getTabAt(i).setIcon(R.drawable.ic_baseline_developer_board_24px);
+            //  phpSysInfo
+            } else if (s.equals(getResources().getString(R.string.tab_carputer_mgmt_phpsysinfo).toString())) {
+                mTabLayout.getTabAt(i).setIcon(R.drawable.ic_baseline_developer_board_24px);
+            //  Default
+            } else {
+                mTabLayout.getTabAt(i).setIcon(R.drawable.ic_baseline_developer_board_24px);
+            }
         }
     }
 

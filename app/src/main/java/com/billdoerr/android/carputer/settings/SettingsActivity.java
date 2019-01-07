@@ -39,22 +39,22 @@ import java.util.List;
 public class SettingsActivity extends AppCompatPreferenceActivity {
 
     //  Camera #1 preferences
-    private static final String PREF_CAMERA_1_ENABLED = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_1_ENABLED";
-    private static final String PREF_CAMERA_1_URL = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_1_URL";
-    private static final String PREF_CAMERA_1_FLIP_HORIZONTAL = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_1_FLIP_HORIZONTAL";
-    private static final String PREF_CAMERA_1_FLIP_VERTICAL= "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_1_FLIP_VERTICAL";
-    private static final String PREF_CAMERA_1_ROTATE_DEGREES = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_1_ROTATE_DEGREES";
-    private static final String PREF_CAMERA_1_AUTH_USERNAME = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_1_AUTH_USERNAME";
-    private static final String PREF_CAMERA_1_AUTH_PASSWORD = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_1_AUTH_PASSWORD";
+    private static final String PREF_CAMERA_FRONT_ENABLED = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_FRONT_ENABLED";
+    private static final String PREF_CAMERA_FRONT_URL = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_FRONT_URL";
+    private static final String PREF_CAMERA_FRONT_FLIP_HORIZONTAL = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_FRONT_FLIP_HORIZONTAL";
+    private static final String PREF_CAMERA_FRONT_FLIP_VERTICAL= "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_FRONT_FLIP_VERTICAL";
+    private static final String PREF_CAMERA_FRONT_ROTATE_DEGREES = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_FRONT_ROTATE_DEGREES";
+    private static final String PREF_CAMERA_FRONT_AUTH_USERNAME = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_FRONT_AUTH_USERNAME";
+    private static final String PREF_CAMERA_FRONT_AUTH_PASSWORD = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_FRONT_AUTH_PASSWORD";
 
     //  Camera #1 preferences
-    private static final String PREF_CAMERA_2_ENABLED = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_2_ENABLED";
-    private static final String PREF_CAMERA_2_URL = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_2_URL";
-    private static final String PREF_CAMERA_2_FLIP_HORIZONTAL = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_2_FLIP_HORIZONTAL";
-    private static final String PREF_CAMERA_2_FLIP_VERTICAL = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_2_FLIP_VERTICAL";
-    private static final String PREF_CAMERA_2_ROTATE_DEGREES = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_2_ROTATE_DEGREES";
-    private static final String PREF_CAMERA_2_AUTH_USERNAME = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_2_AUTH_USERNAME";
-    private static final String PREF_CAMERA_2_AUTH_PASSWORD = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_2_AUTH_PASSWORD";
+    private static final String PREF_CAMERA_REAR_ENABLED = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_REAR_ENABLED";
+    private static final String PREF_CAMERA_REAR_URL = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_REAR_URL";
+    private static final String PREF_CAMERA_REAR_FLIP_HORIZONTAL = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_REAR_FLIP_HORIZONTAL";
+    private static final String PREF_CAMERA_REAR_FLIP_VERTICAL = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_REAR_FLIP_VERTICAL";
+    private static final String PREF_CAMERA_REAR_ROTATE_DEGREES = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_REAR_ROTATE_DEGREES";
+    private static final String PREF_CAMERA_REAR_AUTH_USERNAME = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_REAR_AUTH_USERNAME";
+    private static final String PREF_CAMERA_REAR_AUTH_PASSWORD = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_REAR_AUTH_PASSWORD";
 
     //  Camera Two_Pane view preferences
     private static final String PREF_CAMERA_TWO_PANE_ENABLED = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_TWO_PANE_ENABLED";
@@ -92,8 +92,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 // Set the summary to reflect the new value.
                 preference.setSummary(index >= 0 ? listPreference.getEntries()[index] : null);
 
-            } else if ( preference.getKey().equals(PREF_CAMERA_1_AUTH_PASSWORD)
-                    || preference.getKey().equals(PREF_CAMERA_2_AUTH_PASSWORD)
+            } else if ( preference.getKey().equals(PREF_CAMERA_FRONT_AUTH_PASSWORD)
+                    || preference.getKey().equals(PREF_CAMERA_REAR_AUTH_PASSWORD)
                     || preference.getKey().equals(PREF_CAMERA_MOTIONEYE_AUTH_PASSWORD)
                     || preference.getKey().equals(PREF_RASPBERRYPI_AUTH_PASSWORD) ) {
                 if (!TextUtils.isEmpty(stringValue)) {
@@ -245,20 +245,20 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.pref_camera_1);
+            addPreferencesFromResource(R.xml.pref_camera_front);
             setHasOptionsMenu(true);
 
             // Bind the summaries of EditText/List/Dialog/Ringtone preferences
             // to their values. When their values change, their summaries are
             // updated to reflect the new value, per the Android Design
             // guidelines.
-            bindPreferenceSummaryToValue(findPreference(PREF_CAMERA_1_ENABLED));
-            bindPreferenceSummaryToValue(findPreference(PREF_CAMERA_1_URL));
-            bindPreferenceSummaryToValue(findPreference(PREF_CAMERA_1_FLIP_HORIZONTAL));
-            bindPreferenceSummaryToValue(findPreference(PREF_CAMERA_1_FLIP_VERTICAL));
-            bindPreferenceSummaryToValue(findPreference(PREF_CAMERA_1_ROTATE_DEGREES));
-            bindPreferenceSummaryToValue(findPreference(PREF_CAMERA_1_AUTH_USERNAME));
-            bindPreferenceSummaryToValue(findPreference(PREF_CAMERA_1_AUTH_PASSWORD));
+            bindPreferenceSummaryToValue(findPreference(PREF_CAMERA_FRONT_ENABLED));
+            bindPreferenceSummaryToValue(findPreference(PREF_CAMERA_FRONT_URL));
+            bindPreferenceSummaryToValue(findPreference(PREF_CAMERA_FRONT_FLIP_HORIZONTAL));
+            bindPreferenceSummaryToValue(findPreference(PREF_CAMERA_FRONT_FLIP_VERTICAL));
+            bindPreferenceSummaryToValue(findPreference(PREF_CAMERA_FRONT_ROTATE_DEGREES));
+            bindPreferenceSummaryToValue(findPreference(PREF_CAMERA_FRONT_AUTH_USERNAME));
+            bindPreferenceSummaryToValue(findPreference(PREF_CAMERA_FRONT_AUTH_PASSWORD));
         }
 
 
@@ -281,20 +281,20 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.pref_camera_2);
+            addPreferencesFromResource(R.xml.pref_camera_rear);
             setHasOptionsMenu(true);
 
             // Bind the summaries of EditText/List/Dialog/Ringtone preferences
             // to their values. When their values change, their summaries are
             // updated to reflect the new value, per the Android Design
             // guidelines.
-            bindPreferenceSummaryToValue(findPreference(PREF_CAMERA_2_ENABLED));
-            bindPreferenceSummaryToValue(findPreference(PREF_CAMERA_2_URL));
-            bindPreferenceSummaryToValue(findPreference(PREF_CAMERA_2_FLIP_HORIZONTAL));
-            bindPreferenceSummaryToValue(findPreference(PREF_CAMERA_2_FLIP_VERTICAL));
-            bindPreferenceSummaryToValue(findPreference(PREF_CAMERA_2_ROTATE_DEGREES));
-            bindPreferenceSummaryToValue(findPreference(PREF_CAMERA_2_AUTH_USERNAME));
-            bindPreferenceSummaryToValue(findPreference(PREF_CAMERA_2_AUTH_PASSWORD));
+            bindPreferenceSummaryToValue(findPreference(PREF_CAMERA_REAR_ENABLED));
+            bindPreferenceSummaryToValue(findPreference(PREF_CAMERA_REAR_URL));
+            bindPreferenceSummaryToValue(findPreference(PREF_CAMERA_REAR_FLIP_HORIZONTAL));
+            bindPreferenceSummaryToValue(findPreference(PREF_CAMERA_REAR_FLIP_VERTICAL));
+            bindPreferenceSummaryToValue(findPreference(PREF_CAMERA_REAR_ROTATE_DEGREES));
+            bindPreferenceSummaryToValue(findPreference(PREF_CAMERA_REAR_AUTH_USERNAME));
+            bindPreferenceSummaryToValue(findPreference(PREF_CAMERA_REAR_AUTH_PASSWORD));
             bindPreferenceSummaryToValue(findPreference(PREF_CAMERA_TWO_PANE_ENABLED));
         }
 

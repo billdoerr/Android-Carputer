@@ -18,19 +18,10 @@ public class RPiUtils {
     private static final String TAG = "RPiUtils";
 
     //  Hosts info
-    private static String mIP;
-    private static String mPort;
-    private static String mUser;
-    private static String mPwd;
-
-    private static RPiUtils instance = null;
-
-    public static RPiUtils getInstance() {
-        if (instance == null) {
-            instance = new RPiUtils();
-        }
-        return instance;
-    }
+    private String mIP;
+    private String mPort;
+    private String mUser;
+    private String mPwd;
 
     public void initialize(String ip, String port, String user, String pwd) {
         mIP = ip;
@@ -40,7 +31,7 @@ public class RPiUtils {
     }
 
     //  TODO : This was static but can't access instance variables
-    public static String executeRemoteCommand(String cmd) throws Exception {
+    public String executeRemoteCommand(String cmd) throws Exception {
         JSch jsch = new JSch();
         Session session = jsch.getSession(mUser, mIP, Integer.parseInt(mPort));
         session.setPassword(mPwd);

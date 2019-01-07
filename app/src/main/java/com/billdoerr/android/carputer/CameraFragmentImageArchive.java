@@ -92,7 +92,7 @@ public class CameraFragmentImageArchive extends Fragment {
 
     private void addTablayoutIcons() {
         for (int i = 0; i < mViewPager.getAdapter().getCount(); i++) {
-            mTabLayout.getTabAt(i).setIcon(R.drawable.ic_camera);
+            mTabLayout.getTabAt(i).setIcon(R.drawable.ic_baseline_photo_library_24px);
         }
     }
 

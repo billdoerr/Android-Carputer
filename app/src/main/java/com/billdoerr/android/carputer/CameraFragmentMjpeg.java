@@ -27,12 +27,12 @@ public class CameraFragmentMjpeg extends Fragment {
     private static final String ARG_CAMERA_ADDRESS_2 = "CAMERA_ADDRESS_2";
 
     //  Camera #1 preferences
-    private static final String PREF_CAMERA_1_ENABLED = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_1_ENABLED";
-    private static final String PREF_CAMERA_1_URL = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_1_URL";
+    private static final String PREF_CAMERA_FRONT_ENABLED = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_FRONT_ENABLED";
+    private static final String PREF_CAMERA_FRONT_URL = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_FRONT_URL";
 
     //  Camera #1 preferences
-    private static final String PREF_CAMERA_2_ENABLED = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_2_ENABLED";
-    private static final String PREF_CAMERA_2_URL = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_2_URL";
+    private static final String PREF_CAMERA_REAR_ENABLED = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_REAR_ENABLED";
+    private static final String PREF_CAMERA_REAR_URL = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_REAR_URL";
 
     //  Camera Two_Pane view preferences
     private static final String PREF_CAMERA_TWO_PANE_ENABLED = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_TWO_PANE_ENABLED";
@@ -94,36 +94,37 @@ public class CameraFragmentMjpeg extends Fragment {
         //  TODO : Need to decide if both camera's should use CameraFragmentMjpegView or CameraFragmentMjpegSnapshot?
 
         //  Camera view fragment
-        if (getPreferenceBoolean(PREF_CAMERA_1_ENABLED)) {
+        if (getPreferenceBoolean(PREF_CAMERA_FRONT_ENABLED)) {
             Bundle args = new Bundle();
-            args.putString(ARG_CAMERA_ADDRESS,getPreferenceString(PREF_CAMERA_1_URL));
+            args.putString(ARG_CAMERA_ADDRESS,getPreferenceString(PREF_CAMERA_FRONT_URL));
 
-            CameraFragmentMjpegView cameraFragmentMjpegView = new CameraFragmentMjpegView();
-            cameraFragmentMjpegView.setArguments(args);
-
-            adapter.addFragment(cameraFragmentMjpegView, getResources().getString(R.string.tab_camera_one));
-        }
-
-        //  Camera snapshot fragment
-        if (getPreferenceBoolean(PREF_CAMERA_2_ENABLED)) {
-            Bundle args = new Bundle();
-            args.putString(ARG_CAMERA_ADDRESS,getPreferenceString(PREF_CAMERA_2_URL));
             CameraFragmentMjpegSnapshot cameraFragmentMjpegSnapshot = new CameraFragmentMjpegSnapshot();
             cameraFragmentMjpegSnapshot.setArguments(args);
 
-            adapter.addFragment(cameraFragmentMjpegSnapshot, getResources().getString(R.string.tab_camera_two));
+            adapter.addFragment(cameraFragmentMjpegSnapshot, getResources().getString(R.string.tab_camera_front));
+        }
+
+        //  Camera snapshot fragment
+        if (getPreferenceBoolean(PREF_CAMERA_REAR_ENABLED)) {
+            Bundle args = new Bundle();
+            args.putString(ARG_CAMERA_ADDRESS,getPreferenceString(PREF_CAMERA_REAR_URL));
+
+            CameraFragmentMjpegSnapshot cameraFragmentMjpegSnapshot = new CameraFragmentMjpegSnapshot();
+            cameraFragmentMjpegSnapshot.setArguments(args);
+
+            adapter.addFragment(cameraFragmentMjpegSnapshot, getResources().getString(R.string.tab_camera_rear));
         }
 
         //  Dual-camera view fragment
         if (getPreferenceBoolean(PREF_CAMERA_TWO_PANE_ENABLED)) {
             Bundle args = new Bundle();
-            args.putString(ARG_CAMERA_ADDRESS_1,getPreferenceString(PREF_CAMERA_1_URL));
-            args.putString(ARG_CAMERA_ADDRESS_2,getPreferenceString(PREF_CAMERA_2_URL));
+            args.putString(ARG_CAMERA_ADDRESS_1,getPreferenceString(PREF_CAMERA_FRONT_URL));
+            args.putString(ARG_CAMERA_ADDRESS_2,getPreferenceString(PREF_CAMERA_REAR_URL));
 
             CameraFragmentMjpegDualView cameraFragmentMjpegDualView = new CameraFragmentMjpegDualView();
             cameraFragmentMjpegDualView.setArguments(args);
 
-            adapter.addFragment(cameraFragmentMjpegDualView, getResources().getString(R.string.tab_camera_two_pane));
+            adapter.addFragment(cameraFragmentMjpegDualView, getResources().getString(R.string.tab_camera_front_and_rear));
         }
 
         //  Set adapter to view pager
@@ -141,7 +142,21 @@ public class CameraFragmentMjpeg extends Fragment {
 
     private void addTabLayoutIcons() {
         for (int i = 0; i < mViewPager.getAdapter().getCount(); i++) {
-            mTabLayout.getTabAt(i).setIcon(R.drawable.ic_camera);
+//            mTabLayout.getTabAt(i).setIcon(R.drawable.ic_camera);
+            String s = mTabLayout.getTabAt(i).getText().toString();
+            //  Front camera
+            if (s.equals(getResources().getString(R.string.tab_camera_front).toString())) {
+                mTabLayout.getTabAt(i).setIcon(R.drawable.ic_baseline_camera_front_24px);
+            //  Camera rear
+            } else if (s.equals(getResources().getString(R.string.tab_camera_rear).toString())) {
+                mTabLayout.getTabAt(i).setIcon(R.drawable.ic_baseline_camera_rear_24px);
+            //  Dual view
+            }  else if (s.equals(getResources().getString(R.string.tab_camera_front_and_rear).toString())) {
+                mTabLayout.getTabAt(i).setIcon(R.drawable.ic_baseline_linked_camera_24px);
+            //  Default
+            } else {
+                mTabLayout.getTabAt(i).setIcon(R.drawable.ic_baseline_camera_24px);
+            }
         }
     }
 

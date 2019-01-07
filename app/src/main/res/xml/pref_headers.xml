@@ -4,13 +4,13 @@
 
     <header
         android:fragment="com.billdoerr.android.carputer.settings.SettingsActivity$CameraOnePreferenceFragment"
-        android:icon="@drawable/ic_camera"
-        android:title="@string/pref_header_camera_one"/>
+        android:icon="@drawable/ic_baseline_camera_front_24px"
+        android:title="@string/pref_header_camera_front"/>
 
     <header
         android:fragment="com.billdoerr.android.carputer.settings.SettingsActivity$CameraTwoPreferenceFragment"
-        android:icon="@drawable/ic_camera"
-        android:title="@string/pref_header_camera_two"/>
+        android:icon="@drawable/ic_baseline_camera_rear_24px"
+        android:title="@string/pref_header_camera_rear"/>
 
     <header
         android:fragment="com.billdoerr.android.carputer.settings.SettingsActivity$CameraMotionEyePreferenceFragment"
@@ -19,7 +19,7 @@
 
     <header
         android:fragment="com.billdoerr.android.carputer.settings.SettingsActivity$CarputerMgmtPreferenceFragment"
-        android:icon="@drawable/ic_camera"
+        android:icon="@drawable/ic_baseline_developer_board_24px"
         android:title="@string/pref_header_raspberrypi"/>
 
 </preference-headers>

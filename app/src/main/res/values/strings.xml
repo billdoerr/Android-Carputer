@@ -15,9 +15,9 @@
 
     <!--  Begin Camera Activity -->
     <!--  Tab Layout Titles -->
-    <string name="tab_camera_one">Front Camera</string>
-    <string name="tab_camera_two">Rear Camera</string>
-    <string name="tab_camera_two_pane">Dual Camera</string>
+    <string name="tab_camera_front">Front Camera</string>
+    <string name="tab_camera_rear">Rear Camera</string>
+    <string name="tab_camera_front_and_rear">Dual Camera</string>
     <string name="tab_camera_file_explorer">Snapshots</string>
     <string name="tab_camera_motioneye_view">motionEye</string>
 
@@ -46,21 +46,21 @@
     <!--  End CarputerMgmt Activity -->
 
 <!-- Begin Shared Preference Settings -->
-    <string name="pref_header_camera_one">Camera #1</string>
-    <string name="pref_header_camera_two">Camera #2</string>
+    <string name="pref_header_camera_front">Camera Front</string>
+    <string name="pref_header_camera_rear">Camera Rear</string>
     <string name="pref_header_camera_motioneye">motionEye</string>
     <string name="pref_header_raspberrypi">RaspberryPi</string>
 
     <string name="pref_category_camera">Camera Settings</string>
     <string name="pref_category_camera_authentication">Authentication</string>
-    <string name="pref_category_camera_two_pane">Two-Pane View</string>
+    <string name="pref_category_camera_front_and_rear">Front/Rear Cameras</string>
     <string name="pref_category_camera_motioneye">motionEye</string>
     <string name="pref_category_raspberrypi">RaspberryPi Settings</string>
     <string name="pref_category_raspberrypi_physysinfo">phySysInfo</string>
 
     <!--  Settings Titles -->
-    <string name="pref_title_camera_1_enable">Enable Camera #1</string>
-    <string name="pref_title_camera_2_enable">Enable Camera #2</string>
+    <string name="pref_title_camera_front_enable">Enable Camera - Front</string>
+    <string name="pref_title_camera_rear_enable">Enable Camera - Rear</string>
     <string name="pref_title_raspberrypi_enable">Enable RaspberryPi</string>
     <string name="pref_title_camera_url">Url</string>
     <string name="pref_title_authentication">Use credentials</string>

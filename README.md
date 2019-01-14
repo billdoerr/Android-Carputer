@@ -15,7 +15,7 @@
 
 ##  Tasks - Android
 - [x]  Migrate code from Android-CarputerPOC (the proof of concept project).
-- [ ]  Design change from CarputerPOC
+- [x]  Design change from CarputerPOC
 	- [x]  Use MotionEye to display streaming video.  Mjpeg has poor performance when implementing the snapshot feature.  Able to implment on-click event to capture image of screen.
 			<br/>**NOTE:**  Performance improved once enabling RaspberryPi as an access point.
 		- [x]  Create activity/fragment to host tab layout to host MotionEye.  Currently only one tab is needed.
@@ -24,8 +24,8 @@
 	- [x]  Draw menu:  Camera - mjpeg, Camera MotionEye, Image Archive, Settings.
 	- [x]  Disable settings for features: flip image, rotate image and possibly authentication settings.
 	- [ ]
-- [ ]  Improve image capture.  Currently senses FINGER_ACTION_UP so sensitive and creates unnecessary snapshots.	
-- [ ]  **(NEED SD CARDS)**  Create image of sd card.  Then use three cars:  prod/dev/release.
+- [x]  Improve image capture.  Currently senses FINGER_ACTION_UP so sensitive and creates unnecessary snapshots.	
+- [ ]  **(NEED SD CARDS)**  Create image of sd card.  Then use three cars:  prod/dev/release.  (https://lifehacker.com/how-to-clone-your-raspberry-pi-sd-card-for-super-easy-r-1261113524)
 - [ ]
 - [ ]  Code review.  Code cleanup.
 	- [x]  CameraActivityMjpeg.java
@@ -40,13 +40,30 @@
 	- [x]  CarputerFragment.java
 	- [x]  SingleFragmentActivity.java
 	- [x]  SettingsActivity.java
+### Priority	
+- [ ] **CarputerFragmentMgmt/SSHFragment**  Needs work regarding nodes/args.  First need to make SettingsActivity more robust.
+### Priority	
+- [ ]  **SettingsActivity**  Make more robust.  Need to store Nodes in JSON and store in shared preference.  Look into nested PreferneceScreen.
+https://developer.android.com/guide/topics/ui/settings/organize-your-settings
+https://stackoverflow.com/questions/5298370/how-to-add-a-button-to-a-preferencescreen/7251575
+https://developer.android.com/reference/android/preference/PreferenceFragment
+https://google-developer-training.github.io/android-developer-fundamentals-course-concepts/en/Unit%204/91_c_shared_preferences.html
 
 - [x]  Review use of icons.	
+  - [ ]  Need RaspberryPi svg (not color).
+  - [ ]  Need motioneye svg.
+- []  **(NOT POSSIBLE w/SURFACEVIEW WIDGET)**  ~~Dual-pane view.  Try to enable scrolling.~~  
+- [x]  MotionEye view.  Enable button to take snapshot rather than touching screen.
+- [ ]  SSH Commands.
+	- [x]  txtReply.  Use non-proportional font (try courier).
+	- [x]  Trouble why some are not working.
+	- [ ]  Hide keyboard after click "Execute Command".
+	- [ ]  
 - [ ]  Address TODO's.	
 - [ ]  Test and validate performance using RaspberryPi with USBStick + two USB Cameras + router.
 - [ ]
 - [ ]  Put some effort into style/themes.
-- [ ]
+- [ ]  Implement rear camera using a Pi Zero w/motioneye.  This would connect to PINET.  Ref:  https://github.com/ccrisan/motioneye/issues/970
 - [ ]
 - [ ]
 
@@ -58,10 +75,15 @@
 - [ ]  Setup RaspberryPi as Router.  https://www.instructables.com/id/Use-Raspberry-Pi-3-As-Router/
   - [x]  Access point.
   - [ ]  IP Bridge.  **NOTE:**  Once enabling the bridge it no longer provices an IP address for a client connection.
-- [ ]  Test and validate using RaspberryPi as router.  If this does not work out as planned then plan B would be to buy small router.
-- [ ]  USBStick (16/32GB) for image archive.
+- [x]  **Successfully deployed RaspberryPi as access point.**  Test and validate using RaspberryPi as router.  If this does not work out as planned then plan B would be to buy small router.
+- [ ]  **(ON ORDER)**  USBStick (16/32GB) for image archive.
 - [ ]  Determine power usage with RaspberryPi + USBStick + two USB Cameras + router.
-- [ ]
+### Priority
+- [ ]  **Use Pi Zero as rear camera.**
+    - [x] Install motioneye
+	- [x] Configure main RaspberryPi motioneye Rear camera with streaming URL from Pi Zero.
+	- [ ] **(PI Camera cable on order)** Use PiCam rather than USB camera.  Validated USB camera works.
+
 - [ ]
 - [ ]
 - [ ]
@@ -70,8 +92,8 @@
 - [ ]  Android:  View images/videos archived on the RaspberryPi USBStick.
 - [ ]  Android:  cron job to delete old snapshots.  Would also need new shared preferences and fragment added to SettingsActivity.
 - [ ]  RaspberryPi:  Create REST API to obtain files (images, videos, data, etc).  Example using Python -> https://codeburst.io/this-is-how-easy-it-is-to-create-a-rest-api-8a25122ab1f3.
-- [ ]  (**IN PROGESS**) Android:  Simple SSH connect with JSch to RaspberryPi. http://eridem.net/android-tip-021-ssh-execute-remote-commands-with-android
-- [ ]
+- [x]  Android:  Simple SSH connect with JSch to RaspberryPi. http://eridem.net/android-tip-021-ssh-execute-remote-commands-with-android
+- [ ]  Android:  SSH Commands.  Create history of commands.  UI to also delete commands.  Expand list of 'stock' commands.
 - [ ]
 - [ ]
 
@@ -104,6 +126,12 @@ Url should have this syntax:  http://username:password@host or http://username:p
 
  
 ###  Save for later use
+**OBD-II/CANBUS**
+Python parser:  https://github.com/brendan-w/python-OBD
+Python timer:  https://stackoverflow.com/questions/474528/what-is-the-best-way-to-repeatedly-execute-a-function-every-x-seconds-in-python
+Android app:  https://github.com/fr3ts0n/AndrOBD
+
+2018-11-13-raspbian-stretch-motioneye.img
 
 //  Android Web Browser common intent
 Intent i = new Intent(Intent.ACTION_VIEW, uri);
@@ -118,6 +146,10 @@ https://medium.com/exploring-android/exploring-the-new-android-constraintlayout-
 phpSysInfo 
 http://192.168.4.1/phpsysinfo 
 http://192.168.1.104/phpsysinfo/xml.php?plugin=complete&json
+
+Linux perf commands
+https://medium.com/@chrishantha/linux-performance-observability-tools-19ae2328f87f
+https://opensource.com/article/17/7/20-sysadmin-commands
  
  
         <TextView
@@ -164,8 +196,22 @@ browser like Firefox." </video>
  
  <View style="@style/Divider"/>
  
+ sudo shutdown -h now
  
+**List dhcp leases**
+sudo cat /var/lib/misc/dnsmasq.leases 
  
- 
+# =======================================
+sudo nano /etc/dhcpcd.conf
+
+interface eth0
+static ip_address=192.168.4.6/24
+static routers=192.168.4.1
+static domain_name_servers=192.168.4.1
+
+interface wlan0
+static ip_address=192.168.4.5/24
+static routers=192.168.4.1
+static domain_name_servers=192.168.4.1
  
  

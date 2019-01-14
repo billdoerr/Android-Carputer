@@ -31,15 +31,22 @@ public class SSHFragment extends Fragment {
     private static final String PREF_RASPBERRYPI_AUTH_USERNAME = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_RASPBERRYPI_AUTH_USERNAME";
     private static final String PREF_RASPBERRYPI_AUTH_PASSWORD = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_RASPBERRYPI_AUTH_PASSWORD";
 
+    //  TODO :  Hack until I get SettingsActivity to be more robust
+    private static final String PREF_RASPBERRYPI_IP_2 = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_RASPBERRYPI_IP_2";
+
     //  Widgets
     private EditText txtExecuteCommand;
     private TextView txtReply;
+    private Spinner spinnerNodes;
 
     //  Hosts info
     private String mIP;
     private String mPort;
     private String mUser;
     private String mPwd;
+    //  TODO :  Hack until I get SettingsActivity to be more robust
+    private String mIP2;
+    private String currentNode;
 
     public static SSHFragment newInstance() {
         return new SSHFragment();
@@ -104,15 +111,39 @@ public class SSHFragment extends Fragment {
             }
         });
 
-        // Spinner:  Command History
-        //  TODO:  Need to add starter set of commands in SharedPreferences.  Add them in when executed.
-        List<String> commandHistory = new ArrayList<>();
-        commandHistory.add("top;q");
-        commandHistory.add("ps -eaf");
-        commandHistory.add("cd /etc;ls -l");
+                //  Nodes
+        spinnerNodes = (Spinner) view.findViewById(R.id.spinnerNodes);
+        spinnerNodes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                currentNode = parent.getItemAtPosition(position).toString();
+            }
 
-        final Spinner spinner = (Spinner) view.findViewById(R.id.spinnerCommandHistory);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        /*
+        *  Spinner:  Nodes
+         */
+        //  TODO:  Need to add starter set of commands in SharedPreferences.  Add them in when executed.
+        List<String> nodes = new ArrayList<>();
+        nodes.add(mIP);
+        nodes.add(mIP2);
+
+        // Creating adapter for spinner
+        ArrayAdapter<String> dataAdapterNodes = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, nodes);
+
+        // Drop down layout style - list view with radio button
+        dataAdapterNodes.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // attaching data adapter to spinner
+        spinnerNodes.setAdapter(dataAdapterNodes);
+
+        //  Command history
+        final Spinner spinnerCommandHistory = (Spinner) view.findViewById(R.id.spinnerCommandHistory);
+        spinnerCommandHistory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String cmd = "";
@@ -122,20 +153,26 @@ public class SSHFragment extends Fragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
 
+        /*
+         *  Spinner:  Command History
+         */
+        //  TODO:  Need to add starter set of commands in SharedPreferences.  Add them in when executed.
+        List<String> commandHistory = new ArrayList<>();
+        commandHistory.add("top -n1 -b");
+        commandHistory.add("ps -eaf");
+        commandHistory.add("cd /etc;ls -l");
+
         // Creating adapter for spinner
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, commandHistory);
+        ArrayAdapter<String> dataAdapterCmd = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, commandHistory);
 
         // Drop down layout style - list view with radio button
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        dataAdapterCmd.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         // attaching data adapter to spinner
-        spinner.setAdapter(dataAdapter);
-
-
+        spinnerCommandHistory.setAdapter(dataAdapterCmd);
 
         return view;
     }
@@ -156,6 +193,8 @@ public class SSHFragment extends Fragment {
         mPort = bundle.getString(PREF_RASPBERRYPI_SSH_PORT);
         mUser = bundle.getString(PREF_RASPBERRYPI_AUTH_USERNAME);
         mPwd = bundle.getString(PREF_RASPBERRYPI_AUTH_PASSWORD);
+        //  TODO :  Hack until I get SettingsActivity to be more robust
+        mIP2 = bundle.getString(PREF_RASPBERRYPI_IP_2);
     }
 
     //  Async Task to perform ping command
@@ -168,7 +207,9 @@ public class SSHFragment extends Fragment {
             String result = "";
             try {
                 RPiUtils utils = new RPiUtils();
-                result = utils.ping(mIP);
+                //  TODO :  Hack until I get SettingsActivity to be more robust
+//                result = utils.ping(mIP);
+                result = utils.ping(currentNode);
                 Log.d(TAG, result);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -194,7 +235,9 @@ public class SSHFragment extends Fragment {
             String result = "";
                 try {
                     RPiUtils utils = new RPiUtils();
-                    utils.initialize(mIP, mPort, mUser, mPwd);
+                    //  TODO :  Hack until I get SettingsActivity to be more robust
+//                    utils.initialize(mIP, mPort, mUser, mPwd);
+                    utils.initialize(currentNode, mPort, mUser, mPwd);
                     result = utils.executeRemoteCommand(params[0]);
                 } catch (Exception e) {
                     e.printStackTrace();

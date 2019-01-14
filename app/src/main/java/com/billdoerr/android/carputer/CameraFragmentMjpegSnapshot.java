@@ -9,6 +9,9 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -37,6 +40,7 @@ public class CameraFragmentMjpegSnapshot extends Fragment implements OnFrameCapt
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         getCameraAddress();
     }
 
@@ -54,22 +58,30 @@ public class CameraFragmentMjpegSnapshot extends Fragment implements OnFrameCapt
         mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(TAG, "Image clicked.");
-                if (mLastPreview != null) {
-                    Log.d(TAG, "Image captured.");
-
-                    mImageView.setImageBitmap(mLastPreview);
-
-                    new ImageStorage().saveImage(getActivity(), mLastPreview);
-                    Toast.makeText(getActivity(), getResources().getString(R.string.toast_image_saved), Toast.LENGTH_LONG).show();
-
-                    Log.d(TAG, "Image saved!");
-
-                }
+                takeSnapshot();
             }
         });
 
         return view;
+    }
+
+    //  Setup action bar
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.toolbar_options_menu_snapshot, menu);
+    }
+
+    //  Options menu callback
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch(item.getItemId()){
+            case R.id.action_snapshot:
+                takeSnapshot();
+                return true;
+            default:
+                return true;
+        }
     }
 
     @Override
@@ -139,6 +151,17 @@ public class CameraFragmentMjpegSnapshot extends Fragment implements OnFrameCapt
                             Log.e(getClass().getSimpleName(), "mjpeg error", throwable);
                             Toast.makeText(getActivity(), getResources().getString(R.string.toast_camera_connection_error), Toast.LENGTH_LONG).show();
                         });
+    }
+
+    private void takeSnapshot() {
+        Log.d(TAG, "Image clicked.");
+        if (mLastPreview != null) {
+            Log.d(TAG, "Image captured.");
+            mImageView.setImageBitmap(mLastPreview);
+            new ImageStorage().saveImage(getActivity(), mLastPreview);
+            Toast.makeText(getActivity(), getResources().getString(R.string.toast_image_saved), Toast.LENGTH_LONG).show();
+            Log.d(TAG, "Image saved!");
+        }
     }
 
     private void getCameraAddress() {

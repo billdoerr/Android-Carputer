@@ -10,6 +10,7 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.SwitchPreference;
+import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
@@ -19,6 +20,8 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.billdoerr.android.carputer.R;
@@ -231,8 +234,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
      */
     protected boolean isValidFragment(String fragmentName) {
         return PreferenceFragment.class.getName().equals(fragmentName)
-                || CameraOnePreferenceFragment.class.getName().equals(fragmentName)
-                || CameraTwoPreferenceFragment.class.getName().equals(fragmentName)
+                || CameraFrontPreferenceFragment.class.getName().equals(fragmentName)
+                || CameraRearPreferenceFragment.class.getName().equals(fragmentName)
                 || CameraMotionEyePreferenceFragment.class.getName().equals(fragmentName)
                 || CarputerMgmtPreferenceFragment.class.getName().equals(fragmentName);
     }
@@ -241,7 +244,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
      * This fragment shows Camera #1 preferences only.
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public static class CameraOnePreferenceFragment extends PreferenceFragment {
+    public static class CameraFrontPreferenceFragment extends PreferenceFragment {
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -261,7 +264,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             bindPreferenceSummaryToValue(findPreference(PREF_CAMERA_FRONT_AUTH_PASSWORD));
         }
 
-
         @Override
         public boolean onOptionsItemSelected(MenuItem item) {
             int id = item.getItemId();
@@ -277,7 +279,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
      * This fragment shows Camera #2 preferences only.
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public static class CameraTwoPreferenceFragment extends PreferenceFragment {
+    public static class CameraRearPreferenceFragment extends PreferenceFragment {
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);

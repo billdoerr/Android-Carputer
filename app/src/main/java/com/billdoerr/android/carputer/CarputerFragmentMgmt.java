@@ -28,6 +28,9 @@ public class CarputerFragmentMgmt extends Fragment {
     private static final String PREF_RASPBERRYPI_PHPSYSINFO_ENABLED = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_RASPBERRYPI_PHPSYSINFO_ENABLED";
     private static final String PREF_RASPBERRYPI_PHPSYSINFO_URL = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_RASPBERRYPI_PHPSYSINFO_URL";
 
+    //  TODO :  Hack until I get SettingsActivity to be more robust
+    private static final String PREF_RASPBERRYPI_IP_2 = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_RASPBERRYPI_IP_2";
+
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
 
@@ -85,6 +88,9 @@ public class CarputerFragmentMgmt extends Fragment {
         //  Fragment:  RaspberryPi SSH
         if ( getPreferenceBoolean(PREF_RASPBERRYPI_ENABLED) ) {
             Bundle args = new Bundle();
+            //  TODO :  Hack until I get SettingsActivity to be more robust
+            args.putString(PREF_RASPBERRYPI_IP_2,"192.168.4.5");
+
             args.putString(PREF_RASPBERRYPI_IP,getPreferenceString(PREF_RASPBERRYPI_IP));
             args.putString(PREF_RASPBERRYPI_SSH_PORT,getPreferenceString(PREF_RASPBERRYPI_SSH_PORT));
             args.putString(PREF_RASPBERRYPI_AUTH_USERNAME,getPreferenceString(PREF_RASPBERRYPI_AUTH_USERNAME));
@@ -125,10 +131,10 @@ public class CarputerFragmentMgmt extends Fragment {
             String s = mTabLayout.getTabAt(i).getText().toString();
             //  SSH
             if (s.equals(getResources().getString(R.string.tab_carputer_mgmt_ssh).toString())) {
-                mTabLayout.getTabAt(i).setIcon(R.drawable.ic_baseline_developer_board_24px);
+                mTabLayout.getTabAt(i).setIcon(R.drawable.ic_ssh_24px);
             //  phpSysInfo
             } else if (s.equals(getResources().getString(R.string.tab_carputer_mgmt_phpsysinfo).toString())) {
-                mTabLayout.getTabAt(i).setIcon(R.drawable.ic_baseline_developer_board_24px);
+                mTabLayout.getTabAt(i).setIcon(R.drawable.ic_phpsysinfo_24px);
             //  Default
             } else {
                 mTabLayout.getTabAt(i).setIcon(R.drawable.ic_baseline_developer_board_24px);

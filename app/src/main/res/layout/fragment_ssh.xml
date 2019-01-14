@@ -8,6 +8,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <Spinner
+        android:id="@+id/spinnerNodes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/btn_dropdown"
+        android:spinnerMode="dropdown"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -59,13 +66,14 @@
             android:id="@+id/txtReply"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="top|start"
+            android:background="@android:color/black"
             android:enabled="false"
+            android:fontFamily="monospace"
+            android:gravity="top|start"
             android:inputType="textMultiLine"
             android:minLines="30"
             android:scrollbars="vertical"
             android:text="@string/txt_carputer_mgmt_ssh_results"
-            android:background="@android:color/black"
             android:textColor="@android:color/holo_red_dark" />
 
     </ScrollView>

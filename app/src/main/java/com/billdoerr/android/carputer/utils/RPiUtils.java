@@ -39,8 +39,8 @@ public class RPiUtils {
         // Avoid asking for key confirmation
         Properties prop = new Properties();
         prop.put("StrictHostKeyChecking", "no");
-        session.setConfig(prop);
 
+        session.setConfig(prop);
         session.connect();
 
         // SSH Channel
@@ -53,7 +53,7 @@ public class RPiUtils {
         channelssh.connect();
 
         //  Need delay
-        Thread.sleep(100);
+        Thread.sleep(1000);
 
         channelssh.disconnect();
 

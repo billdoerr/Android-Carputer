@@ -48,6 +48,7 @@ https://developer.android.com/guide/topics/ui/settings/organize-your-settings
 https://stackoverflow.com/questions/5298370/how-to-add-a-button-to-a-preferencescreen/7251575
 https://developer.android.com/reference/android/preference/PreferenceFragment
 https://google-developer-training.github.io/android-developer-fundamentals-course-concepts/en/Unit%204/91_c_shared_preferences.html
+https://stackoverflow.com/questions/4788713/nested-preferencescreens-under-a-dynamic-list-of-preferences-on-android
 
 - [x]  Review use of icons.	
   - [ ]  Need RaspberryPi svg (not color).

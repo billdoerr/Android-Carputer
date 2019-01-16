@@ -1,9 +1,6 @@
 package com.billdoerr.android.carputer;
 
-import android.support.v4.app.Fragment;
-
-import com.billdoerr.android.carputer.SSHFragment;
-import com.billdoerr.android.carputer.SingleFragmentActivity;
+import androidx.fragment.app.Fragment;
 
 public class CarputerActivityMgmt extends SingleFragmentActivity {
 

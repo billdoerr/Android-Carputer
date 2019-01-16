@@ -3,8 +3,8 @@ package com.billdoerr.android.carputer;
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -76,7 +76,7 @@ public class SSHFragment extends Fragment {
             @SuppressLint("StaticFieldLeak")
             @Override
             public void onClick(View v) {
-                final String cmd = "sudo poweroff";
+                final String cmd = "sudo shutdown -h now";
                 txtExecuteCommand.setText(cmd);
                 txtReply.setText(R.string.txt_carputer_mgmt_ssh_command_processing);
 //                new ExecuteCommandTask().execute(txtExecuteCommand.getText().toString());

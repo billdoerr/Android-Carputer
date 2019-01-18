@@ -42,10 +42,10 @@
 	- [x]  SettingsActivity.java
 
 
-### Priority v1.1	
+### Priority	
 - [ ] **CarputerFragmentMgmt/SSHFragment**  Needs work regarding nodes/args.  First need to make SettingsActivity more robust.
 
-### Priority v1.1	
+### Priority	
 - [ ]  **SettingsActivity**  Make more robust.  Need to store Nodes in JSON and store in shared preference.  Look into nested PreferneceScreen.
 https://developer.android.com/guide/topics/ui/settings/organize-your-settings
 https://stackoverflow.com/questions/5298370/how-to-add-a-button-to-a-preferencescreen/7251575
@@ -81,13 +81,13 @@ https://stackoverflow.com/questions/4788713/nested-preferencescreens-under-a-dyn
 - [x]  **(ON ORDER)**  USBStick (16/32GB) for image archive.
 - [ ]  Determine power usage with RaspberryPi + USBStick + two USB Cameras + router.
 
-### Priority v1.0
+### Priority
 - [x]  **Use Pi Zero as rear camera.**
     - [x] Install motioneye
 	- [x] Configure main RaspberryPi motioneye Rear camera with streaming URL from Pi Zero.
 	- [x] **(PI Camera cable on order)** Use PiCam rather than USB camera.  Validated USB camera works.
 
-### Priority v1.0
+### Priority 
 - [ ]  Create final Raspbian image for Carputer.
     - [ ]  Need to redo mouting of usb flash drive.
 	- [ ]  Need to configure motioneye to use PiCamera from Carputer-Rear rather than the USB camera from Carputer-Rear.

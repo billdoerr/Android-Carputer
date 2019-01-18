@@ -1,14 +1,18 @@
 package com.billdoerr.android.carputer;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -16,7 +20,9 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import com.billdoerr.android.carputer.utils.RPiUtils;
@@ -69,6 +75,12 @@ public class SSHFragment extends Fragment {
 
         //  EditText:  Execute Command
         txtExecuteCommand = (EditText) view.findViewById(R.id.txtExecuteCommand);
+        txtExecuteCommand.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                txtExecuteCommand.setInputType(InputType.TYPE_CLASS_TEXT);  //  Show keyboard.  Execute command would have hidden keyboard.
+            }
+        });
 
         //  Button:  Poweroff
         Button btnPoweroff = (Button) view.findViewById(R.id.btnPoweroff);
@@ -76,7 +88,7 @@ public class SSHFragment extends Fragment {
             @SuppressLint("StaticFieldLeak")
             @Override
             public void onClick(View v) {
-                final String cmd = "sudo shutdown -h now";
+                final String cmd = "sudo shutdown -h 0";
                 txtExecuteCommand.setText(cmd);
                 txtReply.setText(R.string.txt_carputer_mgmt_ssh_command_processing);
 //                new ExecuteCommandTask().execute(txtExecuteCommand.getText().toString());
@@ -91,10 +103,16 @@ public class SSHFragment extends Fragment {
             @SuppressLint("StaticFieldLeak")
             @Override
             public void onClick(View v) {
-//                final String cmd = "top";
                 String cmd = txtExecuteCommand.getText().toString();
-                txtExecuteCommand.setText(cmd);
+                txtExecuteCommand.setText(cmd);     //  Update text view with command
                 txtReply.setText(R.string.txt_carputer_mgmt_ssh_command_processing);
+
+                //  Hide soft keyboard
+                InputMethodManager inputManager = (InputMethodManager) getActivity()
+                        .getSystemService(Activity.INPUT_METHOD_SERVICE);
+                inputManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
+
+                //  Execute task
                 new ExecuteCommandTask().execute(cmd);
             }
         });
@@ -108,6 +126,21 @@ public class SSHFragment extends Fragment {
                 txtReply.setText(R.string.txt_carputer_mgmt_ssh_command_processing);   //  Clear current text
                 // Perform ping
                 new PingTask().execute();
+            }
+        });
+
+        //  Button:  SyncDate
+        Button btnSyncDate = (Button) view.findViewById(R.id.btnSyncDate);
+        btnSyncDate.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("StaticFieldLeak")
+            @Override
+            public void onClick(View v) {
+                String date = getDateTime();
+                //  Sync Android date/time with Pi.  Follow with 'date' command to view system date/time.
+                final String cmd = "sudo date -s \"" + date + "\" ;date";
+                txtExecuteCommand.setText(cmd);
+                txtReply.setText(R.string.txt_carputer_mgmt_ssh_command_processing);
+                new ExecuteCommandTask().execute(cmd);
             }
         });
 
@@ -163,7 +196,11 @@ public class SSHFragment extends Fragment {
         List<String> commandHistory = new ArrayList<>();
         commandHistory.add("top -n1 -b");
         commandHistory.add("ps -eaf");
-        commandHistory.add("cd /etc;ls -l");
+        commandHistory.add("cd /mnt/motioneye/Front; ls -l");
+        commandHistory.add("cd /mnt/motioneye/Rear; ls -l");
+        commandHistory.add("cd /mnt/motioneye/Rear-PiCam; ls -l");
+        commandHistory.add("date");
+        commandHistory.add("df -h /dev/sda1");
 
         // Creating adapter for spinner
         ArrayAdapter<String> dataAdapterCmd = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, commandHistory);
@@ -250,6 +287,17 @@ public class SSHFragment extends Fragment {
             super.onPostExecute(result);
             txtReply.setText(result);
         }
+    }
+
+    //  Generate date/time stamp that will be used to create a unique filename
+    //  https://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html
+    //  "Thu Jan 17 03:19:37 PST 2019"
+    //  "Thu Jan  17 14:37:00 PST 2019"
+    private String getDateTime() {
+        String dateFormat = "EEE MMM dd hh:mm:ss z yyyy";
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat(dateFormat);
+        return df.format(c.getTime());
     }
 
 }

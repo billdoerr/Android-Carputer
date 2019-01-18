@@ -39,6 +39,7 @@
     <string name="btn_camera_motioneye_snapshot">Snapshot</string>
     <string name="btn_carputer_mgmt_ssh_poweroff">Poweroff</string>
     <string name="btn_carputer_mgmt_ssh_ping">Ping</string>
+    <string name="btn_carputer_mgmt_ssh_sync_date">Sync Date</string>
     <string name="btn_carputer_mgmt_execute_command">Execute Command</string>
     <string name="txt_carputer_mgmt_execute_command">Enter command...</string>
     <string name="txt_carputer_mgmt_ssh_results">Command results...</string>

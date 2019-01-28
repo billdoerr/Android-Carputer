@@ -7,7 +7,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +26,8 @@ import java.util.List;
 
 import com.billdoerr.android.carputer.utils.RPiUtils;
 
+//  TODO:  THIS FRAGMENT IS A TOTAL HACK!!!!
+//  TODO :  Hack until I get SettingsActivity to be more robust
 public class SSHFragment extends Fragment {
 
     private static final String TAG = "SSHFragment";
@@ -82,9 +83,9 @@ public class SSHFragment extends Fragment {
             }
         });
 
-        //  Button:  Poweroff
-        Button btnPoweroff = (Button) view.findViewById(R.id.btnPoweroff);
-        btnPoweroff.setOnClickListener(new View.OnClickListener() {
+        //  Button:  Poweroff (Single)
+        Button btnPoweroffSingle = (Button) view.findViewById(R.id.btnPoweroffSingle);
+        btnPoweroffSingle.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("StaticFieldLeak")
             @Override
             public void onClick(View v) {
@@ -96,6 +97,31 @@ public class SSHFragment extends Fragment {
             }
         });
 
+        //  Button:  Poweroff (All)
+        Button btnPoweroffAll = (Button) view.findViewById(R.id.btnPoweroffAll);
+        btnPoweroffAll.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("StaticFieldLeak")
+            @Override
+            public void onClick(View v) {
+                final String cmd = "sudo shutdown -h 0";
+                String reply = "";
+
+                //  TODO : Total Hack!!!
+                currentNode = mIP2;
+                txtExecuteCommand.setText(cmd);
+                reply = getResources().getString(R.string.txt_carputer_mgmt_ssh_command_processing).toString() + " on node -> " + currentNode;
+                txtReply.setText(reply);
+                new ExecuteCommandTask().execute(cmd);
+                Log.d(TAG, getResources().getString(R.string.txt_carputer_mgmt_ssh_command_processing).toString() + " on node -> " + currentNode);
+
+                currentNode = mIP;
+                txtExecuteCommand.setText(cmd);
+                reply = reply + "\n" + getResources().getString(R.string.txt_carputer_mgmt_ssh_command_processing).toString() + " on node -> " + currentNode;
+                txtReply.setText(reply);
+                new ExecuteCommandTask().execute(cmd);
+                Log.d(TAG, getResources().getString(R.string.txt_carputer_mgmt_ssh_command_processing).toString() + " on node -> " + currentNode);
+            }
+        });
 
         //  Button:  Execute command
         Button btnExecuteCommand = (Button) view.findViewById(R.id.btnExecuteCommand);
@@ -129,9 +155,9 @@ public class SSHFragment extends Fragment {
             }
         });
 
-        //  Button:  SyncDate
-        Button btnSyncDate = (Button) view.findViewById(R.id.btnSyncDate);
-        btnSyncDate.setOnClickListener(new View.OnClickListener() {
+        //  Button:  SyncDate - Single Node
+        Button btnSyncDateSingle = (Button) view.findViewById(R.id.btnSyncDateSingle);
+        btnSyncDateSingle.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("StaticFieldLeak")
             @Override
             public void onClick(View v) {
@@ -144,7 +170,17 @@ public class SSHFragment extends Fragment {
             }
         });
 
-                //  Nodes
+        //  Button:  SyncDate - All Nodes
+        Button btnSyncDateAll = (Button) view.findViewById(R.id.btnSyncDateAll);
+        btnSyncDateAll.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("StaticFieldLeak")
+            @Override
+            public void onClick(View v) {
+               syncDateAll();
+            }
+        });
+
+        //  Nodes
         spinnerNodes = (Spinner) view.findViewById(R.id.spinnerNodes);
         spinnerNodes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -194,13 +230,14 @@ public class SSHFragment extends Fragment {
          */
         //  TODO:  Need to add starter set of commands in SharedPreferences.  Add them in when executed.
         List<String> commandHistory = new ArrayList<>();
-        commandHistory.add("top -n1 -b");
-        commandHistory.add("ps -eaf");
+        commandHistory.add("date");
+        commandHistory.add("df -h /dev/sda1");
         commandHistory.add("cd /mnt/motioneye/Front; ls -l");
         commandHistory.add("cd /mnt/motioneye/Rear; ls -l");
         commandHistory.add("cd /mnt/motioneye/Rear-PiCam; ls -l");
-        commandHistory.add("date");
-        commandHistory.add("df -h /dev/sda1");
+        commandHistory.add("top -n1 -b");
+        commandHistory.add("ps -eaf");
+        commandHistory.add("sudo reboot");
 
         // Creating adapter for spinner
         ArrayAdapter<String> dataAdapterCmd = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, commandHistory);
@@ -210,6 +247,9 @@ public class SSHFragment extends Fragment {
 
         // attaching data adapter to spinner
         spinnerCommandHistory.setAdapter(dataAdapterCmd);
+
+        //  Sync Dates
+        syncDateAll();
 
         return view;
     }
@@ -222,6 +262,28 @@ public class SSHFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+    }
+
+    public void syncDateAll() {
+        String date = getDateTime();
+        //  Sync Android date/time with Pi.  Follow with 'date' command to view system date/time.
+        final String cmd = "sudo date -s \"" + date + "\" ;date";
+        String reply = "";
+
+        //  TODO : Total Hack!!!
+        currentNode = mIP2;
+        txtExecuteCommand.setText(cmd);
+        reply = getResources().getString(R.string.txt_carputer_mgmt_ssh_command_processing).toString() + " on node -> " + currentNode;
+        txtReply.setText(reply);
+        new ExecuteCommandTask().execute(cmd);
+        Log.d(TAG, getResources().getString(R.string.txt_carputer_mgmt_ssh_command_processing).toString() + " on node -> " + currentNode);
+
+        currentNode = mIP;
+        txtExecuteCommand.setText(cmd);
+        reply = reply + "\n" + getResources().getString(R.string.txt_carputer_mgmt_ssh_command_processing).toString() + " on node -> " + currentNode;
+        txtReply.setText(reply);
+        new ExecuteCommandTask().execute(cmd);
+        Log.d(TAG, getResources().getString(R.string.txt_carputer_mgmt_ssh_command_processing).toString() + " on node -> " + currentNode);
     }
 
     private void getArgs() {

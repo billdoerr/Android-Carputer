@@ -186,7 +186,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     /**
      * Set up the {@link android.app.ActionBar}, if the API is available.
      */
-    //  TODO :  Unable to get drawer menu to work but does present a toolbar with back action
     //  Setup action bar
     private void setupActionBar() {
         // get the root container of the preferences list

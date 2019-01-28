@@ -48,7 +48,7 @@ public class CameraFragmentMotionEyeView extends Fragment {
         mWebView.setWebViewClient(new WebViewClient());
         mWebView.loadUrl(mCameraAddress);
 
-        //  TODO :  Not needed anymore since snapshot was implemented with a button click
+        //  Not needed anymore since snapshot was implemented with a button click
 //        mWebView.setOnTouchListener(new View.OnTouchListener() {
 //
 //            final static int FINGER_RELEASED = 0;

@@ -91,8 +91,6 @@ public class CameraFragmentMjpeg extends Fragment {
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
 
-        //  TODO : Need to decide if both camera's should use CameraFragmentMjpegView or CameraFragmentMjpegSnapshot?
-
         //  Camera view fragment
         if (getPreferenceBoolean(PREF_CAMERA_FRONT_ENABLED)) {
             Bundle args = new Bundle();

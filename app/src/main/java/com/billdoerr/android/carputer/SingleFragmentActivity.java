@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
+
+import com.billdoerr.android.carputer.settings.SettingsActivityNew;
 import com.google.android.material.navigation.NavigationView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;

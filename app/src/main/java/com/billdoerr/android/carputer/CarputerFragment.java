@@ -31,14 +31,9 @@ public class CarputerFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, final Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.activity_fragment, container, false);
 
-        //  TODO :  Make decision on default view.  Should we add a new SharedPreference?
-        //  Default view
-//        startActivity(new Intent(getActivity(), CameraActivityMjpeg.class));
-
-        startActivity(new Intent(getActivity(), CameraActivityMotionEye.class));
+        startActivity(new Intent(getActivity(), CarputerActivityMgmt.class));
         return view;
     }
 

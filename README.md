@@ -89,11 +89,12 @@ https://stackoverflow.com/questions/4788713/nested-preferencescreens-under-a-dyn
 	- [x] **(PI Camera cable on order)** Use PiCam rather than USB camera.  Validated USB camera works.
 
 ### Priority v1.0
-- [ ]  Create final Raspbian image for Carputer.
-    - [ ]  Need to redo mouting of usb flash drive.
-	- [ ]  Need to configure motioneye to use PiCamera from Carputer-Rear rather than the USB camera from Carputer-Rear.
-- [ ]  Create final Rasbian image for Carputer-Rear.
-	- [ ]  Need to configure motioneye to use PiCamera rather than USB camera.
+- [x]  Create final Rasbian image for Carputer-Rear.
+	- [x]  Need to configure motioneye to use PiCamera rather than USB camera.
+- [x]  Create final Raspbian image for Carputer.
+    - [x]  Need to redo mouting of usb flash drive.
+	- [x]  Need to configure motioneye to use PiCamera from Carputer-Rear rather than the USB camera from Carputer-Rear.
+
 		
 - [ ]
 - [ ]
@@ -200,18 +201,7 @@ if (strJson != null) {
   }
 	
  
-//  Play video HTML5
-<video class="motionpicture" width="720" height="480" autobuffer
-controls preload="auto">
 
-<source src="/path/to/vid.webm" />
-Your browser does not appear to support HTML5 media. Try updating
-your browser or (if you are not already) using an open source
-browser like Firefox." </video>
- 
- 
- <View style="@style/Divider"/>
- 
  sudo shutdown -h now
  
 **List dhcp leases**

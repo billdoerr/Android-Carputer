@@ -19,15 +19,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:orientation="vertical"
-        android:focusableInTouchMode="true" >
+        android:focusableInTouchMode="true"
+        android:orientation="vertical">
 
         <Spinner
             android:id="@+id/spinnerCommandHistory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:drawable/btn_dropdown"
-            android:spinnerMode="dropdown"/>
+            android:spinnerMode="dropdown" />
 
         <Button
             android:id="@+id/btnExecuteCommand"
@@ -39,28 +39,60 @@
             android:id="@+id/txtExecuteCommand"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textNoSuggestions"
-            android:enabled="true"
             android:background="@android:color/black"
-            android:textColor="@android:color/holo_red_dark"/>
+            android:enabled="true"
+            android:inputType="textNoSuggestions"
+            android:textColor="@android:color/holo_red_dark" />
 
-        <Button
-            android:id="@+id/btnPoweroff"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/btn_carputer_mgmt_ssh_poweroff" />
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/btnPing"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/btn_carputer_mgmt_ssh_ping" />
+            <Button
+                android:id="@+id/btnPoweroffSingle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_carputer_mgmt_ssh_poweroff_single" />
 
-        <Button
-            android:id="@+id/btnSyncDate"
-            android:layout_width="wrap_content"
+            <Button
+                android:id="@+id/btnPoweroffAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_carputer_mgmt_ssh_poweroff_all" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/btn_carputer_mgmt_ssh_sync_date" />
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnSyncDateSingle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_carputer_mgmt_ssh_sync_date_single" />
+
+            <Button
+                android:id="@+id/btnSyncDateAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_carputer_mgmt_ssh_sync_date_all" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btnPing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_carputer_mgmt_ssh_ping" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

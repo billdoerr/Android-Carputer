@@ -43,7 +43,6 @@ public class CarputerFragmentMgmt extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
-    //  TODO :  R.layout.fragment_camera -> Should we rename/reuse/new?
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_camera, container, false);

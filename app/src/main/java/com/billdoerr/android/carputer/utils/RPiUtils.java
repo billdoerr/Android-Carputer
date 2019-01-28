@@ -30,7 +30,6 @@ public class RPiUtils {
         mPwd = pwd;
     }
 
-    //  TODO : This was static but can't access instance variables
     public String executeRemoteCommand(String cmd) throws Exception {
         JSch jsch = new JSch();
         Session session = jsch.getSession(mUser, mIP, Integer.parseInt(mPort));

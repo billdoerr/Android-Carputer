@@ -163,10 +163,7 @@ public class CameraFragmentSnapshotViewer extends Fragment {
      * RECYCLERVIEW.VIEWHOLDER
      */
     private class ListHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private static final String TAG = "ListAdapter";
-
-        private TextView mItemTextView;
-        private List<String> mListItems = new ArrayList<>();
+        private static final String TAG = "ListHolder";
 
         private ListHolder(View itemView) {
             super(itemView);

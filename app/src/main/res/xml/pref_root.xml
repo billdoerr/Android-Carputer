@@ -2,16 +2,30 @@
 <androidx.preference.PreferenceScreen
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <Preference
-        app:title="@string/pref_category_cameras"
-        app:icon="@drawable/ic_baseline_camera_front_24px"
-        app:fragment="com.billdoerr.android.carputer.SSHFragment" >
-    </Preference>
+    <PreferenceCategory
+        app:title="@string/pref_title_camera_settings">
 
-    <Preference
-        app:title="@string/pref_category_raspberrypis"
-        app:icon="@drawable/ic_raspberry_pi_24px">
+        <Preference
+            app:key="com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_CAMERAS"
+            app:title="@string/pref_category_cameras"
+            app:icon="@drawable/ic_baseline_camera_front_24px"
+            app:fragment="com.billdoerr.android.carputer.settings.SettingsActivityNew$SettingsFragmentCameras"
+            app:useSimpleSummaryProvider="true" >
+        </Preference>
 
-    </Preference>
+    </PreferenceCategory>
 
+    <PreferenceCategory
+        app:title="@string/pref_title_node_settings">
+
+        <Preference
+            app:key="com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NODES"
+            app:title="@string/pref_category_nodes"
+            app:icon="@drawable/ic_raspberry_pi_24px"
+            app:fragment="com.billdoerr.android.carputer.settings.SettingsActivityNew$SettingsFragmentNodes"
+            app:useSimpleSummaryProvider="true" >
+        </Preference>
+
+    </PreferenceCategory>
+    
 </androidx.preference.PreferenceScreen>

@@ -15,6 +15,8 @@
 5. **STRETCH GOAL** -> Sync data.  Upload data to cloud.
 
 ##  Tasks - Android
+
+### v1.0 (RELEASED)
 - [x]  Migrate code from Android-CarputerPOC (the proof of concept project).
 - [x]  Design change from CarputerPOC
 	- [x]  Use MotionEye to display streaming video.  Mjpeg has poor performance when implementing the snapshot feature.  Able to implment on-click event to capture image of screen.
@@ -27,8 +29,7 @@
 	- [ ]
 - [x]  Improve image capture.  Currently senses FINGER_ACTION_UP so sensitive and creates unnecessary snapshots.	
 - [x]  **(NEED SD CARDS)**  Create image of sd card.  Then use three cars:  prod/dev/release.  (https://lifehacker.com/how-to-clone-your-raspberry-pi-sd-card-for-super-easy-r-1261113524)
-- [ ]
-- [ ]  Code review.  Code cleanup.
+- [x]  Code review.  Code cleanup.
 	- [x]  CameraActivityMjpeg.java
 	- [x]  CameraActivityMotionEye.java
 	- [x]  CameraFragment.java
@@ -41,66 +42,71 @@
 	- [x]  CarputerFragment.java
 	- [x]  SingleFragmentActivity.java
 	- [x]  SettingsActivity.java
-
-
-### Priority v1.1	
-- [ ] **CarputerFragmentMgmt/SSHFragment**  Needs work regarding nodes/args.  First need to make SettingsActivity more robust.
-
-### Priority v1.1	
-- [ ]  **SettingsActivity**  Make more robust.  Need to store Nodes in JSON and store in shared preference.  Look into nested PreferneceScreen.
-https://developer.android.com/guide/topics/ui/settings/organize-your-settings
-https://stackoverflow.com/questions/5298370/how-to-add-a-button-to-a-preferencescreen/7251575
-https://developer.android.com/reference/android/preference/PreferenceFragment
-https://google-developer-training.github.io/android-developer-fundamentals-course-concepts/en/Unit%204/91_c_shared_preferences.html
-https://stackoverflow.com/questions/4788713/nested-preferencescreens-under-a-dynamic-list-of-preferences-on-android
-
-- [ ]  Review use of icons.	
-  - [ ]  Need RaspberryPi svg (not color).
-  - [ ]  Need motioneye svg.
 - [x]  **(NOT POSSIBLE w/SURFACEVIEW WIDGET)**  ~~Dual-pane view.  Try to enable scrolling.~~  
 - [x]  MotionEye view.  Enable button to take snapshot rather than touching screen.
 - [x]  SSH Commands - Basic implementation.
 	- [x]  txtReply.  Use non-proportional font (try courier).
 	- [x]  Trouble why some are not working.
 	- [x]  Hide keyboard after click "Execute Command".
+- [x]  Implement rear camera using a Pi Zero w/motioneye.  This would connect to PINET.  Ref:  https://github.com/ccrisan/motioneye/issues/970
+
+### v1.1 (IN PROGRESS)
+- [x]  Add version/build number in new About menu action item.
+- [ ]  **SettingsActivity**  Make more robust.  Need to store Nodes in JSON and store in shared preference.  Look into nested PreferneceScreen.
+		https://developer.android.com/guide/topics/ui/settings/organize-your-settings
+		https://stackoverflow.com/questions/5298370/how-to-add-a-button-to-a-preferencescreen/7251575
+		https://developer.android.com/reference/android/preference/PreferenceFragment
+		https://google-developer-training.github.io/android-developer-fundamentals-course-concepts/en/Unit%204/91_c_shared_preferences.html
+		https://stackoverflow.com/questions/4788713/nested-preferencescreens-under-a-dynamic-list-of-preferences-on-android  
+		https://exceptionshub.com/is-it-possible-to-add-an-array-or-object-to-sharedpreferences-on-android.html  
+		https://stackoverflow.com/questions/37744333/how-to-dynamically-add-preferences-into-preferences-screen-and-bind-their-values  
+		
+### v1.2 (NOT STARTED)
+- [ ] **CarputerFragmentMgmt/SSHFragment**  Needs work regarding nodes/args.  First need to make SettingsActivity more robust.
+
+### v1.x (NOT STARTED)
+- [ ]  Review use of icons.	
+  - [ ]  Need RaspberryPi svg (not color).
+  - [ ]  Need motioneye svg.
 - [ ]  Address TODO's.	
 - [ ]  Test and validate performance using RaspberryPi with USBStick + two USB Cameras + router.
-- [ ]
-- [ ]  Put some effort into style/themes.
-- [x]  Implement rear camera using a Pi Zero w/motioneye.  This would connect to PINET.  Ref:  https://github.com/ccrisan/motioneye/issues/970
-- [ ] 
+- [ ]  Put a lot more effort into style/themes.
 
-##  Tasks - RaspberryPi 3 Model B
+##  Tasks - Raspberry Pi 3 Model B+
+
+### v1.0 (RELEASED)
 - [x]  Install Rasbian.
 - [x]  Enable SSH.
 - [x]  Enable VNC.
 - [x]  Install MotionEye.
-- [ ]  Setup RaspberryPi as Router.  https://www.instructables.com/id/Use-Raspberry-Pi-3-As-Router/
+- [x]  Setup RaspberryPi as Router.  https://www.instructables.com/id/Use-Raspberry-Pi-3-As-Router/
   - [x]  Access point.
-  - [ ]  IP Bridge.  **NOTE:**  Once enabling the bridge it no longer provices an IP address for a client connection.
 - [x]  **Successfully deployed RaspberryPi as access point.**  Test and validate using RaspberryPi as router.  If this does not work out as planned then plan B would be to buy small router.
 - [x]  **(ON ORDER)**  USBStick (16/32GB) for image archive.
-- [ ]  Determine power usage with RaspberryPi + USBStick + two USB Cameras + router.
-
-### Priority v1.0
 - [x]  **Use Pi Zero as rear camera.**
     - [x] Install motioneye
 	- [x] Configure main RaspberryPi motioneye Rear camera with streaming URL from Pi Zero.
-	- [x] **(PI Camera cable on order)** Use PiCam rather than USB camera.  Validated USB camera works.
-
-### Priority v1.0
+	- [x] **(PI Camera cable on order)** Use PiCam rather than USB camera.  Validated USB camera works.  
 - [x]  Create final Rasbian image for Carputer-Rear.
 	- [x]  Need to configure motioneye to use PiCamera rather than USB camera.
 - [x]  Create final Raspbian image for Carputer.
     - [x]  Need to redo mouting of usb flash drive.
-	- [x]  Need to configure motioneye to use PiCamera from Carputer-Rear rather than the USB camera from Carputer-Rear.
+	- [x]  Need to configure motioneye to use PiCamera from Carputer-Rear rather than the USB camera from Carputer-Rear.  
+	
+### v1.1  (NOT STARTED)
+- [ ]  Version OS images independent of Android app versions
+- [ ]  Add power off switch  
+	https://github.com/TonyLHansen/raspberry-pi-safe-off-switch/
+- [ ]  Add Real Time Clock (RTC)  
+    https://learn.adafruit.com/adding-a-real-time-clock-to-raspberry-pi/overview  
+    https://www.sparkfun.com/products/12708  
 
-		
-- [ ]
-- [ ]
-- [ ]
-
-##  Feature Creep
+### v1.x  (NOT STARTED)
+- [ ]  Determine power usage with RaspberryPi + USBStick + two USB Cameras + router.
+- [ ]  Setup RaspberryPi as Router.  https://www.instructables.com/id/Use-Raspberry-Pi-3-As-Router/
+  - [ ]  IP Bridge.  **NOTE:**  Once enabling the bridge it no longer provices an IP address for a client connection.
+  
+##  Feature Creep - not assigned to any release
 - [ ]  Android:  View images/videos archived on the RaspberryPi USBStick.
 - [ ]  Android:  cron job to delete old snapshots.  Would also need new shared preferences and fragment added to SettingsActivity.
 - [ ]  RaspberryPi:  Create REST API to obtain files (images, videos, data, etc).  Example using Python -> https://codeburst.io/this-is-how-easy-it-is-to-create-a-rest-api-8a25122ab1f3.
@@ -168,23 +174,7 @@ Linux perf commands
 https://medium.com/@chrishantha/linux-performance-observability-tools-19ae2328f87f
 https://opensource.com/article/17/7/20-sysadmin-commands
  
- 
-        <TextView
-            android:id="@+id/txtReply"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="top|start"
-            android:enabled="false"
-            android:inputType="textMultiLine"
-            android:lines="30"
-            android:maxLines="100"
-            android:minLines="30"
-            android:scrollbars="vertical"
-            android:text="@string/txt_carputer_mgmt_ssh_results"
-            android:background="@android:color/black"
-            android:textColor="@android:color/holo_red_dark" />
-		
+	
 
 editor.putString("jsondata", jobj.toString());
 And to get it back:
@@ -199,9 +189,67 @@ if (strJson != null) {
 
          }
   }
-	
- 
 
+===============================================================================================
+startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+
+Preference.OnPreferenceChangeListener changeListener = new Preference.OnPreferenceChangeListener() {
+    public boolean onPreferenceChange(Preference preference, Object newValue) {
+        // Code goes here            
+        return true;
+    }
+};
+
+EditTextPreference pref = (EditTextPreference)findPreference(getString(R.string.pref1));
+pref1.setOnPreferenceChangeListener(changeListener);
+
+EditTextPreference pref2 = (EditTextPreference)findPreference(getString(R.string.pref2));
+pref2.setOnPreferenceChangeListener(changeListener);
+
+
+  
+     <Preference
+        app:title="@string/pref_category_cameras" >
+    </Preference>
+
+    <Preference
+        app:title="@string/pref_title_add_camera"
+        app:icon="@drawable/ic_baseline_add_24px" >
+    </Preference>
+
+Preference userButton = (Preference) findPreference("user");
+userButton.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+    @Override
+    public boolean onPreferenceClick(Preference arg0) {
+        Intent intent = new Intent(getActivity(), YourTargetActivity.class);
+        intent.putExtra(EXTRA, mUser);
+        startActivity(intent);
+        return true;
+    }
+});	
+
+
+RecyclerView listView = getListView();
+listView.getAdapter().notifyDataSetChanged();
+
+public class CustomPreference extends DialogPreference {
+
+    EditText first;
+    EditText second;
+    EditText third;
+
+    protected View onCreateDialogView() {
+        View v = LayoutInflater.from(getContext()).inflate(R.layout.three_edit_texts, null);
+        first = v.findViewById(...);
+        second = v.findViewById(...);
+        third = v.findViewById(...);
+        return v;
+    }
+
+}
+
+===============================================================================================
+	
  sudo shutdown -h now
  
 **List dhcp leases**

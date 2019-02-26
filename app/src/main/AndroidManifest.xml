@@ -2,7 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.billdoerr.android.carputer">
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />														  																			
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
         android:allowBackup="true"
@@ -17,7 +19,6 @@
 		android:name=".CarputerActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -57,6 +58,10 @@
         <activity
             android:name=".CarputerActivityMgmt"
             android:label="@string/activity_title_carputer_mgmt">
+        </activity>
+        <activity
+            android:name=".CarputerActivityAbout"
+            android:label="@string/activity_title_about">
         </activity>
         <provider
             android:authorities="com.billdoerr.android.carputerpoc.fileprovider"

@@ -25,6 +25,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import com.billdoerr.android.carputer.utils.RPiUtils;
+import com.billdoerr.android.carputer.utils.WiFi;
 
 //  TODO:  THIS FRAGMENT IS A TOTAL HACK!!!!
 //  TODO :  Hack until I get SettingsActivity to be more robust
@@ -54,6 +55,10 @@ public class SSHFragment extends Fragment {
     //  TODO :  Hack until I get SettingsActivity to be more robust
     private String mIP2;
     private String currentNode;
+
+    private static boolean mDateSynced = false;
+    private static boolean mIsConnected = false;
+    private static String mCmdHistory = "";
 
     public static SSHFragment newInstance() {
         return new SSHFragment();
@@ -91,8 +96,7 @@ public class SSHFragment extends Fragment {
             public void onClick(View v) {
                 final String cmd = "sudo shutdown -h 0";
                 txtExecuteCommand.setText(cmd);
-                txtReply.setText(R.string.txt_carputer_mgmt_ssh_command_processing);
-//                new ExecuteCommandTask().execute(txtExecuteCommand.getText().toString());
+                updateCommandHistory(getResources().getString(R.string.txt_carputer_mgmt_ssh_command_processing));
                 new ExecuteCommandTask().execute(cmd);
             }
         });
@@ -107,19 +111,24 @@ public class SSHFragment extends Fragment {
                 String reply = "";
 
                 //  TODO : Total Hack!!!
+
                 currentNode = mIP2;
-                txtExecuteCommand.setText(cmd);
                 reply = getResources().getString(R.string.txt_carputer_mgmt_ssh_command_processing).toString() + " on node -> " + currentNode;
-                txtReply.setText(reply);
+                updateCommandHistory(reply);
+                Log.d(TAG, reply);
+
+                txtExecuteCommand.setText(cmd);
                 new ExecuteCommandTask().execute(cmd);
-                Log.d(TAG, getResources().getString(R.string.txt_carputer_mgmt_ssh_command_processing).toString() + " on node -> " + currentNode);
+
 
                 currentNode = mIP;
-                txtExecuteCommand.setText(cmd);
                 reply = reply + "\n" + getResources().getString(R.string.txt_carputer_mgmt_ssh_command_processing).toString() + " on node -> " + currentNode;
-                txtReply.setText(reply);
+                updateCommandHistory(reply);
+                Log.d(TAG, reply);
+
+                txtExecuteCommand.setText(cmd);
                 new ExecuteCommandTask().execute(cmd);
-                Log.d(TAG, getResources().getString(R.string.txt_carputer_mgmt_ssh_command_processing).toString() + " on node -> " + currentNode);
+
             }
         });
 
@@ -131,7 +140,7 @@ public class SSHFragment extends Fragment {
             public void onClick(View v) {
                 String cmd = txtExecuteCommand.getText().toString();
                 txtExecuteCommand.setText(cmd);     //  Update text view with command
-                txtReply.setText(R.string.txt_carputer_mgmt_ssh_command_processing);
+                updateCommandHistory(getResources().getString(R.string.txt_carputer_mgmt_ssh_command_processing));
 
                 //  Hide soft keyboard
                 InputMethodManager inputManager = (InputMethodManager) getActivity()
@@ -149,7 +158,7 @@ public class SSHFragment extends Fragment {
             @SuppressLint("StaticFieldLeak")
             @Override
             public void onClick(View v) {
-                txtReply.setText(R.string.txt_carputer_mgmt_ssh_command_processing);   //  Clear current text
+                updateCommandHistory(getResources().getString(R.string.txt_carputer_mgmt_ssh_command_processing));
                 // Perform ping
                 new PingTask().execute();
             }
@@ -165,8 +174,10 @@ public class SSHFragment extends Fragment {
                 //  Sync Android date/time with Pi.  Follow with 'date' command to view system date/time.
                 final String cmd = "sudo date -s \"" + date + "\" ;date";
                 txtExecuteCommand.setText(cmd);
-                txtReply.setText(R.string.txt_carputer_mgmt_ssh_command_processing);
+                updateCommandHistory(getResources().getString(R.string.txt_carputer_mgmt_ssh_command_processing));
+
                 new ExecuteCommandTask().execute(cmd);
+
             }
         });
 
@@ -248,7 +259,10 @@ public class SSHFragment extends Fragment {
         // attaching data adapter to spinner
         spinnerCommandHistory.setAdapter(dataAdapterCmd);
 
-        //  Sync Dates
+        //  Connect to PINET
+//        WiFiConnect();
+
+        // Sync Dates
         syncDateAll();
 
         return view;
@@ -262,28 +276,6 @@ public class SSHFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-    }
-
-    public void syncDateAll() {
-        String date = getDateTime();
-        //  Sync Android date/time with Pi.  Follow with 'date' command to view system date/time.
-        final String cmd = "sudo date -s \"" + date + "\" ;date";
-        String reply = "";
-
-        //  TODO : Total Hack!!!
-        currentNode = mIP2;
-        txtExecuteCommand.setText(cmd);
-        reply = getResources().getString(R.string.txt_carputer_mgmt_ssh_command_processing).toString() + " on node -> " + currentNode;
-        txtReply.setText(reply);
-        new ExecuteCommandTask().execute(cmd);
-        Log.d(TAG, getResources().getString(R.string.txt_carputer_mgmt_ssh_command_processing).toString() + " on node -> " + currentNode);
-
-        currentNode = mIP;
-        txtExecuteCommand.setText(cmd);
-        reply = reply + "\n" + getResources().getString(R.string.txt_carputer_mgmt_ssh_command_processing).toString() + " on node -> " + currentNode;
-        txtReply.setText(reply);
-        new ExecuteCommandTask().execute(cmd);
-        Log.d(TAG, getResources().getString(R.string.txt_carputer_mgmt_ssh_command_processing).toString() + " on node -> " + currentNode);
     }
 
     private void getArgs() {
@@ -307,7 +299,6 @@ public class SSHFragment extends Fragment {
             try {
                 RPiUtils utils = new RPiUtils();
                 //  TODO :  Hack until I get SettingsActivity to be more robust
-//                result = utils.ping(mIP);
                 result = utils.ping(currentNode);
                 Log.d(TAG, result);
             } catch (Exception e) {
@@ -335,7 +326,6 @@ public class SSHFragment extends Fragment {
                 try {
                     RPiUtils utils = new RPiUtils();
                     //  TODO :  Hack until I get SettingsActivity to be more robust
-//                    utils.initialize(mIP, mPort, mUser, mPwd);
                     utils.initialize(currentNode, mPort, mUser, mPwd);
                     result = utils.executeRemoteCommand(params[0]);
                 } catch (Exception e) {
@@ -347,7 +337,8 @@ public class SSHFragment extends Fragment {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-            txtReply.setText(result);
+//            txtReply.setText(result);
+            updateCommandHistory(result);
         }
     }
 
@@ -360,6 +351,63 @@ public class SSHFragment extends Fragment {
         Calendar c = Calendar.getInstance();
         SimpleDateFormat df = new SimpleDateFormat(dateFormat);
         return df.format(c.getTime());
+    }
+
+    public void syncDateAll() {
+        String reply = "";
+
+        if (mDateSynced) {
+            reply = reply + "syncDateAll: Date already synced!";
+            updateCommandHistory(reply);
+            return;
+        }
+        Log.d(TAG, "syncDateAll: Syncing date!");
+        String date = getDateTime();
+        //  Sync Android date/time with Pi.  Follow with 'date' command to view system date/time.
+        final String cmd = "sudo date -s \"" + date + "\" ;date";
+        reply = "";
+
+        //  TODO : Total Hack!!!
+        currentNode = mIP2;
+        txtExecuteCommand.setText(cmd);
+        reply = "Syncing date on all nodes...\n";
+        reply = reply + "\n" + getResources().getString(R.string.txt_carputer_mgmt_ssh_command_processing).toString() + " on node -> " + currentNode + "\n";
+        updateCommandHistory(reply);
+        new ExecuteCommandTask().execute(cmd);
+        Log.d(TAG, getResources().getString(R.string.txt_carputer_mgmt_ssh_command_processing).toString() + " on node -> " + currentNode);
+
+        currentNode = mIP;
+        txtExecuteCommand.setText(cmd);
+        reply = reply + "\n" + getResources().getString(R.string.txt_carputer_mgmt_ssh_command_processing).toString() + " on node -> " + currentNode + "\n";
+        updateCommandHistory(reply);
+        new ExecuteCommandTask().execute(cmd);
+        Log.d(TAG, getResources().getString(R.string.txt_carputer_mgmt_ssh_command_processing).toString() + " on node -> " + currentNode);
+
+        mDateSynced = true;
+    }
+
+    //  TODO :  Network info should be SharedPreference
+    //  Connect to PINET
+    private void WiFiConnect() {
+        //  Connect to PINET
+        WiFi wifi = new WiFi();
+        String reply;
+
+        if (!mIsConnected) {
+            mIsConnected = wifi.connectToPINET(getActivity());
+        }
+        if (mIsConnected) {
+            reply = "Connected to PINET! " + "\n\n";
+        } {
+            reply = "Unable to connect PINET!" + "\n\n";
+        }
+        updateCommandHistory(reply);
+    }
+
+    //  Command history to EditText
+    private void updateCommandHistory(String msg) {
+        mCmdHistory = mCmdHistory + "\n" + msg + "\n";
+        txtReply.setText(mCmdHistory);
     }
 
 }

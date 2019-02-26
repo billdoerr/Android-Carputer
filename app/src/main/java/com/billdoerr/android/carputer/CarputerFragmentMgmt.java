@@ -84,7 +84,7 @@ public class CarputerFragmentMgmt extends Fragment {
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
 
-        //  Fragment:  RaspberryPi SSH
+        //  Fragment:  Node SSH
         if ( getPreferenceBoolean(PREF_RASPBERRYPI_ENABLED) ) {
             Bundle args = new Bundle();
             //  TODO :  Hack until I get SettingsActivity to be more robust
@@ -99,7 +99,7 @@ public class CarputerFragmentMgmt extends Fragment {
             adapter.addFragment(sshFragment, getResources().getString(R.string.tab_carputer_mgmt_ssh));
         }
 
-        //  Fragment:  RaspberryPi phpSysInfo
+        //  Fragment:  Node phpSysInfo
         if ( getPreferenceBoolean(PREF_RASPBERRYPI_ENABLED) && getPreferenceBoolean(PREF_RASPBERRYPI_PHPSYSINFO_ENABLED) ) {
             Bundle args = new Bundle();
             args.putString(PREF_RASPBERRYPI_PHPSYSINFO_URL,getPreferenceString(PREF_RASPBERRYPI_PHPSYSINFO_URL));

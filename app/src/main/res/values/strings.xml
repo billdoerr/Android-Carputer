@@ -7,7 +7,9 @@
     <string name="activity_title_camera_motioneye">Camera - motionEye</string>
     <string name="activity_title_camera_image_archive">Image Archive</string>
     <string name="activity_title_settings">Settings</string>
+    <string name="activity_title_settings_new">Settings (New)</string>
     <string name="activity_title_carputer_mgmt">Carputer Management</string>
+    <string name="activity_title_about">About</string>
 
     <!--  Draw Layout -->
     <string name="drawer_open">drawer open</string>
@@ -34,7 +36,6 @@
     <string name="tab_carputer_mgmt_ssh">SSH</string>
     <string name="tab_carputer_mgmt_phpsysinfo">phpSysInfo</string>
 
-
     <!-- Widgets -->
     <string name="btn_camera_motioneye_snapshot">Snapshot</string>
     <string name="btn_carputer_mgmt_ssh_poweroff_single">Poweroff (Single)</string>
@@ -49,17 +50,21 @@
 
     <!--  End CarputerMgmt Activity -->
 
+    <!--  Begin CarputerAbout Activity -->
+        <!--  TODO -->
+    <!--  End CarputerAbout Activity -->
+
     <!--  Begin Toolbar -->
     <string name="action_snapshot">Snapshot</string>
     <!--  End Toolbar -->
 
-<!-- Begin Shared Preference Settings -->
+    <!-- Begin Shared Preference Settings -->
     <string name="pref_header_camera_front">Camera - Front</string>
     <string name="pref_header_camera_rear">Camera - Rear</string>
     <string name="pref_header_camera_motioneye">motionEye</string>
     <string name="pref_header_raspberrypi">Raspberry Pi</string>
 
-    <string name="pref_category_cameras">Cameras</string>
+    <string name="pref_category_cameras">Camera\'s</string>
     <string name="pref_category_raspberrypis">Raspberry Pi\'s</string>
     <string name="pref_category_camera">Camera Settings</string>
     <string name="pref_category_camera_authentication">Authentication</string>
@@ -83,14 +88,75 @@
     <string name="pref_title_raspberrypi_phySysInfo">phpSysInfo</string>
     <string name="pref_title_raspberrypi_phySysInfo_url">phpSysInfo Url</string>
 
+    <!-- BEGIN NEW STUFF -->
+    <string name="pref_category_authentication">Authentication</string>
+
+    <string name="pref_title_camera_name">Name</string>
+    <string name="pref_title_camera_settings">Camera Settings</string>
+    <string name="pref_title_cameras">Camera\'s</string>
+    <string name="pref_category_cameras_configured">Camera\'s Configured</string>
+    <string name="pref_category_camera_add">Add Camera</string>
+    <string name="pref_category_camera_multi_pane_view">Multi-Pane View</string>
+    <string name="pref_title_camera_multi_pane_view">Multi-Pane View</string>
+    <string name="pref_title_camera_add">Add Camera</string>
+
+    <string name="pref_title_node_name">Name</string>
+    <string name="pref_title_node_settings">Node Settings</string>
+    <string name="pref_title_nodes">Node\'s</string>
+    <string name="pref_title_add_node">Add Node</string>
+    <string name="pref_category_nodes">Node\'s</string>
+    <string name="pref_category_nodes_configured">Node\'s Configured</string>
+    <string name="pref_category_nodes_add">Add Node</string>
+    <string name="pref_title_node_add">Add Node</string>
+
+    <string name="pref_category_node">Node</string>
+    <string name="pref_title_node_ip">IP</string>
+    <string name="pref_title_node_ssh_port">SSH Port</string>
+    <string name="pref_category_node_phpsysinfo">phpSysinfo</string>
+    <string name="pref_title_node_phpsysinfo">phpSysInfo</string>
+    <string name="pref_title_node_phpsysinfo_url">phpSysInfo Url</string>
+    <string name="pref_category_node_motioneye">motionEye</string>
+    <string name="pref_title_node_motioneye">motionEye</string>
+    <string name="pref_title_node_motioneye_url">motionEye Url</string>
+
+    <string name="pref_title_camera_dual_pane_view">Multi-Pane View</string>
+
+    <string name="pref_title_currently_not_supported">Currently not supported.</string>
+
+    <string name="pref_default_node_ip">192.168.4.1</string>
+    <string name="pref_default_node_ssh_port">22</string>
+    <string name="pref_default_node_physysinfo_url">http://192.168.4.1/phpsysinfo</string>
+    <string name="pref_default_node_motioneye_url">http://192.168.4.1:8765</string>
+
+    <string name="pref_title_save">Save</string>
+    <string name="pref_title_cancel">Cancel</string>
+    <string name="pref_title_delete">Delete</string>
+
+    <!--  Widgets -->
+    <string name="btn_save">Save</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="btn_delete">Delete</string>
+    <string name="switch_use_authentication">Use authentication</string>
+    <string name="lbl_camera_name">Camera name*</string>
+    <string name="lbl_camera_url">Camera Url*</string>
+    <string name="lbl_username">Username</string>
+    <string name="lbl_password">Password</string>
+    <string name="lbl_required_field">* Field is required</string>
+    <string name="txt_missing_data">Required fields missing data!</string>
+
+    <string name="pref_default_camera_name">Front</string>
+
+
+    <!-- END NEW STUFF -->
+
     <!--  Default Shared Preference Values -->
     <string name="pref_default_camera_url">http://192.168.4.1:8081</string>
     <string name="pref_default_camera_motioneye_url">http://192.168.4.1:8765</string>
-    <string name="pref_hidden_password">&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;</string>
+    <string name="pref_default_hidden_password">&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;</string>
     <string name="pref_default_raspberrypi_ip">192.168.4.1</string>
     <string name="pref_default_raspberrypi_ssh_port">22</string>
     <string name="pref_default_raspberrypi_physysinfo_url">http://192.168.4.1/phpsysinfo</string>
-<!--  End Shared Preference Settings -->
+    <!--  End Shared Preference Settings -->
 
     <!--  Toast messages -->
     <string name="toast_image_saved">Image has been saved.</string>

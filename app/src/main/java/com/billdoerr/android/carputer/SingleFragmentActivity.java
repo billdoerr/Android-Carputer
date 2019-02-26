@@ -122,6 +122,11 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
                             case R.id.nav_settings:
                                 startActivity(new Intent(SingleFragmentActivity.this, SettingsActivity.class));
                                 return true;
+                            case R.id.nav_settings_new:
+                                startActivity(new Intent(SingleFragmentActivity.this, SettingsActivityNew.class));
+                                return true;
+                            case R.id.nav_about:
+                                startActivity(new Intent(SingleFragmentActivity.this, CarputerActivityAbout.class));
                             default:
                                 return true;
                         }

@@ -47,7 +47,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     private static final String PREF_CAMERA_FRONT_AUTH_USERNAME = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_FRONT_AUTH_USERNAME";
     private static final String PREF_CAMERA_FRONT_AUTH_PASSWORD = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_FRONT_AUTH_PASSWORD";
 
-    //  Camera #1 preferences
+    //  Camera #2 preferences
     private static final String PREF_CAMERA_REAR_ENABLED = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_REAR_ENABLED";
     private static final String PREF_CAMERA_REAR_URL = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_REAR_URL";
     private static final String PREF_CAMERA_REAR_FLIP_HORIZONTAL = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_REAR_FLIP_HORIZONTAL";
@@ -97,7 +97,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                     || preference.getKey().equals(PREF_CAMERA_MOTIONEYE_AUTH_PASSWORD)
                     || preference.getKey().equals(PREF_RASPBERRYPI_AUTH_PASSWORD) ) {
                 if (!TextUtils.isEmpty(stringValue)) {
-                    preference.setSummary(R.string.pref_hidden_password);
+                    preference.setSummary(R.string.pref_default_hidden_password);
                 }
             } else {
                 // For all other preferences, set the summary to the value's

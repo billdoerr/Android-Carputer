@@ -20,7 +20,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceCategory;
@@ -81,6 +80,9 @@ public class SettingsActivityNew extends AppCompatActivity implements
         Gson gson = new Gson();
         String json = appSharedPrefs.getString(Camera.PrefKey.PREF_KEY_CAMERAS, "");
         mCameras = gson.fromJson(json, new TypeToken<ArrayList<Camera>>(){}.getType());
+        if (mCameras == null) {
+            mCameras = new ArrayList<Camera>();
+        }
         return mCameras;
     }
 
@@ -100,6 +102,9 @@ public class SettingsActivityNew extends AppCompatActivity implements
         Gson gson = new Gson();
         String json = appSharedPrefs.getString(Node.PrefKey.PREF_KEY_NODES, "");
         mNodes = gson.fromJson(json, new TypeToken<ArrayList<Node>>(){}.getType());
+        if (mNodes == null) {
+            mNodes = new ArrayList<Node>();
+        }
         return mNodes;
     }
 
@@ -148,7 +153,7 @@ public class SettingsActivityNew extends AppCompatActivity implements
 
             //  TODO :  Remove once AddCamera functionality is working
             //  Generate test data
-            generateTestData();
+//            generateTestData();
 
             //  Retrieve list of camera's that are stored in SharedPreferences as a JSON string
             getCamerasFromSharedPrefs(getActivity());
@@ -188,7 +193,7 @@ public class SettingsActivityNew extends AppCompatActivity implements
         //  TODO :  Remove once add device functionality is working
         private void generateTestData() {
 //            generateTestDataCameras();
-            generateTestDataNodes();
+//            generateTestDataNodes();
         }
 
         //  TODO :  Remove once add device functionality is working
@@ -221,6 +226,7 @@ public class SettingsActivityNew extends AppCompatActivity implements
             Node n = new Node();
             n.setName("RaspberryPi Hub");
             n.setIp(getResources().getString(R.string.pref_default_node_ip));
+            n.setSSHPort(getString(R.string.pref_default_node_ssh_port));
             n.setUseAuthentication(false);
             n.setUsePhpSysInfo(true);
             n.setPhpSysInfoUrl(getResources().getString(R.string.pref_default_node_physysinfo_url));
@@ -231,6 +237,7 @@ public class SettingsActivityNew extends AppCompatActivity implements
             n = new Node();
             n.setName("RaspberryPi Rear Camera");
             n.setIp(getResources().getString(R.string.pref_default_node_ip));
+            n.setSSHPort(getString(R.string.pref_default_node_ssh_port));
             n.setUseAuthentication(false);
             n.setUsePhpSysInfo(true);
             n.setPhpSysInfoUrl(getResources().getString(R.string.pref_default_node_physysinfo_url));
@@ -271,9 +278,7 @@ public class SettingsActivityNew extends AppCompatActivity implements
         @Override
         public void onResume() {
             super.onResume();
-
 //            saveCamerasToSharedPrefs(getActivity());
-
         }
 
         @Override
@@ -504,20 +509,28 @@ public class SettingsActivityNew extends AppCompatActivity implements
             switch (event.getAction()) {
                 case SettingsMessageEvent.Action.ADD: {
                     mNodes.add(event.getNode());
+                    //  Recreate preference screen.  Not optimal.  Complete HACK!
+                    createPreferences();
                     break;
                 }
                 case SettingsMessageEvent.Action.UPDATE: {
                     mNodes.set(event.getIndex(), event.getNode());
+                    //  Recreate preference screen.  Not optimal.  Complete HACK!
+                    createPreferences();
                     break;
                 }
                 case SettingsMessageEvent.Action.DELETE: {
                     mNodes.remove(event.getIndex());
+                    //  Recreate preference screen.  Not optimal.  Complete HACK!
+                    createPreferences();
                     break;
                 }
                 default:
                     //  Nothing to do here.  Move along.
                     break;
             }
+            //  Update shared preferences with devices
+            saveNodesToSharedPrefs(getActivity());
         }
 
         //  Dynamically create PreferenceScreen of configured Node's
@@ -529,9 +542,9 @@ public class SettingsActivityNew extends AppCompatActivity implements
             Context context = getPreferenceManager().getContext();
             PreferenceScreen screen = getPreferenceManager().createPreferenceScreen(context);
 
-            PreferenceCategory raspberryPisConfiguredCategory = new PreferenceCategory(context);
-            raspberryPisConfiguredCategory.setTitle(getResources().getString(R.string.pref_category_nodes_configured));
-            screen.addPreference(raspberryPisConfiguredCategory);
+            PreferenceCategory nodessConfiguredCategory = new PreferenceCategory(context);
+            nodessConfiguredCategory.setTitle(getResources().getString(R.string.pref_category_nodes_configured));
+            screen.addPreference(nodessConfiguredCategory);
 
             //  Dynamically create preferences
             for (int i = 0; i < mNodes.size(); i++) {
@@ -546,7 +559,7 @@ public class SettingsActivityNew extends AppCompatActivity implements
                 prefNode.setSummary(mNodes.get(i).getIp());
 
                 //  Add preferences to PreferenceCategory
-                raspberryPisConfiguredCategory.addPreference(prefNode);
+                nodessConfiguredCategory.addPreference(prefNode);
 
                 //  Launch fragment when preference is clicked.
                 prefNode.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -558,15 +571,18 @@ public class SettingsActivityNew extends AppCompatActivity implements
 
                         Bundle args = new Bundle();
                         args.putString(ARGS_PREF_KEY, preference.getKey());
+                        args.putBoolean(ARGS_ADD, false);
                         args.putSerializable(ARGS_NODE_DETAIL, node);
 
-                        SettingsFragmentNodeDetail rpiDetailFragment = new SettingsFragmentNodeDetail();
-                        rpiDetailFragment.setArguments(args);
-
-                        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                        fragmentTransaction.replace(R.id.fragment_container, rpiDetailFragment);
-                        fragmentTransaction.addToBackStack(null);
-                        fragmentTransaction.commit();
+                        FragmentTransaction ft = getFragmentManager().beginTransaction();
+                        Fragment prev = getFragmentManager().findFragmentByTag("Node_Detail");
+                        if (prev != null) {
+                            ft.remove(prev);
+                        }
+                        ft.addToBackStack(null);
+                        DialogFragment settingsFragmentNodeDetail = new SettingsFragmentNodeDetail();
+                        settingsFragmentNodeDetail.setArguments(args);
+                        settingsFragmentNodeDetail.show(ft, "Node_Detail");
 
                         return true;
                     }
@@ -588,24 +604,42 @@ public class SettingsActivityNew extends AppCompatActivity implements
             Preference addNode = new Preference(context);
             addNode.setTitle(getResources().getString(R.string.pref_title_node_add));
             addNode.setIcon(ContextCompat.getDrawable(context, R.drawable.ic_baseline_add_24px));
-//            addNode.setFragment("com.billdoerr.android.carputer.settings.SettingsActivityNew$SettingsFragmentNodeDetail");
             addNodesCategory.addPreference(addNode);
 
             //  Launch fragment when preference is clicked.
             addNode.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference arg0) {
+                    //  Assign default values
+                    Node node = new Node();
+                    node.setName(getString(R.string.pref_default_node_name));
+                    node.setIp(getString(R.string.pref_default_node_ip));
+                    node.setSSHPort(getString(R.string.pref_default_node_ssh_port));
+
+                    node.setUseAuthentication(true);
+                    node.setUser("pi");
+                    node.setPassword("");
+
+                    node.setUsePhpSysInfo(false);
+                    node.setPhpSysInfoUrl(getString(R.string.pref_default_node_physysinfo_url));
+
+                    node.setUseMotionEye(true);
+                    node.setMotionEyeUrl(getString(R.string.pref_default_node_motioneye_url));
+
                     Bundle args = new Bundle();
-//                    args.putString(ARGS_PREF_KEY, preference.getKey());
-//                    args.putSerializable(ARGS_RASPBERRYPI_DETAIL, node);
+                    args.putString(ARGS_PREF_KEY, ARGS_ADD);    //  Put some value since there is no index
+                    args.putBoolean(ARGS_ADD, true);    //  Add device flag
+                    args.putSerializable(ARGS_NODE_DETAIL, node);
 
-                    SettingsFragmentNodeDetail raspberryPiDetailFragment = new SettingsFragmentNodeDetail();
-                    raspberryPiDetailFragment.setArguments(args);
-
-                    FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.fragment_container, raspberryPiDetailFragment);
-                    fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.commit();
+                    FragmentTransaction ft = getFragmentManager().beginTransaction();
+                    Fragment prev = getFragmentManager().findFragmentByTag("Node_Detail");
+                    if (prev != null) {
+                        ft.remove(prev);
+                    }
+                    ft.addToBackStack(null);
+                    DialogFragment settingsFragmentNodeDetail = new SettingsFragmentNodeDetail();
+                    settingsFragmentNodeDetail.setArguments(args);
+                    settingsFragmentNodeDetail.show(ft, "Node_Detail");
 
                     return true;
                 }

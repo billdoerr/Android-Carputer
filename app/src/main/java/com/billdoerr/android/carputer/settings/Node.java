@@ -8,57 +8,33 @@ import androidx.annotation.StringDef;
 
 public class Node implements Serializable {
 
-//    private static final String PREF_KEY_NODES = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NODES";
-//    private static final String PREF_KEY_NODE_NUM = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NODE_NUM_";
-//
-//
-//    private static final String PREF_KEY_NODE_IP = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NODE_IP";
-//    private static final String PREF_KEY_NODE_SSH_PORT = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NODE_SSH_PORT";
-//    private static final String PREF_KEY_NODE_AUTH_USERNAME = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NODE_AUTH_USERNAME";
-//    private static final String PREF_KEY_NODE_AUTH_PASSWORD = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NODE_AUTH_PASSWORD";
-//
-//    //  Motion Eye preferences
-//    private static final String PREF_KEY_NODE_MOTIONEEYE_ENABLED = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NODE_MOTIONEEYE_ENABLED";
-//    private static final String PREF_KEY_NODE_MOTIONEYE_URL = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NODE_MOTIONEYE_URL";
-//    private static final String PREF_KEY_NODE_MOTIONEYE_AUTH_USERNAME = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NODE_MOTIONEYE_AUTH_USERNAME";
-//    private static final String PREF_KEY_NODE_MOTIONEYE_AUTH_PASSWORD = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NODE_MOTIONEYE_AUTH_PASSWORD";
-//
-//    //  phpSysInfo preferences
-//    private static final String PREF_KEY_NODE_PHPSYSINFO_ENABLED = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NODE_PHPSYSINFO_ENABLED";
-//    private static final String PREF_KEY_NODE_PHPSYSINFO_URL = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NODE_PHPSYSINFO_URL";
-
     @StringDef({
             PrefKey.PREF_KEY_NODES,
-            PrefKey.PREF_KEY_NODE_NUM,
-            PrefKey.PREF_KEY_NODE_IP,
-            PrefKey.PREF_KEY_NODE_AUTH_PASSWORD,
-            PrefKey.PREF_KEY_NODE_MOTIONEEYE_ENABLED,
-            PrefKey.PREF_KEY_NODE_MOTIONEYE_URL,
-            PrefKey.PREF_KEY_NODE_MOTIONEYE_AUTH_USERNAME,
-            PrefKey.PREF_KEY_NODE_MOTIONEYE_AUTH_PASSWORD,
-            PrefKey.PREF_KEY_NODE_PHPSYSINFO_ENABLED,
-            PrefKey.PREF_KEY_NODE_PHPSYSINFO_URL,
-            PrefKey.PREF_KEY_NODE_SAVE,
-            PrefKey.PREF_KEY_NODE_CANCEL,
-            PrefKey.PREF_KEY_NODE_DELETE
+            PrefKey.PREF_KEY_NODE_NUM
+//            PrefKey.PREF_KEY_NODE_IP,
+//            PrefKey.PREF_KEY_NODE_SSH_PORT,
+//            PrefKey.PREF_KEY_NODE_AUTH_PASSWORD,
+//            PrefKey.PREF_KEY_NODE_MOTIONEYE_ENABLED,
+//            PrefKey.PREF_KEY_NODE_MOTIONEYE_URL,
+//            PrefKey.PREF_KEY_NODE_MOTIONEYE_AUTH_USERNAME,
+//            PrefKey.PREF_KEY_NODE_MOTIONEYE_AUTH_PASSWORD,
+//            PrefKey.PREF_KEY_NODE_PHPSYSINFO_ENABLED,
+//            PrefKey.PREF_KEY_NODE_PHPSYSINFO_URL
     })
 
     @Retention(RetentionPolicy.SOURCE)
     @interface PrefKey {
         String PREF_KEY_NODES = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NODES";
         String PREF_KEY_NODE_NUM = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NODE_NUM_";
-        String PREF_KEY_NODE_IP = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NODE_IP";
-        String PREF_KEY_NODE_SSH_PORT = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NODE_SSH_PORT";
-        String PREF_KEY_NODE_AUTH_PASSWORD = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NODE_AUTH_PASSWORD";
-        String PREF_KEY_NODE_MOTIONEEYE_ENABLED = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NODE_MOTIONEEYE_ENABLED";
-        String PREF_KEY_NODE_MOTIONEYE_URL = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NODE_MOTIONEYE_URL";
-        String PREF_KEY_NODE_MOTIONEYE_AUTH_USERNAME = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NODE_MOTIONEYE_AUTH_USERNAME";
-        String PREF_KEY_NODE_MOTIONEYE_AUTH_PASSWORD = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NODE_MOTIONEYE_AUTH_PASSWORD";
-        String PREF_KEY_NODE_PHPSYSINFO_ENABLED = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NODE_PHPSYSINFO_ENABLED";
-        String PREF_KEY_NODE_PHPSYSINFO_URL = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NODE_PHPSYSINFO_URL";
-        String PREF_KEY_NODE_SAVE = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NODE_SAVE";
-        String PREF_KEY_NODE_CANCEL = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NODE_CANCEL";
-        String PREF_KEY_NODE_DELETE = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NODE_DELETE";
+//        String PREF_KEY_NODE_IP = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NODE_IP";
+//        String PREF_KEY_NODE_SSH_PORT = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NODE_SSH_PORT";
+//        String PREF_KEY_NODE_AUTH_PASSWORD = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NODE_AUTH_PASSWORD";
+//        String PREF_KEY_NODE_MOTIONEYE_ENABLED = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NODE_MOTIONEYE_ENABLED";
+//        String PREF_KEY_NODE_MOTIONEYE_URL = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NODE_MOTIONEYE_URL";
+//        String PREF_KEY_NODE_MOTIONEYE_AUTH_USERNAME = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NODE_MOTIONEYE_AUTH_USERNAME";
+//        String PREF_KEY_NODE_MOTIONEYE_AUTH_PASSWORD = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NODE_MOTIONEYE_AUTH_PASSWORD";
+//        String PREF_KEY_NODE_PHPSYSINFO_ENABLED = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NODE_PHPSYSINFO_ENABLED";
+//        String PREF_KEY_NODE_PHPSYSINFO_URL = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NODE_PHPSYSINFO_URL";
     }
 
     private String mName;

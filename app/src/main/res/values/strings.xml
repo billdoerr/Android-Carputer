@@ -123,11 +123,6 @@
 
     <string name="pref_title_currently_not_supported">Currently not supported.</string>
 
-    <string name="pref_default_node_ip">192.168.4.1</string>
-    <string name="pref_default_node_ssh_port">22</string>
-    <string name="pref_default_node_physysinfo_url">http://192.168.4.1/phpsysinfo</string>
-    <string name="pref_default_node_motioneye_url">http://192.168.4.1:8765</string>
-
     <string name="pref_title_save">Save</string>
     <string name="pref_title_cancel">Cancel</string>
     <string name="pref_title_delete">Delete</string>
@@ -136,15 +131,36 @@
     <string name="btn_save">Save</string>
     <string name="btn_cancel">Cancel</string>
     <string name="btn_delete">Delete</string>
-    <string name="switch_use_authentication">Use authentication</string>
-    <string name="lbl_camera_name">Camera name*</string>
+
+    <string name="lbl_camera_name">Camera Name*</string>
     <string name="lbl_camera_url">Camera Url*</string>
+
+    <string name="lbl_use_authentication">Use authentication</string>
     <string name="lbl_username">Username</string>
     <string name="lbl_password">Password</string>
+
     <string name="lbl_required_field">* Field is required</string>
+
+    <string name="lbl_node_name">Node Name*</string>
+    <string name="lbl_node_ip">Node Ip*</string>
+    <string name="lbl_node_ssh_port">SSH Port</string>
+    <string name="lbl_node_use_phpsysinfo">Use phpSysInfo</string>
+    <string name="lbl_node_phpsysinfo_url">phpSysInfo Url</string>
+    <string name="lbl_node_use_motioneye">Use motionEye</string>
+    <string name="lbl_node_motioneye_url">motionEye Url</string>
+
+
+
+
+
     <string name="txt_missing_data">Required fields missing data!</string>
 
     <string name="pref_default_camera_name">Front</string>
+    <string name="pref_default_node_name">Front</string>
+    <string name="pref_default_node_ip">192.168.4.1</string>
+    <string name="pref_default_node_ssh_port">22</string>
+    <string name="pref_default_node_motioneye_url">http://192.168.4.1:8765</string>
+    <string name="pref_default_node_physysinfo_url">http://192.168.4.1/phpsysinfo</string>
 
 
     <!-- END NEW STUFF -->

@@ -157,12 +157,10 @@ public class SettingsFragmentCameraDetail extends DialogFragment {
                 }
 
                 if (!isMissingData) {
-
+                    mCamera = getCameraDetail();
                     if (mAdd) {
-                        mCamera = getCameraDetail();
                         sendMessage(SettingsMessageEvent.Action.ADD, SettingsMessageEvent.Device.CAMERA, mCamera, -1);
                     } else {
-                        mCamera = getCameraDetail();
                         sendMessage(SettingsMessageEvent.Action.UPDATE, SettingsMessageEvent.Device.CAMERA, mCamera, mIndex);
                     }
                     getDialog().dismiss();      //  Goodbye
@@ -176,7 +174,6 @@ public class SettingsFragmentCameraDetail extends DialogFragment {
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendMessage(SettingsMessageEvent.Action.DELETE, SettingsMessageEvent.Device.CAMERA, mCamera, mIndex);
                 getDialog().dismiss();      //  Goodbye
             }
         });
@@ -232,15 +229,6 @@ public class SettingsFragmentCameraDetail extends DialogFragment {
         camera.setName(mTextCameraName.getText().toString());
         camera.setUrl(mTextCameraUrl.getText().toString());
         return camera;
-    }
-
-    //  Notify user of required fields
-    private void AlertMissingData() {
-        new AlertDialog.Builder(getActivity())
-                .setTitle(R.string.txt_missing_data)
-                .setPositiveButton(android.R.string.ok, null)
-                .create()
-                .show();
     }
 
     //  Hide soft keyboard

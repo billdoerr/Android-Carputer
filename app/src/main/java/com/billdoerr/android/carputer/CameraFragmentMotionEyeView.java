@@ -16,15 +16,16 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
+import com.billdoerr.android.carputer.settings.Node;
 import com.billdoerr.android.carputer.utils.ImageStorage;
 
 public class CameraFragmentMotionEyeView extends Fragment {
 
     private static final String TAG = "CameraFragmentMotionEyeView";
-    private static final String ARG_URI = "MOTIONEYE_URI";
+    private static final String ARGS_NODE_DETAIL = "ARGS_NODE_DETAIL";
 
     private WebView mWebView;
-    private String mCameraAddress;
+    private String mMotionEyeUrl;
 
     public CameraFragmentMotionEyeView() {
         // Required empty public constructor
@@ -46,54 +47,7 @@ public class CameraFragmentMotionEyeView extends Fragment {
         mWebView = (WebView) view.findViewById(R.id.web_view);
         mWebView.getSettings().setJavaScriptEnabled(true);
         mWebView.setWebViewClient(new WebViewClient());
-        mWebView.loadUrl(mCameraAddress);
-
-        //  Not needed anymore since snapshot was implemented with a button click
-//        mWebView.setOnTouchListener(new View.OnTouchListener() {
-//
-//            final static int FINGER_RELEASED = 0;
-//            final static int FINGER_TOUCHED = 1;
-//            final static int FINGER_DRAGGING = 2;
-//            final static int FINGER_UNDEFINED = 3;
-//
-//            private int fingerState = FINGER_RELEASED;
-//
-//
-//            @Override
-//            public boolean onTouch(View view, MotionEvent motionEvent) {
-//
-//                switch (motionEvent.getAction()) {
-//
-//                    case MotionEvent.ACTION_DOWN:
-//                        if (fingerState == FINGER_RELEASED) fingerState = FINGER_TOUCHED;
-//                        else fingerState = FINGER_UNDEFINED;
-//                        break;
-//
-//                    case MotionEvent.ACTION_UP:
-//                        if(fingerState != FINGER_DRAGGING) {
-//                            fingerState = FINGER_RELEASED;
-//
-//                        //  Archive image
-////                        takeSnapshot();
-//
-//                        }
-//                        else if (fingerState == FINGER_DRAGGING) fingerState = FINGER_RELEASED;
-//                        else fingerState = FINGER_UNDEFINED;
-//                        break;
-//
-//                    case MotionEvent.ACTION_MOVE:
-//                        if (fingerState == FINGER_TOUCHED || fingerState == FINGER_DRAGGING) fingerState = FINGER_DRAGGING;
-//                        else fingerState = FINGER_UNDEFINED;
-//                        break;
-//
-//                    default:
-//                        fingerState = FINGER_UNDEFINED;
-//
-//                }
-//
-//                return false;
-//            }
-//        });
+        mWebView.loadUrl(mMotionEyeUrl);
 
         return view;
     }
@@ -128,8 +82,9 @@ public class CameraFragmentMotionEyeView extends Fragment {
     }
 
     private void getArgs() {
-        Bundle bundle = getArguments();
-        mCameraAddress = bundle.getString(ARG_URI);
+        Bundle args = getArguments();
+        Node node = (Node) args.getSerializable(ARGS_NODE_DETAIL);
+        mMotionEyeUrl = node.getMotionEyeUrl();
     }
 
 }

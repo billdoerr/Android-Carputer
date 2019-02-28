@@ -23,7 +23,7 @@ public class Node implements Serializable {
     })
 
     @Retention(RetentionPolicy.SOURCE)
-    @interface PrefKey {
+    public @interface PrefKey {
         String PREF_KEY_NODES = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NODES";
         String PREF_KEY_NODE_NUM = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NODE_NUM_";
 //        String PREF_KEY_NODE_IP = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NODE_IP";

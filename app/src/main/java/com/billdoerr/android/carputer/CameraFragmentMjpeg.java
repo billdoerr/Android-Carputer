@@ -1,9 +1,16 @@
 package com.billdoerr.android.carputer;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import androidx.annotation.NonNull;
+
+import com.billdoerr.android.carputer.settings.Camera;
 import com.google.android.material.tabs.TabLayout;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -21,21 +28,9 @@ public class CameraFragmentMjpeg extends Fragment {
 
     private static final String TAG = "CameraFragmentMjeg";
 
-    //  Fragment arguments
-    private static final String ARG_CAMERA_ADDRESS = "CAMERA_ADDRESS";
-    private static final String ARG_CAMERA_ADDRESS_1 = "CAMERA_ADDRESS_1";
-    private static final String ARG_CAMERA_ADDRESS_2 = "CAMERA_ADDRESS_2";
+    private static final String ARGS_CAMERA_DETAIL = "ARGS_CAMERA_DETAIL";
 
-    //  Camera #1 preferences
-    private static final String PREF_CAMERA_FRONT_ENABLED = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_FRONT_ENABLED";
-    private static final String PREF_CAMERA_FRONT_URL = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_FRONT_URL";
-
-    //  Camera #1 preferences
-    private static final String PREF_CAMERA_REAR_ENABLED = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_REAR_ENABLED";
-    private static final String PREF_CAMERA_REAR_URL = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_REAR_URL";
-
-    //  Camera Two_Pane view preferences
-    private static final String PREF_CAMERA_TWO_PANE_ENABLED = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_TWO_PANE_ENABLED";
+    private static List<Camera> mCameras = new ArrayList<Camera>();
 
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
@@ -47,6 +42,9 @@ public class CameraFragmentMjpeg extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //  Get list of devices
+        mCameras = getCamerasFromSharedPrefs(getActivity());
     }
 
     @Override
@@ -66,24 +64,6 @@ public class CameraFragmentMjpeg extends Fragment {
         //  Add icons
         addTabLayoutIcons();
 
-        //  TODO : Are these needed or should I just comment out the code?
-        mTabLayout.addOnTabSelectedListener(new TabLayout.BaseOnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-//                Log.d(TAG, "onTabSelected -> " + tab.getText().toString());
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-//                Log.d(TAG, "onTabUnselected" + tab.getText().toString());
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-//                Log.d(TAG, "onTabReselected" + tab.getText().toString());
-            }
-        });
-
         return view;
     }
 
@@ -91,38 +71,13 @@ public class CameraFragmentMjpeg extends Fragment {
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
 
-        //  Camera view fragment
-        if (getPreferenceBoolean(PREF_CAMERA_FRONT_ENABLED)) {
+        for (int i = 0; i < mCameras.size(); i++) {
             Bundle args = new Bundle();
-            args.putString(ARG_CAMERA_ADDRESS,getPreferenceString(PREF_CAMERA_FRONT_URL));
+            args.putSerializable(ARGS_CAMERA_DETAIL, mCameras.get(i));
 
             CameraFragmentMjpegSnapshot cameraFragmentMjpegSnapshot = new CameraFragmentMjpegSnapshot();
             cameraFragmentMjpegSnapshot.setArguments(args);
-
-            adapter.addFragment(cameraFragmentMjpegSnapshot, getResources().getString(R.string.tab_camera_front));
-        }
-
-        //  Camera snapshot fragment
-        if (getPreferenceBoolean(PREF_CAMERA_REAR_ENABLED)) {
-            Bundle args = new Bundle();
-            args.putString(ARG_CAMERA_ADDRESS,getPreferenceString(PREF_CAMERA_REAR_URL));
-
-            CameraFragmentMjpegSnapshot cameraFragmentMjpegSnapshot = new CameraFragmentMjpegSnapshot();
-            cameraFragmentMjpegSnapshot.setArguments(args);
-
-            adapter.addFragment(cameraFragmentMjpegSnapshot, getResources().getString(R.string.tab_camera_rear));
-        }
-
-        //  Dual-camera view fragment
-        if (getPreferenceBoolean(PREF_CAMERA_TWO_PANE_ENABLED)) {
-            Bundle args = new Bundle();
-            args.putString(ARG_CAMERA_ADDRESS_1,getPreferenceString(PREF_CAMERA_FRONT_URL));
-            args.putString(ARG_CAMERA_ADDRESS_2,getPreferenceString(PREF_CAMERA_REAR_URL));
-
-            CameraFragmentMjpegDualView cameraFragmentMjpegDualView = new CameraFragmentMjpegDualView();
-            cameraFragmentMjpegDualView.setArguments(args);
-
-            adapter.addFragment(cameraFragmentMjpegDualView, getResources().getString(R.string.tab_camera_front_and_rear));
+            adapter.addFragment(cameraFragmentMjpegSnapshot, mCameras.get(i).getName());
         }
 
         //  Set adapter to view pager
@@ -138,6 +93,7 @@ public class CameraFragmentMjpeg extends Fragment {
         actionbar.setHomeAsUpIndicator(R.drawable.ic_baseline_menu_24px);
     }
 
+    //  TODO : Need to revisit this
     private void addTabLayoutIcons() {
         for (int i = 0; i < mViewPager.getAdapter().getCount(); i++) {
 //            mTabLayout.getTabAt(i).setIcon(R.drawable.ic_camera);
@@ -157,19 +113,6 @@ public class CameraFragmentMjpeg extends Fragment {
             }
         }
     }
-
-    private String getPreferenceString(String key) {
-        return PreferenceManager
-                .getDefaultSharedPreferences(getActivity())
-                .getString(key, "");
-    }
-
-    private boolean getPreferenceBoolean(String key) {
-        return PreferenceManager
-                .getDefaultSharedPreferences(getActivity())
-                .getBoolean(key, false );
-    }
-
 
     // View Adapter
     class ViewPagerAdapter extends FragmentPagerAdapter {
@@ -200,6 +143,19 @@ public class CameraFragmentMjpeg extends Fragment {
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
         }
+
+    }
+
+    //  Retrieve list of camera's that are stored in SharedPreferences as a JSON string
+    private static List<Camera> getCamerasFromSharedPrefs(Context context) {
+        SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+        Gson gson = new Gson();
+        String json = appSharedPrefs.getString(Camera.PrefKey.PREF_KEY_CAMERAS, "");
+        List<Camera> cameras = gson.fromJson(json, new TypeToken<ArrayList<Camera>>(){}.getType());
+        if (cameras == null) {
+            cameras = new ArrayList<Camera>();
+        }
+        return cameras;
     }
 
 }

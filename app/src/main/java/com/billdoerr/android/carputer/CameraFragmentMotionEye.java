@@ -1,9 +1,16 @@
 package com.billdoerr.android.carputer;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import androidx.annotation.NonNull;
+
+import com.billdoerr.android.carputer.settings.Node;
 import com.google.android.material.tabs.TabLayout;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -20,9 +27,9 @@ import java.util.List;
 public class CameraFragmentMotionEye extends Fragment {
 
     private static final String TAG = "CameraFragmentMotionEye";
-    private static final String PREF_CAMERA_MOTIONEYE_URL = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_MOTIONEYE_URL";
-    private static final String ARG_URI = "MOTIONEYE_URI";
+    private static final String ARGS_NODE_DETAIL = "ARGS_NODE_DETAIL";
 
+    private static List<Node> mNodes = new ArrayList<Node>();
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
 
@@ -33,6 +40,9 @@ public class CameraFragmentMotionEye extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //  Get devices
+        mNodes = getNodesFromSharedPrefs(getActivity());
     }
 
     @Override
@@ -51,24 +61,6 @@ public class CameraFragmentMotionEye extends Fragment {
         //  Add icons
         addTabLayoutIcons();
 
-        //  TODO : Are these needed or should I just comment out the code?
-        mTabLayout.addOnTabSelectedListener(new TabLayout.BaseOnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-//                Log.d(TAG, "onTabSelected -> " + tab.getText().toString());
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-//                Log.d(TAG, "onTabUnselected" + tab.getText().toString());
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-//                Log.d(TAG, "onTabReselected" + tab.getText().toString());
-            }
-        });
-
         return view;
     }
 
@@ -77,11 +69,14 @@ public class CameraFragmentMotionEye extends Fragment {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
 
         //  MotionEye cameras
-        Bundle args = new Bundle();
-        args.putString(ARG_URI,getPreferenceString(PREF_CAMERA_MOTIONEYE_URL));
-        CameraFragmentMotionEyeView cameraFragmentMotionEyeView = new CameraFragmentMotionEyeView();
-        cameraFragmentMotionEyeView.setArguments(args);
-        adapter.addFragment(cameraFragmentMotionEyeView, getResources().getString(R.string.tab_camera_motioneye_view));
+        for (int i = 0; i < mNodes.size(); i++) {
+            Bundle args = new Bundle();
+            args.putSerializable(ARGS_NODE_DETAIL, mNodes.get(i));
+
+            CameraFragmentMotionEyeView cameraFragmentMotionEyeView = new CameraFragmentMotionEyeView();
+            cameraFragmentMotionEyeView.setArguments(args);
+            adapter.addFragment(cameraFragmentMotionEyeView, mNodes.get(i).getName());
+        }
 
         //  Set adapter to view pager
         viewPager.setAdapter(adapter);
@@ -100,12 +95,6 @@ public class CameraFragmentMotionEye extends Fragment {
         for (int i = 0; i < mViewPager.getAdapter().getCount(); i++) {
             mTabLayout.getTabAt(i).setIcon(R.drawable.ic_baseline_visibility_24px);
         }
-    }
-
-    private String getPreferenceString(String key) {
-        return PreferenceManager
-                .getDefaultSharedPreferences(getActivity())
-                .getString(key, "");
     }
 
     // View Adapter
@@ -137,6 +126,18 @@ public class CameraFragmentMotionEye extends Fragment {
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
         }
+    }
+
+    //  Retrieve list of node's that are stored in SharedPreferences as a JSON string
+    private static List<Node> getNodesFromSharedPrefs(Context context) {
+        SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+        Gson gson = new Gson();
+        String json = appSharedPrefs.getString(Node.PrefKey.PREF_KEY_NODES, "");
+        List<Node> nodes = gson.fromJson(json, new TypeToken<ArrayList<Node>>(){}.getType());
+        if (nodes == null) {
+            nodes = new ArrayList<Node>();
+        }
+        return nodes;
     }
 
 }

@@ -15,7 +15,7 @@ public class Camera implements Serializable {
     })
 
     @Retention(RetentionPolicy.SOURCE)
-    @interface PrefKey {
+    public @interface PrefKey {
         String PREF_KEY_CAMERAS = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_CAMERAS";
         String PREF_KEY_CAMERA_NUM = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_CAMERA_NUM_";
     }

@@ -33,12 +33,6 @@
                 android:value=".CarputerActivity"/>
         </activity>
         <activity
-            android:name=".settings.SettingsActivityNew"
-            android:label="@string/activity_title_settings">
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
-                android:value=".CarputerActivity"/>
-        </activity>
-        <activity
             android:name=".CameraActivityMotionEye"
             android:label="@string/activity_title_camera_motioneye">
             <intent-filter>

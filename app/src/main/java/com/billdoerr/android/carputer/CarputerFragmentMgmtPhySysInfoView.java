@@ -10,10 +10,12 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.billdoerr.android.carputer.settings.Node;
+
 public class CarputerFragmentMgmtPhySysInfoView extends Fragment {
 
     private static final String TAG = "phySysInfoView";
-    private static final String PREF_RASPBERRYPI_PHPSYSINFO_URL = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_RASPBERRYPI_PHPSYSINFO_URL";
+    private static final String ARGS_NODE_DETAIL = "ARGS_NODE_DETAIL";
 
     private WebView mWebView;
     private String mPhpSysInfoUrl;
@@ -43,8 +45,9 @@ public class CarputerFragmentMgmtPhySysInfoView extends Fragment {
     }
 
     private void getArgs() {
-        Bundle bundle = getArguments();
-        mPhpSysInfoUrl = bundle.getString(PREF_RASPBERRYPI_PHPSYSINFO_URL);
+        Bundle args = getArguments();
+        Node node = (Node) args.getSerializable(ARGS_NODE_DETAIL);
+        mPhpSysInfoUrl = node.getPhpSysInfoUrl();
     }
 
 }

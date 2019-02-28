@@ -1,9 +1,16 @@
 package com.billdoerr.android.carputer;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import androidx.annotation.NonNull;
+
+import com.billdoerr.android.carputer.settings.Node;
 import com.google.android.material.tabs.TabLayout;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -20,16 +27,10 @@ import java.util.List;
 public class CarputerFragmentMgmt extends Fragment {
 
     private static final String TAG = "CarputerFragmentMgmt";
-    private static final String PREF_RASPBERRYPI_ENABLED = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_RASPBERRYPI_ENABLED";
-    private static final String PREF_RASPBERRYPI_IP = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_RASPBERRYPI_IP";
-    private static final String PREF_RASPBERRYPI_SSH_PORT = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_RASPBERRYPI_SSH_PORT";
-    private static final String PREF_RASPBERRYPI_AUTH_USERNAME = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_RASPBERRYPI_AUTH_USERNAME";
-    private static final String PREF_RASPBERRYPI_AUTH_PASSWORD = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_RASPBERRYPI_AUTH_PASSWORD";
-    private static final String PREF_RASPBERRYPI_PHPSYSINFO_ENABLED = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_RASPBERRYPI_PHPSYSINFO_ENABLED";
-    private static final String PREF_RASPBERRYPI_PHPSYSINFO_URL = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_RASPBERRYPI_PHPSYSINFO_URL";
 
-    //  TODO :  Hack until I get SettingsActivity to be more robust
-    private static final String PREF_RASPBERRYPI_IP_2 = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_RASPBERRYPI_IP_2";
+    private static final String ARGS_NODE_DETAIL = "ARGS_NODE_DETAIL";
+
+    private static List<Node> mNodes = new ArrayList<Node>();
 
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
@@ -41,6 +42,9 @@ public class CarputerFragmentMgmt extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //  Get devices
+        mNodes = getNodesFromSharedPrefs(getActivity());
     }
 
     @Override
@@ -59,24 +63,6 @@ public class CarputerFragmentMgmt extends Fragment {
         //  Add icons
         addTabLayoutIcons();
 
-        //  TODO : Are these needed or should I just comment out the code?
-        mTabLayout.addOnTabSelectedListener(new TabLayout.BaseOnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-//                Log.d(TAG, "onTabSelected -> " + tab.getText().toString());
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-//                Log.d(TAG, "onTabUnselected" + tab.getText().toString());
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-//                Log.d(TAG, "onTabReselected" + tab.getText().toString());
-            }
-        });
-
         return view;
     }
 
@@ -85,31 +71,20 @@ public class CarputerFragmentMgmt extends Fragment {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
 
         //  Fragment:  Node SSH
-        if ( getPreferenceBoolean(PREF_RASPBERRYPI_ENABLED) ) {
-            Bundle args = new Bundle();
-            //  TODO :  Hack until I get SettingsActivity to be more robust
-            args.putString(PREF_RASPBERRYPI_IP_2,"192.168.4.5");
-
-            args.putString(PREF_RASPBERRYPI_IP,getPreferenceString(PREF_RASPBERRYPI_IP));
-            args.putString(PREF_RASPBERRYPI_SSH_PORT,getPreferenceString(PREF_RASPBERRYPI_SSH_PORT));
-            args.putString(PREF_RASPBERRYPI_AUTH_USERNAME,getPreferenceString(PREF_RASPBERRYPI_AUTH_USERNAME));
-            args.putString(PREF_RASPBERRYPI_AUTH_PASSWORD,getPreferenceString(PREF_RASPBERRYPI_AUTH_PASSWORD));
-            SSHFragment sshFragment = new SSHFragment();
-            sshFragment.setArguments(args);
-            adapter.addFragment(sshFragment, getResources().getString(R.string.tab_carputer_mgmt_ssh));
-        }
+//        Bundle args = new Bundle();
+//        args.putSerializable(ARGS_NODE_DETAIL, mNodes);
+        SSHFragment sshFragment = new SSHFragment();
+//        sshFragment.setArguments(args);
+        adapter.addFragment(sshFragment, getResources().getString(R.string.tab_carputer_mgmt_ssh));
 
         //  Fragment:  Node phpSysInfo
-        if ( getPreferenceBoolean(PREF_RASPBERRYPI_ENABLED) && getPreferenceBoolean(PREF_RASPBERRYPI_PHPSYSINFO_ENABLED) ) {
+        for (int i = 0; i < mNodes.size(); i++) {
             Bundle args = new Bundle();
-            args.putString(PREF_RASPBERRYPI_PHPSYSINFO_URL,getPreferenceString(PREF_RASPBERRYPI_PHPSYSINFO_URL));
+            args.putSerializable(ARGS_NODE_DETAIL, mNodes.get(i));
             CarputerFragmentMgmtPhySysInfoView carputerFragmentMgmtPhySysInfoView = new CarputerFragmentMgmtPhySysInfoView();
             carputerFragmentMgmtPhySysInfoView.setArguments(args);
             adapter.addFragment(carputerFragmentMgmtPhySysInfoView, getResources().getString(R.string.tab_carputer_mgmt_phpsysinfo));
         }
-
-        //  Fragment:  Add additional fragments here
-        //  ...
 
         //  Set adapter to view pager
         viewPager.setAdapter(adapter);
@@ -124,6 +99,7 @@ public class CarputerFragmentMgmt extends Fragment {
         actionbar.setHomeAsUpIndicator(R.drawable.ic_baseline_menu_24px);
     }
 
+    //  TODO : Need to revisit
     private void addTabLayoutIcons() {
         for (int i = 0; i < mViewPager.getAdapter().getCount(); i++) {
             mTabLayout.getTabAt(i).setIcon(R.drawable.ic_camera);
@@ -139,20 +115,6 @@ public class CarputerFragmentMgmt extends Fragment {
                 mTabLayout.getTabAt(i).setIcon(R.drawable.ic_baseline_developer_board_24px);
             }
         }
-    }
-
-    //  Get string shared preference
-    private String getPreferenceString(String key) {
-        return PreferenceManager
-                .getDefaultSharedPreferences(getActivity())
-                .getString(key, "");
-    }
-
-    //  Get boolean shared preference
-    private Boolean getPreferenceBoolean(String key) {
-        return PreferenceManager
-                .getDefaultSharedPreferences(getActivity())
-                .getBoolean(key, false);
     }
 
     // View Adapter
@@ -184,6 +146,18 @@ public class CarputerFragmentMgmt extends Fragment {
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
         }
+    }
+
+    //  Retrieve list of node's that are stored in SharedPreferences as a JSON string
+    private static List<Node> getNodesFromSharedPrefs(Context context) {
+        SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+        Gson gson = new Gson();
+        String json = appSharedPrefs.getString(Node.PrefKey.PREF_KEY_NODES, "");
+        List<Node> nodes = gson.fromJson(json, new TypeToken<ArrayList<Node>>(){}.getType());
+        if (nodes == null) {
+            nodes = new ArrayList<Node>();
+        }
+        return nodes;
     }
 
 }

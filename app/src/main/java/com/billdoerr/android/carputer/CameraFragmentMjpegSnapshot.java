@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.billdoerr.android.carputer.settings.Camera;
 import com.billdoerr.android.carputer.utils.ImageStorage;
 import com.github.niqdev.mjpeg.DisplayMode;
 import com.github.niqdev.mjpeg.Mjpeg;
@@ -25,7 +26,8 @@ import com.github.niqdev.mjpeg.OnFrameCapturedListener;
 public class CameraFragmentMjpegSnapshot extends Fragment implements OnFrameCapturedListener {
 
     private static final String TAG = "MjpegSnapshot";
-    private static final String ARG_CAMERA_ADDRESS = "CAMERA_ADDRESS";
+
+    private static final String ARGS_CAMERA_DETAIL = "ARGS_CAMERA_DETAIL";
     private static final int TIMEOUT = 5;
 
     private com.github.niqdev.mjpeg.MjpegView mjpegView;
@@ -41,7 +43,7 @@ public class CameraFragmentMjpegSnapshot extends Fragment implements OnFrameCapt
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        getCameraAddress();
+        mCameraAddress = getCameraAddress();
     }
 
     @Override
@@ -164,9 +166,10 @@ public class CameraFragmentMjpegSnapshot extends Fragment implements OnFrameCapt
         }
     }
 
-    private void getCameraAddress() {
-        Bundle bundle = getArguments();
-        mCameraAddress = bundle.getString(ARG_CAMERA_ADDRESS);
+    private String getCameraAddress() {
+        Bundle args = getArguments();
+        Camera camera = (Camera) args.getSerializable(ARGS_CAMERA_DETAIL);
+        return camera.getUrl();
     }
 
 }

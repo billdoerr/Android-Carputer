@@ -9,7 +9,7 @@
             app:key="com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_CAMERAS"
             app:title="@string/pref_category_cameras"
             app:icon="@drawable/ic_baseline_camera_front_24px"
-            app:fragment="com.billdoerr.android.carputer.settings.SettingsActivityNew$SettingsFragmentCameras"
+            app:fragment="com.billdoerr.android.carputer.settings.SettingsActivity$SettingsFragmentCameras"
             app:useSimpleSummaryProvider="true" >
         </Preference>
 
@@ -22,7 +22,7 @@
             app:key="com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NODES"
             app:title="@string/pref_category_nodes"
             app:icon="@drawable/ic_raspberry_pi_24px"
-            app:fragment="com.billdoerr.android.carputer.settings.SettingsActivityNew$SettingsFragmentNodes"
+            app:fragment="com.billdoerr.android.carputer.settings.SettingsActivity$SettingsFragmentNodes"
             app:useSimpleSummaryProvider="true" >
         </Preference>
 

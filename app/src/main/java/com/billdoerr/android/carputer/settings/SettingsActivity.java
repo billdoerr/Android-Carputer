@@ -1,378 +1,678 @@
 package com.billdoerr.android.carputer.settings;
 
-import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.Intent;
-import android.content.res.Configuration;
-import android.os.Build;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.ListPreference;
-import android.preference.Preference;
-import android.preference.PreferenceActivity;
-import android.preference.SwitchPreference;
-import androidx.appcompat.app.ActionBar;
-import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
-import androidx.appcompat.widget.Toolbar;
-import android.text.TextUtils;
-import android.util.TypedValue;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.LinearLayout;
+import android.util.Log;
 
 import com.billdoerr.android.carputer.R;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A {@link PreferenceActivity} that presents a set of application settings. On
- * handset devices, settings are presented as a single list. On tablets,
- * settings are split by category, with category headers shown to the left of
- * the list of settings.
- * <p>
- * See <a href="http://developer.android.com/design/patterns/settings.html">
- * Android Design: Settings</a> for design guidelines and the <a
- * href="http://developer.android.com/guide/topics/ui/settings.html">Settings
- * API Guide</a> for more information on developing a Settings UI.
- */
-public class SettingsActivity extends AppCompatPreferenceActivity {
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceCategory;
+import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceManager;
+import androidx.preference.PreferenceScreen;
 
-    //  Camera #1 preferences
-    private static final String PREF_CAMERA_FRONT_ENABLED = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_FRONT_ENABLED";
-    private static final String PREF_CAMERA_FRONT_URL = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_FRONT_URL";
-    private static final String PREF_CAMERA_FRONT_FLIP_HORIZONTAL = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_FRONT_FLIP_HORIZONTAL";
-    private static final String PREF_CAMERA_FRONT_FLIP_VERTICAL= "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_FRONT_FLIP_VERTICAL";
-    private static final String PREF_CAMERA_FRONT_ROTATE_DEGREES = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_FRONT_ROTATE_DEGREES";
-    private static final String PREF_CAMERA_FRONT_AUTH_USERNAME = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_FRONT_AUTH_USERNAME";
-    private static final String PREF_CAMERA_FRONT_AUTH_PASSWORD = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_FRONT_AUTH_PASSWORD";
+public class SettingsActivity extends AppCompatActivity implements
+        PreferenceFragmentCompat.OnPreferenceStartFragmentCallback {
 
-    //  Camera #2 preferences
-    private static final String PREF_CAMERA_REAR_ENABLED = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_REAR_ENABLED";
-    private static final String PREF_CAMERA_REAR_URL = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_REAR_URL";
-    private static final String PREF_CAMERA_REAR_FLIP_HORIZONTAL = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_REAR_FLIP_HORIZONTAL";
-    private static final String PREF_CAMERA_REAR_FLIP_VERTICAL = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_REAR_FLIP_VERTICAL";
-    private static final String PREF_CAMERA_REAR_ROTATE_DEGREES = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_REAR_ROTATE_DEGREES";
-    private static final String PREF_CAMERA_REAR_AUTH_USERNAME = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_REAR_AUTH_USERNAME";
-    private static final String PREF_CAMERA_REAR_AUTH_PASSWORD = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_REAR_AUTH_PASSWORD";
+    private static final String TAG = "SettingsActivity";
 
-    //  Camera Two_Pane view preferences
-    private static final String PREF_CAMERA_TWO_PANE_ENABLED = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_TWO_PANE_ENABLED";
+    private static final String ARGS_PREF_KEY = "ARGS_PREF_KEY";
+    private static final String ARGS_CAMERA_DETAIL = "ARGS_CAMERA_DETAIL";
+    private static final String ARGS_NODE_DETAIL = "ARGS_NODE_DETAIL";
+    private static final String ARGS_ADD = "ARGS_ADD";
 
-    //  Motion Eye preferences
-    private static final String PREF_CAMERA_MOTIONEYE_URL = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_MOTIONEYE_URL";
-    private static final String PREF_CAMERA_MOTIONEYE_AUTH_USERNAME = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_MOTIONEYE_AUTH_USERNAME";
-    private static final String PREF_CAMERA_MOTIONEYE_AUTH_PASSWORD = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_MOTIONEYE_AUTH_PASSWORD";
-
-    //  Carputer Management preferences
-    private static final String PREF_RASPBERRYPI_ENABLED = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_RASPBERRYPI_ENABLED";
-    private static final String PREF_RASPBERRYPI_IP = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_RASPBERRYPI_IP";
-    private static final String PREF_RASPBERRYPI_SSH_PORT = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_RASPBERRYPI_SSH_PORT";
-    private static final String PREF_RASPBERRYPI_AUTH_USERNAME = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_RASPBERRYPI_AUTH_USERNAME";
-    private static final String PREF_RASPBERRYPI_AUTH_PASSWORD = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_RASPBERRYPI_AUTH_PASSWORD";
-    private static final String PREF_RASPBERRYPI_PHPSYSINFO_ENABLED = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_RASPBERRYPI_PHPSYSINFO_ENABLED";
-    private static final String PREF_RASPBERRYPI_PHPSYSINFO_URL = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_RASPBERRYPI_PHPSYSINFO_URL";
-
-
-    /**
-     * A preference value change listener that updates the preference's summary
-     * to reflect its new value.
-     */
-    private static Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = new Preference.OnPreferenceChangeListener() {
-        @Override
-        public boolean onPreferenceChange(Preference preference, Object value) {
-            String stringValue = value.toString();
-
-            if (preference instanceof ListPreference) {
-                // For list preferences, look up the correct display value in
-                // the preference's 'entries' list.
-                ListPreference listPreference = (ListPreference) preference;
-                int index = listPreference.findIndexOfValue(stringValue);
-
-                // Set the summary to reflect the new value.
-                preference.setSummary(index >= 0 ? listPreference.getEntries()[index] : null);
-
-            } else if ( preference.getKey().equals(PREF_CAMERA_FRONT_AUTH_PASSWORD)
-                    || preference.getKey().equals(PREF_CAMERA_REAR_AUTH_PASSWORD)
-                    || preference.getKey().equals(PREF_CAMERA_MOTIONEYE_AUTH_PASSWORD)
-                    || preference.getKey().equals(PREF_RASPBERRYPI_AUTH_PASSWORD) ) {
-                if (!TextUtils.isEmpty(stringValue)) {
-                    preference.setSummary(R.string.pref_default_hidden_password);
-                }
-            } else {
-                // For all other preferences, set the summary to the value's
-                // simple string representation.
-                preference.setSummary(stringValue);
-            }
-            return true;
-        }
-    };
-
-    /**
-     * Helper method to determine if the device has an extra-large screen. For
-     * example, 10" tablets are extra-large.
-     */
-    private static boolean isXLargeTablet(Context context) {
-        return (context.getResources().getConfiguration().screenLayout
-                & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_XLARGE;
-    }
-
-    /**
-     * Binds a preference's summary to its value. More specifically, when the
-     * preference's value is changed, its summary (line of text below the
-     * preference title) is updated to reflect the value. The summary is also
-     * immediately updated upon calling this method. The exact display format is
-     * dependent on the type of preference.
-     *
-     * @see #sBindPreferenceSummaryToValueListener
-     */
-    private static void bindPreferenceSummaryToValue(Preference preference) {
-        // Set the listener to watch for value changes.
-        preference.setOnPreferenceChangeListener(sBindPreferenceSummaryToValueListener);
-
-        // Trigger the listener immediately with the preference's
-        // current value.
-//        sBindPreferenceSummaryToValueListener.onPreferenceChange(preference,
-//                PreferenceManager
-//                        .getDefaultSharedPreferences(preference.getContext())
-//                        .getString(preference.getKey(), ""));
-        if (preference instanceof SwitchPreference)  {  // Added special handling as boolean
-            sBindPreferenceSummaryToValueListener.onPreferenceChange(preference,
-                    PreferenceManager.getDefaultSharedPreferences(
-                            preference.getContext()).getBoolean(preference.getKey(),true));
-        }
-        else {
-            sBindPreferenceSummaryToValueListener.onPreferenceChange(preference,
-                    PreferenceManager
-                            .getDefaultSharedPreferences(preference.getContext())
-                            .getString(preference.getKey(), ""));
-        }
-    }
-
-
-    // Trigger the listener immediately with the preference's
-    // current value.
+    private static List<Camera> mCameras = new ArrayList<Camera>();
+    private static List<Node> mNodes = new ArrayList<Node>();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_fragment);
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, new SettingsFragment())
+                .commit();
     }
 
     @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-
-        //  Setup action bar
-        setupActionBar();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu, this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.drawer_view, menu);
+    public boolean onPreferenceStartFragment(PreferenceFragmentCompat caller, Preference pref) {
+        // Instantiate the new Fragment
+        final Bundle args = pref.getExtras();
+        final Fragment fragment = getSupportFragmentManager().getFragmentFactory().instantiate (
+                getClassLoader(),
+                pref.getFragment(),
+                args);
+        fragment.setArguments(args);
+        fragment.setTargetFragment(caller, 0);
+        // Replace the existing Fragment with the new Fragment
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
+                .commit();
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case android.R.id.home:
-                onBackPressed();
-                return true;
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
+    //  Retrieve list of camera's that are stored in SharedPreferences as a JSON string
+    private static List<Camera> getCamerasFromSharedPrefs(Context context) {
+        SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+        Gson gson = new Gson();
+        String json = appSharedPrefs.getString(Camera.PrefKey.PREF_KEY_CAMERAS, "");
+        mCameras = gson.fromJson(json, new TypeToken<ArrayList<Camera>>(){}.getType());
+        if (mCameras == null) {
+            mCameras = new ArrayList<Camera>();
         }
-        return super.onOptionsItemSelected(item);
+        return mCameras;
     }
+
+    //  Save list of camera's that are stored in SharedPreferences as a JSON string
+    private static void saveCamerasToSharedPrefs(Context context) {
+        SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+        SharedPreferences.Editor prefsEditor = appSharedPrefs.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(mCameras); //tasks is an ArrayList instance variable
+        prefsEditor.putString(Camera.PrefKey.PREF_KEY_CAMERAS, json);
+        prefsEditor.commit();
+    }
+
+    //  Retrieve list of node's that are stored in SharedPreferences as a JSON string
+    private static List<Node> getNodesFromSharedPrefs(Context context) {
+        SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+        Gson gson = new Gson();
+        String json = appSharedPrefs.getString(Node.PrefKey.PREF_KEY_NODES, "");
+        mNodes = gson.fromJson(json, new TypeToken<ArrayList<Node>>(){}.getType());
+        if (mNodes == null) {
+            mNodes = new ArrayList<Node>();
+        }
+        return mNodes;
+    }
+
+    //  Save list of node's that are stored in SharedPreferences as a JSON string
+    private static void saveNodesToSharedPrefs(Context context) {
+        SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+        SharedPreferences.Editor prefsEditor = appSharedPrefs.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(mNodes); //tasks is an ArrayList instance variable
+        prefsEditor.putString(Node.PrefKey.PREF_KEY_NODES, json);
+        prefsEditor.commit();
+    }
+
+
+
 
     /**
-     * Set up the {@link android.app.ActionBar}, if the API is available.
+     * The root preference fragment that displays preferences that link to the other preference
+     * fragments below.
      */
-    //  Setup action bar
-    private void setupActionBar() {
-        // get the root container of the preferences list
-        LinearLayout root = (LinearLayout)findViewById(android.R.id.list).getParent().getParent().getParent();
-        Toolbar toolbar = (Toolbar) LayoutInflater.from(this).inflate(R.layout.toolbar, root, false);
-        setSupportActionBar(toolbar);
-        root.addView(toolbar, 0); // insert at top
+    private static class SettingsFragment extends PreferenceFragmentCompat {
 
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-    }
+        private static final String TAG = "SettingsFragment";
 
-    //  Adds padding so toolbar doesn't overlap list
-    private void padListView() {
-        //  https://gldraphael.com/blog/adding-a-toolbar-to-preference-activity/
-        int horizontalMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, getResources().getDisplayMetrics());
-        int verticalMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, getResources().getDisplayMetrics());
-        int topMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, (int) getResources().getDimension(R.dimen.activity_vertical_margin) + 50, getResources().getDisplayMetrics());
-        getListView().setPadding(horizontalMargin, topMargin, horizontalMargin, verticalMargin);
-    }
+        public SettingsFragment() {
+            // Required empty public constructor
+        }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean onIsMultiPane() {
-        return isXLargeTablet(this);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public void onBuildHeaders(List<Header> target) {
-        loadHeadersFromResource(R.xml.pref_headers, target);
-    }
-
-    /**
-     * This method stops fragment injection in malicious applications.
-     * Make sure to deny any unknown fragments here.
-     */
-    protected boolean isValidFragment(String fragmentName) {
-        return PreferenceFragment.class.getName().equals(fragmentName)
-                || CameraFrontPreferenceFragment.class.getName().equals(fragmentName)
-                || CameraRearPreferenceFragment.class.getName().equals(fragmentName)
-                || CameraMotionEyePreferenceFragment.class.getName().equals(fragmentName)
-                || CarputerMgmtPreferenceFragment.class.getName().equals(fragmentName);
-    }
-
-    /**
-     * This fragment shows Camera #1 preferences only.
-     */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public static class CameraFrontPreferenceFragment extends PreferenceFragment {
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.pref_camera_front);
-            setHasOptionsMenu(true);
-
-            // Bind the summaries of EditText/List/Dialog/Ringtone preferences
-            // to their values. When their values change, their summaries are
-            // updated to reflect the new value, per the Android Design
-            // guidelines.
-            bindPreferenceSummaryToValue(findPreference(PREF_CAMERA_FRONT_ENABLED));
-            bindPreferenceSummaryToValue(findPreference(PREF_CAMERA_FRONT_URL));
-            bindPreferenceSummaryToValue(findPreference(PREF_CAMERA_FRONT_FLIP_HORIZONTAL));
-            bindPreferenceSummaryToValue(findPreference(PREF_CAMERA_FRONT_FLIP_VERTICAL));
-            bindPreferenceSummaryToValue(findPreference(PREF_CAMERA_FRONT_ROTATE_DEGREES));
-            bindPreferenceSummaryToValue(findPreference(PREF_CAMERA_FRONT_AUTH_USERNAME));
-            bindPreferenceSummaryToValue(findPreference(PREF_CAMERA_FRONT_AUTH_PASSWORD));
         }
 
         @Override
-        public boolean onOptionsItemSelected(MenuItem item) {
-            int id = item.getItemId();
-            if (id == android.R.id.home) {
-                startActivity(new Intent(getActivity(), SettingsActivity.class));
-                return true;
-            }
-            return super.onOptionsItemSelected(item);
+        public void onResume() {
+            super.onResume();
+
+            //  Update preference summary
+            updateCameraPreferenceSummary(getActivity());
+            updateNodePreferenceSummary(getActivity());
         }
+
+        @Override
+        public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+            setPreferencesFromResource(R.xml.pref_root, rootKey);
+
+            //  TODO :  Remove once AddCamera functionality is working
+            //  Generate test data
+//            generateTestData();
+
+            //  Retrieve list of camera's that are stored in SharedPreferences as a JSON string
+            getCamerasFromSharedPrefs(getActivity());
+
+            //  Retrieve list of node's that are stored in SharedPreferences as a JSON string
+            getNodesFromSharedPrefs(getActivity());
+
+            //  Update preference summary
+            updateCameraPreferenceSummary(getActivity());
+            updateNodePreferenceSummary(getActivity());
+
+        }
+
+        //  Update Camera's preference summary
+        private void updateCameraPreferenceSummary(Context context) {
+            int size = 0;
+            if (mCameras != null) {
+                size = mCameras.size();
+            }
+
+            Preference pref = (Preference) findPreference(Camera.PrefKey.PREF_KEY_CAMERAS);
+            pref.setSummary(size + " camera\'s configured.");
+
+        }
+
+        //  Update Node's preference summary
+        private void updateNodePreferenceSummary(Context context) {
+            int size = 0;
+            if (mNodes != null) {
+                size = mNodes.size();
+            }
+
+            Preference pref = (Preference) findPreference(Node.PrefKey.PREF_KEY_NODES);
+            pref.setSummary(size + " node\'s configured.");
+        }
+
+        //  TODO :  Remove once add device functionality is working
+        private void generateTestData() {
+//            generateTestDataCameras();
+//            generateTestDataNodes();
+        }
+
+        //  TODO :  Remove once add device functionality is working
+        //  Generate test data
+        private void generateTestDataCameras() {
+            mCameras = new ArrayList<Camera>();
+
+            Camera c = new Camera();
+            c.setName("Front");
+            c.setUrl(getResources().getString(R.string.pref_default_camera_url));
+            c.setUseAuthentication(false);
+
+            mCameras.add(c);
+
+            c = new Camera();
+            c.setName("Rear");
+            c.setUrl(getResources().getString(R.string.pref_default_camera_url));
+            c.setUseAuthentication(false);
+            mCameras.add(c);
+
+            //  Save to SharedPreferences
+            saveCamerasToSharedPrefs(getActivity());
+        }
+
+        //  TODO :  Remove once add device functionality is working
+        //  Generate test data
+        private void generateTestDataNodes() {
+            mNodes = new ArrayList<Node>();
+
+            Node n = new Node();
+            n.setName("RaspberryPi Hub");
+            n.setIp(getResources().getString(R.string.pref_default_node_ip));
+            n.setSSHPort(getString(R.string.pref_default_node_ssh_port));
+            n.setUseAuthentication(false);
+            n.setUsePhpSysInfo(true);
+            n.setPhpSysInfoUrl(getResources().getString(R.string.pref_default_node_physysinfo_url));
+            n.setUseMotionEye(true);
+            n.setMotionEyeUrl(getResources().getString(R.string.pref_default_node_motioneye_url));
+            mNodes.add(n);
+
+            n = new Node();
+            n.setName("RaspberryPi Rear Camera");
+            n.setIp(getResources().getString(R.string.pref_default_node_ip));
+            n.setSSHPort(getString(R.string.pref_default_node_ssh_port));
+            n.setUseAuthentication(false);
+            n.setUsePhpSysInfo(true);
+            n.setPhpSysInfoUrl(getResources().getString(R.string.pref_default_node_physysinfo_url));
+            n.setUseMotionEye(true);
+            n.setMotionEyeUrl(getResources().getString(R.string.pref_default_node_motioneye_url));
+            mNodes.add(n);
+
+            //  Save to SharedPreferences
+            saveNodesToSharedPrefs(getActivity());
+        }
+
     }
 
     /**
-     * This fragment shows Camera #2 preferences only.
+     * The fragment that displays list of configured camera's
      */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public static class CameraRearPreferenceFragment extends PreferenceFragment {
+    private static class SettingsFragmentCameras extends PreferenceFragmentCompat {
+
+        private static final String TAG = "SettingsFragmentCameras";
+
+        private List<String> mPrefKeyList = new ArrayList<>();
+
+        public SettingsFragmentCameras() {
+            // Required empty public constructor
+        }
+
+        @Override
+        public void onAttach(Context context) {
+            super.onAttach(context);
+            EventBus.getDefault().register(this);
+        }
+
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.pref_camera_rear);
-            setHasOptionsMenu(true);
-
-            // Bind the summaries of EditText/List/Dialog/Ringtone preferences
-            // to their values. When their values change, their summaries are
-            // updated to reflect the new value, per the Android Design
-            // guidelines.
-            bindPreferenceSummaryToValue(findPreference(PREF_CAMERA_REAR_ENABLED));
-            bindPreferenceSummaryToValue(findPreference(PREF_CAMERA_REAR_URL));
-            bindPreferenceSummaryToValue(findPreference(PREF_CAMERA_REAR_FLIP_HORIZONTAL));
-            bindPreferenceSummaryToValue(findPreference(PREF_CAMERA_REAR_FLIP_VERTICAL));
-            bindPreferenceSummaryToValue(findPreference(PREF_CAMERA_REAR_ROTATE_DEGREES));
-            bindPreferenceSummaryToValue(findPreference(PREF_CAMERA_REAR_AUTH_USERNAME));
-            bindPreferenceSummaryToValue(findPreference(PREF_CAMERA_REAR_AUTH_PASSWORD));
-            bindPreferenceSummaryToValue(findPreference(PREF_CAMERA_TWO_PANE_ENABLED));
         }
-
 
         @Override
-        public boolean onOptionsItemSelected(MenuItem item) {
-            int id = item.getItemId();
-            if (id == android.R.id.home) {
-                startActivity(new Intent(getActivity(), SettingsActivity.class));
-                return true;
-            }
-            return super.onOptionsItemSelected(item);
+        public void onResume() {
+            super.onResume();
+//            saveCamerasToSharedPrefs(getActivity());
         }
+
+        @Override
+        public void onDetach() {
+            //  Delete temp pref key's that are used to store the index in the Cammera ArrayList
+            deletePrefKeyList(mPrefKeyList);
+            //  Remove subscription to event bus
+            EventBus.getDefault().unregister(this);
+            //  Goodbye
+            super.onDetach();
+        }
+
+        @Override
+        public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+            //  Dynamically create PreferenceScreen of configured camera's
+            createPreferences();
+        }
+
+        // This method will be called when a MessageEvent is posted (in the UI thread for Toast)
+        @Subscribe(threadMode = ThreadMode.MAIN)
+        public void onMessageEvent(SettingsMessageEvent event) {
+            switch (event.getAction()) {
+                case SettingsMessageEvent.Action.ADD: {
+                    mCameras.add(event.getCamera());
+                    //  Recreate preference screen.  Not optimal.  Complete HACK!
+                    createPreferences();
+                    break;
+                }
+                case SettingsMessageEvent.Action.UPDATE: {
+                    mCameras.set(event.getIndex(), event.getCamera());
+                    //  Recreate preference screen.  Not optimal.  Complete HACK!
+                    createPreferences();
+                    break;
+                }
+                case SettingsMessageEvent.Action.DELETE: {
+                    mCameras.remove(event.getIndex());
+                    //  Recreate preference screen.  Not optimal.  Complete HACK!
+                    createPreferences();
+                    break;
+                }
+                default:
+                    //  Nothing to do here.  Move along.
+                    break;
+            }
+            //  Update shared preferences with devices
+            saveCamerasToSharedPrefs(getActivity());
+        }
+
+        //  Dynamically create PreferenceScreen of configured camera's
+        private void createPreferences() {
+
+            //  Delete temp pref key's that are used to store the index in the Cammera ArrayList
+            deletePrefKeyList(mPrefKeyList);
+
+            Context context = getPreferenceManager().getContext();
+            PreferenceScreen screen = getPreferenceManager().createPreferenceScreen(context);
+
+            PreferenceCategory camerasConfiguredCategory = new PreferenceCategory(context);
+            camerasConfiguredCategory.setTitle(getResources().getString(R.string.pref_category_cameras_configured));
+            screen.addPreference(camerasConfiguredCategory);
+
+            //  Dynamically create preferences
+            for (int i = 0; i < mCameras.size(); i++) {
+                Log.i(TAG, "Dynamically create preferences: " + i);
+
+                Preference prefCamera = new Preference(context);
+                prefCamera.setTitle(mCameras.get(i).getName());
+                prefCamera.setIcon(ContextCompat.getDrawable(context, R.drawable.ic_baseline_camera_24px));
+                String prefKey = Camera.PrefKey.PREF_KEY_CAMERA_NUM + i;
+                prefCamera.setKey(prefKey);
+                prefCamera.setDefaultValue(Integer.toString(i));
+                prefCamera.setSummary(mCameras.get(i).getUrl());
+
+                //  Add preferences to PreferenceCategory
+                camerasConfiguredCategory.addPreference(prefCamera);
+
+                //  Launch fragment when preference is clicked.
+                prefCamera.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                    @Override
+                    public boolean onPreferenceClick(Preference preference) {
+                        //  Set camera details to SharedPreferences.  This is used as temp storage.
+                        int index = getIndex(preference.getKey());
+                        Camera camera = mCameras.get(index);
+
+                        Bundle args = new Bundle();
+                        args.putString(ARGS_PREF_KEY, preference.getKey());
+                        args.putBoolean(ARGS_ADD, false);
+                        args.putSerializable(ARGS_CAMERA_DETAIL, camera);
+
+                        FragmentTransaction ft = getFragmentManager().beginTransaction();
+                        Fragment prev = getFragmentManager().findFragmentByTag("Camera_Detail");
+                        if (prev != null) {
+                            ft.remove(prev);
+                        }
+                        ft.addToBackStack(null);
+                        DialogFragment settingsFragmentCameraDetail = new SettingsFragmentCameraDetail();
+                        settingsFragmentCameraDetail.setArguments(args);
+                        settingsFragmentCameraDetail.show(ft, "Camera_Detail");
+
+                        return true;
+                    }
+                });
+
+                //  Write array index to SharedPreferences
+                setIndex(prefKey, i);
+
+                //  Add prefKey to list.  These are temp pref keys and will be deleted when fragment is destroyed.
+                mPrefKeyList.add(prefKey);
+
+            }
+
+            //  Create AddCamera preference
+            PreferenceCategory addCamerasCategory = new PreferenceCategory(context);
+            addCamerasCategory.setTitle(getResources().getString(R.string.pref_category_camera_add));
+            screen.addPreference(addCamerasCategory);
+
+            Preference addCamera = new Preference(context);
+            addCamera.setTitle(getResources().getString(R.string.pref_title_camera_add));
+            addCamera.setIcon(ContextCompat.getDrawable(context, R.drawable.ic_baseline_add_24px));
+            addCamerasCategory.addPreference(addCamera);
+
+            //  Launch fragment when preference is clicked.
+            addCamera.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference arg0) {
+                    //  Assign default values
+                    Camera camera = new Camera();
+                    camera.setName(getString(R.string.pref_default_camera_name));
+                    camera.setUrl(getString(R.string.pref_default_camera_url));
+
+                    Bundle args = new Bundle();
+                    args.putString(ARGS_PREF_KEY, ARGS_ADD);    //  Put some value since there is no index
+                    args.putBoolean(ARGS_ADD, true);    //  Add device flag
+                    args.putSerializable(ARGS_CAMERA_DETAIL, camera);
+
+                    FragmentTransaction ft = getFragmentManager().beginTransaction();
+                    Fragment prev = getFragmentManager().findFragmentByTag("Camera_Detail");
+                    if (prev != null) {
+                        ft.remove(prev);
+                    }
+                    ft.addToBackStack(null);
+                    DialogFragment settingsFragmentCameraDetail = new SettingsFragmentCameraDetail();
+                    settingsFragmentCameraDetail.setArguments(args);
+                    settingsFragmentCameraDetail.show(ft, "Camera_Detail");
+
+                    return true;
+                }
+            });
+
+            //  Set the root of the preference hierarchy that this fragment is showing.
+            setPreferenceScreen(screen);
+        }
+
+        //  Get array index that is stored in SharedPreference.
+        private int getIndex(String prefKey) {
+            SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            int index = appSharedPrefs.getInt(prefKey, -1);
+            return index;
+        }
+
+        //  Set array index that is stored in SharedPreference.
+        private void setIndex(String prefKey, int index) {
+            SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            SharedPreferences.Editor prefsEditor = appSharedPrefs.edit();
+            prefsEditor.putInt(prefKey, index);
+            prefsEditor.commit();
+        }
+
+        //  Delete temp pref key's that are used to store the index in the Cammera ArrayList
+        private void deletePrefKeyList(List<String> list) {
+            for (int i =0; i < list.size(); i++) {
+                String key = list.get(i);
+                SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                appSharedPrefs.edit().remove(key).clear();
+            }
+        }
+
     }
 
     /**
-     * This fragment shows MotionEye preferences only.
+     * The fragment that displays list of configured Node's
      */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public static class CameraMotionEyePreferenceFragment extends PreferenceFragment {
+    private static class SettingsFragmentNodes extends PreferenceFragmentCompat {
+
+        private static final String TAG = "SettingsFragmentNodes";
+
+        private List<String> mPrefKeyList = new ArrayList<>();
+
+        public SettingsFragmentNodes() {
+            // Required empty public constructor
+        }
+
+        @Override
+        public void onAttach(Context context) {
+            super.onAttach(context);
+            EventBus.getDefault().register(this);
+        }
+
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.pref_camera_motioneye);
-            setHasOptionsMenu(true);
-
-            // Bind the summaries of EditText/List/Dialog/Ringtone preferences
-            // to their values. When their values change, their summaries are
-            // updated to reflect the new value, per the Android Design
-            // guidelines.
-            bindPreferenceSummaryToValue(findPreference(PREF_CAMERA_MOTIONEYE_URL));
-            bindPreferenceSummaryToValue(findPreference(PREF_CAMERA_MOTIONEYE_AUTH_USERNAME));
-            bindPreferenceSummaryToValue(findPreference(PREF_CAMERA_MOTIONEYE_AUTH_PASSWORD));
         }
 
+        @Override
+        public void onResume() {
+            super.onResume();
+        }
 
         @Override
-        public boolean onOptionsItemSelected(MenuItem item) {
-            int id = item.getItemId();
-            if (id == android.R.id.home) {
-                startActivity(new Intent(getActivity(), SettingsActivity.class));
-                return true;
+        public void onDetach() {
+            //  Delete temp pref key's that are used to store the index in the Cammera ArrayList
+            deletePrefKeyList(mPrefKeyList);
+            //  Remove subscription to event bus
+            EventBus.getDefault().unregister(this);
+            //  Goodbye
+            super.onDetach();
+        }
+
+        @Override
+        public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+            //  Dynamically create PreferenceScreen of configured Node's
+            createPreferences();
+        }
+
+        // This method will be called when a MessageEvent is posted (in the UI thread for Toast)
+        @Subscribe(threadMode = ThreadMode.MAIN)
+        public void onMessageEvent(SettingsMessageEvent event) {
+            switch (event.getAction()) {
+                case SettingsMessageEvent.Action.ADD: {
+                    mNodes.add(event.getNode());
+                    //  Recreate preference screen.  Not optimal.  Complete HACK!
+                    createPreferences();
+                    break;
+                }
+                case SettingsMessageEvent.Action.UPDATE: {
+                    mNodes.set(event.getIndex(), event.getNode());
+                    //  Recreate preference screen.  Not optimal.  Complete HACK!
+                    createPreferences();
+                    break;
+                }
+                case SettingsMessageEvent.Action.DELETE: {
+                    mNodes.remove(event.getIndex());
+                    //  Recreate preference screen.  Not optimal.  Complete HACK!
+                    createPreferences();
+                    break;
+                }
+                default:
+                    //  Nothing to do here.  Move along.
+                    break;
             }
-            return super.onOptionsItemSelected(item);
-        }
-    }
-
-    /**
-     * This fragment shows Carputer Management preferences only.
-     */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public static class CarputerMgmtPreferenceFragment extends PreferenceFragment {
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.pref_carputer_mgmt);
-            setHasOptionsMenu(true);
-
-            // Bind the summaries of EditText/List/Dialog/Ringtone preferences
-            // to their values. When their values change, their summaries are
-            // updated to reflect the new value, per the Android Design
-            // guidelines.
-            bindPreferenceSummaryToValue(findPreference(PREF_RASPBERRYPI_ENABLED));
-            bindPreferenceSummaryToValue(findPreference(PREF_RASPBERRYPI_IP));
-            bindPreferenceSummaryToValue(findPreference(PREF_RASPBERRYPI_SSH_PORT));
-            bindPreferenceSummaryToValue(findPreference(PREF_RASPBERRYPI_AUTH_USERNAME));
-            bindPreferenceSummaryToValue(findPreference(PREF_RASPBERRYPI_AUTH_PASSWORD));
-            bindPreferenceSummaryToValue(findPreference(PREF_RASPBERRYPI_PHPSYSINFO_ENABLED));
-            bindPreferenceSummaryToValue(findPreference(PREF_RASPBERRYPI_PHPSYSINFO_URL));
+            //  Update shared preferences with devices
+            saveNodesToSharedPrefs(getActivity());
         }
 
-        @Override
-        public boolean onOptionsItemSelected(MenuItem item) {
-            int id = item.getItemId();
-            if (id == android.R.id.home) {
-                startActivity(new Intent(getActivity(), SettingsActivity.class));
-                return true;
+        //  Dynamically create PreferenceScreen of configured Node's
+        private void createPreferences() {
+
+            //  Delete temp pref key's that are used to store the index in the Cammera ArrayList
+            deletePrefKeyList(mPrefKeyList);
+
+            Context context = getPreferenceManager().getContext();
+            PreferenceScreen screen = getPreferenceManager().createPreferenceScreen(context);
+
+            PreferenceCategory nodessConfiguredCategory = new PreferenceCategory(context);
+            nodessConfiguredCategory.setTitle(getResources().getString(R.string.pref_category_nodes_configured));
+            screen.addPreference(nodessConfiguredCategory);
+
+            //  Dynamically create preferences
+            for (int i = 0; i < mNodes.size(); i++) {
+                Log.i(TAG, "Dynamically create preferences: " + i);
+
+                Preference prefNode = new Preference(context);
+                prefNode.setTitle(mNodes.get(i).getName());
+                prefNode.setIcon(ContextCompat.getDrawable(context, R.drawable.ic_raspberry_pi_24px));
+                String prefKey = Node.PrefKey.PREF_KEY_NODE_NUM + i;
+                prefNode.setKey(prefKey);
+                prefNode.setDefaultValue(Integer.toString(i));
+                prefNode.setSummary(mNodes.get(i).getIp());
+
+                //  Add preferences to PreferenceCategory
+                nodessConfiguredCategory.addPreference(prefNode);
+
+                //  Launch fragment when preference is clicked.
+                prefNode.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                    @Override
+                    public boolean onPreferenceClick(Preference preference) {
+                        //  Set Node details to SharedPreferences.  This is used as temp storage.
+                        int index = getIndex(preference.getKey());
+                        Node node = mNodes.get(index);
+
+                        Bundle args = new Bundle();
+                        args.putString(ARGS_PREF_KEY, preference.getKey());
+                        args.putBoolean(ARGS_ADD, false);
+                        args.putSerializable(ARGS_NODE_DETAIL, node);
+
+                        FragmentTransaction ft = getFragmentManager().beginTransaction();
+                        Fragment prev = getFragmentManager().findFragmentByTag("Node_Detail");
+                        if (prev != null) {
+                            ft.remove(prev);
+                        }
+                        ft.addToBackStack(null);
+                        DialogFragment settingsFragmentNodeDetail = new SettingsFragmentNodeDetail();
+                        settingsFragmentNodeDetail.setArguments(args);
+                        settingsFragmentNodeDetail.show(ft, "Node_Detail");
+
+                        return true;
+                    }
+                });
+
+                //  Write array index to SharedPreferences
+                setIndex(prefKey, i);
+
+                //  Add prefKey to list.  These are temp pref keys and will be deleted when fragment is destroyed.
+                mPrefKeyList.add(prefKey);
+
             }
-            return super.onOptionsItemSelected(item);
+
+            //  Create addNode preference
+            PreferenceCategory addNodesCategory = new PreferenceCategory(context);
+            addNodesCategory.setTitle(getResources().getString(R.string.pref_category_nodes_add));
+            screen.addPreference(addNodesCategory);
+
+            Preference addNode = new Preference(context);
+            addNode.setTitle(getResources().getString(R.string.pref_title_node_add));
+            addNode.setIcon(ContextCompat.getDrawable(context, R.drawable.ic_baseline_add_24px));
+            addNodesCategory.addPreference(addNode);
+
+            //  Launch fragment when preference is clicked.
+            addNode.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference arg0) {
+                    //  Assign default values
+                    Node node = new Node();
+                    node.setName(getString(R.string.pref_default_node_name));
+                    node.setIp(getString(R.string.pref_default_node_ip));
+                    node.setSSHPort(getString(R.string.pref_default_node_ssh_port));
+
+                    node.setUseAuthentication(true);
+                    node.setUser("pi");
+                    node.setPassword("");
+
+                    node.setUsePhpSysInfo(false);
+                    node.setPhpSysInfoUrl(getString(R.string.pref_default_node_physysinfo_url));
+
+                    node.setUseMotionEye(true);
+                    node.setMotionEyeUrl(getString(R.string.pref_default_node_motioneye_url));
+
+                    Bundle args = new Bundle();
+                    args.putString(ARGS_PREF_KEY, ARGS_ADD);    //  Put some value since there is no index
+                    args.putBoolean(ARGS_ADD, true);    //  Add device flag
+                    args.putSerializable(ARGS_NODE_DETAIL, node);
+
+                    FragmentTransaction ft = getFragmentManager().beginTransaction();
+                    Fragment prev = getFragmentManager().findFragmentByTag("Node_Detail");
+                    if (prev != null) {
+                        ft.remove(prev);
+                    }
+                    ft.addToBackStack(null);
+                    DialogFragment settingsFragmentNodeDetail = new SettingsFragmentNodeDetail();
+                    settingsFragmentNodeDetail.setArguments(args);
+                    settingsFragmentNodeDetail.show(ft, "Node_Detail");
+
+                    return true;
+                }
+            });
+
+            //  Set the root of the preference hierarchy that this fragment is showing.
+            setPreferenceScreen(screen);
         }
+
+        //  Get array index that is stored in SharedPreference.
+        private int getIndex(String prefKey) {
+            SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            int index = appSharedPrefs.getInt(prefKey, -1);
+            return index;
+        }
+
+        //  Set array index that is stored in SharedPreference.
+        private void setIndex(String prefKey, int index) {
+            SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            SharedPreferences.Editor prefsEditor = appSharedPrefs.edit();
+            prefsEditor.putInt(prefKey, index);
+            prefsEditor.commit();
+        }
+
+        //  Delete temp pref key's that are used to store the index in the Cammera ArrayList
+        private void deletePrefKeyList(List<String> list) {
+            for (int i =0; i < list.size(); i++) {
+                String key = list.get(i);
+                SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                appSharedPrefs.edit().remove(key).clear();
+            }
+        }
+
     }
 
 }

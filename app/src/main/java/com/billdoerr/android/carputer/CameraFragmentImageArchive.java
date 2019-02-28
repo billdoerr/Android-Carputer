@@ -49,24 +49,6 @@ public class CameraFragmentImageArchive extends Fragment {
         //  Add icons
         addTablayoutIcons();
 
-        //  TODO : Are these needed or should I just comment out the code?
-        mTabLayout.addOnTabSelectedListener(new TabLayout.BaseOnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-//                Log.d(TAG, "onTabSelected -> " + tab.getText().toString());
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-//                Log.d(TAG, "onTabUnselected" + tab.getText().toString());
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-//                Log.d(TAG, "onTabReselected" + tab.getText().toString());
-            }
-        });
-
         return view;
     }
 

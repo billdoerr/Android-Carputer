@@ -6,7 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 
-import com.billdoerr.android.carputer.settings.SettingsActivityNew;
+import com.billdoerr.android.carputer.settings.SettingsActivity;
 import com.google.android.material.navigation.NavigationView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -19,15 +19,10 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.billdoerr.android.carputer.settings.SettingsActivity;
-
 
 public abstract class SingleFragmentActivity extends AppCompatActivity {
 
     private static final String TAG = "SingleFragmentActivity";
-
-    //  Motion Eye preferences
-    private static final String PREF_CAMERA_MOTIONEYE_URL = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_CAMERA_MOTIONEYE_URL";
 
     private DrawerLayout mDrawerLayout;
 
@@ -121,9 +116,6 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
                             //  Activity:  Settings
                             case R.id.nav_settings:
                                 startActivity(new Intent(SingleFragmentActivity.this, SettingsActivity.class));
-                                return true;
-                            case R.id.nav_settings_new:
-                                startActivity(new Intent(SingleFragmentActivity.this, SettingsActivityNew.class));
                                 return true;
                             case R.id.nav_about:
                                 startActivity(new Intent(SingleFragmentActivity.this, CarputerActivityAbout.class));

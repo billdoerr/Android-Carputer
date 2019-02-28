@@ -2,11 +2,14 @@ package com.billdoerr.android.carputer;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,8 +27,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import com.billdoerr.android.carputer.settings.Node;
 import com.billdoerr.android.carputer.utils.RPiUtils;
 import com.billdoerr.android.carputer.utils.WiFi;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 //  TODO:  THIS FRAGMENT IS A TOTAL HACK!!!!
 //  TODO :  Hack until I get SettingsActivity to be more robust
@@ -33,28 +39,14 @@ public class SSHFragment extends Fragment {
 
     private static final String TAG = "SSHFragment";
 
-    private static final String PREF_RASPBERRYPI_ENABLED = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_RASPBERRYPI_ENABLED";
-    private static final String PREF_RASPBERRYPI_IP = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_RASPBERRYPI_IP";
-    private static final String PREF_RASPBERRYPI_SSH_PORT = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_RASPBERRYPI_SSH_PORT";
-    private static final String PREF_RASPBERRYPI_AUTH_USERNAME = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_RASPBERRYPI_AUTH_USERNAME";
-    private static final String PREF_RASPBERRYPI_AUTH_PASSWORD = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_RASPBERRYPI_AUTH_PASSWORD";
+    private static final String ARGS_NODE_DETAIL = "ARGS_NODE_DETAIL";
 
-    //  TODO :  Hack until I get SettingsActivity to be more robust
-    private static final String PREF_RASPBERRYPI_IP_2 = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_RASPBERRYPI_IP_2";
+    private static List<Node> mNodes = new ArrayList<Node>();
 
     //  Widgets
     private EditText txtExecuteCommand;
     private TextView txtReply;
     private Spinner spinnerNodes;
-
-    //  Hosts info
-    private String mIP;
-    private String mPort;
-    private String mUser;
-    private String mPwd;
-    //  TODO :  Hack until I get SettingsActivity to be more robust
-    private String mIP2;
-    private String currentNode;
 
     private static boolean mDateSynced = false;
     private static boolean mIsConnected = false;
@@ -68,7 +60,9 @@ public class SSHFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getArgs();
+//        getArgs();
+        //  Get devices
+        mNodes = getNodesFromSharedPrefs(getActivity());
     }
 
     @Override
@@ -112,22 +106,15 @@ public class SSHFragment extends Fragment {
 
                 //  TODO : Total Hack!!!
 
-                currentNode = mIP2;
-                reply = getResources().getString(R.string.txt_carputer_mgmt_ssh_command_processing).toString() + " on node -> " + currentNode;
-                updateCommandHistory(reply);
-                Log.d(TAG, reply);
+                for (int i = 0; i < mNodes.size(); i++) {
+                    String currentNode = mNodes.get(i).getIp();
+                    reply = getResources().getString(R.string.txt_carputer_mgmt_ssh_command_processing).toString() + " on node -> " + currentNode;
+                    updateCommandHistory(reply);
+                    Log.d(TAG, reply);
 
-                txtExecuteCommand.setText(cmd);
-                new ExecuteCommandTask().execute(cmd);
-
-
-                currentNode = mIP;
-                reply = reply + "\n" + getResources().getString(R.string.txt_carputer_mgmt_ssh_command_processing).toString() + " on node -> " + currentNode;
-                updateCommandHistory(reply);
-                Log.d(TAG, reply);
-
-                txtExecuteCommand.setText(cmd);
-                new ExecuteCommandTask().execute(cmd);
+                    txtExecuteCommand.setText(cmd);
+                    new ExecuteCommandTask().execute(cmd);
+                }
 
             }
         });
@@ -193,24 +180,24 @@ public class SSHFragment extends Fragment {
 
         //  Nodes
         spinnerNodes = (Spinner) view.findViewById(R.id.spinnerNodes);
-        spinnerNodes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                currentNode = parent.getItemAtPosition(position).toString();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
+//        spinnerNodes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+////                mCurrentNodeIndex = parent.getItemAtPosition(position).toString();
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//            }
+//        });
 
         /*
         *  Spinner:  Nodes
          */
-        //  TODO:  Need to add starter set of commands in SharedPreferences.  Add them in when executed.
         List<String> nodes = new ArrayList<>();
-        nodes.add(mIP);
-        nodes.add(mIP2);
+        for (int i = 0; i < mNodes.size(); i++) {
+            nodes.add(mNodes.get(i).getIp());
+        }
 
         // Creating adapter for spinner
         ArrayAdapter<String> dataAdapterNodes = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, nodes);
@@ -278,15 +265,6 @@ public class SSHFragment extends Fragment {
         super.onResume();
     }
 
-    private void getArgs() {
-        Bundle bundle = getArguments();
-        mIP = bundle.getString(PREF_RASPBERRYPI_IP);
-        mPort = bundle.getString(PREF_RASPBERRYPI_SSH_PORT);
-        mUser = bundle.getString(PREF_RASPBERRYPI_AUTH_USERNAME);
-        mPwd = bundle.getString(PREF_RASPBERRYPI_AUTH_PASSWORD);
-        //  TODO :  Hack until I get SettingsActivity to be more robust
-        mIP2 = bundle.getString(PREF_RASPBERRYPI_IP_2);
-    }
 
     //  Async Task to perform ping command
     private class PingTask extends AsyncTask<Void, Void, String> {
@@ -298,7 +276,7 @@ public class SSHFragment extends Fragment {
             String result = "";
             try {
                 RPiUtils utils = new RPiUtils();
-                //  TODO :  Hack until I get SettingsActivity to be more robust
+                String currentNode = spinnerNodes.getSelectedItem().toString();
                 result = utils.ping(currentNode);
                 Log.d(TAG, result);
             } catch (Exception e) {
@@ -326,7 +304,10 @@ public class SSHFragment extends Fragment {
                 try {
                     RPiUtils utils = new RPiUtils();
                     //  TODO :  Hack until I get SettingsActivity to be more robust
-                    utils.initialize(currentNode, mPort, mUser, mPwd);
+//                    utils.initialize(currentNode, mPort, mUser, mPwd);
+                    int i = spinnerNodes.getSelectedItemPosition();
+                    utils.initialize(mNodes.get(i).getIp(), mNodes.get(i).getSSHPort(),
+                            mNodes.get(i).getUser(), mNodes.get(i).getPassword());
                     result = utils.executeRemoteCommand(params[0]);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -337,15 +318,13 @@ public class SSHFragment extends Fragment {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-//            txtReply.setText(result);
             updateCommandHistory(result);
         }
     }
 
-    //  Generate date/time stamp that will be used to create a unique filename
+    //  Generate date/time stamp
     //  https://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html
     //  "Thu Jan 17 03:19:37 PST 2019"
-    //  "Thu Jan  17 14:37:00 PST 2019"
     private String getDateTime() {
         String dateFormat = "EEE MMM dd hh:mm:ss z yyyy";
         Calendar c = Calendar.getInstance();
@@ -353,35 +332,29 @@ public class SSHFragment extends Fragment {
         return df.format(c.getTime());
     }
 
+    //  Sync Android date/time with Pi.  Follow with 'date' command to view system date/time.
     public void syncDateAll() {
+        String date = getDateTime();
         String reply = "";
+        final String cmd = "sudo date -s \"" + date + "\" ;date";
 
+        //  Check if date already synced.
         if (mDateSynced) {
             reply = reply + "syncDateAll: Date already synced!";
             updateCommandHistory(reply);
             return;
         }
-        Log.d(TAG, "syncDateAll: Syncing date!");
-        String date = getDateTime();
-        //  Sync Android date/time with Pi.  Follow with 'date' command to view system date/time.
-        final String cmd = "sudo date -s \"" + date + "\" ;date";
-        reply = "";
 
-        //  TODO : Total Hack!!!
-        currentNode = mIP2;
-        txtExecuteCommand.setText(cmd);
         reply = "Syncing date on all nodes...\n";
-        reply = reply + "\n" + getResources().getString(R.string.txt_carputer_mgmt_ssh_command_processing).toString() + " on node -> " + currentNode + "\n";
-        updateCommandHistory(reply);
-        new ExecuteCommandTask().execute(cmd);
-        Log.d(TAG, getResources().getString(R.string.txt_carputer_mgmt_ssh_command_processing).toString() + " on node -> " + currentNode);
 
-        currentNode = mIP;
-        txtExecuteCommand.setText(cmd);
-        reply = reply + "\n" + getResources().getString(R.string.txt_carputer_mgmt_ssh_command_processing).toString() + " on node -> " + currentNode + "\n";
-        updateCommandHistory(reply);
-        new ExecuteCommandTask().execute(cmd);
-        Log.d(TAG, getResources().getString(R.string.txt_carputer_mgmt_ssh_command_processing).toString() + " on node -> " + currentNode);
+        for (int i = 0; i < mNodes.size(); i++) {
+            String currentNode = mNodes.get(i).getIp();
+            txtExecuteCommand.setText(cmd);
+            reply = reply + "\n" + getResources().getString(R.string.txt_carputer_mgmt_ssh_command_processing).toString() + " on node -> " + currentNode + "\n";
+            updateCommandHistory(reply);
+            new ExecuteCommandTask().execute(cmd);
+            Log.d(TAG, getResources().getString(R.string.txt_carputer_mgmt_ssh_command_processing).toString() + " on node -> " + currentNode);
+        }
 
         mDateSynced = true;
     }
@@ -409,5 +382,24 @@ public class SSHFragment extends Fragment {
         mCmdHistory = mCmdHistory + "\n" + msg + "\n";
         txtReply.setText(mCmdHistory);
     }
+
+    //  Retrieve list of node's that are stored in SharedPreferences as a JSON string
+    private static List<Node> getNodesFromSharedPrefs(Context context) {
+        SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+        Gson gson = new Gson();
+        String json = appSharedPrefs.getString(Node.PrefKey.PREF_KEY_NODES, "");
+        List<Node> nodes = gson.fromJson(json, new TypeToken<ArrayList<Node>>(){}.getType());
+        if (nodes == null) {
+            nodes = new ArrayList<Node>();
+        }
+        return nodes;
+    }
+
+    @SuppressWarnings("unchecked")
+    private void getArgs() {
+        Bundle args = getArguments();
+        mNodes = (List<Node>) args.getSerializable(ARGS_NODE_DETAIL);
+    }
+
 
 }

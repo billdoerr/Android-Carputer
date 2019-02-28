@@ -52,14 +52,6 @@ public class SettingsFragmentCameraDetail extends DialogFragment {
         // Use `newInstance` instead as shown below
     }
 
-    public static SettingsFragmentCameraDetail newInstance(String title) {
-        SettingsFragmentCameraDetail frag = new SettingsFragmentCameraDetail();
-        Bundle args = new Bundle();
-        args.putString("title", title);
-        frag.setArguments(args);
-        return frag;
-    }
-
     @Override
     public void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
@@ -115,7 +107,7 @@ public class SettingsFragmentCameraDetail extends DialogFragment {
         mTextPassword = (EditText) view.findViewById(R.id.txt_password);
         mTextPassword.setEnabled(false);  //  Disable by default
 
-        //  TODO : Disable.  Username/password currently not support
+        //  TUsername/password currently not support
         mSwitchUseAuthentication = (Switch) view.findViewById(R.id.switch_use_authentication);
         mSwitchUseAuthentication.setEnabled(false);
         mSwitchUseAuthentication.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

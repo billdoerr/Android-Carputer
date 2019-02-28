@@ -18,7 +18,6 @@ public class CarputerFragmentAbout extends Fragment {
         // Required empty public constructor
     }
 
-    // TODO: Rename and change types and number of parameters
     public static CarputerFragmentAbout newInstance() {
         return new CarputerFragmentAbout();
     }

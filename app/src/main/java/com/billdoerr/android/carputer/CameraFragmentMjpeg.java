@@ -93,24 +93,9 @@ public class CameraFragmentMjpeg extends Fragment {
         actionbar.setHomeAsUpIndicator(R.drawable.ic_baseline_menu_24px);
     }
 
-    //  TODO : Need to revisit this
     private void addTabLayoutIcons() {
         for (int i = 0; i < mViewPager.getAdapter().getCount(); i++) {
-//            mTabLayout.getTabAt(i).setIcon(R.drawable.ic_camera);
-            String s = mTabLayout.getTabAt(i).getText().toString();
-            //  Front camera
-            if (s.equals(getResources().getString(R.string.tab_camera_front).toString())) {
-                mTabLayout.getTabAt(i).setIcon(R.drawable.ic_baseline_camera_front_24px);
-            //  Camera rear
-            } else if (s.equals(getResources().getString(R.string.tab_camera_rear).toString())) {
-                mTabLayout.getTabAt(i).setIcon(R.drawable.ic_baseline_camera_rear_24px);
-            //  Dual view
-            }  else if (s.equals(getResources().getString(R.string.tab_camera_front_and_rear).toString())) {
-                mTabLayout.getTabAt(i).setIcon(R.drawable.ic_baseline_linked_camera_24px);
-            //  Default
-            } else {
-                mTabLayout.getTabAt(i).setIcon(R.drawable.ic_baseline_camera_24px);
-            }
+            mTabLayout.getTabAt(i).setIcon(R.drawable.ic_baseline_camera_24px);
         }
     }
 

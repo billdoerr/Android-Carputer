@@ -33,13 +33,16 @@ import com.billdoerr.android.carputer.utils.WiFi;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-//  TODO:  THIS FRAGMENT IS A TOTAL HACK!!!!
-//  TODO :  Hack until I get SettingsActivity to be more robust
+//  THIS FRAGMENT IS A TOTAL HACK!!!!
 public class SSHFragment extends Fragment {
 
     private static final String TAG = "SSHFragment";
 
     private static final String ARGS_NODE_DETAIL = "ARGS_NODE_DETAIL";
+
+    public static final String PREF_KEY_NETWORK_ENABLED  = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NETWORK_ENABLED";
+    public static final String PREF_KEY_NETWORK_NAME  = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NETWORK_NAME";
+    public static final String PREF_KEY_NETWORK_PASSPHRASE  = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NETWORK_PASSPHRASE";
 
     private static List<Node> mNodes = new ArrayList<Node>();
 
@@ -52,6 +55,10 @@ public class SSHFragment extends Fragment {
     private static boolean mIsConnected = false;
     private static String mCmdHistory = "";
 
+    private static boolean mIsNetworkEnabled;
+    private static String mNetworkSSID;
+    private static String mNetworkPassphrase;
+
     public static SSHFragment newInstance() {
         return new SSHFragment();
     }
@@ -60,9 +67,12 @@ public class SSHFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        getArgs();
+
         //  Get devices
         mNodes = getNodesFromSharedPrefs(getActivity());
+
+        //  Get network preferences
+        getNetworkPreferences(getActivity());
     }
 
     @Override
@@ -103,8 +113,6 @@ public class SSHFragment extends Fragment {
             public void onClick(View v) {
                 final String cmd = "sudo shutdown -h 0";
                 String reply = "";
-
-                //  TODO : Total Hack!!!
 
                 for (int i = 0; i < mNodes.size(); i++) {
                     String currentNode = mNodes.get(i).getIp();
@@ -226,7 +234,6 @@ public class SSHFragment extends Fragment {
         /*
          *  Spinner:  Command History
          */
-        //  TODO:  Need to add starter set of commands in SharedPreferences.  Add them in when executed.
         List<String> commandHistory = new ArrayList<>();
         commandHistory.add("date");
         commandHistory.add("df -h /dev/sda1");
@@ -303,8 +310,6 @@ public class SSHFragment extends Fragment {
             String result = "";
                 try {
                     RPiUtils utils = new RPiUtils();
-                    //  TODO :  Hack until I get SettingsActivity to be more robust
-//                    utils.initialize(currentNode, mPort, mUser, mPwd);
                     int i = spinnerNodes.getSelectedItemPosition();
                     utils.initialize(mNodes.get(i).getIp(), mNodes.get(i).getSSHPort(),
                             mNodes.get(i).getUser(), mNodes.get(i).getPassword());
@@ -359,20 +364,18 @@ public class SSHFragment extends Fragment {
         mDateSynced = true;
     }
 
-    //  TODO :  Network info should be SharedPreference
-    //  Connect to PINET
+    //  Connect to network (WPA)
     private void WiFiConnect() {
-        //  Connect to PINET
         WiFi wifi = new WiFi();
         String reply;
 
         if (!mIsConnected) {
-            mIsConnected = wifi.connectToPINET(getActivity());
+            mIsConnected = wifi.connectWPA(getActivity(), mNetworkSSID, mNetworkPassphrase);
         }
         if (mIsConnected) {
-            reply = "Connected to PINET! " + "\n\n";
+            reply = "Connected to network: " + mNetworkSSID + "\n\n";
         } {
-            reply = "Unable to connect PINET!" + "\n\n";
+            reply = "Unable to network: \" + mNetworkSSID + \"\\n\\n";
         }
         updateCommandHistory(reply);
     }
@@ -395,11 +398,14 @@ public class SSHFragment extends Fragment {
         return nodes;
     }
 
-    @SuppressWarnings("unchecked")
-    private void getArgs() {
-        Bundle args = getArguments();
-        mNodes = (List<Node>) args.getSerializable(ARGS_NODE_DETAIL);
-    }
+    private void getNetworkPreferences(Context context) {
+        SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+        mIsNetworkEnabled = appSharedPrefs.getBoolean(PREF_KEY_NETWORK_ENABLED, false);
 
+        if (mIsNetworkEnabled) {
+            mNetworkSSID = appSharedPrefs.getString(PREF_KEY_NETWORK_NAME, "");
+            mNetworkPassphrase = appSharedPrefs.getString(PREF_KEY_NETWORK_PASSPHRASE, "");
+        }
+    }
 
 }

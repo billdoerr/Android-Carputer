@@ -10,22 +10,13 @@ public class WiFi {
 
     private static final String TAG = "WiFi";
 
-    //  TODO : Should be passed in as parameters which are stored in SharedPreferences
-    private static final String NETWORK_SSID = "PINET";
-    private static final String NETWORK_PASSWORD = "scoobydoo";
-
     private boolean mConnectionMade = false;
 
-    //  Connect to PINET (WPA)
+    //  Connect to network (WPA)
     //  Refer to:  https://developer.android.com/reference/android/net/wifi/WifiConfiguration
     //  Refer to:  https://stackoverflow.com/questions/8818290/how-do-i-connect-to-a-specific-wi-fi-network-in-android-programmatically
     //
-    public boolean connectToPINET(Context context) {
-
-        //  You need to create WifiConfiguration instance like this:
-        String networkSSID = NETWORK_SSID;
-        String networkPass = NETWORK_PASSWORD;
-
+    public boolean connectWPA(Context context, String networkSSID, String networkPassphrase) {
 
         WifiConfiguration conf = new WifiConfiguration();
         //  The network's SSID. Can either be a UTF-8 string, which must be enclosed in double quotation marks (e.g., "MyNetwork"),
@@ -33,7 +24,7 @@ public class WiFi {
         conf.SSID = "\"" + networkSSID + "\"";   // Please note the quotes. String should contain ssid in quotes
 
         //  For WPA network you need to add passphrase like this:
-        conf.preSharedKey = "\""+ networkPass +"\"";
+        conf.preSharedKey = "\""+ networkPassphrase +"\"";
 
         //  Then, you need to add it to Android wifi manager settings:
         WifiManager wifiManager = (WifiManager)context.getSystemService(Context.WIFI_SERVICE);
@@ -50,6 +41,6 @@ public class WiFi {
                 break;
             }
         }
-            return mConnectionMade;
+        return mConnectionMade;
     }
 }

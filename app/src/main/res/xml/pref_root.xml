@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.preference.PreferenceScreen
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.preference.PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
-        app:title="@string/pref_title_camera_settings">
+        app:title="@string/pref_title_camera_settings"
+        app:icon="@drawable/ic_baseline_camera_front_24px" >
 
         <Preference
             app:key="com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_CAMERAS"
             app:title="@string/pref_category_cameras"
-            app:icon="@drawable/ic_baseline_camera_front_24px"
             app:fragment="com.billdoerr.android.carputer.settings.SettingsActivity$SettingsFragmentCameras"
             app:useSimpleSummaryProvider="true" >
         </Preference>
@@ -16,15 +16,43 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        app:title="@string/pref_title_node_settings">
+        app:title="@string/pref_title_node_settings"
+        app:icon="@drawable/ic_raspberry_pi_24px" >
 
         <Preference
             app:key="com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NODES"
             app:title="@string/pref_category_nodes"
-            app:icon="@drawable/ic_raspberry_pi_24px"
             app:fragment="com.billdoerr.android.carputer.settings.SettingsActivity$SettingsFragmentNodes"
             app:useSimpleSummaryProvider="true" >
         </Preference>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:title="@string/pref_category_network_settings"
+        app:icon="@drawable/ic_baseline_network_wifi_24px" >
+
+        <SwitchPreference
+            app:defaultValue="false"
+            app:key="com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NETWORK_ENABLED"
+            app:title="@string/pref_title_network_auto_connect"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+            app:dependency="com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NETWORK_ENABLED"
+            app:defaultValue="@string/pref_default_network_name"
+            app:key="com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NETWORK_NAME"
+            app:singleLine="true"
+            app:title="@string/pref_title_network_name"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+            app:dependency="com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NETWORK_ENABLED"
+            app:defaultValue="@string/pref_default_network_password"
+            app:key="com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NETWORK_PASSPHRASE"
+            app:singleLine="true"
+            app:title="@string/pref_title_network_password"
+            app:useSimpleSummaryProvider="true" />
 
     </PreferenceCategory>
 

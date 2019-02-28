@@ -112,7 +112,7 @@ public class CameraFragmentMjpegSnapshot extends Fragment implements OnFrameCapt
         mLastPreview = bitmap;
     }
 
-    //  TODO :  Do I need this or should I comment out the code?
+    //  MjpegViewHandler
     @SuppressLint("HandlerLeak")
     final Handler MjpegViewHandler = new Handler(){
         @Override

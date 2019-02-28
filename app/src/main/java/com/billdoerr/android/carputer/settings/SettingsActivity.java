@@ -151,10 +151,6 @@ public class SettingsActivity extends AppCompatActivity implements
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.pref_root, rootKey);
 
-            //  TODO :  Remove once AddCamera functionality is working
-            //  Generate test data
-//            generateTestData();
-
             //  Retrieve list of camera's that are stored in SharedPreferences as a JSON string
             getCamerasFromSharedPrefs(getActivity());
 
@@ -188,65 +184,6 @@ public class SettingsActivity extends AppCompatActivity implements
 
             Preference pref = (Preference) findPreference(Node.PrefKey.PREF_KEY_NODES);
             pref.setSummary(size + " node\'s configured.");
-        }
-
-        //  TODO :  Remove once add device functionality is working
-        private void generateTestData() {
-//            generateTestDataCameras();
-//            generateTestDataNodes();
-        }
-
-        //  TODO :  Remove once add device functionality is working
-        //  Generate test data
-        private void generateTestDataCameras() {
-            mCameras = new ArrayList<Camera>();
-
-            Camera c = new Camera();
-            c.setName("Front");
-            c.setUrl(getResources().getString(R.string.pref_default_camera_url));
-            c.setUseAuthentication(false);
-
-            mCameras.add(c);
-
-            c = new Camera();
-            c.setName("Rear");
-            c.setUrl(getResources().getString(R.string.pref_default_camera_url));
-            c.setUseAuthentication(false);
-            mCameras.add(c);
-
-            //  Save to SharedPreferences
-            saveCamerasToSharedPrefs(getActivity());
-        }
-
-        //  TODO :  Remove once add device functionality is working
-        //  Generate test data
-        private void generateTestDataNodes() {
-            mNodes = new ArrayList<Node>();
-
-            Node n = new Node();
-            n.setName("RaspberryPi Hub");
-            n.setIp(getResources().getString(R.string.pref_default_node_ip));
-            n.setSSHPort(getString(R.string.pref_default_node_ssh_port));
-            n.setUseAuthentication(false);
-            n.setUsePhpSysInfo(true);
-            n.setPhpSysInfoUrl(getResources().getString(R.string.pref_default_node_physysinfo_url));
-            n.setUseMotionEye(true);
-            n.setMotionEyeUrl(getResources().getString(R.string.pref_default_node_motioneye_url));
-            mNodes.add(n);
-
-            n = new Node();
-            n.setName("RaspberryPi Rear Camera");
-            n.setIp(getResources().getString(R.string.pref_default_node_ip));
-            n.setSSHPort(getString(R.string.pref_default_node_ssh_port));
-            n.setUseAuthentication(false);
-            n.setUsePhpSysInfo(true);
-            n.setPhpSysInfoUrl(getResources().getString(R.string.pref_default_node_physysinfo_url));
-            n.setUseMotionEye(true);
-            n.setMotionEyeUrl(getResources().getString(R.string.pref_default_node_motioneye_url));
-            mNodes.add(n);
-
-            //  Save to SharedPreferences
-            saveNodesToSharedPrefs(getActivity());
         }
 
     }

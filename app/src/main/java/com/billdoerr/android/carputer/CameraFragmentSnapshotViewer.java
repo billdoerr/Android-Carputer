@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -64,14 +65,12 @@ public class CameraFragmentSnapshotViewer extends Fragment {
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
 
-        //  TODO :  Think about horizontal scrolling
-//        LinearLayoutManager layoutManager
-//                = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-//
-//        RecyclerView myList = (RecyclerView) findViewById(R.id.my_recycler_view);
-//        myList.setLayoutManager(layoutManager);
+        //  Horizontal scrolling
+        LinearLayoutManager layoutManager
+                = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        mRecyclerView.setLayoutManager(layoutManager);
 
-        mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), mSpanCount));
+//        mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), mSpanCount));
 
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -141,8 +140,6 @@ public class CameraFragmentSnapshotViewer extends Fragment {
         List<String> newFileList = new ImageStorage().getSnapshotFileList(getContext());
         mFileList.addAll(newFileList);
         mySort(mFileList);
-        //  TODO : This is not updating the list correctly even though the data is correct.  Calling setupAdapter() corrects the issue for now.
-//        mRecyclerView.getAdapter().notifyDataSetChanged();  //  Notify of change
         setupAdapter();
     }
 
@@ -178,7 +175,7 @@ public class CameraFragmentSnapshotViewer extends Fragment {
 
         @Override
         public void onClick(View view) {
-            //  TODO : Do I even need this?
+            //  Required
         }
 
     }

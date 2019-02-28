@@ -64,14 +64,6 @@ public class SettingsFragmentNodeDetail extends DialogFragment {
         // Use `newInstance` instead as shown below
     }
 
-//    public static SettingsFragmentNodeDetail newInstance(String title) {
-//        SettingsFragmentNodeDetail frag = new SettingsFragmentNodeDetail();
-//        Bundle args = new Bundle();
-//        args.putString("title", title);
-//        frag.setArguments(args);
-//        return frag;
-//    }
-
     @Override
     public void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
@@ -131,7 +123,7 @@ public class SettingsFragmentNodeDetail extends DialogFragment {
 
         //  Use authentication
         mSwitchUseAuthentication = (Switch) view.findViewById(R.id.switch_use_authentication);
-        mSwitchUseAuthentication.setEnabled(false);
+        mSwitchUseAuthentication.setEnabled(true);
         mSwitchUseAuthentication.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -148,10 +140,11 @@ public class SettingsFragmentNodeDetail extends DialogFragment {
         });
 
         mTextPhpSysInfoUrl = (EditText) view.findViewById(R.id.txt_node_phpsysinfo_url);
+        mTextPhpSysInfoUrl.setEnabled(false);
 
         //  Use phpSysInfo
-        mSwitchUsePhpSysInfo = (Switch) view.findViewById(R.id.switch_use_authentication);
-        mSwitchUsePhpSysInfo.setEnabled(false);
+        mSwitchUsePhpSysInfo = (Switch) view.findViewById(R.id.switch_node_use_phpsysinfo);
+        mSwitchUsePhpSysInfo.setEnabled(true);
         mSwitchUsePhpSysInfo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -166,10 +159,11 @@ public class SettingsFragmentNodeDetail extends DialogFragment {
         });
 
         mTextMotionEyeUrl = (EditText) view.findViewById(R.id.txt_node_motioneye_url);
+        mTextMotionEyeUrl.setEnabled(false);
 
         //  Use motionEye
-        mSwitchUseMotionEye = (Switch) view.findViewById(R.id.switch_use_authentication);
-        mSwitchUseMotionEye.setEnabled(false);
+        mSwitchUseMotionEye = (Switch) view.findViewById(R.id.switch_node_use_motioneye);
+        mSwitchUseMotionEye.setEnabled(true);
         mSwitchUseMotionEye.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -238,7 +232,6 @@ public class SettingsFragmentNodeDetail extends DialogFragment {
             }
         });
 
-
         //  Assign values from passed in arguments
         setNodeDetail(mNode);
 
@@ -275,7 +268,9 @@ public class SettingsFragmentNodeDetail extends DialogFragment {
             mTextUsername.setText(node.getUser());
             mTextPassword.setText(node.getPassword());
             mSwitchUsePhpSysInfo.setChecked(node.isUsePhpSysInfo());
+            mTextPhpSysInfoUrl.setText(node.getPhpSysInfoUrl());
             mSwitchUseMotionEye.setChecked(node.isUseMotionEye());
+            mTextMotionEyeUrl.setText(node.getMotionEyeUrl());
         }
     }
 

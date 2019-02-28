@@ -50,7 +50,7 @@
 	- [x]  Hide keyboard after click "Execute Command".
 - [x]  Implement rear camera using a Pi Zero w/motioneye.  This would connect to PINET.  Ref:  https://github.com/ccrisan/motioneye/issues/970
 
-### v1.1 (NOT STARTED)
+### v1.1 (IN PROGRESS)
 - [x]  Add version/build number in new About menu action item.
 - [ ]  **SettingsActivity**  Make more robust.  Need to store Nodes in JSON and store in shared preference.  Look into nested PreferneceScreen.
 		https://developer.android.com/guide/topics/ui/settings/organize-your-settings
@@ -70,7 +70,7 @@
   - [ ]  Need motioneye svg.
 - [ ]  Address TODO's.	
 - [ ]  Test and validate performance using RaspberryPi with USBStick + two USB Cameras + router.
-- [ ]  Put some effort into style/themes.
+- [ ]  Put a lot more effort into style/themes.
 
 ##  Tasks - Raspberry Pi 3 Model B+
 
@@ -87,8 +87,6 @@
     - [x] Install motioneye
 	- [x] Configure main RaspberryPi motioneye Rear camera with streaming URL from Pi Zero.
 	- [x] **(PI Camera cable on order)** Use PiCam rather than USB camera.  Validated USB camera works.  
-
-### v1.0  (NOT STARTED)
 - [x]  Create final Rasbian image for Carputer-Rear.
 	- [x]  Need to configure motioneye to use PiCamera rather than USB camera.
 - [x]  Create final Raspbian image for Carputer.

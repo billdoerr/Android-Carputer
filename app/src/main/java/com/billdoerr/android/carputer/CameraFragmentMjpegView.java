@@ -66,7 +66,7 @@ public class CameraFragmentMjpegView extends Fragment {
         }
     }
 
-    //  TODO :  Is this needed or can I comment out the code
+    //  MjpegViewHandler
     @SuppressLint("HandlerLeak")
     final Handler MjpegViewHandler = new Handler(){
         @Override

@@ -33,6 +33,7 @@
         app:icon="@drawable/ic_baseline_network_wifi_24px" >
 
         <SwitchPreference
+            app:enabled="false"
             app:defaultValue="false"
             app:key="com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NETWORK_ENABLED"
             app:title="@string/pref_title_network_auto_connect"

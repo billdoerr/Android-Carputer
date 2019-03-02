@@ -20,9 +20,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceFragmentCompat;
@@ -34,10 +32,10 @@ public class SettingsActivity extends AppCompatActivity implements
 
     private static final String TAG = "SettingsActivity";
 
-    private static final String ARGS_PREF_KEY = "ARGS_PREF_KEY";
     private static final String ARGS_CAMERA_DETAIL = "ARGS_CAMERA_DETAIL";
     private static final String ARGS_NODE_DETAIL = "ARGS_NODE_DETAIL";
     private static final String ARGS_ADD = "ARGS_ADD";
+    private static final String ARGS_INDEX = "ARGS_INDEX";
 
     private static List<Camera> mCameras = new ArrayList<Camera>();
     private static List<Node> mNodes = new ArrayList<Node>();
@@ -297,10 +295,12 @@ public class SettingsActivity extends AppCompatActivity implements
                 Preference prefCamera = new Preference(context);
                 prefCamera.setTitle(mCameras.get(i).getName());
                 prefCamera.setIcon(ContextCompat.getDrawable(context, R.drawable.ic_baseline_camera_24px));
-                String prefKey = Camera.PrefKey.PREF_KEY_CAMERA_NUM + i;
-                prefCamera.setKey(prefKey);
                 prefCamera.setDefaultValue(Integer.toString(i));
                 prefCamera.setSummary(mCameras.get(i).getUrl());
+
+                //  Add list index to preference extras
+                Bundle extras = prefCamera.getExtras();
+                extras.putInt(ARGS_INDEX, i);
 
                 //  Add preferences to PreferenceCategory
                 camerasConfiguredCategory.addPreference(prefCamera);
@@ -309,12 +309,14 @@ public class SettingsActivity extends AppCompatActivity implements
                 prefCamera.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                     @Override
                     public boolean onPreferenceClick(Preference preference) {
-                        //  Set camera details to SharedPreferences.  This is used as temp storage.
-                        int index = getIndex(preference.getKey());
+                        //  Get list index from preference extras
+                        Bundle extras = prefCamera.getExtras();
+                        int index = extras.getInt(ARGS_INDEX);
                         Camera camera = mCameras.get(index);
 
+                        //  Pass args to fragment
                         Bundle args = new Bundle();
-                        args.putString(ARGS_PREF_KEY, preference.getKey());
+                        args.putInt(ARGS_INDEX, index);
                         args.putBoolean(ARGS_ADD, false);
                         args.putSerializable(ARGS_CAMERA_DETAIL, camera);
 
@@ -329,12 +331,6 @@ public class SettingsActivity extends AppCompatActivity implements
                         return true;
                     }
                 });
-
-                //  Write array index to SharedPreferences
-                setIndex(prefKey, i);
-
-                //  Add prefKey to list.  These are temp pref keys and will be deleted when fragment is destroyed.
-                mPrefKeyList.add(prefKey);
 
             }
 
@@ -358,7 +354,6 @@ public class SettingsActivity extends AppCompatActivity implements
                     camera.setUrl(getString(R.string.pref_default_camera_url));
 
                     Bundle args = new Bundle();
-                    args.putString(ARGS_PREF_KEY, ARGS_ADD);    //  Put some value since there is no index
                     args.putBoolean(ARGS_ADD, true);    //  Add device flag
                     args.putSerializable(ARGS_CAMERA_DETAIL, camera);
 
@@ -383,6 +378,15 @@ public class SettingsActivity extends AppCompatActivity implements
             SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
             int index = appSharedPrefs.getInt(prefKey, -1);
             return index;
+        }
+
+        private int getIndexNew(ArrayList<Camera> listCameras, Camera c) {
+            for (int i =0; i < listCameras.size(); i++) {
+                if (listCameras.get(i).getUUID() == c.getUUID()) {
+                    return i;
+                }
+            }
+            return -1;
         }
 
         //  Set array index that is stored in SharedPreference.
@@ -435,8 +439,6 @@ public class SettingsActivity extends AppCompatActivity implements
 
         @Override
         public void onDetach() {
-            //  Delete temp pref key's that are used to store the index in the Cammera ArrayList
-            deletePrefKeyList(mPrefKeyList);
             //  Remove subscription to event bus
             EventBus.getDefault().unregister(this);
             //  Goodbye
@@ -482,9 +484,6 @@ public class SettingsActivity extends AppCompatActivity implements
         //  Dynamically create PreferenceScreen of configured Node's
         private void createPreferences() {
 
-            //  Delete temp pref key's that are used to store the index in the Cammera ArrayList
-            deletePrefKeyList(mPrefKeyList);
-
             Context context = getPreferenceManager().getContext();
             PreferenceScreen screen = getPreferenceManager().createPreferenceScreen(context);
 
@@ -499,10 +498,12 @@ public class SettingsActivity extends AppCompatActivity implements
                 Preference prefNode = new Preference(context);
                 prefNode.setTitle(mNodes.get(i).getName());
                 prefNode.setIcon(ContextCompat.getDrawable(context, R.drawable.ic_raspberry_pi_24px));
-                String prefKey = Node.PrefKey.PREF_KEY_NODE_NUM + i;
-                prefNode.setKey(prefKey);
                 prefNode.setDefaultValue(Integer.toString(i));
                 prefNode.setSummary(mNodes.get(i).getIp());
+
+                //  Add list index to preference extras
+                Bundle extras = prefNode.getExtras();
+                extras.putInt(ARGS_INDEX, i);
 
                 //  Add preferences to PreferenceCategory
                 nodessConfiguredCategory.addPreference(prefNode);
@@ -511,12 +512,14 @@ public class SettingsActivity extends AppCompatActivity implements
                 prefNode.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                     @Override
                     public boolean onPreferenceClick(Preference preference) {
-                        //  Set Node details to SharedPreferences.  This is used as temp storage.
-                        int index = getIndex(preference.getKey());
+                        //  Get list index from preference extras
+                        Bundle extras = prefNode.getExtras();
+                        int index = extras.getInt(ARGS_INDEX);
                         Node node = mNodes.get(index);
 
+                        //  Pass args to fragment
                         Bundle args = new Bundle();
-                        args.putString(ARGS_PREF_KEY, preference.getKey());
+                        args.putInt(ARGS_INDEX, index);
                         args.putBoolean(ARGS_ADD, false);
                         args.putSerializable(ARGS_NODE_DETAIL, node);
 
@@ -527,15 +530,10 @@ public class SettingsActivity extends AppCompatActivity implements
                                 .replace(R.id.fragment_container, settingsFragmentNodeDetail)
                                 .addToBackStack(null)
                                 .commit();
+
                         return true;
                     }
                 });
-
-                //  Write array index to SharedPreferences
-                setIndex(prefKey, i);
-
-                //  Add prefKey to list.  These are temp pref keys and will be deleted when fragment is destroyed.
-                mPrefKeyList.add(prefKey);
 
             }
 
@@ -570,7 +568,6 @@ public class SettingsActivity extends AppCompatActivity implements
                     node.setMotionEyeUrl(getString(R.string.pref_default_node_motioneye_url));
 
                     Bundle args = new Bundle();
-                    args.putString(ARGS_PREF_KEY, ARGS_ADD);    //  Put some value since there is no index
                     args.putBoolean(ARGS_ADD, true);    //  Add device flag
                     args.putSerializable(ARGS_NODE_DETAIL, node);
 
@@ -588,30 +585,6 @@ public class SettingsActivity extends AppCompatActivity implements
 
             //  Set the root of the preference hierarchy that this fragment is showing.
             setPreferenceScreen(screen);
-        }
-
-        //  Get array index that is stored in SharedPreference.
-        private int getIndex(String prefKey) {
-            SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-            int index = appSharedPrefs.getInt(prefKey, -1);
-            return index;
-        }
-
-        //  Set array index that is stored in SharedPreference.
-        private void setIndex(String prefKey, int index) {
-            SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-            SharedPreferences.Editor prefsEditor = appSharedPrefs.edit();
-            prefsEditor.putInt(prefKey, index);
-            prefsEditor.commit();
-        }
-
-        //  Delete temp pref key's that are used to store the index in the Cammera ArrayList
-        private void deletePrefKeyList(List<String> list) {
-            for (int i =0; i < list.size(); i++) {
-                String key = list.get(i);
-                SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                appSharedPrefs.edit().remove(key).clear();
-            }
         }
 
     }

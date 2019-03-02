@@ -71,19 +71,18 @@ public class CarputerFragmentMgmt extends Fragment {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
 
         //  Fragment:  Node SSH
-//        Bundle args = new Bundle();
-//        args.putSerializable(ARGS_NODE_DETAIL, mNodes);
         SSHFragment sshFragment = new SSHFragment();
-//        sshFragment.setArguments(args);
         adapter.addFragment(sshFragment, getResources().getString(R.string.tab_carputer_mgmt_ssh));
 
         //  Fragment:  Node phpSysInfo
         for (int i = 0; i < mNodes.size(); i++) {
-            Bundle args = new Bundle();
-            args.putSerializable(ARGS_NODE_DETAIL, mNodes.get(i));
-            CarputerFragmentMgmtPhySysInfoView carputerFragmentMgmtPhySysInfoView = new CarputerFragmentMgmtPhySysInfoView();
-            carputerFragmentMgmtPhySysInfoView.setArguments(args);
-            adapter.addFragment(carputerFragmentMgmtPhySysInfoView, getResources().getString(R.string.tab_carputer_mgmt_phpsysinfo));
+            if (mNodes.get(i).isUsePhpSysInfo()) {
+                Bundle args = new Bundle();
+                args.putSerializable(ARGS_NODE_DETAIL, mNodes.get(i));
+                CarputerFragmentMgmtPhySysInfoView carputerFragmentMgmtPhySysInfoView = new CarputerFragmentMgmtPhySysInfoView();
+                carputerFragmentMgmtPhySysInfoView.setArguments(args);
+                adapter.addFragment(carputerFragmentMgmtPhySysInfoView, getString(R.string.tab_carputer_mgmt_phpsysinfo) + ": " + mNodes.get(i).getName());
+            }
         }
 
         //  Set adapter to view pager
@@ -99,16 +98,17 @@ public class CarputerFragmentMgmt extends Fragment {
         actionbar.setHomeAsUpIndicator(R.drawable.ic_baseline_menu_24px);
     }
 
-    //  TODO : Need to revisit
+    //  Display tab icons
     private void addTabLayoutIcons() {
         for (int i = 0; i < mViewPager.getAdapter().getCount(); i++) {
+            String sentence = mTabLayout.getTabAt(i).getText().toString();
             mTabLayout.getTabAt(i).setIcon(R.drawable.ic_camera);
             String s = mTabLayout.getTabAt(i).getText().toString();
             //  SSH
             if (s.equals(getResources().getString(R.string.tab_carputer_mgmt_ssh).toString())) {
                 mTabLayout.getTabAt(i).setIcon(R.drawable.ic_ssh_24px);
             //  phpSysInfo
-            } else if (s.equals(getResources().getString(R.string.tab_carputer_mgmt_phpsysinfo).toString())) {
+            } else if ( sentence.toLowerCase().indexOf(getString(R.string.tab_carputer_mgmt_phpsysinfo).toString().toLowerCase() ) != -1 )  {
                 mTabLayout.getTabAt(i).setIcon(R.drawable.ic_phpsysinfo_24px);
             //  Default
             } else {

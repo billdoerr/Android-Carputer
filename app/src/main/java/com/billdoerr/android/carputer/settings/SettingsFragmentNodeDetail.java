@@ -30,12 +30,11 @@ public class SettingsFragmentNodeDetail extends Fragment {
 
     private static final String TAG = "NodeDetail";
 
-    private static final String ARGS_PREF_KEY = "ARGS_PREF_KEY";
+    private static final String ARGS_INDEX = "ARGS_INDEX";
     private static final String ARGS_NODE_DETAIL = "ARGS_NODE_DETAIL";
     private static final String ARGS_ADD = "ARGS_ADD";
 
     private Node mNode;
-    private String mPrefKey;
     private int mIndex;
     private boolean mAdd = false;
 
@@ -71,10 +70,9 @@ public class SettingsFragmentNodeDetail extends Fragment {
         super.onCreate(saveInstanceState);
 
         Bundle args = getArguments();
-        mPrefKey = args.getString(ARGS_PREF_KEY);
         mAdd = args.getBoolean(ARGS_ADD);
         mNode = (Node) args.getSerializable(ARGS_NODE_DETAIL);
-        mIndex = getIndex(mPrefKey);
+        mIndex = args.getInt(ARGS_INDEX);
 
         //  Show menu only if not adding device
         if(!mAdd) {
@@ -248,7 +246,6 @@ public class SettingsFragmentNodeDetail extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        // TODO Add your menu entries here
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.delete, menu);
     }

@@ -1,7 +1,6 @@
 package com.billdoerr.android.carputer.settings;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -21,18 +20,16 @@ import com.billdoerr.android.carputer.R;
 import org.greenrobot.eventbus.EventBus;
 
 import androidx.fragment.app.Fragment;
-import androidx.preference.PreferenceManager;
 
 public class SettingsFragmentCameraDetail extends Fragment {
 
     private static final String TAG = "CameraDetail";
 
-    private static final String ARGS_PREF_KEY = "ARGS_PREF_KEY";
+    private static final String ARGS_INDEX = "ARGS_INDEX";
     private static final String ARGS_CAMERA_DETAIL = "ARGS_CAMERA_DETAIL";
     private static final String ARGS_ADD = "ARGS_ADD";
 
     private Camera mCamera;
-    private String mPrefKey;
     private int mIndex;
     private boolean mAdd = false;
 
@@ -58,10 +55,9 @@ public class SettingsFragmentCameraDetail extends Fragment {
         super.onCreate(saveInstanceState);
 
         Bundle args = getArguments();
-        mPrefKey = args.getString(ARGS_PREF_KEY);
         mAdd = args.getBoolean(ARGS_ADD);
         mCamera = (Camera) args.getSerializable(ARGS_CAMERA_DETAIL);
-        mIndex = getIndex(mPrefKey);
+        mIndex = args.getInt(ARGS_INDEX);
 
         //  Show menu only if not adding device
         if(!mAdd) {
@@ -203,7 +199,6 @@ public class SettingsFragmentCameraDetail extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        // TODO Add your menu entries here
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.delete, menu);
     }
@@ -240,13 +235,6 @@ public class SettingsFragmentCameraDetail extends Fragment {
             InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
-    }
-
-    //  Get array index that is stored in SharedPreference.
-    private int getIndex(String prefKey) {
-        SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        int index = appSharedPrefs.getInt(prefKey, -1);
-        return index;
     }
 
     private void sendMessage(int action, int device, Camera camera, int index) {

@@ -9,8 +9,7 @@ import androidx.annotation.StringDef;
 public class Node implements Serializable {
 
     @StringDef({
-            PrefKey.PREF_KEY_NODES,
-            PrefKey.PREF_KEY_NODE_NUM
+            PrefKey.PREF_KEY_NODES
 //            PrefKey.PREF_KEY_NODE_IP,
 //            PrefKey.PREF_KEY_NODE_SSH_PORT,
 //            PrefKey.PREF_KEY_NODE_AUTH_PASSWORD,
@@ -25,7 +24,6 @@ public class Node implements Serializable {
     @Retention(RetentionPolicy.SOURCE)
     public @interface PrefKey {
         String PREF_KEY_NODES = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NODES";
-        String PREF_KEY_NODE_NUM = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NODE_NUM_";
 //        String PREF_KEY_NODE_IP = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NODE_IP";
 //        String PREF_KEY_NODE_SSH_PORT = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NODE_SSH_PORT";
 //        String PREF_KEY_NODE_AUTH_PASSWORD = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NODE_AUTH_PASSWORD";

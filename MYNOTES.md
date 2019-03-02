@@ -28,7 +28,7 @@ Url should have this syntax:  http://username:password@host or http://username:p
 
 Preference Themes/Styles
 https://chromium.googlesource.com/android_tools/+/2fd98442e4e0ced6bb30bd57abfd8a34f8142d09/sdk/extras/android/support/v14/preference/res/values/styles.xml
-
+https://stackoverflow.com/questions/10228482/how-to-apply-theme-to-preferencescreen-elements-of-a-preferencecategory
  
 ###  Save for later use
 sudo date -s "Thu Jan  17 14:37:00 PST 2019"

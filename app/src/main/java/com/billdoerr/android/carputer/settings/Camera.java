@@ -3,6 +3,7 @@ package com.billdoerr.android.carputer.settings;
 import java.io.Serializable;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.UUID;
 
 
 import androidx.annotation.StringDef;
@@ -10,21 +11,29 @@ import androidx.annotation.StringDef;
 public class Camera implements Serializable {
 
     @StringDef({
-            PrefKey.PREF_KEY_CAMERAS,
-            PrefKey.PREF_KEY_CAMERA_NUM
+            PrefKey.PREF_KEY_CAMERAS
     })
 
     @Retention(RetentionPolicy.SOURCE)
     public @interface PrefKey {
         String PREF_KEY_CAMERAS = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_CAMERAS";
-        String PREF_KEY_CAMERA_NUM = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_CAMERA_NUM_";
     }
 
+
+    private UUID mUUID;
     private String mName;
     private String mUrl;
     private boolean mUseAuthentication;
     private String mUser;
     private String mPassword;
+
+    public Camera() {
+        mUUID = UUID.randomUUID();
+    }
+
+    public UUID getUUID() {
+        return mUUID;
+    }
 
     public String getName() {
         return mName;

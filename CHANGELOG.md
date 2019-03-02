@@ -4,18 +4,18 @@ All notable changes to this Android application project will be documented in th
 
 ## [Unreleased]
 ### v1.x (NOT STARTED)
+#### Added
+#### Changed
 - [ ]  Review use of icons.	
   - [ ]  Need RaspberryPi svg (not color).
   - [ ]  Need motioneye svg.
-- [ ]  Address TODO's.	
 - [ ]  Test and validate performance using RaspberryPi with USBStick + two USB Cameras + router.
-- [ ]  Put a lot more effort into style/themes.
-
+#### Removed
 
 ## [Unreleased]
 ### v1.2 (NOT STARTED)
-- [ ] **CarputerFragmentMgmt/SSHFragment**  Needs work regarding nodes/args.  First need to make SettingsActivity more robust.
-
+- [ ]  Put a lot more effort into style/themes.
+- [ ]  Implement WiFI auto connection to PINET.	
 
 ## [In Progess]
 ### v1.1 (IN PROGRESS)
@@ -30,7 +30,11 @@ All notable changes to this Android application project will be documented in th
 		https://stackoverflow.com/questions/4788713/nested-preferencescreens-under-a-dynamic-list-of-preferences-on-android  
 		https://exceptionshub.com/is-it-possible-to-add-an-array-or-object-to-sharedpreferences-on-android.html  
 		https://stackoverflow.com/questions/37744333/how-to-dynamically-add-preferences-into-preferences-screen-and-bind-their-values  
+- [x] **CarputerFragmentMgmt/SSHFragment**  Needs work regarding nodes/args.  First need to make SettingsActivity more robust.
+- [x]  Address TODO's.	
+- [x]  Added network preferences for SSID and Passphrase for WPA network connection.  WiFI connection not yet implimention in the Carputer application.	
 #### Removed
+-[x] Dual-pane view removed.
 
 
 ## [Released]

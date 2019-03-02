@@ -16,7 +16,9 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
@@ -43,12 +45,19 @@ public class SettingsActivity extends AppCompatActivity implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fragment);
+        setContentView(R.layout.activity_settings_layout);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionbar = getSupportActionBar();
+        actionbar.setTitle(getString(R.string.pref_title_activity_settings));
+        actionbar.setDisplayHomeAsUpEnabled(true);
 
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragment_container, new SettingsFragment())
+                .add(R.id.fragment_container, new SettingsFragment())
                 .commit();
+
     }
 
     @Override
@@ -72,6 +81,12 @@ public class SettingsActivity extends AppCompatActivity implements
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     //  Retrieve list of camera's that are stored in SharedPreferences as a JSON string
@@ -117,8 +132,6 @@ public class SettingsActivity extends AppCompatActivity implements
         prefsEditor.putString(Node.PrefKey.PREF_KEY_NODES, json);
         prefsEditor.commit();
     }
-
-
 
 
     /**
@@ -305,15 +318,13 @@ public class SettingsActivity extends AppCompatActivity implements
                         args.putBoolean(ARGS_ADD, false);
                         args.putSerializable(ARGS_CAMERA_DETAIL, camera);
 
-                        FragmentTransaction ft = getFragmentManager().beginTransaction();
-                        Fragment prev = getFragmentManager().findFragmentByTag("Camera_Detail");
-                        if (prev != null) {
-                            ft.remove(prev);
-                        }
-                        ft.addToBackStack(null);
-                        DialogFragment settingsFragmentCameraDetail = new SettingsFragmentCameraDetail();
+                        Fragment settingsFragmentCameraDetail = new SettingsFragmentCameraDetail();
                         settingsFragmentCameraDetail.setArguments(args);
-                        settingsFragmentCameraDetail.show(ft, "Camera_Detail");
+                        getActivity().getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.fragment_container, settingsFragmentCameraDetail)
+                                .addToBackStack(null)
+                                .commit();
 
                         return true;
                     }
@@ -351,15 +362,13 @@ public class SettingsActivity extends AppCompatActivity implements
                     args.putBoolean(ARGS_ADD, true);    //  Add device flag
                     args.putSerializable(ARGS_CAMERA_DETAIL, camera);
 
-                    FragmentTransaction ft = getFragmentManager().beginTransaction();
-                    Fragment prev = getFragmentManager().findFragmentByTag("Camera_Detail");
-                    if (prev != null) {
-                        ft.remove(prev);
-                    }
-                    ft.addToBackStack(null);
-                    DialogFragment settingsFragmentCameraDetail = new SettingsFragmentCameraDetail();
+                    Fragment settingsFragmentCameraDetail = new SettingsFragmentCameraDetail();
                     settingsFragmentCameraDetail.setArguments(args);
-                    settingsFragmentCameraDetail.show(ft, "Camera_Detail");
+                    getActivity().getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fragment_container, settingsFragmentCameraDetail)
+                            .addToBackStack(null)
+                            .commit();
 
                     return true;
                 }
@@ -511,16 +520,13 @@ public class SettingsActivity extends AppCompatActivity implements
                         args.putBoolean(ARGS_ADD, false);
                         args.putSerializable(ARGS_NODE_DETAIL, node);
 
-                        FragmentTransaction ft = getFragmentManager().beginTransaction();
-                        Fragment prev = getFragmentManager().findFragmentByTag("Node_Detail");
-                        if (prev != null) {
-                            ft.remove(prev);
-                        }
-                        ft.addToBackStack(null);
-                        DialogFragment settingsFragmentNodeDetail = new SettingsFragmentNodeDetail();
+                        Fragment settingsFragmentNodeDetail = new SettingsFragmentNodeDetail();
                         settingsFragmentNodeDetail.setArguments(args);
-                        settingsFragmentNodeDetail.show(ft, "Node_Detail");
-
+                        getActivity().getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.fragment_container, settingsFragmentNodeDetail)
+                                .addToBackStack(null)
+                                .commit();
                         return true;
                     }
                 });
@@ -568,15 +574,13 @@ public class SettingsActivity extends AppCompatActivity implements
                     args.putBoolean(ARGS_ADD, true);    //  Add device flag
                     args.putSerializable(ARGS_NODE_DETAIL, node);
 
-                    FragmentTransaction ft = getFragmentManager().beginTransaction();
-                    Fragment prev = getFragmentManager().findFragmentByTag("Node_Detail");
-                    if (prev != null) {
-                        ft.remove(prev);
-                    }
-                    ft.addToBackStack(null);
-                    DialogFragment settingsFragmentNodeDetail = new SettingsFragmentNodeDetail();
+                    Fragment settingsFragmentNodeDetail = new SettingsFragmentNodeDetail();
                     settingsFragmentNodeDetail.setArguments(args);
-                    settingsFragmentNodeDetail.show(ft, "Node_Detail");
+                    getActivity().getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fragment_container, settingsFragmentNodeDetail)
+                            .addToBackStack(null)
+                            .commit();
 
                     return true;
                 }

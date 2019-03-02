@@ -19,13 +19,14 @@ All notable changes to the nodes required for the Android application project wi
 
 ## [Unreleased]
 ### v1.1
+#### Added
 - [ ]  Version OS images independent of Android app versions
 - [ ]  Add power off switch  
 	https://github.com/TonyLHansen/raspberry-pi-safe-off-switch/
 - [ ]  Add Real Time Clock (RTC)  
     https://learn.adafruit.com/adding-a-real-time-clock-to-raspberry-pi/overview  
     https://www.sparkfun.com/products/12708  
-#### Added
+
 #### Changed
 #### Removed
 

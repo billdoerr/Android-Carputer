@@ -16,7 +16,8 @@
 		android:launchMode="singleTop"
         android:usesCleartextTraffic="true">							  
         <activity 
-		android:name=".CarputerActivity">
+		    android:name=".CarputerActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -26,12 +27,7 @@
             android:name=".CameraActivityMjpeg"
             android:label="@string/activity_title_camera">
         </activity>
-        <activity
-            android:name=".settings.SettingsActivity"
-            android:label="@string/activity_title_settings">
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
-                android:value=".CarputerActivity"/>
-        </activity>
+
         <activity
             android:name=".CameraActivityMotionEye"
             android:label="@string/activity_title_camera_motioneye">
@@ -52,6 +48,11 @@
         <activity
             android:name=".CarputerActivityMgmt"
             android:label="@string/activity_title_carputer_mgmt">
+        </activity>
+        <activity
+            android:name=".settings.SettingsActivity"
+            android:label="@string/activity_title_settings"
+            android:theme="@style/AppTheme">
         </activity>
         <activity
             android:name=".CarputerActivityAbout"

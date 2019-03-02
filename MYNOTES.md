@@ -26,7 +26,8 @@ Just some internal notes around this project.
 6. **PROBLEM:**  Unable to send Authentication Mode -> Basic in MotionEye but not able to pass url with credentials.  Still prompts for user/password.
 Url should have this syntax:  http://username:password@host or http://username:password@IP:PORT
 
-
+Preference Themes/Styles
+https://chromium.googlesource.com/android_tools/+/2fd98442e4e0ced6bb30bd57abfd8a34f8142d09/sdk/extras/android/support/v14/preference/res/values/styles.xml
 
  
 ###  Save for later use

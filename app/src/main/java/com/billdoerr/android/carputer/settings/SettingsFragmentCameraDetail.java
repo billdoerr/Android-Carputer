@@ -1,11 +1,12 @@
 package com.billdoerr.android.carputer.settings;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -19,10 +20,10 @@ import com.billdoerr.android.carputer.R;
 
 import org.greenrobot.eventbus.EventBus;
 
-import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;
 
-public class SettingsFragmentCameraDetail extends DialogFragment {
+public class SettingsFragmentCameraDetail extends Fragment {
 
     private static final String TAG = "CameraDetail";
 
@@ -62,12 +63,17 @@ public class SettingsFragmentCameraDetail extends DialogFragment {
         mCamera = (Camera) args.getSerializable(ARGS_CAMERA_DETAIL);
         mIndex = getIndex(mPrefKey);
 
+        //  Show menu only if not adding device
+        if(!mAdd) {
+            setHasOptionsMenu(true);
+        }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_settings_camera_detail, container);
+        view = inflater.inflate(R.layout.fragment_settings_camera_detail, null);
 
         mLblCameraNameRequired = (TextView) view.findViewById(R.id.lbl_camera_name_required_field);
 
@@ -155,7 +161,7 @@ public class SettingsFragmentCameraDetail extends DialogFragment {
                     } else {
                         sendMessage(SettingsMessageEvent.Action.UPDATE, SettingsMessageEvent.Device.CAMERA, mCamera, mIndex);
                     }
-                    getDialog().dismiss();      //  Goodbye
+                    getActivity().onBackPressed();
                 }
 
             }
@@ -166,20 +172,9 @@ public class SettingsFragmentCameraDetail extends DialogFragment {
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getDialog().dismiss();      //  Goodbye
+                getActivity().onBackPressed();
             }
         });
-
-        // Delete
-        Button btnDelete = (Button) view.findViewById(R.id.btn_delete);
-        btnDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sendMessage(SettingsMessageEvent.Action.DELETE, SettingsMessageEvent.Device.CAMERA, mCamera, mIndex);
-                getDialog().dismiss();      //  Goodbye
-            }
-        });
-
 
         //  Assign values from passed in arguments
         setCameraDetail(mCamera);
@@ -191,15 +186,6 @@ public class SettingsFragmentCameraDetail extends DialogFragment {
     public void onStart()
     {
         super.onStart();
-
-        //  Display dialog as full screen
-        Dialog dialog = getDialog();
-        if (dialog != null)
-        {
-            int width = ViewGroup.LayoutParams.MATCH_PARENT;
-            int height = ViewGroup.LayoutParams.MATCH_PARENT;
-            dialog.getWindow().setLayout(width, height);
-        }
     }
 
     @Override
@@ -213,6 +199,29 @@ public class SettingsFragmentCameraDetail extends DialogFragment {
             mTextCameraName.setText(camera.getName());
             mTextCameraUrl.setText(camera.getUrl());
         }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // TODO Add your menu entries here
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.delete, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            //  Delete device
+            case R.id.action_delete:
+                sendMessage(SettingsMessageEvent.Action.DELETE, SettingsMessageEvent.Device.CAMERA, mCamera, mIndex);
+                getActivity().onBackPressed();
+                return true;
+            default:
+                break;
+        }
+
+        return false;
     }
 
     //  Get update details

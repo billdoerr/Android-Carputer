@@ -5,9 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- Include Toolbar -->
-    <include layout="@layout/toolbar"/>
-
     <!-- Node Details -->
     <LinearLayout
         android:id="@+id/layout_root"
@@ -166,13 +163,6 @@
         android:gravity="center"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal" >
-
-        <Button
-            android:id="@+id/btn_delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:text="@string/btn_delete" />
 
         <Button
             android:id="@+id/btn_cancel"

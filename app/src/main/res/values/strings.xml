@@ -147,6 +147,8 @@
     <string name="pref_default_node_motioneye_url">http://192.168.4.1:8765</string>
     <string name="pref_default_node_physysinfo_url">http://192.168.4.1/phpsysinfo</string>
 
+    <string name="action_delete">Delete</string>
+
 
     <!-- END NEW STUFF -->
 

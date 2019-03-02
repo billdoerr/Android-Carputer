@@ -149,6 +149,8 @@
 
     <string name="action_delete">Delete</string>
 
+    <string name="exception_no_free_space">The path has no free space available.</string>
+
 
     <!-- END NEW STUFF -->
 

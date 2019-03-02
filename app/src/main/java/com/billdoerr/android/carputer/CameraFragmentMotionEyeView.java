@@ -6,6 +6,8 @@ import android.graphics.Canvas;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,7 +23,7 @@ import com.billdoerr.android.carputer.utils.ImageStorage;
 
 public class CameraFragmentMotionEyeView extends Fragment {
 
-    private static final String TAG = "CameraFragmentMotionEyeView";
+    private static final String TAG = "CameraFragMotionEyeView";
     private static final String ARGS_NODE_DETAIL = "ARGS_NODE_DETAIL";
 
     private WebView mWebView;
@@ -76,8 +78,13 @@ public class CameraFragmentMotionEyeView extends Fragment {
         Bitmap bitmap = Bitmap.createBitmap(mWebView.getWidth(), mWebView.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         mWebView.draw(canvas);
+        try {
+            new ImageStorage().saveImage(getActivity(), bitmap);
+        } catch (ImageStorage.FreeSpaceException e) {
+            //  Handle exception
+            Log.i(TAG, e.getMessage().toString() );
+        }
 
-        new ImageStorage().saveImage(getActivity(), bitmap);
         Toast.makeText(getActivity(), getResources().getString(R.string.toast_image_saved), Toast.LENGTH_LONG).show();
     }
 

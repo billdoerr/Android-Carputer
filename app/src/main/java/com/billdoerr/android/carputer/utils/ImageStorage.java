@@ -13,6 +13,8 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
+import com.billdoerr.android.carputer.R.string;
+
 public class ImageStorage {
 
     private static final String TAG = "ImageStorage";
@@ -41,7 +43,7 @@ public class ImageStorage {
 //    }
 
     //  Save image
-    public String saveImage(Context context, Bitmap bitmap) {
+    public String saveImage(Context context, Bitmap bitmap) throws FreeSpaceException {
         FileOutputStream outputStream;
         File path = context.getFilesDir();
         String url = "";
@@ -57,7 +59,8 @@ public class ImageStorage {
                 e.printStackTrace();
             }
         } else {
-            //  TODO : Generate custom exception?  How?
+            //  Throw custom exception?  How?
+            throw new FreeSpaceException(path + ": " + string.exception_no_free_space);
         }
         return url;
     }
@@ -92,6 +95,25 @@ public class ImageStorage {
 //            e.printStackTrace();
 //        }
         return df.format(c.getTime());
+    }
+
+    //  Generate custom exception
+    public class FreeSpaceException extends Exception {
+        public FreeSpaceException () {
+
+        }
+
+        public FreeSpaceException (String message) {
+            super (message);
+        }
+
+        public FreeSpaceException (Throwable cause) {
+            super (cause);
+        }
+
+        public FreeSpaceException (String message, Throwable cause) {
+            super (message, cause);
+        }
     }
 
 }

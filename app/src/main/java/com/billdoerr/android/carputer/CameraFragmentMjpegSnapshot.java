@@ -160,7 +160,13 @@ public class CameraFragmentMjpegSnapshot extends Fragment implements OnFrameCapt
         if (mLastPreview != null) {
             Log.d(TAG, "Image captured.");
             mImageView.setImageBitmap(mLastPreview);
-            new ImageStorage().saveImage(getActivity(), mLastPreview);
+            try {
+                new ImageStorage().saveImage(getActivity(), mLastPreview);
+            } catch (ImageStorage.FreeSpaceException e) {
+                //  Handle exception
+                Log.i(TAG, e.getMessage().toString() );
+            }
+
             Toast.makeText(getActivity(), getResources().getString(R.string.toast_image_saved), Toast.LENGTH_LONG).show();
             Log.d(TAG, "Image saved!");
         }

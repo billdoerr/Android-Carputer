@@ -1,7 +1,6 @@
 package com.billdoerr.android.carputer.settings;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -21,7 +20,6 @@ import com.billdoerr.android.carputer.R;
 import org.greenrobot.eventbus.EventBus;
 
 import androidx.fragment.app.Fragment;
-import androidx.preference.PreferenceManager;
 
 /**
  * The fragment that displays preferences that Node detail
@@ -189,7 +187,8 @@ public class SettingsFragmentNodeDetail extends Fragment {
             public void onClick(View v) {
                 boolean isMissingData = false;
 
-                hideKeyboard();
+                //  Not sure if this is needed or issue with emulator.  No issues on real device if not called.
+                hideSoftKeyboard();
 
                 if (mTextNodeName.getText().toString().length() == 0) {
                     isMissingData = true;
@@ -303,20 +302,13 @@ public class SettingsFragmentNodeDetail extends Fragment {
     }
 
     //  Hide soft keyboard
-    private void hideKeyboard() {
+    private void hideSoftKeyboard() {
         // Check if no view has focus:
         View view = getActivity().getCurrentFocus();
         if (view != null) {
             InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
-    }
-
-    //  Get array index that is stored in SharedPreference.
-    private int getIndex(String prefKey) {
-        SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        int index = appSharedPrefs.getInt(prefKey, -1);
-        return index;
     }
 
     private void sendMessage(int action, int device, Node node, int index) {

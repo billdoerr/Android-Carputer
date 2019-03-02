@@ -134,7 +134,8 @@ public class SettingsFragmentCameraDetail extends Fragment {
             public void onClick(View v) {
                 boolean isMissingData = false;
 
-                hideKeyboard();
+                //  Not sure if this is needed or issue with emulator.  No issues on real device if not called.
+                hideSoftKeyboard();
 
                 if (mTextCameraName.getText().toString().length() == 0) {
                     isMissingData = true;
@@ -228,7 +229,7 @@ public class SettingsFragmentCameraDetail extends Fragment {
     }
 
     //  Hide soft keyboard
-    private void hideKeyboard() {
+    private void hideSoftKeyboard() {
         // Check if no view has focus:
         View view = getActivity().getCurrentFocus();
         if (view != null) {
@@ -243,6 +244,5 @@ public class SettingsFragmentCameraDetail extends Fragment {
         event.sendMessage(action, device, camera, index);
         EventBus.getDefault().post(event);
     }
-
 
 }

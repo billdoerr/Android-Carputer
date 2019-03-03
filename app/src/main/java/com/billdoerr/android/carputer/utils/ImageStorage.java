@@ -104,7 +104,7 @@ public class ImageStorage {
 
         }
 
-        public FreeSpaceException (String message) {
+        FreeSpaceException(String message) {
             super (message);
         }
 

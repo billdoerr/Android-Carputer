@@ -3,8 +3,6 @@ package com.billdoerr.android.carputer.settings;
 import java.io.Serializable;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import java.util.UUID;
-
 
 import androidx.annotation.StringDef;
 
@@ -20,20 +18,11 @@ public class Camera implements Serializable {
     }
 
 
-    private UUID mUUID;
     private String mName;
     private String mUrl;
     private boolean mUseAuthentication;
     private String mUser;
     private String mPassword;
-
-    public Camera() {
-        mUUID = UUID.randomUUID();
-    }
-
-    public UUID getUUID() {
-        return mUUID;
-    }
 
     public String getName() {
         return mName;

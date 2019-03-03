@@ -5,7 +5,7 @@ import java.lang.annotation.RetentionPolicy;
 
 import androidx.annotation.IntDef;
 
-public class SettingsMessageEvent {
+class SettingsMessageEvent {
 
     private static final String TAG = "SettingsMessageEvent";
 

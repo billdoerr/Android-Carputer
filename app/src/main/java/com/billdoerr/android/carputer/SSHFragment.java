@@ -40,9 +40,9 @@ public class SSHFragment extends Fragment {
 
     private static final String ARGS_NODE_DETAIL = "ARGS_NODE_DETAIL";
 
-    public static final String PREF_KEY_NETWORK_ENABLED  = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NETWORK_ENABLED";
-    public static final String PREF_KEY_NETWORK_NAME  = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NETWORK_NAME";
-    public static final String PREF_KEY_NETWORK_PASSPHRASE  = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NETWORK_PASSPHRASE";
+    private static final String PREF_KEY_NETWORK_ENABLED  = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NETWORK_ENABLED";
+    private static final String PREF_KEY_NETWORK_NAME  = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NETWORK_NAME";
+    private static final String PREF_KEY_NETWORK_PASSPHRASE  = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NETWORK_PASSPHRASE";
 
     private static List<Node> mNodes = new ArrayList<Node>();
 
@@ -338,7 +338,7 @@ public class SSHFragment extends Fragment {
     }
 
     //  Sync Android date/time with Pi.  Follow with 'date' command to view system date/time.
-    public void syncDateAll() {
+    private void syncDateAll() {
         String date = getDateTime();
         String reply = "";
         final String cmd = "sudo date -s \"" + date + "\" ;date";

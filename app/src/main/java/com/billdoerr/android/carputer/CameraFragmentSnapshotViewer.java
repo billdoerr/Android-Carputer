@@ -183,7 +183,7 @@ public class CameraFragmentSnapshotViewer extends Fragment {
      */
     private class ListAdapter extends RecyclerView.Adapter<ListHolder> {
         private static final String TAG = "ListAdapter";
-        private List<String> mListItems;
+        private final List<String> mListItems;
 
         private ListAdapter(List<String> listItems) {
             mListItems = listItems;

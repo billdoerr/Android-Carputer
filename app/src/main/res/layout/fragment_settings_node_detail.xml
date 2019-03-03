@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- fragment_settings_node_detail.xml -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <!-- Node Details -->
     <LinearLayout
-        android:id="@+id/layout_root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -15,24 +13,19 @@
 
         <!-- Scroll list -->
         <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/scroll_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <!-- Node Details -->
             <LinearLayout
-                android:id="@+id/layout_node_detail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/lbl_node_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
                     android:layout_marginTop="40dp"
                     android:text="@string/lbl_node_name" />
 
@@ -40,23 +33,23 @@
                     android:id="@+id/txt_node_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:inputType="text" />
+                    android:layout_marginStart="20dp"
+                    android:inputType="text"
+                    android:importantForAutofill="no" />
 
                 <TextView
                     android:id="@+id/lbl_node_name_required_field"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
                     android:text="@string/lbl_required_field"
                     android:textColor="@color/design_default_color_error"
                     android:visibility="gone" />
 
                 <TextView
-                    android:id="@+id/lbl_node_ip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
                     android:layout_marginTop="40dp"
                     android:text="@string/lbl_node_ip" />
 
@@ -64,24 +57,24 @@
                     android:id="@+id/txt_node_ip"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:inputType="textUri" />
+                    android:layout_marginStart="20dp"
+                    android:inputType="textUri"
+                    android:importantForAutofill="no" />
 
                 <TextView
                     android:id="@+id/lbl_node_ip_required_field"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
                     android:layout_marginTop="20dp"
                     android:text="@string/lbl_required_field"
                     android:textColor="@color/design_default_color_error"
                     android:visibility="gone" />
 
                 <TextView
-                    android:id="@+id/lbl_node_ssh_port"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
                     android:layout_marginTop="40dp"
                     android:text="@string/lbl_node_ssh_port" />
 
@@ -89,14 +82,15 @@
                     android:id="@+id/txt_node_ssh_port"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:inputType="textUri" />
+                    android:layout_marginStart="20dp"
+                    android:inputType="textUri"
+                    android:importantForAutofill="no" />
 
                 <Switch
                     android:id="@+id/switch_use_authentication"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
                     android:layout_marginTop="20dp"
                     android:text="@string/lbl_use_authentication" />
 
@@ -104,7 +98,7 @@
                     android:id="@+id/lbl_username"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
                     android:layout_marginTop="10dp"
                     android:text="@string/lbl_username" />
 
@@ -112,36 +106,37 @@
                     android:id="@+id/txt_username"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:inputType="text" />
+                    android:layout_marginStart="20dp"
+                    android:inputType="text"
+                    android:importantForAutofill="no" />
 
                 <TextView
                     android:id="@+id/lbl_password"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
                     android:text="@string/lbl_password" />
 
                 <EditText
                     android:id="@+id/txt_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:inputType="textPassword" />
+                    android:layout_marginStart="20dp"
+                    android:inputType="textPassword"
+                    android:importantForAutofill="no" />
 
                 <Switch
                     android:id="@+id/switch_node_use_motioneye"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
                     android:layout_marginTop="20dp"
                     android:text="@string/lbl_node_use_motioneye" />
 
                 <TextView
-                    android:id="@+id/lbl_node_motioneye_url"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
                     android:layout_marginTop="10dp"
                     android:text="@string/lbl_node_motioneye_url" />
 
@@ -149,21 +144,21 @@
                     android:id="@+id/txt_node_motioneye_url"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:inputType="textUri" />
+                    android:layout_marginStart="20dp"
+                    android:inputType="textUri"
+                    android:importantForAutofill="no" />
 
                 <Switch
                     android:id="@+id/switch_node_use_phpsysinfo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
                     android:text="@string/lbl_node_use_phpsysinfo" />
 
                 <TextView
-                    android:id="@+id/lbl_node_phpsysinfo_url"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
                     android:layout_marginTop="10dp"
                     android:text="@string/lbl_node_phpsysinfo_url" />
 
@@ -171,14 +166,14 @@
                     android:id="@+id/txt_node_phpsysinfo_url"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:inputType="textUri" />
+                    android:layout_marginStart="20dp"
+                    android:inputType="textUri"
+                    android:importantForAutofill="no" />
 
                 <TextView
-                    android:id="@+id/lbl_field_is_required"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
                     android:layout_marginTop="40dp"
                     android:text="@string/lbl_required_field"
                     android:textColor="@color/design_default_color_error"
@@ -203,14 +198,16 @@
             android:id="@+id/btn_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:text="@string/btn_cancel" />
+            android:layout_marginEnd="10dp"
+            android:text="@string/btn_cancel"
+            style="?android:attr/borderlessButtonStyle" />
 
         <Button
             android:id="@+id/btn_save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/btn_save" />
+            android:text="@string/btn_save"
+            style="?android:attr/borderlessButtonStyle" />
 
     </LinearLayout>
 

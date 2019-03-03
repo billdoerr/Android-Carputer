@@ -105,10 +105,10 @@ public class CarputerFragmentMgmt extends Fragment {
             mTabLayout.getTabAt(i).setIcon(R.drawable.ic_camera);
             String s = mTabLayout.getTabAt(i).getText().toString();
             //  SSH
-            if (s.equals(getResources().getString(R.string.tab_carputer_mgmt_ssh).toString())) {
+            if (s.equals(getResources().getString(R.string.tab_carputer_mgmt_ssh))) {
                 mTabLayout.getTabAt(i).setIcon(R.drawable.ic_ssh_24px);
             //  phpSysInfo
-            } else if ( sentence.toLowerCase().indexOf(getString(R.string.tab_carputer_mgmt_phpsysinfo).toString().toLowerCase() ) != -1 )  {
+            } else if (sentence.toLowerCase().contains(getString(R.string.tab_carputer_mgmt_phpsysinfo).toLowerCase()))  {
                 mTabLayout.getTabAt(i).setIcon(R.drawable.ic_phpsysinfo_24px);
             //  Default
             } else {
@@ -127,6 +127,7 @@ public class CarputerFragmentMgmt extends Fragment {
             super(manager);
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int position) {
             return mFragmentList.get(position);

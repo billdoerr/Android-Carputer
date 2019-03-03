@@ -69,14 +69,14 @@ public class CameraFragmentMjpegSnapshot extends Fragment implements OnFrameCapt
 
     //  Setup action bar
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.toolbar_options_menu_snapshot, menu);
     }
 
     //  Options menu callback
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
+    public boolean onOptionsItemSelected(@NonNull MenuItem item){
         switch(item.getItemId()){
             case R.id.action_snapshot:
                 takeSnapshot();
@@ -164,7 +164,7 @@ public class CameraFragmentMjpegSnapshot extends Fragment implements OnFrameCapt
                 new ImageStorage().saveImage(getActivity(), mLastPreview);
             } catch (ImageStorage.FreeSpaceException e) {
                 //  Handle exception
-                Log.i(TAG, e.getMessage().toString() );
+                Log.i(TAG, e.getMessage() );
             }
 
             Toast.makeText(getActivity(), getResources().getString(R.string.toast_image_saved), Toast.LENGTH_LONG).show();

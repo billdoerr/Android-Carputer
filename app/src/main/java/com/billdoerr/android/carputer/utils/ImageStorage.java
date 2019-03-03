@@ -1,5 +1,6 @@
 package com.billdoerr.android.carputer.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -87,7 +88,7 @@ public class ImageStorage {
 //        String date = "";
 //         try {
              Calendar c = Calendar.getInstance();
-             SimpleDateFormat df = new SimpleDateFormat(dateFormat);
+             @SuppressLint("SimpleDateFormat") SimpleDateFormat df = new SimpleDateFormat(dateFormat);
 //             String date = df.format(c.getTime());
 //             Date d = df.parse(formattedDate.replaceAll("Z$", "+0000"));
 //            date =  df.format(d).toString();

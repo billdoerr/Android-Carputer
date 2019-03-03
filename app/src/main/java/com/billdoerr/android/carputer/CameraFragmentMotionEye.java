@@ -107,6 +107,7 @@ public class CameraFragmentMotionEye extends Fragment {
             super(manager);
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int position) {
             return mFragmentList.get(position);

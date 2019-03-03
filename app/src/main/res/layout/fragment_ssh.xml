@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -33,7 +30,8 @@
             android:id="@+id/btnExecuteCommand"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/btn_carputer_mgmt_execute_command" />
+            android:text="@string/btn_carputer_mgmt_execute_command"
+            style="?android:attr/borderlessButtonStyle" />
 
         <EditText
             android:id="@+id/txtExecuteCommand"
@@ -42,7 +40,8 @@
             android:background="@android:color/black"
             android:enabled="true"
             android:inputType="textNoSuggestions"
-            android:textColor="@android:color/holo_red_dark" />
+            android:textColor="@android:color/holo_red_dark"
+            android:importantForAutofill="no" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -53,13 +52,15 @@
                 android:id="@+id/btnPoweroffSingle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/btn_carputer_mgmt_ssh_poweroff_single" />
+                android:text="@string/btn_carputer_mgmt_ssh_poweroff_single"
+                style="?android:attr/borderlessButtonStyle" />
 
             <Button
                 android:id="@+id/btnPoweroffAll"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/btn_carputer_mgmt_ssh_poweroff_all" />
+                android:text="@string/btn_carputer_mgmt_ssh_poweroff_all"
+                style="?android:attr/borderlessButtonStyle" />
         </LinearLayout>
 
         <LinearLayout
@@ -71,13 +72,15 @@
                 android:id="@+id/btnSyncDateSingle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/btn_carputer_mgmt_ssh_sync_date_single" />
+                android:text="@string/btn_carputer_mgmt_ssh_sync_date_single"
+                style="?android:attr/borderlessButtonStyle" />
 
             <Button
                 android:id="@+id/btnSyncDateAll"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/btn_carputer_mgmt_ssh_sync_date_all" />
+                android:text="@string/btn_carputer_mgmt_ssh_sync_date_all"
+                style="?android:attr/borderlessButtonStyle" />
 
         </LinearLayout>
 
@@ -90,7 +93,8 @@
                 android:id="@+id/btnPing"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/btn_carputer_mgmt_ssh_ping" />
+                android:text="@string/btn_carputer_mgmt_ssh_ping"
+                style="?android:attr/borderlessButtonStyle" />
 
         </LinearLayout>
 
@@ -109,7 +113,6 @@
             android:enabled="false"
             android:fontFamily="monospace"
             android:gravity="top|start"
-            android:inputType="textMultiLine"
             android:minLines="30"
             android:scrollbars="vertical"
             android:text="@string/txt_carputer_mgmt_ssh_results"

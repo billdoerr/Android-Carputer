@@ -33,7 +33,7 @@ All notable changes to the nodes required for the Android application project wi
 
 ## [Released]
 ### v1.0 28Feb2019
-- [x]  Install Rasbian.
+- [x]  Install Raspbian.
 - [x]  Enable SSH.
 - [x]  Enable VNC.
 - [x]  Install MotionEye.
@@ -45,7 +45,7 @@ All notable changes to the nodes required for the Android application project wi
     - [x] Install motioneye
 	- [x] Configure main RaspberryPi motioneye Rear camera with streaming URL from Pi Zero.
 	- [x] **(PI Camera cable on order)** Use PiCam rather than USB camera.  Validated USB camera works.  
-- [x]  Create final Rasbian image for Carputer-Rear.
+- [x]  Create final Raspbian image for Carputer-Rear.
 	- [x]  Need to configure motioneye to use PiCamera rather than USB camera.
 - [x]  Create final Raspbian image for Carputer.
     - [x]  Need to redo mouting of usb flash drive.

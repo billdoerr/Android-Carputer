@@ -27,7 +27,7 @@ public class WiFi {
         conf.preSharedKey = "\""+ networkPassphrase +"\"";
 
         //  Then, you need to add it to Android wifi manager settings:
-        WifiManager wifiManager = (WifiManager)context.getSystemService(Context.WIFI_SERVICE);
+        WifiManager wifiManager = (WifiManager)context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         wifiManager.addNetwork(conf);
 
         //  And finally, you might need to enable it, so Android connects to it:

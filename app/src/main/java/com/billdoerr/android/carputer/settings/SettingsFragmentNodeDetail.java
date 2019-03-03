@@ -1,5 +1,6 @@
 package com.billdoerr.android.carputer.settings;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import com.billdoerr.android.carputer.R;
 
 import org.greenrobot.eventbus.EventBus;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 /**
@@ -37,7 +39,6 @@ public class SettingsFragmentNodeDetail extends Fragment {
     private boolean mAdd = false;
 
     //  Widgets
-    private View view;
     private EditText mTextNodeName;
     private EditText mTextNodeIp;
     private EditText mTextSSHPort;
@@ -79,10 +80,11 @@ public class SettingsFragmentNodeDetail extends Fragment {
 
     }
 
+    @SuppressLint("InflateParams")
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_settings_node_detail, null);
+        View view = inflater.inflate(R.layout.fragment_settings_node_detail, null);
 
         mLblNodeNameRequired = (TextView) view.findViewById(R.id.lbl_node_name_required_field);
 
@@ -244,13 +246,13 @@ public class SettingsFragmentNodeDetail extends Fragment {
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.delete, menu);
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
 
             //  Delete device

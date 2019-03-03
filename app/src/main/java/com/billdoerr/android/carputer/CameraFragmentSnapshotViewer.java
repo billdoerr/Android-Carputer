@@ -6,7 +6,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AlertDialog;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
@@ -20,7 +19,6 @@ import android.widget.Toast;
 import com.billdoerr.android.carputer.utils.ImageStorage;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -33,7 +31,7 @@ import static androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_SETTLING;
  */
 public class CameraFragmentSnapshotViewer extends Fragment {
 
-    private static final String TAG = "CameraFragmentSnapshotViewer";
+    private static final String TAG = "CameraFragSnapshotView";
 
     private RecyclerView mRecyclerView;
     private ImageView mImageView;
@@ -259,10 +257,12 @@ public class CameraFragmentSnapshotViewer extends Fragment {
                             // Write your code here to execute after dialog
                             if ( file.exists() ) {
                                 try {
-                                    file.delete();
-                                    Toast.makeText(getActivity(), R.string.toast_file_delete_ok, Toast.LENGTH_SHORT)
-                                            .show();
-                                    update();
+                                    boolean isDeleted = file.delete();
+                                    if (isDeleted) {
+                                        Toast.makeText(getActivity(), R.string.toast_file_delete_ok, Toast.LENGTH_SHORT)
+                                                .show();
+                                        update();
+                                    }
                                 } catch (SecurityException e) {
                                     Log.e(TAG, e.getMessage());
                                 }

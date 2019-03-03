@@ -109,6 +109,7 @@ public class CameraFragmentMjpeg extends Fragment {
             super(manager);
         }
 
+        @NonNull
         @Override
         public Fragment getItem(int position) {
             return mFragmentList.get(position);

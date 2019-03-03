@@ -16,6 +16,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -77,7 +78,7 @@ public class SettingsActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
+    public void onSaveInstanceState(@NonNull Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
     }
 
@@ -106,7 +107,7 @@ public class SettingsActivity extends AppCompatActivity implements
         Gson gson = new Gson();
         String json = gson.toJson(mCameras); //tasks is an ArrayList instance variable
         prefsEditor.putString(Camera.PrefKey.PREF_KEY_CAMERAS, json);
-        prefsEditor.commit();
+        prefsEditor.apply();
     }
 
     //  Retrieve list of node's that are stored in SharedPreferences as a JSON string
@@ -128,7 +129,7 @@ public class SettingsActivity extends AppCompatActivity implements
         Gson gson = new Gson();
         String json = gson.toJson(mNodes); //tasks is an ArrayList instance variable
         prefsEditor.putString(Node.PrefKey.PREF_KEY_NODES, json);
-        prefsEditor.commit();
+        prefsEditor.apply();
     }
 
 
@@ -136,7 +137,7 @@ public class SettingsActivity extends AppCompatActivity implements
      * The root preference fragment that displays preferences that link to the other preference
      * fragments below.
      */
-    private static class SettingsFragment extends PreferenceFragmentCompat {
+    public static class SettingsFragment extends PreferenceFragmentCompat {
 
         private static final String TAG = "SettingsFragment";
 
@@ -202,7 +203,7 @@ public class SettingsActivity extends AppCompatActivity implements
     /**
      * The fragment that displays list of configured camera's
      */
-    private static class SettingsFragmentCameras extends PreferenceFragmentCompat {
+    public static class SettingsFragmentCameras extends PreferenceFragmentCompat {
 
         private static final String TAG = "SettingsFragmentCameras";
 
@@ -213,7 +214,7 @@ public class SettingsActivity extends AppCompatActivity implements
         }
 
         @Override
-        public void onAttach(Context context) {
+        public void onAttach(@NonNull Context context) {
             super.onAttach(context);
             EventBus.getDefault().register(this);
         }
@@ -231,8 +232,6 @@ public class SettingsActivity extends AppCompatActivity implements
 
         @Override
         public void onDetach() {
-            //  Delete temp pref key's that are used to store the index in the Cammera ArrayList
-            deletePrefKeyList(mPrefKeyList);
             //  Remove subscription to event bus
             EventBus.getDefault().unregister(this);
             //  Goodbye
@@ -277,9 +276,6 @@ public class SettingsActivity extends AppCompatActivity implements
 
         //  Dynamically create PreferenceScreen of configured camera's
         private void createPreferences() {
-
-            //  Delete temp pref key's that are used to store the index in the Cammera ArrayList
-            deletePrefKeyList(mPrefKeyList);
 
             Context context = getPreferenceManager().getContext();
             PreferenceScreen screen = getPreferenceManager().createPreferenceScreen(context);
@@ -373,45 +369,12 @@ public class SettingsActivity extends AppCompatActivity implements
             setPreferenceScreen(screen);
         }
 
-        //  Get array index that is stored in SharedPreference.
-        private int getIndex(String prefKey) {
-            SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-            int index = appSharedPrefs.getInt(prefKey, -1);
-            return index;
-        }
-
-        private int getIndexNew(ArrayList<Camera> listCameras, Camera c) {
-            for (int i =0; i < listCameras.size(); i++) {
-                if (listCameras.get(i).getUUID() == c.getUUID()) {
-                    return i;
-                }
-            }
-            return -1;
-        }
-
-        //  Set array index that is stored in SharedPreference.
-        private void setIndex(String prefKey, int index) {
-            SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-            SharedPreferences.Editor prefsEditor = appSharedPrefs.edit();
-            prefsEditor.putInt(prefKey, index);
-            prefsEditor.commit();
-        }
-
-        //  Delete temp pref key's that are used to store the index in the Cammera ArrayList
-        private void deletePrefKeyList(List<String> list) {
-            for (int i =0; i < list.size(); i++) {
-                String key = list.get(i);
-                SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                appSharedPrefs.edit().remove(key).clear();
-            }
-        }
-
     }
 
     /**
      * The fragment that displays list of configured Node's
      */
-    private static class SettingsFragmentNodes extends PreferenceFragmentCompat {
+    public static class SettingsFragmentNodes extends PreferenceFragmentCompat {
 
         private static final String TAG = "SettingsFragmentNodes";
 
@@ -422,7 +385,7 @@ public class SettingsActivity extends AppCompatActivity implements
         }
 
         @Override
-        public void onAttach(Context context) {
+        public void onAttach(@NonNull Context context) {
             super.onAttach(context);
             EventBus.getDefault().register(this);
         }

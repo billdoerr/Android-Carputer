@@ -21,7 +21,6 @@
         android:layout_margin="1dp"
         android:adjustViewBounds="true"
         android:src="@mipmap/ic_launcher"
-        android:contentDescription="image_view" />
-
+        android:contentDescription="@string/image_view_content_description_stream" />
 
     </RelativeLayout>

@@ -14,6 +14,8 @@ All notable changes to this Android application project will be documented in th
 ### v1.2 (NOT STARTED)
 #### Added
 #### Changed
+- [ ]  Implement material design.
+	https://stackoverflow.com/questions/8855791/how-to-create-standard-borderless-buttons-like-in-the-design-guideline-mentione
 - [ ]  Put a lot more effort into style/themes.
 - [ ]  Review use of icons.	
   - [ ]  Need RaspberryPi svg (not color).
@@ -25,7 +27,7 @@ All notable changes to this Android application project will be documented in th
 #### Added
 - [x]  Add version/build number in new About menu action item.
 #### Changed
-- [x]  **SettingsActivity**  Make more robust.  Need to store Nodes in JSON and store in shared preference.  Look into nested PreferneceScreen.
+- [x]  **SettingsActivity**  Make more robust.  Need to store Nodes in JSON and store in shared preference.  Look into nested PreferenceScreen.
 		https://developer.android.com/guide/topics/ui/settings/organize-your-settings
 		https://stackoverflow.com/questions/5298370/how-to-add-a-button-to-a-preferencescreen/7251575
 		https://developer.android.com/reference/android/preference/PreferenceFragment
@@ -35,7 +37,8 @@ All notable changes to this Android application project will be documented in th
 		https://stackoverflow.com/questions/37744333/how-to-dynamically-add-preferences-into-preferences-screen-and-bind-their-values  
 - [x] **CarputerFragmentMgmt/SSHFragment**  Needs work regarding nodes/args.  First need to make SettingsActivity more robust.
 - [x]  Address TO-DO's.	
-- [x]  Added network preferences for SSID and Passphrase for WPA network connection.  WiFI connection not yet implimention in the Carputer application.	
+- [x]  Added network preferences for SSID and Passphrase for WPA network connection.  WiFI connection not yet implementation in the Carputer application.	
+- [x]  Switched to using Android Jetpack.
 #### Removed
 - [x] Dual-pane view removed.
 
@@ -44,7 +47,7 @@ All notable changes to this Android application project will be documented in th
 ### v1.0 28Jan2019
 - [x]  Migrate code from Android-CarputerPOC (the proof of concept project).
 - [x]  Design change from CarputerPOC
-	- [x]  Use MotionEye to display streaming video.  Mjpeg has poor performance when implementing the snapshot feature.  Able to implment on-click event to capture image of screen.
+	- [x]  Use MotionEye to display streaming video.  Mjpeg has poor performance when implementing the snapshot feature.  Able to implement on-click event to capture image of screen.
 			<br/>**NOTE:**  Performance improved once enabling RaspberryPi as an access point.
 		- [x]  Create activity/fragment to host tab layout to host MotionEye.  Currently only one tab is needed.
 		- [x]  ~~Use TabLayout to also host WebChromeClient for viewing MotionEye admin console.~~

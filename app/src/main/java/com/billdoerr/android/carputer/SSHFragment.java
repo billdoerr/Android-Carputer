@@ -112,11 +112,11 @@ public class SSHFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 final String cmd = "sudo shutdown -h 0";
-                String reply = "";
+                String reply;
 
                 for (int i = 0; i < mNodes.size(); i++) {
                     String currentNode = mNodes.get(i).getIp();
-                    reply = getResources().getString(R.string.txt_carputer_mgmt_ssh_command_processing).toString() + " on node -> " + currentNode;
+                    reply = getResources().getString(R.string.txt_carputer_mgmt_ssh_command_processing) + " on node -> " + currentNode;
                     updateCommandHistory(reply);
                     Log.d(TAG, reply);
 
@@ -221,7 +221,7 @@ public class SSHFragment extends Fragment {
         spinnerCommandHistory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String cmd = "";
+                String cmd;
                 cmd = parent.getItemAtPosition(position).toString();
                 txtExecuteCommand.setText(cmd);
             }
@@ -333,7 +333,7 @@ public class SSHFragment extends Fragment {
     private String getDateTime() {
         String dateFormat = "EEE MMM dd hh:mm:ss z yyyy";
         Calendar c = Calendar.getInstance();
-        SimpleDateFormat df = new SimpleDateFormat(dateFormat);
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat df = new SimpleDateFormat(dateFormat);
         return df.format(c.getTime());
     }
 
@@ -355,10 +355,10 @@ public class SSHFragment extends Fragment {
         for (int i = 0; i < mNodes.size(); i++) {
             String currentNode = mNodes.get(i).getIp();
             txtExecuteCommand.setText(cmd);
-            reply = reply + "\n" + getResources().getString(R.string.txt_carputer_mgmt_ssh_command_processing).toString() + " on node -> " + currentNode + "\n";
+            reply = reply + "\n" + getResources().getString(R.string.txt_carputer_mgmt_ssh_command_processing) + " on node -> " + currentNode + "\n";
             updateCommandHistory(reply);
             new ExecuteCommandTask().execute(cmd);
-            Log.d(TAG, getResources().getString(R.string.txt_carputer_mgmt_ssh_command_processing).toString() + " on node -> " + currentNode);
+            Log.d(TAG, getResources().getString(R.string.txt_carputer_mgmt_ssh_command_processing) + " on node -> " + currentNode);
         }
 
         mDateSynced = true;
@@ -374,7 +374,7 @@ public class SSHFragment extends Fragment {
         }
         if (mIsConnected) {
             reply = "Connected to network: " + mNetworkSSID + "\n\n";
-        } {
+        } else {
             reply = "Unable to network: \" + mNetworkSSID + \"\\n\\n";
         }
         updateCommandHistory(reply);

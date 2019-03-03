@@ -40,7 +40,7 @@ public class CameraFragmentMotionEyeView extends Fragment {
         getArgs();
     }
 
-    @SuppressLint("ClickableViewAccessibility")
+    @SuppressLint({"ClickableViewAccessibility", "SetJavaScriptEnabled"})
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_camera_motioneye_view, container, false);
@@ -56,14 +56,14 @@ public class CameraFragmentMotionEyeView extends Fragment {
 
     //  Setup action bar
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.toolbar_options_menu_snapshot, menu);
     }
 
     //  Options menu callback
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
+    public boolean onOptionsItemSelected(@NonNull MenuItem item){
         switch(item.getItemId()){
             case R.id.action_snapshot:
                 takeSnapshot();
@@ -82,7 +82,7 @@ public class CameraFragmentMotionEyeView extends Fragment {
             new ImageStorage().saveImage(getActivity(), bitmap);
         } catch (ImageStorage.FreeSpaceException e) {
             //  Handle exception
-            Log.i(TAG, e.getMessage().toString() );
+            Log.i(TAG, e.getMessage() );
         }
 
         Toast.makeText(getActivity(), getResources().getString(R.string.toast_image_saved), Toast.LENGTH_LONG).show();

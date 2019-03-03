@@ -14,7 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
 		android:launchMode="singleTop"
-        android:usesCleartextTraffic="true">							  
+        android:usesCleartextTraffic="true"
+        android:fullBackupContent="@xml/backup_descriptor">
         <activity 
 		    android:name=".CarputerActivity"
             android:theme="@style/AppTheme.NoActionBar">

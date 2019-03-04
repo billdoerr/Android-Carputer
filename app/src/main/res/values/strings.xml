@@ -15,22 +15,19 @@
     <string name="drawer_open">drawer open</string>
     <string name="drawer_close">drawer close</string>
 
-    <!--  Begin Camera Activity -->
+    <!--  Toolbar -->
+    <string name="action_snapshot">Snapshot</string>
+
     <!--  Tab Layout Titles -->
     <string name="tab_camera_file_explorer">Snapshots</string>
+    <string name="tab_carputer_mgmt_ssh">SSH</string>
+    <string name="tab_carputer_mgmt_phpsysinfo">phpSysInfo</string>
 
     <!--  Image Archive -->
     <string name="alert_title_delete_files">Confirm Delete…</string>
     <string name="alert_message_confirm_delete">Are you sure you want delete this file?</string>
     <string name="alert_positive_button">YES</string>
     <string name="alert_negative_button">NO</string>
-
-    <!--  End Camera Activity -->
-
-    <!--  Begin CarputerMgmt Activity -->
-    <!--  Tab Layout Titles -->
-    <string name="tab_carputer_mgmt_ssh">SSH</string>
-    <string name="tab_carputer_mgmt_phpsysinfo">phpSysInfo</string>
 
     <!-- Widgets -->
     <string name="btn_carputer_mgmt_ssh_poweroff_single">Poweroff (Single)</string>
@@ -39,57 +36,19 @@
     <string name="btn_carputer_mgmt_ssh_sync_date_single">Sync Date (Single)</string>
     <string name="btn_carputer_mgmt_ssh_sync_date_all">Sync Date (All)</string>
     <string name="btn_carputer_mgmt_execute_command">Execute Command</string>
-    <string name="txt_carputer_mgmt_ssh_results">Command results…</string>
-    <string name="txt_carputer_mgmt_ssh_command_processing">Command processing…</string>
-
-    <!--  End CarputerMgmt Activity -->
-
-    <!--  Begin CarputerAbout Activity -->
-    <!--  End CarputerAbout Activity -->
-
-    <!--  Begin Toolbar -->
-    <string name="action_snapshot">Snapshot</string>
-    <!--  End Toolbar -->
-
-    <!-- Begin Shared Preference Settings -->
-    <string name="pref_category_cameras">Camera\'s</string>
-
-    <!--  Settings Titles -->
-    <string name="pref_title_activity_settings">Settings</string>
-
-    <!-- BEGIN NEW STUFF -->
-
-    <string name="pref_title_camera_settings">Camera Settings</string>
-    <string name="pref_category_cameras_configured">Camera\'s Configured</string>
-    <string name="pref_category_camera_add">Add Camera</string>
-    <string name="pref_title_camera_add">Add Camera</string>
-
-    <string name="pref_title_node_settings">Node Settings</string>
-    <string name="pref_category_nodes">Node\'s</string>
-    <string name="pref_category_nodes_configured">Node\'s Configured</string>
-    <string name="pref_category_nodes_add">Add Node</string>
-    <string name="pref_title_node_add">Add Node</string>
-
-    <string name="pref_category_network_settings">Network Settings</string>
-    <string name="pref_title_network_name">Network SSID</string>
-    <string name="pref_title_network_password">Network Passphrase</string>
-    <string name="pref_title_network_auto_connect">Auto connect</string>
-    <string name="pref_default_network_name">PINET</string>
-    <string name="pref_default_network_password">scoobydoo</string>
-
-    <!--  Widgets -->
     <string name="btn_save">Save</string>
     <string name="btn_cancel">Cancel</string>
 
+    <string name="txt_carputer_mgmt_ssh_results">Command results…</string>
+    <string name="txt_carputer_mgmt_ssh_command_processing">Command processing…</string>
+    <string name="txt_carputer_mgmt_ssh_syncing_date">Syncing date on all nodes...</string>
+
     <string name="lbl_camera_name">Camera Name*</string>
     <string name="lbl_camera_url">Camera Url*</string>
-
     <string name="lbl_use_authentication">Use authentication</string>
     <string name="lbl_username">Username</string>
     <string name="lbl_password">Password</string>
-
     <string name="lbl_required_field">* Field is required</string>
-
     <string name="lbl_node_name">Node Name*</string>
     <string name="lbl_node_ip">Node Ip*</string>
     <string name="lbl_node_ssh_port">SSH Port</string>
@@ -98,25 +57,46 @@
     <string name="lbl_node_use_motioneye">Use motionEye</string>
     <string name="lbl_node_motioneye_url">motionEye Url</string>
 
+    <string name="image_view_content_description_stream">Streaming Video</string>
 
+
+    <!-- Shared Preference Settings -->
+    <!--  Preference Category -->
+    <string name="pref_category_cameras">Camera\'s</string>
+    <string name="pref_category_cameras_configured">Camera\'s Configured</string>
+    <string name="pref_category_camera_add">Add Camera</string>
+    <string name="pref_category_nodes">Node\'s</string>
+    <string name="pref_category_nodes_configured">Node\'s Configured</string>
+    <string name="pref_category_nodes_add">Add Node</string>
+    <string name="pref_category_network_settings">Network Settings</string>
+
+    <!--  Preference Titles -->
+    <string name="pref_title_activity_settings">Settings</string>
+    <string name="pref_title_camera_settings">Camera Settings</string>
+    <string name="pref_title_camera_add">Add Camera</string>
+    <string name="pref_title_node_settings">Node Settings</string>
+    <string name="pref_title_node_add">Add Node</string>
+    <string name="pref_title_network_name">Network SSID</string>
+    <string name="pref_title_network_password">Network Passphrase</string>
+    <string name="pref_title_network_auto_connect">Auto connect</string>
+
+    <!--  Default Shared Preference Values -->
     <string name="pref_default_camera_name">Front</string>
+    <string name="pref_default_camera_url">http://192.168.4.1:8081</string>
     <string name="pref_default_node_name">Front</string>
     <string name="pref_default_node_ip">192.168.4.1</string>
     <string name="pref_default_node_ssh_port">22</string>
     <string name="pref_default_node_motioneye_url">http://192.168.4.1:8765</string>
     <string name="pref_default_node_physysinfo_url">http://192.168.4.1/phpsysinfo</string>
+    <string name="pref_default_network_name">PINET</string>
+    <string name="pref_default_network_password">scoobydoo</string>
 
-    <string name="exception_no_free_space">The path has no free space available.</string>
 
+    <!--  About -->
     <string name="version">Version</string>
 
-    <string name="image_view_content_description_stream">Streaming Video</string>
-
-    <!-- END NEW STUFF -->
-
-    <!--  Default Shared Preference Values -->
-    <string name="pref_default_camera_url">http://192.168.4.1:8081</string>
-    <!--  End Shared Preference Settings -->
+    <!--  Custom exceptions -->
+    <string name="exception_no_free_space">The path has no free space available.</string>
 
     <!--  Toast messages -->
     <string name="toast_image_saved">Image has been saved.</string>

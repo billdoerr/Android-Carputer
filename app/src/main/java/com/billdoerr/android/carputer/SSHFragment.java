@@ -59,6 +59,13 @@ public class SSHFragment extends Fragment {
     private static String mNetworkSSID;
     private static String mNetworkPassphrase;
 
+    //  Class:  Task
+    private static class Payload {
+        public String task;
+        public List<Node> nodes;
+    }
+
+
     public static SSHFragment newInstance() {
         return new SSHFragment();
     }
@@ -112,18 +119,11 @@ public class SSHFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 final String cmd = "sudo shutdown -h 0";
-                String reply;
-
-                for (int i = 0; i < mNodes.size(); i++) {
-                    String currentNode = mNodes.get(i).getIp();
-                    reply = getResources().getString(R.string.txt_carputer_mgmt_ssh_command_processing) + " on node -> " + currentNode;
-                    updateCommandHistory(reply);
-                    Log.d(TAG, reply);
-
-                    txtExecuteCommand.setText(cmd);
-                    new ExecuteCommandTask().execute(cmd);
-                }
-
+                Payload p = new Payload();
+                p.nodes = mNodes;
+                p.task = cmd;
+                updateCommandHistory(getString(R.string.txt_carputer_mgmt_ssh_syncing_date));
+                new ExecuteCommandTaskNew().execute(p);
             }
         });
 
@@ -299,7 +299,9 @@ public class SSHFragment extends Fragment {
         }
     }
 
+    //  TODO : How does it know what node to process for PowerOff (ALL)?
     //  Async Task to perform ping command
+    //  android.os.AsyncTask<Params, Progress, Result>
     private class ExecuteCommandTask extends AsyncTask<String, Void, String> {
 
         private static final String TAG = "ExecuteCommandTask";
@@ -317,6 +319,38 @@ public class SSHFragment extends Fragment {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            updateCommandHistory(result);
+        }
+    }
+
+    //  TODO : How does it know what node to process for PowerOff (ALL)?
+    //  Async Task to perform ping command
+    //  android.os.AsyncTask<Params, Progress, Result>
+    private class ExecuteCommandTaskNew extends AsyncTask<Payload, Void, String> {
+
+        private static final String TAG = "PowerOffAll";
+
+        @SuppressLint("StaticFieldLeak")
+        @Override
+        protected String doInBackground(Payload... params) {
+            String result = "";
+            Payload p = params[0];
+            for (int i = 0; i < p.nodes.size(); i++) {
+                try {
+                    RPiUtils utils = new RPiUtils();
+                    utils.initialize(p.nodes.get(i).getIp(), p.nodes.get(i).getSSHPort(),
+                            p.nodes.get(i).getUser(), p.nodes.get(i).getPassword());
+                    result = utils.executeRemoteCommand(p.task);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
             return result;
         }
 
@@ -350,16 +384,13 @@ public class SSHFragment extends Fragment {
             return;
         }
 
-        reply = "Syncing date on all nodes...\n";
+        reply = reply + "Syncing date on all nodes...\n";
+        updateCommandHistory(reply);
 
-        for (int i = 0; i < mNodes.size(); i++) {
-            String currentNode = mNodes.get(i).getIp();
-            txtExecuteCommand.setText(cmd);
-            reply = reply + "\n" + getResources().getString(R.string.txt_carputer_mgmt_ssh_command_processing) + " on node -> " + currentNode + "\n";
-            updateCommandHistory(reply);
-            new ExecuteCommandTask().execute(cmd);
-            Log.d(TAG, getResources().getString(R.string.txt_carputer_mgmt_ssh_command_processing) + " on node -> " + currentNode);
-        }
+        Payload p = new Payload();
+        p.nodes = mNodes;
+        p.task = cmd;
+        new ExecuteCommandTaskNew().execute(p);
 
         mDateSynced = true;
     }

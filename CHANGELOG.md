@@ -11,6 +11,14 @@ All notable changes to this Android application project will be documented in th
 #### Removed
 
 ## [Unreleased]
+### v1.3 (NOT STARTED)
+#### Added
+- [ ]  Automatic network connection.
+#### Changed
+- [ ]  SSH Fragment is a complete hack!  Replace with something more robust.
+#### Removed
+
+## [Unreleased]
 ### v1.2 (NOT STARTED)
 #### Added
 #### Changed
@@ -23,10 +31,11 @@ All notable changes to this Android application project will be documented in th
 #### Removed
 
 ## [In Progess]
-### v1.1 (IN PROGRESS)
+### v1.1 (TESTING AND FIXING BUGS)  Relese ETA:  5Mar2019
 #### Added
 - [x]  Add version/build number in new About menu action item.
 #### Changed
+- [ ] (NEEDS VALIDATION) **CarputerFragmentMgmt/SSHFragment**  Needs work regarding nodes/args.  First need to make SettingsActivity more robust.
 - [x]  **SettingsActivity**  Make more robust.  Need to store Nodes in JSON and store in shared preference.  Look into nested PreferenceScreen.
 		https://developer.android.com/guide/topics/ui/settings/organize-your-settings
 		https://stackoverflow.com/questions/5298370/how-to-add-a-button-to-a-preferencescreen/7251575
@@ -35,7 +44,6 @@ All notable changes to this Android application project will be documented in th
 		https://stackoverflow.com/questions/4788713/nested-preferencescreens-under-a-dynamic-list-of-preferences-on-android  
 		https://exceptionshub.com/is-it-possible-to-add-an-array-or-object-to-sharedpreferences-on-android.html  
 		https://stackoverflow.com/questions/37744333/how-to-dynamically-add-preferences-into-preferences-screen-and-bind-their-values  
-- [x] **CarputerFragmentMgmt/SSHFragment**  Needs work regarding nodes/args.  First need to make SettingsActivity more robust.
 - [x]  Address TO-DO's.	
 - [x]  Added network preferences for SSID and Passphrase for WPA network connection.  WiFI connection not yet implementation in the Carputer application.	
 - [x]  Switched to using Android Jetpack.

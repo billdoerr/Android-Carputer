@@ -32,12 +32,11 @@ class SettingsMessageEvent {
     private Camera mCamera;
     private Node mNode;
 
-    public com.billdoerr.android.carputer.settings.Node getNode() {
-        return mNode;
+    public SettingsMessageEvent() {
     }
 
-    public void setRaspberryPi(Node node) {
-        mNode = node;
+    public com.billdoerr.android.carputer.settings.Node getNode() {
+        return mNode;
     }
 
     public int getAction() {
@@ -48,42 +47,14 @@ class SettingsMessageEvent {
         mAction = action;
     }
 
-    public int getDevice() {
-        return mDevice;
-    }
-
-    public void setDevice(int device) {
-        mDevice = device;
-    }
-
     public int getIndex() {
         return mIndex;
-    }
-
-    public void setIndex(int index) {
-        mIndex = index;
     }
 
     public Camera getCamera() {
         return mCamera;
     }
 
-    public void setCamera(Camera camera) {
-        mCamera = camera;
-    }
-
-    private String mMessage;    //  For simple testing
-
-    public SettingsMessageEvent() {
-    }
-
-    public SettingsMessageEvent(String message) {
-        mMessage = message;
-    }
-
-    public void sendMessage(String message) {
-        mMessage = message;
-    }
 
     public void sendMessage(int action, int device, Camera camera, int index) {
         mAction = action;
@@ -97,10 +68,6 @@ class SettingsMessageEvent {
         mDevice = device;
         mNode = node;
         mIndex = index;
-    }
-
-    public String getMessage() {
-        return mMessage;
     }
 
 }

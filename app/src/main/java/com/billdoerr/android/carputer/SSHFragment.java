@@ -122,7 +122,7 @@ public class SSHFragment extends Fragment {
                 Payload p = new Payload();
                 p.nodes = mNodes;
                 p.task = cmd;
-                updateCommandHistory(getString(R.string.txt_carputer_mgmt_ssh_syncing_date));
+                updateCommandHistory(getString(R.string.txt_carputer_mgmt_ssh_poweroff_all));
                 new ExecuteCommandTaskNew().execute(p);
             }
         });

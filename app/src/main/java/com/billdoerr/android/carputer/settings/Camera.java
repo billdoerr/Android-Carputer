@@ -8,6 +8,8 @@ import androidx.annotation.StringDef;
 
 public class Camera implements Serializable {
 
+    private static final String TAG = "Camera";
+
     @StringDef({
             PrefKey.PREF_KEY_CAMERAS
     })
@@ -16,7 +18,6 @@ public class Camera implements Serializable {
     public @interface PrefKey {
         String PREF_KEY_CAMERAS = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_CAMERAS";
     }
-
 
     private String mName;
     private String mUrl;

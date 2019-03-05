@@ -30,8 +30,8 @@ All notable changes to this Android application project will be documented in th
   - [ ]  Need motioneye svg.
 #### Removed
 
-## [In Progess]
-### v1.1 (TESTING AND FIXING BUGS)  Relese ETA:  5Mar2019
+## [Released]
+### v1.1 Relese ETA:  5Mar2019
 #### Added
 - [x]  Add version/build number in new About menu action item.
 #### Changed

@@ -42,6 +42,7 @@
     <string name="txt_carputer_mgmt_ssh_results">Command results…</string>
     <string name="txt_carputer_mgmt_ssh_command_processing">Command processing…</string>
     <string name="txt_carputer_mgmt_ssh_syncing_date">Syncing date on all nodes...</string>
+    <string name="txt_carputer_mgmt_ssh_poweroff_all">Shutting down, goodbye.</string>
 
     <string name="lbl_camera_name">Camera Name*</string>
     <string name="lbl_camera_url">Camera Url*</string>

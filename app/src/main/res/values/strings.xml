@@ -44,12 +44,14 @@
     <string name="txt_carputer_mgmt_ssh_syncing_date">Syncing date on all nodes...</string>
     <string name="txt_carputer_mgmt_ssh_poweroff_all">Shutting down, goodbye.</string>
 
+    <string name="lbl_camera_details">Camera Details</string>
     <string name="lbl_camera_name">Camera Name*</string>
     <string name="lbl_camera_url">Camera Url*</string>
-    <string name="lbl_use_authentication">Use authentication</string>
+    <string name="lbl_use_authentication">Use Authentication</string>
     <string name="lbl_username">Username</string>
     <string name="lbl_password">Password</string>
     <string name="lbl_required_field">* Field is required</string>
+    <string name="lbl_node_details">Node Details</string>
     <string name="lbl_node_name">Node Name*</string>
     <string name="lbl_node_ip">Node Ip*</string>
     <string name="lbl_node_ssh_port">SSH Port</string>

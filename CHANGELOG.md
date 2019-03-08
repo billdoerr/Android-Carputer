@@ -11,19 +11,27 @@ All notable changes to this Android application project will be documented in th
 #### Removed
 
 ## [Unreleased]
-### v1.3 (NOT STARTED)
+### v1.4 (NOT STARTED)
 #### Added
-- [ ]  Automatic network connection.
 #### Changed
 - [ ]  SSH Fragment is a complete hack!  Replace with something more robust.
 #### Removed
 
 ## [Unreleased]
-### v1.2 (NOT STARTED)
+### v1.3 (NOT STARTED)
+#### Added
+- [ ]  Automatic network connection.
+	- [x]  (ADDED IN v1.1)Added network preferences for SSID and Passphrase for WPA network connection.  WiFI connection not yet implementation in the Carputer application.	
+#### Changed
+#### Removed
+
+## [Unreleased]
+### v1.2 (RESEARCHING)
 #### Added
 #### Changed
 - [ ]  Implement material design.
 	https://stackoverflow.com/questions/8855791/how-to-create-standard-borderless-buttons-like-in-the-design-guideline-mentione
+	C:\Users\bdoerr\.gradle\caches\transforms-1\files-1.1\preference-1.1.0-alpha03.aar\50f8bf0a051ec5e694dfaeeb38097e7e\res\layout
 - [ ]  Put a lot more effort into style/themes.
 - [ ]  Review use of icons.	
   - [ ]  Need RaspberryPi svg (not color).

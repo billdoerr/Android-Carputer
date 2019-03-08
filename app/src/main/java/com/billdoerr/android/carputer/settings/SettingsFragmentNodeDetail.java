@@ -21,6 +21,7 @@ import com.billdoerr.android.carputer.R;
 import org.greenrobot.eventbus.EventBus;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.fragment.app.Fragment;
 
 /**
@@ -77,13 +78,16 @@ public class SettingsFragmentNodeDetail extends Fragment {
         if(!mAdd) {
             setHasOptionsMenu(true);
         }
-
     }
 
     @SuppressLint("InflateParams")
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+//        ContextThemeWrapper wrapper = new ContextThemeWrapper(getActivity(),R.style.AppTheme_PreferenceSettingsOverlay);
+
+
         View view = inflater.inflate(R.layout.fragment_settings_node_detail, null);
 
         mLblNodeNameRequired = (TextView) view.findViewById(R.id.lbl_node_name_required_field);

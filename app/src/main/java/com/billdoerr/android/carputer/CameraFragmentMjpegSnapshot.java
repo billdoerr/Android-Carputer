@@ -2,6 +2,7 @@ package com.billdoerr.android.carputer;
 
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -151,7 +152,8 @@ public class CameraFragmentMjpegSnapshot extends Fragment implements OnFrameCapt
                         },
                         throwable -> {
                             Log.e(getClass().getSimpleName(), "mjpeg error", throwable);
-                            Toast.makeText(getActivity(), getResources().getString(R.string.toast_camera_connection_error), Toast.LENGTH_LONG).show();
+                            //  TODO:  Why is the Toast throwing errors now?
+//                            Toast.makeText(getActivity(), getResources().getString(R.string.toast_camera_connection_error), Toast.LENGTH_LONG).show();
                         });
     }
 

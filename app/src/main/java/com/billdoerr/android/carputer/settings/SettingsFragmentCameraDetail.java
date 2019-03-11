@@ -23,6 +23,9 @@ import org.greenrobot.eventbus.EventBus;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+/**
+ *
+ */
 public class SettingsFragmentCameraDetail extends Fragment {
 
     private static final String TAG = "CameraDetail";
@@ -192,7 +195,10 @@ public class SettingsFragmentCameraDetail extends Fragment {
         super.onResume();
     }
 
-    //  Set text fields with values from arguments
+    /**
+     * Set text fields with values from arguments
+     * @param camera
+     */
     private void setCameraDetail(Camera camera) {
         if (camera != null) {
             mTextCameraName.setText(camera.getName());
@@ -222,7 +228,10 @@ public class SettingsFragmentCameraDetail extends Fragment {
         return false;
     }
 
-    //  Get update details
+    /**
+     * Get update details
+     * @return
+     */
     private Camera getCameraDetail() {
         Camera camera = new Camera();
         camera.setName(mTextCameraName.getText().toString());
@@ -230,7 +239,9 @@ public class SettingsFragmentCameraDetail extends Fragment {
         return camera;
     }
 
-    //  Hide soft keyboard
+    /**
+     * Hide soft keyboard
+     */
     private void hideSoftKeyboard() {
         // Check if no view has focus:
         View view = getActivity().getCurrentFocus();
@@ -240,8 +251,14 @@ public class SettingsFragmentCameraDetail extends Fragment {
         }
     }
 
+    /**
+     * Post preference change to EventBus
+     * @param action
+     * @param device
+     * @param camera
+     * @param index
+     */
     private void sendMessage(int action, int device, Camera camera, int index) {
-        //  Post preference change to EventBus
         SettingsMessageEvent event = new SettingsMessageEvent();
         event.sendMessage(action, device, camera, index);
         EventBus.getDefault().post(event);

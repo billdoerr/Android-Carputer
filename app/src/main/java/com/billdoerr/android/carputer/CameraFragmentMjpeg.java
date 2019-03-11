@@ -24,6 +24,9 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *
+ */
 public class CameraFragmentMjpeg extends Fragment {
 
     private static final String TAG = "CameraFragmentMjeg";
@@ -67,7 +70,10 @@ public class CameraFragmentMjpeg extends Fragment {
         return view;
     }
 
-    //  Add fragments to tabs
+    /**
+     * Add fragments to tabs
+     * @param viewPager
+     */
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
 
@@ -84,7 +90,10 @@ public class CameraFragmentMjpeg extends Fragment {
         viewPager.setAdapter(adapter);
     }
 
-    //  Setup action bar
+    /**
+     * Setup action bar
+     * @param view
+     */
     private void setupActionBar(View view) {
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         ((CameraActivityMjpeg)getActivity()).setSupportActionBar(toolbar);
@@ -93,13 +102,18 @@ public class CameraFragmentMjpeg extends Fragment {
         actionbar.setHomeAsUpIndicator(R.drawable.ic_baseline_menu_24px);
     }
 
+    /**
+     * Add icons to tab
+     */
     private void addTabLayoutIcons() {
         for (int i = 0; i < mViewPager.getAdapter().getCount(); i++) {
             mTabLayout.getTabAt(i).setIcon(R.drawable.ic_baseline_camera_24px);
         }
     }
 
-    // View Adapter
+    /**
+     * View Adapter Class
+     */
     class ViewPagerAdapter extends FragmentPagerAdapter {
 
         private final List<Fragment> mFragmentList = new ArrayList<>();
@@ -132,7 +146,11 @@ public class CameraFragmentMjpeg extends Fragment {
 
     }
 
-    //  Retrieve list of camera's that are stored in SharedPreferences as a JSON string
+    /**
+     * Retrieve list of camera's that are stored in SharedPreferences as a JSON string
+     * @param context
+     * @return
+     */
     private static List<Camera> getCamerasFromSharedPrefs(Context context) {
         SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
         Gson gson = new Gson();

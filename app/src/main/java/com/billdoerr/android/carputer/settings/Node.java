@@ -6,6 +6,9 @@ import java.lang.annotation.RetentionPolicy;
 
 import androidx.annotation.StringDef;
 
+/**
+ *
+ */
 public class Node implements Serializable {
 
     private static final String TAG = "Node";

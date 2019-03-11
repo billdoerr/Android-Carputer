@@ -13,6 +13,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Properties;
 
+/**
+ *
+ */
 public class RPiUtils {
 
     private static final String TAG = "RPiUtils";
@@ -23,6 +26,13 @@ public class RPiUtils {
     private String mUser;
     private String mPwd;
 
+    /**
+     *
+     * @param ip
+     * @param port
+     * @param user
+     * @param pwd
+     */
     public void initialize(String ip, String port, String user, String pwd) {
         mIP = ip;
         mPort = port;
@@ -30,6 +40,12 @@ public class RPiUtils {
         mPwd = pwd;
     }
 
+    /**
+     *
+     * @param cmd
+     * @return
+     * @throws Exception
+     */
     public String executeRemoteCommand(String cmd) throws Exception {
         JSch jsch = new JSch();
         Session session = jsch.getSession(mUser, mIP, Integer.parseInt(mPort));
@@ -61,13 +77,19 @@ public class RPiUtils {
         return baos.toString();
     }
 
-    /*
-    Usage: ping [-LRUbdfnqrvVaA] [-c count] [-i interval] [-w deadline]
+
+    /**
+     *
+     * @param ip
+     * @return
+     */
+    public String ping(String ip) {
+     /*
+        Usage: ping [-LRUbdfnqrvVaA] [-c count] [-i interval] [-w deadline]
         [-p pattern] [-s packetsize] [-t ttl] [-I interface or address]
         [-M mtu discovery hint] [-S sndbuf]
         [ -T timestamp option ] [ -Q tos ] [hop1 ...] destination
      */
-    public String ping(String ip) {
         String cmd = "/system/bin/ping -c 10 " + ip;
         String reply = "";
         Runtime runtime = Runtime.getRuntime();

@@ -6,6 +6,9 @@ import java.lang.annotation.RetentionPolicy;
 
 import androidx.annotation.StringDef;
 
+/**
+ *
+ */
 public class Camera implements Serializable {
 
     private static final String TAG = "Camera";

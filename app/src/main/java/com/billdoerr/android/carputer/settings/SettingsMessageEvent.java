@@ -5,6 +5,9 @@ import java.lang.annotation.RetentionPolicy;
 
 import androidx.annotation.IntDef;
 
+/**
+ *
+ */
 class SettingsMessageEvent {
 
     private static final String TAG = "SettingsMessageEvent";
@@ -32,30 +35,60 @@ class SettingsMessageEvent {
     private Camera mCamera;
     private Node mNode;
 
+    /**
+     *
+     */
     public SettingsMessageEvent() {
     }
 
+    /**
+     *
+     * @return
+     */
     public com.billdoerr.android.carputer.settings.Node getNode() {
         return mNode;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getAction() {
         return mAction;
     }
 
+    /**
+     *
+     * @param action
+     */
     public void setAction(int action) {
         mAction = action;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getIndex() {
         return mIndex;
     }
 
+    /**
+     *
+     * @return
+     */
     public Camera getCamera() {
         return mCamera;
     }
 
 
+    /**
+     *
+     * @param action
+     * @param device
+     * @param camera
+     * @param index
+     */
     public void sendMessage(int action, int device, Camera camera, int index) {
         mAction = action;
         mDevice = device;
@@ -63,6 +96,13 @@ class SettingsMessageEvent {
         mIndex = index;
     }
 
+    /**
+     *
+     * @param action
+     * @param device
+     * @param node
+     * @param index
+     */
     public void sendMessage(int action, int device, Node node, int index) {
         mAction = action;
         mDevice = device;

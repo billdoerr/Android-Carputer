@@ -12,6 +12,9 @@ import android.webkit.WebViewClient;
 
 import com.billdoerr.android.carputer.settings.Node;
 
+/**
+ *
+ */
 public class CarputerFragmentMgmtPhySysInfoView extends Fragment {
 
     private static final String TAG = "phySysInfoView";
@@ -43,6 +46,9 @@ public class CarputerFragmentMgmtPhySysInfoView extends Fragment {
         return view;
     }
 
+    /**
+     * Get fragment arguments
+     */
     private void getArgs() {
         Bundle args = getArguments();
         Node node = (Node) args.getSerializable(ARGS_NODE_DETAIL);

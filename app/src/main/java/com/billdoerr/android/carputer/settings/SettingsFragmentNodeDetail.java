@@ -271,7 +271,10 @@ public class SettingsFragmentNodeDetail extends Fragment {
         return false;
     }
 
-    //  Set text fields with values from arguments
+    /**
+     * Set text fields with values from arguments
+     * @param node
+     */
     private void setNodeDetail(Node node) {
         if (node != null) {
             mTextNodeName.setText(node.getName());
@@ -287,7 +290,10 @@ public class SettingsFragmentNodeDetail extends Fragment {
         }
     }
 
-    //  Get update details
+    /**
+     * Get update details
+     * @return
+     */
     private Node getNodeDetail() {
         Node node = new Node();
         node.setName(mTextNodeName.getText().toString());
@@ -307,7 +313,9 @@ public class SettingsFragmentNodeDetail extends Fragment {
         return node;
     }
 
-    //  Hide soft keyboard
+    /**
+     * Hide soft keyboard
+     */
     private void hideSoftKeyboard() {
         // Check if no view has focus:
         View view = getActivity().getCurrentFocus();
@@ -317,8 +325,14 @@ public class SettingsFragmentNodeDetail extends Fragment {
         }
     }
 
+    /**
+     * Post preference change to EventBus
+     * @param action
+     * @param device
+     * @param node
+     * @param index
+     */
     private void sendMessage(int action, int device, Node node, int index) {
-        //  Post preference change to EventBus
         SettingsMessageEvent event = new SettingsMessageEvent();
         event.sendMessage(action, device, node, index);
         EventBus.getDefault().post(event);

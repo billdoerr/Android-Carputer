@@ -24,6 +24,9 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *
+ */
 public class CarputerFragmentMgmt extends Fragment {
 
     private static final String TAG = "CarputerFragmentMgmt";
@@ -66,7 +69,10 @@ public class CarputerFragmentMgmt extends Fragment {
         return view;
     }
 
-    //  Add fragments to tabs
+    /**
+     * Add fragments to tabs
+     * @param viewPager
+     */
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
 
@@ -89,7 +95,10 @@ public class CarputerFragmentMgmt extends Fragment {
         viewPager.setAdapter(adapter);
     }
 
-    //  Setup action bar
+    /**
+     * Setup action bar
+     * @param view
+     */
     private void setupActionBar(View view) {
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         ((CarputerActivityMgmt)getActivity()).setSupportActionBar(toolbar);
@@ -98,7 +107,9 @@ public class CarputerFragmentMgmt extends Fragment {
         actionbar.setHomeAsUpIndicator(R.drawable.ic_baseline_menu_24px);
     }
 
-    //  Display tab icons
+    /**
+     * Add icons to tabs
+     */
     private void addTabLayoutIcons() {
         for (int i = 0; i < mViewPager.getAdapter().getCount(); i++) {
             String sentence = mTabLayout.getTabAt(i).getText().toString();
@@ -117,7 +128,9 @@ public class CarputerFragmentMgmt extends Fragment {
         }
     }
 
-    // View Adapter
+    /**
+     * View Adapter Class
+     */
     class ViewPagerAdapter extends FragmentPagerAdapter {
 
         private final List<Fragment> mFragmentList = new ArrayList<>();
@@ -149,7 +162,11 @@ public class CarputerFragmentMgmt extends Fragment {
         }
     }
 
-    //  Retrieve list of node's that are stored in SharedPreferences as a JSON string
+    /**
+     * Retrieve list of node's that are stored in SharedPreferences as a JSON string
+     * @param context
+     * @return
+     */
     private static List<Node> getNodesFromSharedPrefs(Context context) {
         SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
         Gson gson = new Gson();

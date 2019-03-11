@@ -15,6 +15,9 @@ import android.widget.Toast;
 import com.github.niqdev.mjpeg.DisplayMode;
 import com.github.niqdev.mjpeg.Mjpeg;
 
+/**
+ *
+ */
 public class CameraFragmentMjpegView extends Fragment {
 
     private static final String TAG = "CameraFragmentMjpegView";
@@ -66,7 +69,9 @@ public class CameraFragmentMjpegView extends Fragment {
         }
     }
 
-    //  MjpegViewHandler
+    /**
+     * MjpegViewHandler
+     */
     @SuppressLint("HandlerLeak")
     final Handler MjpegViewHandler = new Handler(){
         @Override
@@ -94,6 +99,10 @@ public class CameraFragmentMjpegView extends Fragment {
         }
     };
 
+    /**
+     * Connect to Ip Camera
+     * @param cameraAddress
+     */
     private void loadIpCam(String cameraAddress) {
         Mjpeg.newInstance()
                 .open(cameraAddress, TIMEOUT)
@@ -110,6 +119,9 @@ public class CameraFragmentMjpegView extends Fragment {
     }
 
 
+    /**
+     * Grab image of current frame
+     */
     private void getCameraAddress() {
         Bundle bundle = getArguments();
         mCameraAddress = bundle.getString(ARG_CAMERA_ADDRESS);

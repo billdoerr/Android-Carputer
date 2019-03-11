@@ -24,6 +24,9 @@ import com.github.niqdev.mjpeg.DisplayMode;
 import com.github.niqdev.mjpeg.Mjpeg;
 import com.github.niqdev.mjpeg.OnFrameCapturedListener;
 
+/**
+ *
+ */
 public class CameraFragmentMjpegSnapshot extends Fragment implements OnFrameCapturedListener {
 
     private static final String TAG = "MjpegSnapshot";
@@ -68,14 +71,12 @@ public class CameraFragmentMjpegSnapshot extends Fragment implements OnFrameCapt
         return view;
     }
 
-    //  Setup action bar
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.toolbar_options_menu_snapshot, menu);
     }
 
-    //  Options menu callback
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item){
         switch(item.getItemId()){
@@ -113,7 +114,9 @@ public class CameraFragmentMjpegSnapshot extends Fragment implements OnFrameCapt
         mLastPreview = bitmap;
     }
 
-    //  MjpegViewHandler
+    /**
+     * MjpegViewHandler
+     */
     @SuppressLint("HandlerLeak")
     final Handler MjpegViewHandler = new Handler(){
         @Override
@@ -141,6 +144,10 @@ public class CameraFragmentMjpegSnapshot extends Fragment implements OnFrameCapt
         }
     };
 
+    /**
+     * Connect to Ip Camera
+     * @param cameraAddress
+     */
     private void loadIpCam(String cameraAddress) {
         Mjpeg.newInstance()
                 .open(cameraAddress, TIMEOUT)
@@ -157,6 +164,9 @@ public class CameraFragmentMjpegSnapshot extends Fragment implements OnFrameCapt
                         });
     }
 
+    /**
+     * Grab image of current frame
+     */
     private void takeSnapshot() {
         Log.d(TAG, "Image clicked.");
         if (mLastPreview != null) {
@@ -174,6 +184,10 @@ public class CameraFragmentMjpegSnapshot extends Fragment implements OnFrameCapt
         }
     }
 
+    /**
+     * Get camera address from fragment arguments
+     * @return
+     */
     private String getCameraAddress() {
         Bundle args = getArguments();
         Camera camera = (Camera) args.getSerializable(ARGS_CAMERA_DETAIL);

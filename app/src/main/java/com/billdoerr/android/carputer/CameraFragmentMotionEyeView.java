@@ -21,6 +21,9 @@ import android.widget.Toast;
 import com.billdoerr.android.carputer.settings.Node;
 import com.billdoerr.android.carputer.utils.ImageStorage;
 
+/**
+ *
+ */
 public class CameraFragmentMotionEyeView extends Fragment {
 
     private static final String TAG = "CameraFragMotionEyeView";
@@ -54,14 +57,12 @@ public class CameraFragmentMotionEyeView extends Fragment {
         return view;
     }
 
-    //  Setup action bar
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.toolbar_options_menu_snapshot, menu);
     }
 
-    //  Options menu callback
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item){
         switch(item.getItemId()){
@@ -73,6 +74,7 @@ public class CameraFragmentMotionEyeView extends Fragment {
         }
     }
 
+    //  Grab screenshot of current frame
     private void takeSnapshot() {
         // Take screen shot
         Bitmap bitmap = Bitmap.createBitmap(mWebView.getWidth(), mWebView.getHeight(), Bitmap.Config.ARGB_8888);
@@ -88,6 +90,9 @@ public class CameraFragmentMotionEyeView extends Fragment {
         Toast.makeText(getActivity(), getResources().getString(R.string.toast_image_saved), Toast.LENGTH_LONG).show();
     }
 
+    /**
+     * Get fragment arguments
+     */
     private void getArgs() {
         Bundle args = getArguments();
         Node node = (Node) args.getSerializable(ARGS_NODE_DETAIL);

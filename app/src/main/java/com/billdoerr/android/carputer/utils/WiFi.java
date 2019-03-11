@@ -6,16 +6,24 @@ import android.net.wifi.WifiManager;
 
 import java.util.List;
 
+/**
+ *
+ */
 public class WiFi {
 
     private static final String TAG = "WiFi";
 
     private boolean mConnectionMade = false;
 
-    //  Connect to network (WPA)
-    //  Refer to:  https://developer.android.com/reference/android/net/wifi/WifiConfiguration
-    //  Refer to:  https://stackoverflow.com/questions/8818290/how-do-i-connect-to-a-specific-wi-fi-network-in-android-programmatically
-    //
+    /**
+     * Connect to network (WPA)
+     * Refer to:  https://developer.android.com/reference/android/net/wifi/WifiConfiguration
+     * Refer to:  https://stackoverflow.com/questions/8818290/how-do-i-connect-to-a-specific-wi-fi-network-in-android-programmatically
+     * @param context
+     * @param networkSSID
+     * @param networkPassphrase
+     * @return
+     */
     public boolean connectWPA(Context context, String networkSSID, String networkPassphrase) {
 
         WifiConfiguration conf = new WifiConfiguration();

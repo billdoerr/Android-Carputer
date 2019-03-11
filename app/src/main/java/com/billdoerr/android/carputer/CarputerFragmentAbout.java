@@ -9,6 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+/**
+ *
+ */
 public class CarputerFragmentAbout extends Fragment {
 
     private static final String TAG = "CarputerFragmentAbout";

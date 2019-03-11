@@ -236,7 +236,10 @@ public class CameraFragmentSnapshotViewer extends Fragment {
             return mListItems.size();
         }
 
-        //  Delete file
+        /**
+         * Delete file from image storage
+         * @param file
+         */
         private void deleteFile(File file) {
             AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
 

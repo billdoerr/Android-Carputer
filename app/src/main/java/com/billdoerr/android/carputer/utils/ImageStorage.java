@@ -16,6 +16,9 @@ import java.util.List;
 
 import com.billdoerr.android.carputer.R.string;
 
+/**
+ *
+ */
 public class ImageStorage {
 
     private static final String TAG = "ImageStorage";
@@ -31,19 +34,25 @@ public class ImageStorage {
         }
     }
 
-    //  Return list of snapshot files
+    //
+
+    /**
+     *
+     * @param context
+     * @return List of snapshot files
+     */
     public List<String> getSnapshotFileList(Context context) {
         String[] fileList1 = context.getFilesDir().list();
         return new ArrayList<String>(Arrays.asList(fileList1)); //new ArrayList is only needed if you absolutely need an ArrayList
     }
 
-//    //  Return list of snapshot files
-//    public List<String> getSnapshotFileList(Context context) {
-//        File[] fileList = context.getFilesDir().listFiles();
-//        List<String> stringList = new ArrayList<String>(Arrays.asList(fileList)); //new ArrayList is only needed if you absolutely need an ArrayList
-//    }
-
-    //  Save image
+    /**
+     * Save image
+     * @param context
+     * @param bitmap
+     * @return
+     * @throws FreeSpaceException
+     */
     public String saveImage(Context context, Bitmap bitmap) throws FreeSpaceException {
         FileOutputStream outputStream;
         File path = context.getFilesDir();
@@ -66,52 +75,75 @@ public class ImageStorage {
         return url;
     }
 
-    //  Check if space available to save bitmap
+    /**
+     * Check if space available to save bitmap
+     * @param path
+     * @param bitmap
+     * @return True if space available to save bitmap
+     */
+
     private boolean isSpaceAvailable(File path, Bitmap bitmap) {
         //  Being conservative and looking for space 2x bitmap size
         return (path.getFreeSpace() - 2 * sizeOf(bitmap)) > 0;
     }
 
-    //  Get size of bitmap
+    /**
+     * Get size of bitmap
+     * @param data
+     * @return Size of bitmap
+     */
     private int sizeOf(Bitmap data) {
         return data.getByteCount();
     }
 
-    //  Generate file name
+    /**
+     * Generate file name
+     * @return file name "yyyy-MM-dd'T'HH:mm:ss".jpg
+     */
     private String generateImageFilename() {
         return getDateTime() + ".jpg";
     }
 
-    //  Generate date/time stamp that will be used to create a unique filename
+    /**
+     * Generate date/time stamp that will be used to create a unique filename
+     * @return date/time in format:  "yyyy-MM-dd'T'HH:mm:ss"
+     */
     private String getDateTime() {
         String dateFormat = "yyyy-MM-dd'T'HH:mm:ss";       //  "yyyy-MM-dd HH:mm:ss"
-//        String date = "";
-//         try {
-             Calendar c = Calendar.getInstance();
-             @SuppressLint("SimpleDateFormat") SimpleDateFormat df = new SimpleDateFormat(dateFormat);
-//             String date = df.format(c.getTime());
-//             Date d = df.parse(formattedDate.replaceAll("Z$", "+0000"));
-//            date =  df.format(d).toString();
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
+        Calendar c = Calendar.getInstance();
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat df = new SimpleDateFormat(dateFormat);
         return df.format(c.getTime());
     }
 
-    //  Generate custom exception
+    /**
+     * Generate custom exception
+     */
     public class FreeSpaceException extends Exception {
         public FreeSpaceException () {
 
         }
 
+        /**
+         *
+         * @param message
+         */
         FreeSpaceException(String message) {
             super (message);
         }
 
+        /**
+         *
+         * @param cause
+         */
         public FreeSpaceException (Throwable cause) {
             super (cause);
         }
 
+        /**
+         *
+         * @param message
+         * @param cause
+         */
         public FreeSpaceException (String message, Throwable cause) {
             super (message, cause);
         }

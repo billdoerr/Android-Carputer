@@ -24,6 +24,9 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *
+ */
 public class CameraFragmentMotionEye extends Fragment {
 
     private static final String TAG = "CameraFragmentMotionEye";
@@ -64,7 +67,10 @@ public class CameraFragmentMotionEye extends Fragment {
         return view;
     }
 
-    //  Add fragments to tabs
+    /**
+     * Add fragments to tabs
+     * @param viewPager
+     */
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
 
@@ -82,7 +88,10 @@ public class CameraFragmentMotionEye extends Fragment {
         viewPager.setAdapter(adapter);
     }
 
-    //  Setup action bar
+    /**
+     * Setup action bar
+     * @param view
+     */
     private void setupActionBar(View view) {
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         ((CameraActivityMotionEye)getActivity()).setSupportActionBar(toolbar);
@@ -91,13 +100,18 @@ public class CameraFragmentMotionEye extends Fragment {
         actionbar.setHomeAsUpIndicator(R.drawable.ic_baseline_menu_24px);
     }
 
+    /**
+     * Add icons to tabs
+     */
     private void addTabLayoutIcons() {
         for (int i = 0; i < mViewPager.getAdapter().getCount(); i++) {
             mTabLayout.getTabAt(i).setIcon(R.drawable.ic_baseline_visibility_24px);
         }
     }
 
-    // View Adapter
+    /**
+     * View Adapter Class
+     */
     class ViewPagerAdapter extends FragmentPagerAdapter {
 
         private final List<Fragment> mFragmentList = new ArrayList<>();
@@ -129,7 +143,11 @@ public class CameraFragmentMotionEye extends Fragment {
         }
     }
 
-    //  Retrieve list of node's that are stored in SharedPreferences as a JSON string
+    /**
+     * Retrieve list of node's that are stored in SharedPreferences as a JSON string
+     * @param context
+     * @return
+     */
     private static List<Node> getNodesFromSharedPrefs(Context context) {
         SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
         Gson gson = new Gson();

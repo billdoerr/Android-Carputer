@@ -28,6 +28,9 @@ import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 import androidx.preference.PreferenceScreen;
 
+/**
+ *
+ */
 public class SettingsActivity extends AppCompatActivity implements
         PreferenceFragmentCompat.OnPreferenceStartFragmentCallback {
 
@@ -88,7 +91,11 @@ public class SettingsActivity extends AppCompatActivity implements
         return true;
     }
 
-    //  Retrieve list of camera's that are stored in SharedPreferences as a JSON string
+    /**
+     * Retrieve list of camera's that are stored in SharedPreferences as a JSON string
+     * @param context
+     * @return
+     */
     private static List<Camera> getCamerasFromSharedPrefs(Context context) {
         SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
         Gson gson = new Gson();
@@ -100,7 +107,10 @@ public class SettingsActivity extends AppCompatActivity implements
         return mCameras;
     }
 
-    //  Save list of camera's that are stored in SharedPreferences as a JSON string
+    /**
+     * Save list of camera's that are stored in SharedPreferences as a JSON string
+     * @param context
+     */
     private static void saveCamerasToSharedPrefs(Context context) {
         SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
         SharedPreferences.Editor prefsEditor = appSharedPrefs.edit();
@@ -110,7 +120,11 @@ public class SettingsActivity extends AppCompatActivity implements
         prefsEditor.apply();
     }
 
-    //  Retrieve list of node's that are stored in SharedPreferences as a JSON string
+    /**
+     * Retrieve list of node's that are stored in SharedPreferences as a JSON string
+     * @param context
+     * @return
+     */
     private static List<Node> getNodesFromSharedPrefs(Context context) {
         SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
         Gson gson = new Gson();
@@ -122,7 +136,10 @@ public class SettingsActivity extends AppCompatActivity implements
         return mNodes;
     }
 
-    //  Save list of node's that are stored in SharedPreferences as a JSON string
+    /**
+     * Save list of node's that are stored in SharedPreferences as a JSON string
+     * @param context
+     */
     private static void saveNodesToSharedPrefs(Context context) {
         SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
         SharedPreferences.Editor prefsEditor = appSharedPrefs.edit();
@@ -274,7 +291,9 @@ public class SettingsActivity extends AppCompatActivity implements
             saveCamerasToSharedPrefs(getActivity());
         }
 
-        //  Dynamically create PreferenceScreen of configured camera's
+        /**
+         * Dynamically create PreferenceScreen of configured camera's
+         */
         private void createPreferences() {
 
             Context context = getPreferenceManager().getContext();
@@ -414,7 +433,10 @@ public class SettingsActivity extends AppCompatActivity implements
             createPreferences();
         }
 
-        // This method will be called when a MessageEvent is posted (in the UI thread for Toast)
+        /**
+         * This method will be called when a MessageEvent is posted in the UI thread
+         * @param event
+         */
         @Subscribe(threadMode = ThreadMode.MAIN)
         public void onMessageEvent(SettingsMessageEvent event) {
             switch (event.getAction()) {
@@ -444,7 +466,9 @@ public class SettingsActivity extends AppCompatActivity implements
             saveNodesToSharedPrefs(getActivity());
         }
 
-        //  Dynamically create PreferenceScreen of configured Node's
+        /**
+         * Dynamically create PreferenceScreen of configured Node's
+         */
         private void createPreferences() {
 
             Context context = getPreferenceManager().getContext();

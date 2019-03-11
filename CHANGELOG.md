@@ -21,21 +21,22 @@ All notable changes to this Android application project will be documented in th
 ### v1.3 (NOT STARTED)
 #### Added
 - [ ]  Automatic network connection.
-	- [x]  (ADDED IN v1.1)Added network preferences for SSID and Passphrase for WPA network connection.  WiFI connection not yet implementation in the Carputer application.	
+	- [x]  (ADDED IN v1.1)  Added network preferences for SSID and Passphrase for WPA network connection.  WiFI connection not yet implementation in the Carputer application.	
 #### Changed
 #### Removed
 
 ## [Unreleased]
-### v1.2 (RESEARCHING)
+### v1.2 (IN PROGRESS)
 #### Added
+- [ ]  Apply javadocs comments.
 #### Changed
-- [ ]  Implement material design.
-	https://stackoverflow.com/questions/8855791/how-to-create-standard-borderless-buttons-like-in-the-design-guideline-mentione
-	C:\Users\bdoerr\.gradle\caches\transforms-1\files-1.1\preference-1.1.0-alpha03.aar\50f8bf0a051ec5e694dfaeeb38097e7e\res\layout
-- [ ]  Put a lot more effort into style/themes.
-- [ ]  Review use of icons.	
-  - [ ]  Need RaspberryPi svg (not color).
-  - [ ]  Need motioneye svg.
+- [x]  Implement material design.  Didn't really do anything extra.  I did implement the material design icons from the start of the project.
+	- https://stackoverflow.com/questions/8855791/how-to-create-standard-borderless-buttons-like-in-the-design-guideline-mentione
+	- C:\Users\bdoerr\.gradle\caches\transforms-1\files-1.1\preference-1.1.0-alpha03.aar\50f8bf0a051ec5e694dfaeeb38097e7e\res\layout
+- [x]  Put a lot more effort into style/themes.  Applied to settings detail fragments.
+- [x]  Review use of icons.	
+  - [ ]  ~~Need RaspberryPi svg (not color).~~  Couldn't find a solution plus I like the color.
+  - [x]  Need motioneye svg.  Current eye con (pun intended) works.
 #### Removed
 
 ## [Released]
@@ -44,14 +45,14 @@ All notable changes to this Android application project will be documented in th
 - [x]  Add version/build number in new About menu action item.
 #### Changed
 - [ ] (NEEDS VALIDATION) **CarputerFragmentMgmt/SSHFragment**  Needs work regarding nodes/args.  First need to make SettingsActivity more robust.
-- [x]  **SettingsActivity**  Make more robust.  Need to store Nodes in JSON and store in shared preference.  Look into nested PreferenceScreen.
-		https://developer.android.com/guide/topics/ui/settings/organize-your-settings
-		https://stackoverflow.com/questions/5298370/how-to-add-a-button-to-a-preferencescreen/7251575
-		https://developer.android.com/reference/android/preference/PreferenceFragment
-		https://google-developer-training.github.io/android-developer-fundamentals-course-concepts/en/Unit%204/91_c_shared_preferences.html
-		https://stackoverflow.com/questions/4788713/nested-preferencescreens-under-a-dynamic-list-of-preferences-on-android  
-		https://exceptionshub.com/is-it-possible-to-add-an-array-or-object-to-sharedpreferences-on-android.html  
-		https://stackoverflow.com/questions/37744333/how-to-dynamically-add-preferences-into-preferences-screen-and-bind-their-values  
+- [x]  **SettingsActivity**  Make more robust.  Need to store Nodes in JSON and store in shared preference.  Look into nested PreferenceScreen.  
+		- https://developer.android.com/guide/topics/ui/settings/organize-your-settings  
+		- https://stackoverflow.com/questions/5298370/how-to-add-a-button-to-a-preferencescreen/7251575  
+		- https://developer.android.com/reference/android/preference/PreferenceFragment 
+		- https://google-developer-training.github.io/android-developer-fundamentals-course-concepts/en/Unit%204/91_c_shared_preferences.html  
+		- https://stackoverflow.com/questions/4788713/nested-preferencescreens-under-a-dynamic-list-of-preferences-on-android    
+		- https://exceptionshub.com/is-it-possible-to-add-an-array-or-object-to-sharedpreferences-on-android.html  
+		- https://stackoverflow.com/questions/37744333/how-to-dynamically-add-preferences-into-preferences-screen-and-bind-their-values  
 - [x]  Address TO-DO's.	
 - [x]  Added network preferences for SSID and Passphrase for WPA network connection.  WiFI connection not yet implementation in the Carputer application.	
 - [x]  Switched to using Android Jetpack.

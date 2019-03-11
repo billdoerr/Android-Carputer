@@ -33,7 +33,9 @@ import com.billdoerr.android.carputer.utils.WiFi;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-//  THIS FRAGMENT IS A TOTAL HACK!!!!
+/**
+ * THIS FRAGMENT IS A TOTAL HACK!!!!
+ */
 public class SSHFragment extends Fragment {
 
     private static final String TAG = "SSHFragment";
@@ -272,8 +274,9 @@ public class SSHFragment extends Fragment {
         super.onResume();
     }
 
-
-    //  Async Task to perform ping command
+    /**
+     * Async Task to perform ping command
+     */
     private class PingTask extends AsyncTask<Void, Void, String> {
 
         private static final String TAG = "PingTask";
@@ -299,9 +302,11 @@ public class SSHFragment extends Fragment {
         }
     }
 
-    //  TODO : How does it know what node to process for PowerOff (ALL)?
-    //  Async Task to perform ping command
-    //  android.os.AsyncTask<Params, Progress, Result>
+    /**
+     * TODO : How does it know what node to process for PowerOff (ALL)?
+     * Async Task to perform ping command
+     * android.os.AsyncTask<Params, Progress, Result>
+     */
     private class ExecuteCommandTask extends AsyncTask<String, Void, String> {
 
         private static final String TAG = "ExecuteCommandTask";
@@ -329,9 +334,12 @@ public class SSHFragment extends Fragment {
         }
     }
 
-    //  TODO : How does it know what node to process for PowerOff (ALL)?
-    //  Async Task to perform ping command
-    //  android.os.AsyncTask<Params, Progress, Result>
+    /**
+     * TODO : How does it know what node to process for PowerOff (ALL)?
+     * Async Task to perform ping command
+     * android.os.AsyncTask<Params, Progress, Result>
+     *
+     */
     private class ExecuteCommandTaskNew extends AsyncTask<Payload, Void, String> {
 
         private static final String TAG = "PowerOffAll";
@@ -361,9 +369,12 @@ public class SSHFragment extends Fragment {
         }
     }
 
-    //  Generate date/time stamp
-    //  https://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html
-    //  "Thu Jan 17 03:19:37 PST 2019"
+    /**
+     * Generate date/time stamp
+     * https://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html
+     * "Thu Jan 17 03:19:37 PST 2019"
+     * @return
+     */
     private String getDateTime() {
         String dateFormat = "EEE MMM dd hh:mm:ss z yyyy";
         Calendar c = Calendar.getInstance();
@@ -371,7 +382,9 @@ public class SSHFragment extends Fragment {
         return df.format(c.getTime());
     }
 
-    //  Sync Android date/time with Pi.  Follow with 'date' command to view system date/time.
+    /**
+     * Sync Android date/time with Pi.  Follow with 'date' command to view system date/time.
+     */
     private void syncDateAll() {
         String date = getDateTime();
         String reply = "";
@@ -395,7 +408,9 @@ public class SSHFragment extends Fragment {
         mDateSynced = true;
     }
 
-    //  Connect to network (WPA)
+    /**
+     * Connect to network (WPA)
+     */
     private void WiFiConnect() {
         WiFi wifi = new WiFi();
         String reply;
@@ -411,13 +426,20 @@ public class SSHFragment extends Fragment {
         updateCommandHistory(reply);
     }
 
-    //  Command history to EditText
+    /**
+     * Command history to EditText
+     * @param msg
+     */
     private void updateCommandHistory(String msg) {
         mCmdHistory = mCmdHistory + "\n" + msg + "\n";
         txtReply.setText(mCmdHistory);
     }
 
-    //  Retrieve list of node's that are stored in SharedPreferences as a JSON string
+    /**
+     * Retrieve list of node's that are stored in SharedPreferences as a JSON string
+     * @param context
+     * @return
+     */
     private static List<Node> getNodesFromSharedPrefs(Context context) {
         SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
         Gson gson = new Gson();
@@ -429,6 +451,10 @@ public class SSHFragment extends Fragment {
         return nodes;
     }
 
+    /**
+     * Get network details from shared preferences
+     * @param context
+     */
     private void getNetworkPreferences(Context context) {
         SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
         mIsNetworkEnabled = appSharedPrefs.getBoolean(PREF_KEY_NETWORK_ENABLED, false);

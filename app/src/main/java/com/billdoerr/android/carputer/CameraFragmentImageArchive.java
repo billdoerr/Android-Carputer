@@ -16,6 +16,9 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *
+ */
 public class CameraFragmentImageArchive extends Fragment {
 
     private static final String TAG = "CameraFragmentImageArchive";
@@ -52,7 +55,10 @@ public class CameraFragmentImageArchive extends Fragment {
         return view;
     }
 
-    //  Add fragments to tabs
+    /**
+     * Add fragments to tabs
+     * @param viewPager
+     */
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
 
@@ -63,7 +69,10 @@ public class CameraFragmentImageArchive extends Fragment {
         viewPager.setAdapter(adapter);
     }
 
-    //  Setup action bar
+    /**
+     * Setup action bar
+     * @param view
+     */
     private void setupActionBar(View view) {
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         ((CameraActivityImageArchive)getActivity()).setSupportActionBar(toolbar);
@@ -72,13 +81,18 @@ public class CameraFragmentImageArchive extends Fragment {
         actionbar.setHomeAsUpIndicator(R.drawable.ic_baseline_menu_24px);
     }
 
+    /**
+     * Add icons to tabs
+     */
     private void addTablayoutIcons() {
         for (int i = 0; i < mViewPager.getAdapter().getCount(); i++) {
             mTabLayout.getTabAt(i).setIcon(R.drawable.ic_baseline_photo_library_24px);
         }
     }
 
-    // View Adapter
+    /**
+     * View Adapter Class
+     */
     class ViewPagerAdapter extends FragmentPagerAdapter {
 
         private final List<Fragment> mFragmentList = new ArrayList<>();
@@ -99,6 +113,11 @@ public class CameraFragmentImageArchive extends Fragment {
             return mFragmentList.size();
         }
 
+        /**
+         * Add fragment to tab
+         * @param fragment
+         * @param title
+         */
         private void addFragment(Fragment fragment, String title) {
             mFragmentList.add(fragment);
             mFragmentTitleList.add(title);

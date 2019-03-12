@@ -93,8 +93,8 @@ public class SettingsActivity extends AppCompatActivity implements
 
     /**
      * Retrieve list of camera's that are stored in SharedPreferences as a JSON string
-     * @param context
-     * @return
+     * @param context Application context
+     * @return Object of type List<Camera>
      */
     private static List<Camera> getCamerasFromSharedPrefs(Context context) {
         SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
@@ -109,7 +109,7 @@ public class SettingsActivity extends AppCompatActivity implements
 
     /**
      * Save list of camera's that are stored in SharedPreferences as a JSON string
-     * @param context
+     * @param context Application context
      */
     private static void saveCamerasToSharedPrefs(Context context) {
         SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
@@ -122,8 +122,8 @@ public class SettingsActivity extends AppCompatActivity implements
 
     /**
      * Retrieve list of node's that are stored in SharedPreferences as a JSON string
-     * @param context
-     * @return
+     * @param context Application context
+     * @return Object of type List<Node>
      */
     private static List<Node> getNodesFromSharedPrefs(Context context) {
         SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
@@ -138,7 +138,7 @@ public class SettingsActivity extends AppCompatActivity implements
 
     /**
      * Save list of node's that are stored in SharedPreferences as a JSON string
-     * @param context
+     * @param context Application context
      */
     private static void saveNodesToSharedPrefs(Context context) {
         SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
@@ -435,7 +435,7 @@ public class SettingsActivity extends AppCompatActivity implements
 
         /**
          * This method will be called when a MessageEvent is posted in the UI thread
-         * @param event
+         * @param event SettingsMessageEvent object
          */
         @Subscribe(threadMode = ThreadMode.MAIN)
         public void onMessageEvent(SettingsMessageEvent event) {

@@ -71,7 +71,7 @@ public class CarputerFragmentMgmt extends Fragment {
 
     /**
      * Add fragments to tabs
-     * @param viewPager
+     * @param viewPager ViewPager that adapter will be assigned
      */
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
@@ -97,7 +97,7 @@ public class CarputerFragmentMgmt extends Fragment {
 
     /**
      * Setup action bar
-     * @param view
+     * @param view View holding the toolbar
      */
     private void setupActionBar(View view) {
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
@@ -164,8 +164,8 @@ public class CarputerFragmentMgmt extends Fragment {
 
     /**
      * Retrieve list of node's that are stored in SharedPreferences as a JSON string
-     * @param context
-     * @return
+     * @param context Context of application
+     * @return Object of type List<Node>
      */
     private static List<Node> getNodesFromSharedPrefs(Context context) {
         SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());

@@ -5,14 +5,16 @@ All notable changes to this Android application project will be documented in th
 ## [Unreleased]
 ### v1.x (NOT STARTED)
 #### Added
-- [ ]  Implement WiFI auto connection to PINET.	
+	
 #### Changed
 - [ ]  Test and validate performance using RaspberryPi with USBStick + two USB Cameras + router.
 #### Removed
 
+
 ## [Unreleased]
 ### v1.4 (NOT STARTED)
 #### Added
+- [ ]  Apply javadocs comments.  Will be ongoing process to better document code.  
 #### Changed
 - [ ]  SSH Fragment is a complete hack!  Replace with something more robust.
 #### Removed
@@ -22,13 +24,14 @@ All notable changes to this Android application project will be documented in th
 #### Added
 - [ ]  Automatic network connection.
 	- [x]  (ADDED IN v1.1)  Added network preferences for SSID and Passphrase for WPA network connection.  WiFI connection not yet implementation in the Carputer application.	
+- [ ]  Apply javadocs comments.  Will be ongoing process to better document code.  	
 #### Changed
 #### Removed
 
 ## [Unreleased]
 ### v1.2 (IN PROGRESS)
 #### Added
-- [ ]  Apply javadocs comments.
+- [x]  Apply javadocs comments.  Will be ongoing process to better document code.  
 #### Changed
 - [x]  Implement material design.  Didn't really do anything extra.  I did implement the material design icons from the start of the project.
 	- https://stackoverflow.com/questions/8855791/how-to-create-standard-borderless-buttons-like-in-the-design-guideline-mentione

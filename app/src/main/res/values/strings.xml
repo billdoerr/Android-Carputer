@@ -82,6 +82,7 @@
     <string name="pref_title_network_name">Network SSID</string>
     <string name="pref_title_network_password">Network Passphrase</string>
     <string name="pref_title_network_auto_connect">Auto connect</string>
+    <string name="pref_title_network_wifi_lock">Enable WiFi Lock</string>
 
     <!--  Default Shared Preference Values -->
     <string name="pref_default_camera_name">Front</string>

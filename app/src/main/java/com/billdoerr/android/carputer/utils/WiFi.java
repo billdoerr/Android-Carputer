@@ -19,14 +19,15 @@ public class WiFi {
      * Connect to network (WPA)
      * Refer to:  https://developer.android.com/reference/android/net/wifi/WifiConfiguration
      * Refer to:  https://stackoverflow.com/questions/8818290/how-do-i-connect-to-a-specific-wi-fi-network-in-android-programmatically
-     * @param context
-     * @param networkSSID
-     * @param networkPassphrase
-     * @return
+     * @param context Application context
+     * @param networkSSID String containing network SSID
+     * @param networkPassphrase String containing WPA passphrase
+     * @return boolean value if successful connection
      */
-    public boolean connectWPA(Context context, String networkSSID, String networkPassphrase) {
+    public boolean connectWPA(Context context, String networkSSID, String networkPassphrase, boolean wifiLock) {
 
         WifiConfiguration conf = new WifiConfiguration();
+
         //  The network's SSID. Can either be a UTF-8 string, which must be enclosed in double quotation marks (e.g., "MyNetwork"),
         // or a string of hex digits, which are not enclosed in quotes (e.g., 01a243f405).
         conf.SSID = "\"" + networkSSID + "\"";   // Please note the quotes. String should contain ssid in quotes
@@ -45,7 +46,6 @@ public class WiFi {
                 wifiManager.disconnect();
                 wifiManager.enableNetwork(i.networkId, true);
                 mConnectionMade = wifiManager.reconnect();
-
                 break;
             }
         }

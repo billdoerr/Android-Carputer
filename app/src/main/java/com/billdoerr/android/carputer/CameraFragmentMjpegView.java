@@ -101,7 +101,7 @@ public class CameraFragmentMjpegView extends Fragment {
 
     /**
      * Connect to Ip Camera
-     * @param cameraAddress
+     * @param cameraAddress String containing camera Url
      */
     private void loadIpCam(String cameraAddress) {
         Mjpeg.newInstance()

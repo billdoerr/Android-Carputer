@@ -43,7 +43,7 @@ class SettingsMessageEvent {
 
     /**
      *
-     * @return
+     * @return Object of type Node
      */
     public com.billdoerr.android.carputer.settings.Node getNode() {
         return mNode;
@@ -51,7 +51,7 @@ class SettingsMessageEvent {
 
     /**
      *
-     * @return
+     * @return Action to be performed
      */
     public int getAction() {
         return mAction;
@@ -59,7 +59,7 @@ class SettingsMessageEvent {
 
     /**
      *
-     * @param action
+     * @param action Set action to be performed
      */
     public void setAction(int action) {
         mAction = action;
@@ -67,7 +67,7 @@ class SettingsMessageEvent {
 
     /**
      *
-     * @return
+     * @return Get index of device
      */
     public int getIndex() {
         return mIndex;
@@ -75,7 +75,7 @@ class SettingsMessageEvent {
 
     /**
      *
-     * @return
+     * @return Object of type Camera
      */
     public Camera getCamera() {
         return mCamera;
@@ -84,10 +84,10 @@ class SettingsMessageEvent {
 
     /**
      *
-     * @param action
-     * @param device
-     * @param camera
-     * @param index
+     * @param action int value for action to be taken
+     * @param device in containing type of device
+     * @param camera Object of type Camera
+     * @param index Index of list of devices
      */
     public void sendMessage(int action, int device, Camera camera, int index) {
         mAction = action;
@@ -98,10 +98,10 @@ class SettingsMessageEvent {
 
     /**
      *
-     * @param action
-     * @param device
-     * @param node
-     * @param index
+     * @param action int value for action to be taken
+     * @param device in containing type of device
+     * @param node Object of type Camera
+     * @param index Index of list of devices
      */
     public void sendMessage(int action, int device, Node node, int index) {
         mAction = action;

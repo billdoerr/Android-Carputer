@@ -238,7 +238,7 @@ public class CameraFragmentSnapshotViewer extends Fragment {
 
         /**
          * Delete file from image storage
-         * @param file
+         * @param file Object of type File that will deleted from internal storage
          */
         private void deleteFile(File file) {
             AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());

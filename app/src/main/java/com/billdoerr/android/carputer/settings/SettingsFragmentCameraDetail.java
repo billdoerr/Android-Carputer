@@ -197,7 +197,7 @@ public class SettingsFragmentCameraDetail extends Fragment {
 
     /**
      * Set text fields with values from arguments
-     * @param camera
+     * @param camera Object of type Camera
      */
     private void setCameraDetail(Camera camera) {
         if (camera != null) {
@@ -230,7 +230,7 @@ public class SettingsFragmentCameraDetail extends Fragment {
 
     /**
      * Get update details
-     * @return
+     * @return Object of type Camera
      */
     private Camera getCameraDetail() {
         Camera camera = new Camera();
@@ -253,10 +253,10 @@ public class SettingsFragmentCameraDetail extends Fragment {
 
     /**
      * Post preference change to EventBus
-     * @param action
-     * @param device
-     * @param camera
-     * @param index
+     * @param action int value for action to be taken
+     * @param device in containing type of device
+     * @param camera Object of type Camera
+     * @param index Index of list of devices
      */
     private void sendMessage(int action, int device, Camera camera, int index) {
         SettingsMessageEvent event = new SettingsMessageEvent();

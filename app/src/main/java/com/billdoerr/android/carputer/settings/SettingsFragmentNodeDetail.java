@@ -273,7 +273,7 @@ public class SettingsFragmentNodeDetail extends Fragment {
 
     /**
      * Set text fields with values from arguments
-     * @param node
+     * @param node Object of type Node
      */
     private void setNodeDetail(Node node) {
         if (node != null) {
@@ -292,7 +292,7 @@ public class SettingsFragmentNodeDetail extends Fragment {
 
     /**
      * Get update details
-     * @return
+     * @return Object of type Node
      */
     private Node getNodeDetail() {
         Node node = new Node();
@@ -327,10 +327,10 @@ public class SettingsFragmentNodeDetail extends Fragment {
 
     /**
      * Post preference change to EventBus
-     * @param action
-     * @param device
-     * @param node
-     * @param index
+     * @param action int value for action to be taken
+     * @param device in containing type of device
+     * @param node Object of type Node
+     * @param index Index of list of devices
      */
     private void sendMessage(int action, int device, Node node, int index) {
         SettingsMessageEvent event = new SettingsMessageEvent();

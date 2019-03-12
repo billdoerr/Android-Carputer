@@ -146,7 +146,7 @@ public class CameraFragmentMjpegSnapshot extends Fragment implements OnFrameCapt
 
     /**
      * Connect to Ip Camera
-     * @param cameraAddress
+     * @param cameraAddress String containing camera Url
      */
     private void loadIpCam(String cameraAddress) {
         Mjpeg.newInstance()
@@ -186,7 +186,7 @@ public class CameraFragmentMjpegSnapshot extends Fragment implements OnFrameCapt
 
     /**
      * Get camera address from fragment arguments
-     * @return
+     * @return String value of camera url
      */
     private String getCameraAddress() {
         Bundle args = getArguments();

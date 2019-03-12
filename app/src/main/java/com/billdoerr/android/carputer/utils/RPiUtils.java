@@ -28,10 +28,10 @@ public class RPiUtils {
 
     /**
      *
-     * @param ip
-     * @param port
-     * @param user
-     * @param pwd
+     * @param ip  String containing ip address of node
+     * @param port String containing SSH port
+     * @param user String containing username
+     * @param pwd String containing password
      */
     public void initialize(String ip, String port, String user, String pwd) {
         mIP = ip;
@@ -42,9 +42,9 @@ public class RPiUtils {
 
     /**
      *
-     * @param cmd
-     * @return
-     * @throws Exception
+     * @param cmd String that contains command to be executed
+     * @return Returns String of result of command
+     * @throws Exception Exception being thrown
      */
     public String executeRemoteCommand(String cmd) throws Exception {
         JSch jsch = new JSch();
@@ -80,8 +80,8 @@ public class RPiUtils {
 
     /**
      *
-     * @param ip
-     * @return
+     * @param ip String containing ip address
+     * @return String containing results
      */
     public String ping(String ip) {
      /*

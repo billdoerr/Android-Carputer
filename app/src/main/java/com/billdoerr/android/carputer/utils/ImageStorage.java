@@ -38,7 +38,7 @@ public class ImageStorage {
 
     /**
      *
-     * @param context
+     * @param context Application context
      * @return List of snapshot files
      */
     public List<String> getSnapshotFileList(Context context) {
@@ -48,10 +48,10 @@ public class ImageStorage {
 
     /**
      * Save image
-     * @param context
-     * @param bitmap
-     * @return
-     * @throws FreeSpaceException
+     * @param context Application context
+     * @param bitmap Bitmap of imaged that will be saved to local storage
+     * @return Url string of resource that was saved to internal storage
+     * @throws FreeSpaceException Custom expection thrown is space not available to save image to local storage
      */
     public String saveImage(Context context, Bitmap bitmap) throws FreeSpaceException {
         FileOutputStream outputStream;
@@ -77,8 +77,8 @@ public class ImageStorage {
 
     /**
      * Check if space available to save bitmap
-     * @param path
-     * @param bitmap
+     * @param path Path that is of type File where image will be saved to local storage
+     * @param bitmap Bitmp of image being saved to local storage
      * @return True if space available to save bitmap
      */
 
@@ -89,7 +89,7 @@ public class ImageStorage {
 
     /**
      * Get size of bitmap
-     * @param data
+     * @param data Bitmap object
      * @return Size of bitmap
      */
     private int sizeOf(Bitmap data) {
@@ -125,7 +125,7 @@ public class ImageStorage {
 
         /**
          *
-         * @param message
+         * @param message Custom message for customer FreeSpaceException
          */
         FreeSpaceException(String message) {
             super (message);
@@ -133,7 +133,7 @@ public class ImageStorage {
 
         /**
          *
-         * @param cause
+         * @param cause Throwable object containing cause of custom exception
          */
         public FreeSpaceException (Throwable cause) {
             super (cause);
@@ -141,8 +141,8 @@ public class ImageStorage {
 
         /**
          *
-         * @param message
-         * @param cause
+         * @param message Message of type String for custom FreeSpaceException
+         * @param cause Throwable object containing cause of custom exception
          */
         public FreeSpaceException (String message, Throwable cause) {
             super (message, cause);

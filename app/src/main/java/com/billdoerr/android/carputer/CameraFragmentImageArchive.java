@@ -57,7 +57,7 @@ public class CameraFragmentImageArchive extends Fragment {
 
     /**
      * Add fragments to tabs
-     * @param viewPager
+     * @param viewPager ViewPager layout manager adapter will be assigned
      */
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
@@ -71,7 +71,7 @@ public class CameraFragmentImageArchive extends Fragment {
 
     /**
      * Setup action bar
-     * @param view
+     * @param view View that will contain the toolbar
      */
     private void setupActionBar(View view) {
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
@@ -115,8 +115,8 @@ public class CameraFragmentImageArchive extends Fragment {
 
         /**
          * Add fragment to tab
-         * @param fragment
-         * @param title
+         * @param fragment Fragment that hosted in a tab
+         * @param title Fragment title
          */
         private void addFragment(Fragment fragment, String title) {
             mFragmentList.add(fragment);

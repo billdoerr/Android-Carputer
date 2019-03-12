@@ -72,7 +72,7 @@ public class CameraFragmentMjpeg extends Fragment {
 
     /**
      * Add fragments to tabs
-     * @param viewPager
+     * @param viewPager ViewPager that adapter will be assigned
      */
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
@@ -92,7 +92,7 @@ public class CameraFragmentMjpeg extends Fragment {
 
     /**
      * Setup action bar
-     * @param view
+     * @param view View that will contains the toolbar
      */
     private void setupActionBar(View view) {
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
@@ -148,8 +148,8 @@ public class CameraFragmentMjpeg extends Fragment {
 
     /**
      * Retrieve list of camera's that are stored in SharedPreferences as a JSON string
-     * @param context
-     * @return
+     * @param context Context of application
+     * @return List<Camera> object is returned
      */
     private static List<Camera> getCamerasFromSharedPrefs(Context context) {
         SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());

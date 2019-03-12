@@ -45,6 +45,7 @@ public class SSHFragment extends Fragment {
     private static final String PREF_KEY_NETWORK_ENABLED  = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NETWORK_ENABLED";
     private static final String PREF_KEY_NETWORK_NAME  = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NETWORK_NAME";
     private static final String PREF_KEY_NETWORK_PASSPHRASE  = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NETWORK_PASSPHRASE";
+    private static final String PREF_KEY_NETWORK_WIFI_LOCK  = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NETWORK_WIFI_LOCK";
 
     private static List<Node> mNodes = new ArrayList<Node>();
 
@@ -60,6 +61,7 @@ public class SSHFragment extends Fragment {
     private static boolean mIsNetworkEnabled;
     private static String mNetworkSSID;
     private static String mNetworkPassphrase;
+    private boolean mWifiLock = false;
 
     //  Class:  Task
     private static class Payload {
@@ -373,7 +375,7 @@ public class SSHFragment extends Fragment {
      * Generate date/time stamp
      * https://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html
      * "Thu Jan 17 03:19:37 PST 2019"
-     * @return
+     * @return String containing formatted date/time:  Ex.  Thu Jan 17 03:19:37 PST 2019"
      */
     private String getDateTime() {
         String dateFormat = "EEE MMM dd hh:mm:ss z yyyy";
@@ -416,7 +418,7 @@ public class SSHFragment extends Fragment {
         String reply;
 
         if (!mIsConnected) {
-            mIsConnected = wifi.connectWPA(getActivity(), mNetworkSSID, mNetworkPassphrase);
+            mIsConnected = wifi.connectWPA(getActivity(), mNetworkSSID, mNetworkPassphrase, mWifiLock);
         }
         if (mIsConnected) {
             reply = "Connected to network: " + mNetworkSSID + "\n\n";
@@ -428,7 +430,7 @@ public class SSHFragment extends Fragment {
 
     /**
      * Command history to EditText
-     * @param msg
+     * @param msg String that will be added to command history
      */
     private void updateCommandHistory(String msg) {
         mCmdHistory = mCmdHistory + "\n" + msg + "\n";
@@ -437,8 +439,8 @@ public class SSHFragment extends Fragment {
 
     /**
      * Retrieve list of node's that are stored in SharedPreferences as a JSON string
-     * @param context
-     * @return
+     * @param context  Application context
+     * @return Object of type List<Node>
      */
     private static List<Node> getNodesFromSharedPrefs(Context context) {
         SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
@@ -453,7 +455,7 @@ public class SSHFragment extends Fragment {
 
     /**
      * Get network details from shared preferences
-     * @param context
+     * @param context Application context
      */
     private void getNetworkPreferences(Context context) {
         SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
@@ -462,6 +464,7 @@ public class SSHFragment extends Fragment {
         if (mIsNetworkEnabled) {
             mNetworkSSID = appSharedPrefs.getString(PREF_KEY_NETWORK_NAME, "");
             mNetworkPassphrase = appSharedPrefs.getString(PREF_KEY_NETWORK_PASSPHRASE, "");
+            mWifiLock = appSharedPrefs.getBoolean(PREF_KEY_NETWORK_WIFI_LOCK, false);
         }
     }
 

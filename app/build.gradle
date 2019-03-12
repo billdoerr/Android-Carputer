@@ -1,9 +1,5 @@
 apply plugin: 'com.android.application'
 
-def static getVersionNameTimestamp() {
-    return new Date().format('yy.MM.ddHHmm')
-}
-
 def static getVersionCodeTimestamp() {
     def date = new Date()
     def formattedDate = date.format('yyMMddHHmm')
@@ -24,7 +20,7 @@ android {
         minSdkVersion 23
         targetSdkVersion 28
         versionCode getVersionCodeTimestamp()
-        versionName "1.2 (BETA) " + getDate()
+        versionName "v1.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

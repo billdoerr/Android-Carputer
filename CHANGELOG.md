@@ -14,22 +14,22 @@ All notable changes to this Android application project will be documented in th
 ## [Unreleased]
 ### v1.4 (NOT STARTED)
 #### Added
-- [ ]  Apply javadocs comments.  Will be ongoing process to better document code.  
+- [ ]  Update/Apply javadocs comments.  Will be ongoing process to better document code.  
 #### Changed
 - [ ]  SSH Fragment is a complete hack!  Replace with something more robust.
 #### Removed
 
 ## [Unreleased]
-### v1.3 (NOT STARTED)
+### v1.3 (RESEARCH)
 #### Added
 - [ ]  Automatic network connection.
 	- [x]  (ADDED IN v1.1)  Added network preferences for SSID and Passphrase for WPA network connection.  WiFI connection not yet implementation in the Carputer application.	
-- [ ]  Apply javadocs comments.  Will be ongoing process to better document code.  	
+- [ ]  Update/Apply javadocs comments.  Will be ongoing process to better document code.  	
 #### Changed
 #### Removed
 
-## [Unreleased]
-### v1.2 (IN PROGRESS)
+## [Released]
+### v1.2 (12Mar2019)
 #### Added
 - [x]  Apply javadocs comments.  Will be ongoing process to better document code.  
 #### Changed
@@ -43,7 +43,7 @@ All notable changes to this Android application project will be documented in th
 #### Removed
 
 ## [Released]
-### v1.1 Relese ETA:  5Mar2019
+### v1.1 (5Mar2019)
 #### Added
 - [x]  Add version/build number in new About menu action item.
 #### Changed

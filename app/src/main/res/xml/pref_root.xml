@@ -54,11 +54,16 @@
             app:title="@string/pref_title_network_password"
             app:useSimpleSummaryProvider="true" />
 
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:title="@string/pref_category_misc_settings" >
+
         <SwitchPreference
-            app:dependency="com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NETWORK_ENABLED"
+            app:enabled="true"
             app:defaultValue="false"
-            app:key="com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NETWORK_WIFI_LOCK"
-            app:title="@string/pref_title_network_wifi_lock"
+            app:key="com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_KEEP_DEVICE_AWAKE"
+            app:title="@string/pref_title_misc_keep_device_awake"
             app:useSimpleSummaryProvider="true" />
 
     </PreferenceCategory>

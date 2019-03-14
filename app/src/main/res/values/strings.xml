@@ -72,6 +72,7 @@
     <string name="pref_category_nodes_configured">Node\'s Configured</string>
     <string name="pref_category_nodes_add">Add Node</string>
     <string name="pref_category_network_settings">Network Settings</string>
+    <string name="pref_category_misc_settings">Misc</string>
 
     <!--  Preference Titles -->
     <string name="pref_title_activity_settings">Settings</string>
@@ -82,7 +83,7 @@
     <string name="pref_title_network_name">Network SSID</string>
     <string name="pref_title_network_password">Network Passphrase</string>
     <string name="pref_title_network_auto_connect">Auto connect</string>
-    <string name="pref_title_network_wifi_lock">Enable WiFi Lock</string>
+    <string name="pref_title_misc_keep_device_awake">Keep Device Awake</string>
 
     <!--  Default Shared Preference Values -->
     <string name="pref_default_camera_name">Front</string>
@@ -94,6 +95,10 @@
     <string name="pref_default_node_physysinfo_url">http://192.168.4.1/phpsysinfo</string>
     <string name="pref_default_network_name">PINET</string>
     <string name="pref_default_network_password">scoobydoo</string>
+
+    <string name="msg_connecting_to_network">Network is enabled.  Connecting now.</string>
+    <string name="msg_connected_to_network_date_sync">Network connection made.  Syncing date.</string>
+    <string name="msg_keep_device_awake">Flag set to keep device awake.</string>
 
 
     <!--  About -->

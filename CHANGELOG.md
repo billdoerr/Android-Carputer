@@ -14,24 +14,27 @@ All notable changes to this Android application project will be documented in th
 ## [Unreleased]
 ### v1.4 (NOT STARTED)
 #### Added
-- [ ]  Update/Apply javadocs comments.  Will be ongoing process to better document code.  
+- [ ]  Update/Add javadocs comments.  Will be ongoing process to better document code.  
 #### Changed
 - [ ]  SSH Fragment is a complete hack!  Replace with something more robust.
 #### Removed
 
 ## [Unreleased]
-### v1.3 (RESEARCH)
+### v1.3 (IN PROGRESS)
 #### Added
+- [ ]  Keep the device awake.  https://developer.android.com/training/scheduling/wakelock  
+  - [ ]  Add preference fro this choice.  Create new category 'Misc' and put it under there for now.
 - [ ]  Automatic network connection.
 	- [x]  (ADDED IN v1.1)  Added network preferences for SSID and Passphrase for WPA network connection.  WiFI connection not yet implementation in the Carputer application.	
-- [ ]  Update/Apply javadocs comments.  Will be ongoing process to better document code.  	
+	- [x]  (ADDED IN v1.2)  Added network preference for WiFi lock.
+- [ ]  Update/Add javadocs comments.  Will be ongoing process to better document code.  	
 #### Changed
 #### Removed
 
 ## [Released]
 ### v1.2 (12Mar2019)
 #### Added
-- [x]  Apply javadocs comments.  Will be ongoing process to better document code.  
+- [x]  Add javadocs comments.  Will be ongoing process to better document code.  
 #### Changed
 - [x]  Implement material design.  Didn't really do anything extra.  I did implement the material design icons from the start of the project.
 	- https://stackoverflow.com/questions/8855791/how-to-create-standard-borderless-buttons-like-in-the-design-guideline-mentione

@@ -212,7 +212,46 @@ static domain_name_servers=192.168.4.1
 ===============================================================================================
 
 ===============================================================================================
+//  https://gist.github.com/jaydeepw/4201419
+
+
+// create a class member variable.
+WifiManager.WifiLock mWifiLock = null;
+
+
+/***
+* Calling this method will aquire the lock on wifi. This is avoid wifi
+* from going to sleep as long as <code>releaseWifiLock</code> method is called.
+**/
+private void holdWifiLock() {
+	WifiManager wifiManager = (WifiManager) mContext.getSystemService(Context.WIFI_SERVICE);
+		
+	if( mWifiLock == null )
+		mWifiLock = wifiManager.createWifiLock(WifiManager.WIFI_MODE_FULL, TAG);
+		
+	mWifiLock.setReferenceCounted(false);
+
+	if( !mWifiLock.isHeld() )
+		mWifiLock.acquire();
+}
+	
+/***
+* Calling this method will release if the lock is already help. After this method is called,
+* the Wifi on the device can goto sleep.
+**/
+private void releaseWifiLock() {
+		
+	if( mWifiLock == null )
+		Log.w(TAG, "#releaseWifiLock mWifiLock was not created previously");
+		
+	if( mWifiLock != null && mWifiLock.isHeld() ){
+		mWifiLock.release();
+		//mWifiLock = null;
+	}
+		
+}
 ===============================================================================================
+
 ===============================================================================================
 ===============================================================================================
 ===============================================================================================

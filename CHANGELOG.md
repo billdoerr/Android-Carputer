@@ -5,14 +5,18 @@ All notable changes to this Android application project will be documented in th
 ## [Unreleased]
 ### v1.x (NOT STARTED)
 #### Added
-	
+- [ ]  Create syslog and make it viewable.  The SSHFragment->txtReply is a poor man's version of syslog.
+- [ ]  Connectivity monitoring.  
+	https://developer.android.com/training/monitoring-device-state/connectivity-monitoring  
+	https://stackoverflow.com/questions/5888502/how-to-detect-when-wifi-connection-has-been-established-in-android  
+	https://www.journaldev.com/10356/android-broadcastreceiver-example-tutorial  
 #### Changed
 - [ ]  Test and validate performance using RaspberryPi with USBStick + two USB Cameras + router.
 #### Removed
 
 
 ## [Unreleased]
-### v1.4 (NOT STARTED)
+### v1.4 (RESEARCH)
 #### Added
 - [ ]  Update/Add javadocs comments.  Will be ongoing process to better document code.  
 #### Changed
@@ -20,6 +24,13 @@ All notable changes to this Android application project will be documented in th
 #### Removed
 
 ## [Unreleased]
+### v1.3.1 (IN PROGRESS)
+#### Added
+- [ ]  Not working across fragments.  Keep the device awake.  https://developer.android.com/training/scheduling/wakelock  
+#### Changed
+#### Removed
+
+## [Released]
 ### v1.3 (14Mar2019)
 #### Added
 - [x]  Keep the device awake.  https://developer.android.com/training/scheduling/wakelock  

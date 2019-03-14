@@ -20,14 +20,13 @@ All notable changes to this Android application project will be documented in th
 #### Removed
 
 ## [Unreleased]
-### v1.3 (IN PROGRESS)
+### v1.3 (14Mar2019)
 #### Added
-- [ ]  Keep the device awake.  https://developer.android.com/training/scheduling/wakelock  
-  - [ ]  Add preference fro this choice.  Create new category 'Misc' and put it under there for now.
-- [ ]  Automatic network connection.
+- [x]  Keep the device awake.  https://developer.android.com/training/scheduling/wakelock  
+  - [x]  Add preference fro this choice.  Create new category 'Misc' and put it under there for now.
+- [x]  Automatic network connection.
 	- [x]  (ADDED IN v1.1)  Added network preferences for SSID and Passphrase for WPA network connection.  WiFI connection not yet implementation in the Carputer application.	
-	- [x]  (ADDED IN v1.2)  Added network preference for WiFi lock.
-- [ ]  Update/Add javadocs comments.  Will be ongoing process to better document code.  	
+- [x]  Update/Add javadocs comments.  Will be ongoing process to better document code.  	
 #### Changed
 #### Removed
 

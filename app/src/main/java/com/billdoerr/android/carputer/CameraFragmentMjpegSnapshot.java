@@ -2,7 +2,6 @@ package com.billdoerr.android.carputer;
 
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -19,7 +18,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.billdoerr.android.carputer.settings.Camera;
-import com.billdoerr.android.carputer.utils.ImageStorage;
+import com.billdoerr.android.carputer.utils.FileStorageUtils;
 import com.github.niqdev.mjpeg.DisplayMode;
 import com.github.niqdev.mjpeg.Mjpeg;
 import com.github.niqdev.mjpeg.OnFrameCapturedListener;
@@ -159,8 +158,7 @@ public class CameraFragmentMjpegSnapshot extends Fragment implements OnFrameCapt
                         },
                         throwable -> {
                             Log.e(getClass().getSimpleName(), "mjpeg error", throwable);
-                            //  TODO:  Why is the Toast throwing errors now?
-//                            Toast.makeText(getActivity(), getResources().getString(R.string.toast_camera_connection_error), Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(), getResources().getString(R.string.toast_camera_connection_error), Toast.LENGTH_LONG).show();
                         });
     }
 
@@ -173,8 +171,8 @@ public class CameraFragmentMjpegSnapshot extends Fragment implements OnFrameCapt
             Log.d(TAG, "Image captured.");
             mImageView.setImageBitmap(mLastPreview);
             try {
-                new ImageStorage().saveImage(getActivity(), mLastPreview);
-            } catch (ImageStorage.FreeSpaceException e) {
+                new FileStorageUtils().saveImage(getActivity(), mLastPreview);
+            } catch (FileStorageUtils.FreeSpaceException e) {
                 //  Handle exception
                 Log.i(TAG, e.getMessage() );
             }

@@ -19,7 +19,7 @@ import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import com.billdoerr.android.carputer.settings.Node;
-import com.billdoerr.android.carputer.utils.ImageStorage;
+import com.billdoerr.android.carputer.utils.FileStorageUtils;
 
 /**
  *
@@ -81,8 +81,8 @@ public class CameraFragmentMotionEyeView extends Fragment {
         Canvas canvas = new Canvas(bitmap);
         mWebView.draw(canvas);
         try {
-            new ImageStorage().saveImage(getActivity(), bitmap);
-        } catch (ImageStorage.FreeSpaceException e) {
+            new FileStorageUtils().saveImage(getActivity(), bitmap);
+        } catch (FileStorageUtils.FreeSpaceException e) {
             //  Handle exception
             Log.i(TAG, e.getMessage() );
         }

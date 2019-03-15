@@ -6,7 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import androidx.annotation.IntDef;
 
 /**
- *
+ * Message events for the preference settings activity and fragments.
  */
 class SettingsMessageEvent {
 
@@ -43,7 +43,7 @@ class SettingsMessageEvent {
 
     /**
      *
-     * @return Object of type Node
+     * @return Node:  Object of type Node.
      */
     public com.billdoerr.android.carputer.settings.Node getNode() {
         return mNode;
@@ -51,7 +51,7 @@ class SettingsMessageEvent {
 
     /**
      *
-     * @return Action to be performed
+     * @return int:  Action to be performed.
      */
     public int getAction() {
         return mAction;
@@ -59,7 +59,7 @@ class SettingsMessageEvent {
 
     /**
      *
-     * @param action Set action to be performed
+     * @param action int:  Set action to be performed.
      */
     public void setAction(int action) {
         mAction = action;
@@ -67,7 +67,7 @@ class SettingsMessageEvent {
 
     /**
      *
-     * @return Get index of device
+     * @return int:  Get index of device.
      */
     public int getIndex() {
         return mIndex;
@@ -75,19 +75,19 @@ class SettingsMessageEvent {
 
     /**
      *
-     * @return Object of type Camera
+     * @return Camera:  Object of type Camera.
      */
     public Camera getCamera() {
         return mCamera;
     }
 
-
+    //  TODO:  Remove int device param since always of type Camera
     /**
-     *
-     * @param action int value for action to be taken
-     * @param device in containing type of device
-     * @param camera Object of type Camera
-     * @param index Index of list of devices
+     * Send message to event bus.
+     * @param action int:  Value for action to be taken.
+     * @param device int:  Identifier for type of device.
+     * @param camera Camera:  Object of type Camera.
+     * @param index int:  Index of list of devices.
      */
     public void sendMessage(int action, int device, Camera camera, int index) {
         mAction = action;
@@ -96,12 +96,13 @@ class SettingsMessageEvent {
         mIndex = index;
     }
 
+    //  TODO:  Remove int device param since always of type Node
     /**
-     *
-     * @param action int value for action to be taken
-     * @param device in containing type of device
-     * @param node Object of type Camera
-     * @param index Index of list of devices
+     * Send message to event bus.
+     * @param action int:  Value for action to be taken.
+     * @param device int:  Identifier for type of device.
+     * @param node Node:   Object of type Camera.
+     * @param index int:  Index of list of devices.
      */
     public void sendMessage(int action, int device, Node node, int index) {
         mAction = action;

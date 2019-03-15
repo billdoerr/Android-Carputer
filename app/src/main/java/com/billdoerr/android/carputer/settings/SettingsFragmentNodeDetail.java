@@ -25,7 +25,7 @@ import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.fragment.app.Fragment;
 
 /**
- * The fragment that displays preferences that Node detail
+ * Fragment used to add/edit node details.
  */
 public class SettingsFragmentNodeDetail extends Fragment {
 
@@ -272,8 +272,8 @@ public class SettingsFragmentNodeDetail extends Fragment {
     }
 
     /**
-     * Set text fields with values from arguments
-     * @param node Object of type Node
+     * Set text fields with values from arguments.
+     * @param node Node:  Object of type Node
      */
     private void setNodeDetail(Node node) {
         if (node != null) {
@@ -291,8 +291,8 @@ public class SettingsFragmentNodeDetail extends Fragment {
     }
 
     /**
-     * Get update details
-     * @return Object of type Node
+     * Get update details.
+     * @return Node:  Object of type Node.
      */
     private Node getNodeDetail() {
         Node node = new Node();
@@ -314,7 +314,7 @@ public class SettingsFragmentNodeDetail extends Fragment {
     }
 
     /**
-     * Hide soft keyboard
+     * Hide soft keyboard.
      */
     private void hideSoftKeyboard() {
         // Check if no view has focus:
@@ -325,12 +325,13 @@ public class SettingsFragmentNodeDetail extends Fragment {
         }
     }
 
+    //  TODO:  Remove int device param since always of type Camera
     /**
-     * Post preference change to EventBus
-     * @param action int value for action to be taken
-     * @param device in containing type of device
-     * @param node Object of type Node
-     * @param index Index of list of devices
+     * Post preference change to EventBus.
+     * @param action int: Value for action to be taken.
+     * @param device int: Identifier for type of device.
+     * @param node Node:  Object of type Node.
+     * @param index int:  Index of list of devices.
      */
     private void sendMessage(int action, int device, Node node, int index) {
         SettingsMessageEvent event = new SettingsMessageEvent();

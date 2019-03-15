@@ -104,8 +104,12 @@
     <!--  About -->
     <string name="version">Version</string>
 
-    <!--  Custom exceptions -->
+    <!--  Exceptions -->
+    <string name="exception_tag">Exception</string>
     <string name="exception_no_free_space">The path has no free space available.</string>
+    <string name="exception_file_write_failed">File write failed:</string>
+    <string name="exception_file_not_found">File not found:</string>
+    <string name="exception_cannot_read_file">Cannot read file:</string>
 
     <!--  Toast messages -->
     <string name="toast_image_saved">Image has been saved.</string>

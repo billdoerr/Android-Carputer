@@ -1,6 +1,7 @@
 package com.billdoerr.android.carputer;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.LayoutRes;
@@ -16,10 +17,13 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
+import android.preference.PreferenceManager;
 import android.view.MenuItem;
+import android.view.WindowManager;
 
-/*
-
+/**
+ * Main activity which other activities extend from.
  */
 public abstract class SingleFragmentActivity extends AppCompatActivity {
 
@@ -100,6 +104,9 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
                         }
                     }
                 });
+
+        //  Initialization routine
+        startUp();
     }
 
     @Override
@@ -110,6 +117,25 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Application startup routine.
+     */
+    private void startUp() {
+        final String PREF_KEY_KEEP_DEVICE_AWAKE = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_KEEP_DEVICE_AWAKE";
+        boolean keepDeviceAwake = false;
+
+        SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        keepDeviceAwake = appSharedPrefs.getBoolean(PREF_KEY_KEEP_DEVICE_AWAKE, false);
+
+        //  Goal is to prevent network from being dropped.  Plus we always want the application to never timeout.  Always viewable.
+        //  https://developer.android.com/training/scheduling/wakelock
+        if (keepDeviceAwake) {
+//            updateCommandHistory(getString(R.string.msg_keep_device_awake));
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        }
+
     }
 
 }

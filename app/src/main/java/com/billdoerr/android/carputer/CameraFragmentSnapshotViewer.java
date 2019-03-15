@@ -16,7 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.billdoerr.android.carputer.utils.ImageStorage;
+import com.billdoerr.android.carputer.utils.FileStorageUtils;
 
 import java.io.File;
 import java.util.Comparator;
@@ -129,13 +129,13 @@ public class CameraFragmentSnapshotViewer extends Fragment {
     }
 
     private void updateItems() {
-        mFileList = new ImageStorage().getSnapshotFileList(getContext());
+        mFileList = new FileStorageUtils().getSnapshotFileList(getContext());
         mySort(mFileList);
     }
 
     private void update() {
         mFileList.clear();  //  Clear all data
-        List<String> newFileList = new ImageStorage().getSnapshotFileList(getContext());
+        List<String> newFileList = new FileStorageUtils().getSnapshotFileList(getContext());
         mFileList.addAll(newFileList);
         mySort(mFileList);
         setupAdapter();
@@ -226,7 +226,7 @@ public class CameraFragmentSnapshotViewer extends Fragment {
                 mTextView.setText(listItem);
 
                 //  Display image
-                Bitmap bitmap = new ImageStorage().getSnapshot(getActivity(), listItem);
+                Bitmap bitmap = new FileStorageUtils().getSnapshot(getActivity(), listItem);
                 mImageView.setImageBitmap(bitmap);
             }
         }

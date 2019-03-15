@@ -8,11 +8,11 @@ import android.util.Log;
 import java.util.List;
 
 /**
- *
+ * WIFI network utilities.
  */
-public class WiFi {
+public class WiFiUtils {
 
-    private static final String TAG = "WiFi";
+    private static final String TAG = "WiFiUtils";
 //    private static final String WIFI_LOCK = "WIFI_LOCK";
 
     private static WifiManager.WifiLock mWifiLock = null;
@@ -21,13 +21,15 @@ public class WiFi {
     private int mNetworkId = -1;
 
     /**
-     * Connect to network (WPA).  Also performs WiFi lock if shared preference enabled
-     * Refer to:  https://developer.android.com/reference/android/net/wifi/WifiConfiguration
-     * Refer to:  https://stackoverflow.com/questions/8818290/how-do-i-connect-to-a-specific-wi-fi-network-in-android-programmatically
-     * @param context Application context
-     * @param networkSSID String containing network SSID
-     * @param networkPassphrase String containing WPA passphrase
-     * @return boolean value if successful connection
+     * Connect to network (WPA).  Also performs WiFiUtils lock if shared preference enabled.
+     * Refer to:  https://developer.android.com/reference/android/net/wifi/WifiConfiguration.
+     * Refer to:  https://stackoverflow.com/questions/8818290/how-do-i-connect-to-a-specific-wi-fi-network-in-android-programmatically.
+     * @param context Context:  Application context.
+     * @param networkSSID String:  The network's SSID. Can either be a UTF-8 string, which must be
+     *                    enclosed in double quotation marks (e.g., "MyNetwork"), or a string of hex
+     *                    digits, which are not enclosed in quotes (e.g., 01a243f405).
+     * @param networkPassphrase String:  WPA passphrase.
+     * @return boolean: True if successful connection.
      */
     public boolean connectWPA(Context context, String networkSSID, String networkPassphrase ) {
 
@@ -67,11 +69,11 @@ public class WiFi {
     }
 
     /**
-     * Disonnect to network (WPA).  Also performs WiFi lock if shared preference enabled
-     * Refer to:  https://developer.android.com/reference/android/net/wifi/WifiConfiguration
-     * Refer to:  https://stackoverflow.com/questions/8818290/how-do-i-connect-to-a-specific-wi-fi-network-in-android-programmatically
-     * @param context Application context
-     * @return boolean value if successful disconnection
+     * Disconnect to network (WPA).  Also performs WiFiUtils lock if shared preference enabled.
+     * Refer to:  https://developer.android.com/reference/android/net/wifi/WifiConfiguration.
+     * Refer to:  https://stackoverflow.com/questions/8818290/how-do-i-connect-to-a-specific-wi-fi-network-in-android-programmatically.
+     * @param context Context:  Application context.
+     * @return boolean: True if successful disconnection.
      */
     public boolean disconnectWPA(Context context) {
 
@@ -90,6 +92,7 @@ public class WiFi {
                 return false;
             }
 
+            //  Iterate over networks
             for( WifiConfiguration i : list ) {
                 if (i.networkId == mNetworkId) {
                     isConnected = wifiManager.disconnect();
@@ -103,11 +106,13 @@ public class WiFi {
     }
 
     /**
-     * Add network configuration
-     * @param context Application context
-     * @param networkSSID String containing network SSID
-     * @param networkPassphrase String containing WPA passphrase
-     * @return
+     * Add network configuration.
+     * @param context Context:  Application context.
+     * @param networkSSID String:  The network's SSID. Can either be a UTF-8 string, which must be
+     *                    enclosed in double quotation marks (e.g., "MyNetwork"), or a string of hex
+     *                    digits, which are not enclosed in quotes (e.g., 01a243f405).
+     * @param networkPassphrase String:  WPA passphrase.
+     * @return int:  Network id of added network.
      */
     public int addNetwork(Context context, String networkSSID, String networkPassphrase) {
 
@@ -129,11 +134,11 @@ public class WiFi {
 
     /**
      *
-     * @param context Applicaton context
-     * @param networkSSID The network's SSID. Can either be a UTF-8 string, which must be enclosed
+     * @param context Context:  Applicaton context.
+     * @param networkSSID String:  The network's SSID. Can either be a UTF-8 string, which must be enclosed
      *                    in double quotation marks (e.g., "MyNetwork"), or a string of hex digits,
      *                    which are not enclosed in quotes (e.g., 01a243f405).
-     * @return return True if network has been added and configured
+     * @return return boolean:  True if network has been added and configured.
      */
     public boolean isNetworkConfigured(Context context, String networkSSID) {
 
@@ -150,6 +155,13 @@ public class WiFi {
 
         //  And finally, you might need to enable it, so Android connects to it:
         List<WifiConfiguration> list = wifiManager.getConfiguredNetworks();
+
+        //  Exit if no networks
+        if (list == null) {
+            return false;
+        }
+
+        //  Iterate over networks
         for( WifiConfiguration i : list ) {
             if(i.SSID != null && i.SSID.equals("\"" + networkSSID + "\"")) {
                 //  Network must be configured
@@ -158,13 +170,14 @@ public class WiFi {
                 break;
             }
         }
+
         return isConnected;
     }
 
 //    /***
 //     * Calling this method will aquire the lock on wifi. This is avoid wifi
 //     * from going to sleep as long as <code>releaseWifiLock</code> method is called.
-//     * @param context Application context
+//     * @param context Context:  Application context.
 //     **/
 //    public void holdWifiLock(Context context) {
 //        WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);

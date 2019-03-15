@@ -24,7 +24,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 /**
- *
+ * Fragment used to add/edit camera details.
  */
 public class SettingsFragmentCameraDetail extends Fragment {
 
@@ -196,8 +196,8 @@ public class SettingsFragmentCameraDetail extends Fragment {
     }
 
     /**
-     * Set text fields with values from arguments
-     * @param camera Object of type Camera
+     * Set text fields with values from arguments.
+     * @param camera Camera:  Object of type Camera.
      */
     private void setCameraDetail(Camera camera) {
         if (camera != null) {
@@ -229,8 +229,8 @@ public class SettingsFragmentCameraDetail extends Fragment {
     }
 
     /**
-     * Get update details
-     * @return Object of type Camera
+     * Get update details.
+     * @return Camera:  Object of type Camera.
      */
     private Camera getCameraDetail() {
         Camera camera = new Camera();
@@ -240,7 +240,7 @@ public class SettingsFragmentCameraDetail extends Fragment {
     }
 
     /**
-     * Hide soft keyboard
+     * Hide soft keyboard.
      */
     private void hideSoftKeyboard() {
         // Check if no view has focus:
@@ -251,12 +251,13 @@ public class SettingsFragmentCameraDetail extends Fragment {
         }
     }
 
+    //  TODO:  Remove int device param since always of type Camera
     /**
-     * Post preference change to EventBus
-     * @param action int value for action to be taken
-     * @param device in containing type of device
-     * @param camera Object of type Camera
-     * @param index Index of list of devices
+     * Post preference change to EventBus.
+     * @param action int: Value for action to be taken.
+     * @param device int: Identifier for type of device.
+     * @param camera Camera:  Object of type Camera.
+     * @param index int:  Index of list of devices.
      */
     private void sendMessage(int action, int device, Camera camera, int index) {
         SettingsMessageEvent event = new SettingsMessageEvent();

@@ -253,11 +253,134 @@ private void releaseWifiLock() {
 ===============================================================================================
 
 ===============================================================================================
-===============================================================================================
-===============================================================================================
-===============================================================================================
+
+//  You can register a BroadcastReceiver to be notified when a WiFi connection is established (or if the connection changed).
+
+//  Register the BroadcastReceiver:
+
+IntentFilter intentFilter = new IntentFilter();
+intentFilter.addAction(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION);
+registerReceiver(broadcastReceiver, intentFilter);
+
+//  And then in your BroadcastReceiver do something like this:
+
+@Override
+public void onReceive(Context context, Intent intent) {
+    final String action = intent.getAction();
+    if (action.equals(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION)) {
+        if (intent.getBooleanExtra(WifiManager.EXTRA_SUPPLICANT_CONNECTED, false)) {
+            //do stuff
+        } else {
+            // wifi connection was lost
+        }
+    }
+}
+
+// For more info, see the documentation for BroadcastReceiver and WifiManager
+
+// Of course you should check whether the device is already connected to WiFi before this.
+
+//  EDIT: Thanks to ban-geoengineering, here's a method to check whether the device is already connected:
+
+private boolean isConnectedViaWifi() {
+     ConnectivityManager connectivityManager = (ConnectivityManager) appObj.getSystemService(Context.CONNECTIVITY_SERVICE);
+     NetworkInfo mWifi = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);     
+     return mWifi.isConnected();
+}
 ===============================================================================================
 
+===============================================================================================
+https://stackoverflow.com/questions/14376807/how-to-read-write-string-from-a-file-in-android
+
+
+//  Write File:
+private void writeToFile(String data,Context context) {
+    try {
+        OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("config.txt", Context.MODE_PRIVATE));
+        outputStreamWriter.write(data);
+        outputStreamWriter.close();
+    }
+    catch (IOException e) {
+        Log.e("Exception", "File write failed: " + e.toString());
+    } 
+}
+
+//  Read File:
+private String readFromFile(Context context) {
+
+    String ret = "";
+
+    try {
+        InputStream inputStream = context.openFileInput("config.txt");
+
+        if ( inputStream != null ) {
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+            String receiveString = "";
+            StringBuilder stringBuilder = new StringBuilder();
+
+            while ( (receiveString = bufferedReader.readLine()) != null ) {
+                stringBuilder.append(receiveString);
+            }
+
+            inputStream.close();
+            ret = stringBuilder.toString();
+        }
+    }
+    catch (FileNotFoundException e) {
+        Log.e("login activity", "File not found: " + e.toString());
+    } catch (IOException e) {
+        Log.e("login activity", "Can not read file: " + e.toString());
+    }
+
+    return ret;
+}
+
+===============================================================================================
+
+===============================================================================================
+
+===============================================================================================
+
+===============================================================================================
+
+===============================================================================================
+
+===============================================================================================
+
+===============================================================================================
+
+===============================================================================================
+
+===============================================================================================
+
+===============================================================================================
+
+===============================================================================================
+
+===============================================================================================
+
+===============================================================================================
+
+===============================================================================================
+
+===============================================================================================
+
+===============================================================================================
+
+===============================================================================================
+
+===============================================================================================
+
+===============================================================================================
+
+===============================================================================================
+
+===============================================================================================
+
+===============================================================================================
+
+===============================================================================================
 
 
 

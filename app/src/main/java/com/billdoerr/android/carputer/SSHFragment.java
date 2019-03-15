@@ -14,7 +14,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -30,7 +29,7 @@ import java.util.List;
 
 import com.billdoerr.android.carputer.settings.Node;
 import com.billdoerr.android.carputer.utils.RPiUtils;
-import com.billdoerr.android.carputer.utils.WiFi;
+import com.billdoerr.android.carputer.utils.WiFiUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -46,8 +45,6 @@ public class SSHFragment extends Fragment {
     private static final String PREF_KEY_NETWORK_ENABLED  = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NETWORK_ENABLED";
     private static final String PREF_KEY_NETWORK_NAME  = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NETWORK_NAME";
     private static final String PREF_KEY_NETWORK_PASSPHRASE  = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NETWORK_PASSPHRASE";
-    private static final String PREF_KEY_NETWORK_WIFI_LOCK  = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NETWORK_WIFI_LOCK";
-    private static final String PREF_KEY_KEEP_DEVICE_AWAKE = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_KEEP_DEVICE_AWAKE";
 
     private static List<Node> mNodes = new ArrayList<Node>();
 
@@ -59,10 +56,9 @@ public class SSHFragment extends Fragment {
     //  Misc
     private static boolean mDateSynced = false;
     private static String mCmdHistory = "";
-    private static boolean mKeepDeviceAwake = false;
 
     //  Network related
-    private static WiFi mWiFi = new WiFi();
+    private static WiFiUtils mWiFi = new WiFiUtils();
     private static boolean mIsNetworkEnabled;
     private static String mNetworkSSID;
     private static String mNetworkPassphrase;
@@ -279,9 +275,6 @@ public class SSHFragment extends Fragment {
 
     @Override
     public void onDestroy() {
-        //  Disconnect WiFi
-        mWiFi.disconnectWPA(getActivity());
-
         super.onDestroy();
     }
 
@@ -314,7 +307,7 @@ public class SSHFragment extends Fragment {
     }
 
     /**
-     * TODO : How does it know what node to process for PowerOff (ALL)?
+     * TODO : Get rid of this.  Rename ExecuteCommandTaskNew.
      * Async Task to perform ping command
      * android.os.AsyncTask<Params, Progress, Result>
      */
@@ -346,7 +339,6 @@ public class SSHFragment extends Fragment {
     }
 
     /**
-     * TODO : How does it know what node to process for PowerOff (ALL)?
      * Async Task to perform ping command
      * android.os.AsyncTask<Params, Progress, Result>
      *
@@ -478,9 +470,6 @@ public class SSHFragment extends Fragment {
         if (mIsNetworkEnabled) {
             mNetworkSSID = appSharedPrefs.getString(PREF_KEY_NETWORK_NAME, "");
             mNetworkPassphrase = appSharedPrefs.getString(PREF_KEY_NETWORK_PASSPHRASE, "");
-
-            //  TODO:  Where to put this.
-            mKeepDeviceAwake = appSharedPrefs.getBoolean(PREF_KEY_KEEP_DEVICE_AWAKE, false);
         }
     }
 
@@ -500,13 +489,6 @@ public class SSHFragment extends Fragment {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {}
 
-        }
-
-        //  Goal is to prevent network from being dropped.  Plus we always want the application to never timeout.  Always viewable.
-        //  https://developer.android.com/training/scheduling/wakelock
-        if (mKeepDeviceAwake) {
-            updateCommandHistory(getString(R.string.msg_keep_device_awake));
-            getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
 
         // Sync Dates

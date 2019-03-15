@@ -29,7 +29,7 @@ import androidx.preference.PreferenceManager;
 import androidx.preference.PreferenceScreen;
 
 /**
- *
+ * Main preference settings activity.
  */
 public class SettingsActivity extends AppCompatActivity implements
         PreferenceFragmentCompat.OnPreferenceStartFragmentCallback {
@@ -92,9 +92,9 @@ public class SettingsActivity extends AppCompatActivity implements
     }
 
     /**
-     * Retrieve list of camera's that are stored in SharedPreferences as a JSON string
-     * @param context Application context
-     * @return Object of type List<Camera>
+     * Retrieve list of camera's that are stored in SharedPreferences as a JSON string.
+     * @param context Context:  Application context.
+     * @return List<Camera>:  Returns List<Camera> of configured cameras.
      */
     private static List<Camera> getCamerasFromSharedPrefs(Context context) {
         SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
@@ -108,8 +108,8 @@ public class SettingsActivity extends AppCompatActivity implements
     }
 
     /**
-     * Save list of camera's that are stored in SharedPreferences as a JSON string
-     * @param context Application context
+     * Save list of camera's that are stored in SharedPreferences as a JSON string.
+     * @param context Context:  Application context.
      */
     private static void saveCamerasToSharedPrefs(Context context) {
         SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
@@ -121,9 +121,9 @@ public class SettingsActivity extends AppCompatActivity implements
     }
 
     /**
-     * Retrieve list of node's that are stored in SharedPreferences as a JSON string
-     * @param context Application context
-     * @return Object of type List<Node>
+     * Retrieve list of node's that are stored in SharedPreferences as a JSON string.
+     * @param context Context:  Application context.
+     * @return List<Node>:  Returns List<Node> of configured nodes.
      */
     private static List<Node> getNodesFromSharedPrefs(Context context) {
         SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
@@ -137,8 +137,8 @@ public class SettingsActivity extends AppCompatActivity implements
     }
 
     /**
-     * Save list of node's that are stored in SharedPreferences as a JSON string
-     * @param context Application context
+     * Save list of node's that are stored in SharedPreferences as a JSON string.
+     * @param context Context:  Application context.
      */
     private static void saveNodesToSharedPrefs(Context context) {
         SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
@@ -218,7 +218,7 @@ public class SettingsActivity extends AppCompatActivity implements
     }
 
     /**
-     * The fragment that displays list of configured camera's
+     * The fragment that displays list of configured camera's.
      */
     public static class SettingsFragmentCameras extends PreferenceFragmentCompat {
 
@@ -292,7 +292,7 @@ public class SettingsActivity extends AppCompatActivity implements
         }
 
         /**
-         * Dynamically create PreferenceScreen of configured camera's
+         * Dynamically create PreferenceScreen of configured camera's.
          */
         private void createPreferences() {
 
@@ -391,7 +391,7 @@ public class SettingsActivity extends AppCompatActivity implements
     }
 
     /**
-     * The fragment that displays list of configured Node's
+     * The fragment that displays list of configured Node's.
      */
     public static class SettingsFragmentNodes extends PreferenceFragmentCompat {
 
@@ -435,7 +435,7 @@ public class SettingsActivity extends AppCompatActivity implements
 
         /**
          * This method will be called when a MessageEvent is posted in the UI thread
-         * @param event SettingsMessageEvent object
+         * @param event SettingsMessageEvent object.
          */
         @Subscribe(threadMode = ThreadMode.MAIN)
         public void onMessageEvent(SettingsMessageEvent event) {
@@ -467,7 +467,7 @@ public class SettingsActivity extends AppCompatActivity implements
         }
 
         /**
-         * Dynamically create PreferenceScreen of configured Node's
+         * Dynamically create PreferenceScreen of configured Node's.
          */
         private void createPreferences() {
 

@@ -14,7 +14,7 @@ import java.io.InputStreamReader;
 import java.util.Properties;
 
 /**
- *
+ * Raspberry Pi utilities.
  */
 public class RPiUtils {
 
@@ -28,10 +28,10 @@ public class RPiUtils {
 
     /**
      *
-     * @param ip  String containing ip address of node
-     * @param port String containing SSH port
-     * @param user String containing username
-     * @param pwd String containing password
+     * @param ip  String: Ip address or hostname of node.
+     * @param port String: SSH port.
+     * @param user String: SSH username.
+     * @param pwd String: SSH password.
      */
     public void initialize(String ip, String port, String user, String pwd) {
         mIP = ip;
@@ -42,9 +42,9 @@ public class RPiUtils {
 
     /**
      *
-     * @param cmd String that contains command to be executed
-     * @return Returns String of result of command
-     * @throws Exception Exception being thrown
+     * @param cmd String: Remove command to be executed.
+     * @return String: Result of command being executed.
+     * @throws Exception Exception: Exception being thrown.
      */
     public String executeRemoteCommand(String cmd) throws Exception {
         JSch jsch = new JSch();
@@ -79,9 +79,9 @@ public class RPiUtils {
 
 
     /**
-     *
-     * @param ip String containing ip address
-     * @return String containing results
+     * Performs ping on specified Ip address or hostname.
+     * @param ip String: Ip address or hostname of destination.
+     * @return String: Results of operation.
      */
     public String ping(String ip) {
      /*

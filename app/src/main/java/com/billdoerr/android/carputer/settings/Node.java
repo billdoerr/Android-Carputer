@@ -7,7 +7,7 @@ import java.lang.annotation.RetentionPolicy;
 import androidx.annotation.StringDef;
 
 /**
- *
+ * Node object.
  */
 public class Node implements Serializable {
 

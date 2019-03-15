@@ -7,7 +7,7 @@ import java.lang.annotation.RetentionPolicy;
 import androidx.annotation.StringDef;
 
 /**
- *
+ * Camera object.
  */
 public class Camera implements Serializable {
 

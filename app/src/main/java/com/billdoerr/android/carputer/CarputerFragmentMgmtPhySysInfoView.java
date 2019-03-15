@@ -13,7 +13,9 @@ import android.webkit.WebViewClient;
 import com.billdoerr.android.carputer.settings.Node;
 
 /**
- *
+ *  Child fragment of CarputerFragmentMgmt.
+ *  Displays the phpSysInfo web page if enabled in shared preferences.
+ *  pypSysInfo must be installed on the node.
  */
 public class CarputerFragmentMgmtPhySysInfoView extends Fragment {
 
@@ -47,7 +49,7 @@ public class CarputerFragmentMgmtPhySysInfoView extends Fragment {
     }
 
     /**
-     * Get fragment arguments
+     * Get fragment arguments.
      */
     private void getArgs() {
         Bundle args = getArguments();

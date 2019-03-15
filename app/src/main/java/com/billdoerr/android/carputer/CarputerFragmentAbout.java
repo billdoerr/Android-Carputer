@@ -10,7 +10,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 /**
- *
+ *  Fragment that displays information about this application.  Application name and version #.
+ *  Created by the CarputerActivityAbout class.
  */
 public class CarputerFragmentAbout extends Fragment {
 

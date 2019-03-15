@@ -24,7 +24,9 @@ import com.github.niqdev.mjpeg.Mjpeg;
 import com.github.niqdev.mjpeg.OnFrameCapturedListener;
 
 /**
- *
+ * Child fragment that displays Mjpeg streaming video.
+ * Also provides the ability to save the current frame to storage (snapshot).
+ * Created by the CameraFragmentMjpeg fragment.
  */
 public class CameraFragmentMjpegSnapshot extends Fragment implements OnFrameCapturedListener {
 
@@ -144,8 +146,8 @@ public class CameraFragmentMjpegSnapshot extends Fragment implements OnFrameCapt
     };
 
     /**
-     * Connect to Ip Camera
-     * @param cameraAddress String containing camera Url
+     * Connect to Ip Camera.
+     * @param cameraAddress String: Camera Url.
      */
     private void loadIpCam(String cameraAddress) {
         Mjpeg.newInstance()
@@ -163,7 +165,7 @@ public class CameraFragmentMjpegSnapshot extends Fragment implements OnFrameCapt
     }
 
     /**
-     * Grab image of current frame
+     * Grab image of current frame (snapshot).
      */
     private void takeSnapshot() {
         Log.d(TAG, "Image clicked.");
@@ -183,8 +185,8 @@ public class CameraFragmentMjpegSnapshot extends Fragment implements OnFrameCapt
     }
 
     /**
-     * Get camera address from fragment arguments
-     * @return String value of camera url
+     * Get camera address from fragment arguments.
+     * @return String: Camera url.
      */
     private String getCameraAddress() {
         Bundle args = getArguments();

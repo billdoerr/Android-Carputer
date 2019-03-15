@@ -25,7 +25,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * Fragment that will host child fragments in a tab layout.
+ * The child fragments display the streaming Mjpeg video.
+ * Created by the CameraActivityMjpeg class.
  */
 public class CameraFragmentMjpeg extends Fragment {
 
@@ -71,8 +73,8 @@ public class CameraFragmentMjpeg extends Fragment {
     }
 
     /**
-     * Add fragments to tabs
-     * @param viewPager ViewPager that adapter will be assigned
+     * Add fragments to tabs.
+     * @param viewPager ViewPager:  Adapter will be assigned the child fragments.
      */
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
@@ -91,8 +93,8 @@ public class CameraFragmentMjpeg extends Fragment {
     }
 
     /**
-     * Setup action bar
-     * @param view View that will contains the toolbar
+     * Setup action bar.
+     * @param view View:  Container for the toolbar.
      */
     private void setupActionBar(View view) {
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
@@ -103,7 +105,7 @@ public class CameraFragmentMjpeg extends Fragment {
     }
 
     /**
-     * Add icons to tab
+     * Add icons to tab.
      */
     private void addTabLayoutIcons() {
         for (int i = 0; i < mViewPager.getAdapter().getCount(); i++) {
@@ -112,7 +114,7 @@ public class CameraFragmentMjpeg extends Fragment {
     }
 
     /**
-     * View Adapter Class
+     * View Adapter Class.
      */
     class ViewPagerAdapter extends FragmentPagerAdapter {
 
@@ -147,9 +149,9 @@ public class CameraFragmentMjpeg extends Fragment {
     }
 
     /**
-     * Retrieve list of camera's that are stored in SharedPreferences as a JSON string
-     * @param context Context of application
-     * @return List<Camera> object is returned
+     * Retrieve list of camera's that are stored in SharedPreferences as a JSON string.
+     * @param context Context of application.
+     * @return List<Camera>: Object of type List<Camera>.
      */
     private static List<Camera> getCamerasFromSharedPrefs(Context context) {
         SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());

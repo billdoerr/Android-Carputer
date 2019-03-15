@@ -27,7 +27,8 @@ import static androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE;
 import static androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_SETTLING;
 
 /**
- * CameraFragmentSnapshotViewer
+ *  Child fragment which displays a list of saved images (snapshots).
+ *  Created by the CameraFragmentImageArchive class.
  */
 public class CameraFragmentSnapshotViewer extends Fragment {
 
@@ -237,8 +238,8 @@ public class CameraFragmentSnapshotViewer extends Fragment {
         }
 
         /**
-         * Delete file from image storage
-         * @param file Object of type File that will deleted from internal storage
+         * Delete file from image storage.
+         * @param file File:  Object of type File that will deleted from internal storage.
          */
         private void deleteFile(File file) {
             AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());

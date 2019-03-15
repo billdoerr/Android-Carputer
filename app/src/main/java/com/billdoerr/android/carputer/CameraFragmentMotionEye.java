@@ -25,7 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * Fragment that contains tab layout hosting motionEye child fragments.
+ * Created by the CameraActivityMotionEye.
  */
 public class CameraFragmentMotionEye extends Fragment {
 
@@ -68,8 +69,8 @@ public class CameraFragmentMotionEye extends Fragment {
     }
 
     /**
-     * Add fragments to tabs
-     * @param viewPager ViewPager that adapter will be assigned
+     * Add fragments to tabs.
+     * @param viewPager ViewPager: Adapter that fragments will be added.
      */
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
@@ -89,8 +90,8 @@ public class CameraFragmentMotionEye extends Fragment {
     }
 
     /**
-     * Setup action bar
-     * @param view View holding the toolbar
+     * Setup action bar.
+     * @param view View:  Container holding the toolbar.
      */
     private void setupActionBar(View view) {
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
@@ -101,7 +102,7 @@ public class CameraFragmentMotionEye extends Fragment {
     }
 
     /**
-     * Add icons to tabs
+     * Add icons to tabs.
      */
     private void addTabLayoutIcons() {
         for (int i = 0; i < mViewPager.getAdapter().getCount(); i++) {
@@ -110,7 +111,7 @@ public class CameraFragmentMotionEye extends Fragment {
     }
 
     /**
-     * View Adapter Class
+     * View Adapter Class.
      */
     class ViewPagerAdapter extends FragmentPagerAdapter {
 
@@ -144,9 +145,9 @@ public class CameraFragmentMotionEye extends Fragment {
     }
 
     /**
-     * Retrieve list of node's that are stored in SharedPreferences as a JSON string
-     * @param context Context of application
-     * @return Object of type List<Node>
+     * Retrieve list of node's that are stored in SharedPreferences as a JSON string.
+     * @param context Context:  Application context.
+     * @return List<Node>:  Object of type List<Node>.
      */
     private static List<Node> getNodesFromSharedPrefs(Context context) {
         SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());

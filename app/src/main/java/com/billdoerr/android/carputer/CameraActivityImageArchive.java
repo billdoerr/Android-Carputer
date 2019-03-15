@@ -3,7 +3,7 @@ package com.billdoerr.android.carputer;
 import androidx.fragment.app.Fragment;
 
 /**
- *
+ * Camera ImageArchive activity which extends from SingleFragmentActivity.
  */
 public class CameraActivityImageArchive extends SingleFragmentActivity {
 

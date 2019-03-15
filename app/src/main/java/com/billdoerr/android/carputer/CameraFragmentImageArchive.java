@@ -17,7 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ *  Fragment which contains a tab layout will host a child fragment to displays list of saved images (snapshots).
+ *  Created by the CameraActivityImageArchive class.
  */
 public class CameraFragmentImageArchive extends Fragment {
 
@@ -56,8 +57,8 @@ public class CameraFragmentImageArchive extends Fragment {
     }
 
     /**
-     * Add fragments to tabs
-     * @param viewPager ViewPager layout manager adapter will be assigned
+     * Add fragments to tabs.
+     * @param viewPager ViewPager: Layout manager adapter will be assigned.
      */
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
@@ -70,8 +71,8 @@ public class CameraFragmentImageArchive extends Fragment {
     }
 
     /**
-     * Setup action bar
-     * @param view View that will contain the toolbar
+     * Setup action bar.
+     * @param view View: Container for toolbar.
      */
     private void setupActionBar(View view) {
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
@@ -82,7 +83,7 @@ public class CameraFragmentImageArchive extends Fragment {
     }
 
     /**
-     * Add icons to tabs
+     * Add icons to tabs.
      */
     private void addTablayoutIcons() {
         for (int i = 0; i < mViewPager.getAdapter().getCount(); i++) {
@@ -91,7 +92,7 @@ public class CameraFragmentImageArchive extends Fragment {
     }
 
     /**
-     * View Adapter Class
+     * View Adapter Class.
      */
     class ViewPagerAdapter extends FragmentPagerAdapter {
 
@@ -114,9 +115,9 @@ public class CameraFragmentImageArchive extends Fragment {
         }
 
         /**
-         * Add fragment to tab
-         * @param fragment Fragment that hosted in a tab
-         * @param title Fragment title
+         * Add fragment to tab.
+         * @param fragment Fragment: Fragment to be added to tab layout.
+         * @param title String:  Fragment title.
          */
         private void addFragment(Fragment fragment, String title) {
             mFragmentList.add(fragment);

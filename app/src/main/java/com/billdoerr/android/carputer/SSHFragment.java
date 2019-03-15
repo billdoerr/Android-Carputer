@@ -34,7 +34,13 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 /**
- * THIS FRAGMENT IS A TOTAL HACK!!!!
+ * TODO: THIS FRAGMENT IS A TOTAL HACK!!!!
+ */
+
+
+/**
+ *  Child fragment of CarputerFragmentMgmt.
+ *  Use to perform simple remote operations on configured nodes.
  */
 public class SSHFragment extends Fragment {
 
@@ -279,7 +285,7 @@ public class SSHFragment extends Fragment {
     }
 
     /**
-     * Async Task to perform ping command
+     * Async Task to perform ping command.
      */
     private class PingTask extends AsyncTask<Void, Void, String> {
 
@@ -308,8 +314,8 @@ public class SSHFragment extends Fragment {
 
     /**
      * TODO : Get rid of this.  Rename ExecuteCommandTaskNew.
-     * Async Task to perform ping command
-     * android.os.AsyncTask<Params, Progress, Result>
+     * Async Task to perform ping command.
+     * android.os.AsyncTask<Params, Progress, Result>.
      */
     private class ExecuteCommandTask extends AsyncTask<String, Void, String> {
 
@@ -339,8 +345,8 @@ public class SSHFragment extends Fragment {
     }
 
     /**
-     * Async Task to perform ping command
-     * android.os.AsyncTask<Params, Progress, Result>
+     * Async Task to perform ping command.
+     * android.os.AsyncTask<Params, Progress, Result>.
      *
      */
     private class ExecuteCommandTaskNew extends AsyncTask<Payload, Void, String> {
@@ -373,10 +379,10 @@ public class SSHFragment extends Fragment {
     }
 
     /**
-     * Generate date/time stamp
+     * Generate date/time stamp.
      * https://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html
      * "Thu Jan 17 03:19:37 PST 2019"
-     * @return String containing formatted date/time:  Ex.  Thu Jan 17 03:19:37 PST 2019"
+     * @return String: Formatted date/time:  Ex.  Thu Jan 17 03:19:37 PST 2019"
      */
     private String getDateTime() {
         String dateFormat = "EEE MMM dd hh:mm:ss z yyyy";
@@ -412,7 +418,7 @@ public class SSHFragment extends Fragment {
     }
 
     /**
-     * Connect to network (WPA)
+     * Connect to network (WPA).
      */
     private boolean WiFiConnect() {
 
@@ -435,8 +441,8 @@ public class SSHFragment extends Fragment {
     }
 
     /**
-     * Command history to EditText
-     * @param msg String that will be added to command history
+     * Command history to EditText.
+     * @param msg String: Message that will be added to command history.
      */
     private void updateCommandHistory(String msg) {
         mCmdHistory = mCmdHistory + "\n" + msg + "\n";
@@ -444,9 +450,9 @@ public class SSHFragment extends Fragment {
     }
 
     /**
-     * Retrieve list of node's that are stored in SharedPreferences as a JSON string
-     * @param context  Application context
-     * @return Object of type List<Node>
+     * Retrieve list of node's that are stored in SharedPreferences as a JSON string.
+     * @param context  Context:  Application context.
+     * @return List<Node>:  Object of type List<Node>.
      */
     private static List<Node> getNodesFromSharedPrefs(Context context) {
         SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
@@ -460,8 +466,8 @@ public class SSHFragment extends Fragment {
     }
 
     /**
-     * Get network details from shared preferences
-     * @param context Application context
+     * Get network details from shared preferences.
+     * @param context Context:  Application context.
      */
     private void getNetworkPreferences(Context context) {
         SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());

@@ -25,7 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * Fragment that contains child fragments for managing Carputer operations.
+ * Created by the CarputerMgmtActivity class.
  */
 public class CarputerFragmentMgmt extends Fragment {
 

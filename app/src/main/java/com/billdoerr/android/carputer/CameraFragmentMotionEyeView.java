@@ -22,7 +22,9 @@ import com.billdoerr.android.carputer.settings.Node;
 import com.billdoerr.android.carputer.utils.FileStorageUtils;
 
 /**
- *
+ *  Child fragment of CameraFragmentMotionEye.
+ *  Displays the motionEye web page if enabled in shared preferences.
+ *  motionEye must be installed on the node.
  */
 public class CameraFragmentMotionEyeView extends Fragment {
 
@@ -91,7 +93,7 @@ public class CameraFragmentMotionEyeView extends Fragment {
     }
 
     /**
-     * Get fragment arguments
+     * Get fragment arguments.
      */
     private void getArgs() {
         Bundle args = getArguments();

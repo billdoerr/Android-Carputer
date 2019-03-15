@@ -15,8 +15,12 @@ import android.widget.Toast;
 import com.github.niqdev.mjpeg.DisplayMode;
 import com.github.niqdev.mjpeg.Mjpeg;
 
+//  TODO:  Ok to remove from application?
 /**
- *
+ * Child fragment that displays Mjpeg streaming video.
+ * Also provides the ability to save the current frame to storage (snapshot).
+ * Created by the CameraFragmentMjpeg fragment.
+ * Currently not used by application.  Superseded by the use of CameraFragmentMjpegSnapshot.
  */
 public class CameraFragmentMjpegView extends Fragment {
 
@@ -100,8 +104,8 @@ public class CameraFragmentMjpegView extends Fragment {
     };
 
     /**
-     * Connect to Ip Camera
-     * @param cameraAddress String containing camera Url
+     * Connect to Ip Camera.
+     * @param cameraAddress String: Camera Url.
      */
     private void loadIpCam(String cameraAddress) {
         Mjpeg.newInstance()
@@ -120,7 +124,7 @@ public class CameraFragmentMjpegView extends Fragment {
 
 
     /**
-     * Grab image of current frame
+     * Grab image of current frame.
      */
     private void getCameraAddress() {
         Bundle bundle = getArguments();

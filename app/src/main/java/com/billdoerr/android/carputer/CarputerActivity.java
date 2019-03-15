@@ -3,7 +3,7 @@ package com.billdoerr.android.carputer;
 import androidx.fragment.app.Fragment;
 
 /**
- *
+ * Carputer activity which extends from SingleFragmentActivity.
  */
 public class CarputerActivity extends SingleFragmentActivity {
 

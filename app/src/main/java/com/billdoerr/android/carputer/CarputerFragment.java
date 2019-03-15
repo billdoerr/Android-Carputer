@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**
- *
+ * Carputer fragment created by the CarputerActivity class.
  */
 public class CarputerFragment extends Fragment {
 

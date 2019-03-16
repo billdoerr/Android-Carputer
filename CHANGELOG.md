@@ -19,13 +19,16 @@ All notable changes to this Android application project will be documented in th
 - [ ]  Update/Add javadocs comments.  Will be ongoing process to better document code.  
 - [ ]  Connectivity monitoring. 
 #### Changed
+- [ ]  Address TODO's relating to sendMessage().  
 #### Removed
 
 ## [Unreleased]
 ### v1.4 (IN PROGRESS)
 #### Added
 - [x]  Update/Add javadocs comments.  Will be ongoing process to better document code.  
-- [ ]  Create syslog and make it viewable.  The SSHFragment->txtReply is a poor man's version of syslog. 
+- [x]  Create syslog and make it viewable.  The SSHFragment->txtReply is a poor man's version of syslog. 
+- [x]  Added GlobalVariables extends Application class.  This will contain shared preferences and other objects that are TBD.
+    - [ ]  Change code to utilize GlobalVariables.
 #### Changed
 - [ ]  SSH Fragment is a complete hack!  Replace or improve.
 #### Removed

@@ -68,4 +68,21 @@ public class Camera implements Serializable {
         mPassword = Password;
     }
 
+    /**
+     * Converts object to string.
+     * Usage:  Array.toString(List<Camera>.toArray().
+     * @return String:  Output values of array.
+     */
+    @Override
+    public String toString() {
+
+        String c = "Name:  " + mName + "\n";
+        c = c + "Url:  " + mUrl + "\n";
+        c = c + "Use Authentication:  " + mUseAuthentication + "\n";
+        c = c + "User:  " + mUser + "\n";
+        c = c + "Password:  " + mPassword + "\n";
+
+        return c;
+    }
+
 }

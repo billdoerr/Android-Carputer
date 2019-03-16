@@ -91,6 +91,7 @@ public class SettingsActivity extends AppCompatActivity implements
         return true;
     }
 
+    //  TODO:  Modify to use globalVariable.
     /**
      * Retrieve list of camera's that are stored in SharedPreferences as a JSON string.
      * @param context Context:  Application context.
@@ -107,6 +108,7 @@ public class SettingsActivity extends AppCompatActivity implements
         return mCameras;
     }
 
+    //  TODO:  Modify to use globalVariable.
     /**
      * Save list of camera's that are stored in SharedPreferences as a JSON string.
      * @param context Context:  Application context.
@@ -120,6 +122,7 @@ public class SettingsActivity extends AppCompatActivity implements
         prefsEditor.apply();
     }
 
+    //  TODO:  Modify to use globalVariable.
     /**
      * Retrieve list of node's that are stored in SharedPreferences as a JSON string.
      * @param context Context:  Application context.
@@ -136,6 +139,7 @@ public class SettingsActivity extends AppCompatActivity implements
         return mNodes;
     }
 
+    //  TODO:  Modify to use globalVariable.
     /**
      * Save list of node's that are stored in SharedPreferences as a JSON string.
      * @param context Context:  Application context.

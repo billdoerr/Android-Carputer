@@ -77,9 +77,13 @@ public class CarputerFragmentMgmt extends Fragment {
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
 
-        //  Fragment:  Node SSH
+        //  Fragment:  SSH
         SSHFragment sshFragment = new SSHFragment();
-        adapter.addFragment(sshFragment, getResources().getString(R.string.tab_carputer_mgmt_ssh));
+        adapter.addFragment(sshFragment, getString(R.string.tab_carputer_mgmt_ssh));
+
+        //  Fragment:  System Log
+        CarputerFragmentMgmtSystemLog systemLog = new CarputerFragmentMgmtSystemLog();
+        adapter.addFragment(systemLog, getString(R.string.tab_carputer_mgmt_system_log));
 
         //  Fragment:  Node phpSysInfo
         for (int i = 0; i < mNodes.size(); i++) {

@@ -75,93 +75,7 @@ if (strJson != null) {
 startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
 ===============================================================================================
 
-===============================================================================================
-Preference Themes/Styles
-https://chromium.googlesource.com/android_tools/+/2fd98442e4e0ced6bb30bd57abfd8a34f8142d09/sdk/extras/android/support/v14/preference/res/values/styles.xml
-https://stackoverflow.com/questions/10228482/how-to-apply-theme-to-preferencescreen-elements-of-a-preferencecategory
- 
-
-tools:ignore="Autofill"
-android:importantForAutofill="no"
-
-
-2131427407
-
-2131427385
-2131427407
-
-getResources().getResourceEntryName(2131427407);
-
-
-
-        android:id="@android:id/list_container"
-		
-		
-		
-		        final LayoutInflater themedInflater = inflater.cloneInContext(getContext());
-
-        final View view = themedInflater.inflate(mLayoutResId, container, false);
-
-        final View rawListContainer = view.findViewById(AndroidResources.ANDROID_R_LIST_CONTAINER);
-        if (!(rawListContainer instanceof ViewGroup)) {
-            throw new RuntimeException("Content has view with id attribute "
-                    + "'android.R.id.list_container' that is not a ViewGroup class");
-					
-					getActivity().setTheme(R.style.mystyle);
-					
-					
-					
-	    <style name="PreferenceCategoryTitleTextStyle">
-        <item name="android:textAppearance">?attr/preferenceCategoryTitleTextAppearance</item>
-        <item name="android:textColor">@color/preference_fallback_accent_color</item>	
-
-
-        <TextView
-            android:id="@android:id/title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="viewStart"
-            style="@style/PreferenceCategoryTitleTextStyle"/>
-
-
-    <style name="Base.TextAppearance.AppCompat.Body2">
-        <item name="android:textSize">@dimen/abc_text_size_body_2_material</item>
-        <item name="android:textColor">?android:textColorPrimary</item>
-    </style>
-
-    <style name="PreferenceThemeOverlay">
-        <item name="android:scrollbars">vertical</item>
-        <item name="checkBoxPreferenceStyle">@style/Preference.CheckBoxPreference.Material</item>
-        <item name="dialogPreferenceStyle">@style/Preference.DialogPreference.Material</item>
-        <item name="dropdownPreferenceStyle">@style/Preference.DropDown.Material</item>
-        <item name="editTextPreferenceStyle">@style/Preference.DialogPreference.EditTextPreference.Material</item>
-        <item name="preferenceCategoryStyle">@style/Preference.Category.Material</item>
-        <item name="preferenceFragmentCompatStyle">@style/PreferenceFragment.Material</item>
-        <item name="preferenceFragmentListStyle">@style/PreferenceFragmentList.Material</item>
-        <item name="preferenceFragmentStyle">@style/PreferenceFragment.Material</item>
-        <item name="preferenceScreenStyle">@style/Preference.PreferenceScreen.Material</item>
-        <item name="preferenceStyle">@style/Preference.Material</item>
-        <item name="seekBarPreferenceStyle">@style/Preference.SeekBarPreference.Material</item>
-        <item name="switchPreferenceCompatStyle">@style/Preference.SwitchPreferenceCompat.Material</item>
-        <item name="switchPreferenceStyle">@style/Preference.SwitchPreference.Material</item>
-        <item name="preferenceCategoryTitleTextAppearance">@style/TextAppearance.AppCompat.Body2</item>
-
-
-EditText
-TextView
-Switch
-Button
-
-
-<item name="editTextPreferenceStyle">@style/Preference.DialogPreference.EditTextPreference.Material</item>
-<item name="preferenceCategoryStyle">@style/Preference.Category.Material</item>
-<item name="preferenceFragmentStyle">@style/PreferenceFragment.Material</item>
-<item name="preferenceScreenStyle">@style/Preference.PreferenceScreen.Material</item>
-<item name="preferenceStyle">@style/Preference.Material</item>
-<item name="switchPreferenceCompatStyle">@style/Preference.SwitchPreferenceCompat.Material</item>
-<item name="switchPreferenceStyle">@style/Preference.SwitchPreference.Material</item>
-<item name="preferenceCategoryTitleTextAppearance">@style/TextAppearance.AppCompat.Body2</item>		
-					
+===============================================================================================	
 
 ===============================================================================================
 
@@ -212,44 +126,7 @@ static domain_name_servers=192.168.4.1
 ===============================================================================================
 
 ===============================================================================================
-//  https://gist.github.com/jaydeepw/4201419
 
-
-// create a class member variable.
-WifiManager.WifiLock mWifiLock = null;
-
-
-/***
-* Calling this method will aquire the lock on wifi. This is avoid wifi
-* from going to sleep as long as <code>releaseWifiLock</code> method is called.
-**/
-private void holdWifiLock() {
-	WifiManager wifiManager = (WifiManager) mContext.getSystemService(Context.WIFI_SERVICE);
-		
-	if( mWifiLock == null )
-		mWifiLock = wifiManager.createWifiLock(WifiManager.WIFI_MODE_FULL, TAG);
-		
-	mWifiLock.setReferenceCounted(false);
-
-	if( !mWifiLock.isHeld() )
-		mWifiLock.acquire();
-}
-	
-/***
-* Calling this method will release if the lock is already help. After this method is called,
-* the Wifi on the device can goto sleep.
-**/
-private void releaseWifiLock() {
-		
-	if( mWifiLock == null )
-		Log.w(TAG, "#releaseWifiLock mWifiLock was not created previously");
-		
-	if( mWifiLock != null && mWifiLock.isHeld() ){
-		mWifiLock.release();
-		//mWifiLock = null;
-	}
-		
-}
 ===============================================================================================
 
 ===============================================================================================
@@ -290,64 +167,107 @@ private boolean isConnectedViaWifi() {
 ===============================================================================================
 
 ===============================================================================================
-https://stackoverflow.com/questions/14376807/how-to-read-write-string-from-a-file-in-android
 
 
-//  Write File:
-private void writeToFile(String data,Context context) {
+===============================================================================================
+
+===============================================================================================
+&lt;%pri%&gt;%protocol-version% %timestamp:::date-rfc3339% %HOSTNAME% %app-name% %procid% %msgid% %msg%n
+
+Aug 30 10:06:12 newfish kernel:   3 SCB_CONTROL[0xe0] SCB_SCSIID[0x7] SCB_LUN[0x0] SCB_TAG[0xff]
+Aug 30 10:06:12 newfish kernel:   4 SCB_CONTROL[0xe0] SCB_SCSIID[0x7] SCB_LUN[0x0] SCB_TAG[0xff]
+Aug 30 10:06:12 newfish kernel:   5 SCB_CONTROL[0xe0] SCB_SCSIID[0x17] SCB_LUN[0x0] SCB_TAG[0xff]
+Aug 30 10:06:12 newfish kernel:   6 SCB_CONTROL[0x0] SCB_SCSIID[0x17] SCB_LUN[0x0] SCB_TAG[0xff]
+Aug 30 10:06:12 newfish kernel:   7 SCB_CONTROL[0xe0] SCB_SCSIID[0x17] SCB_LUN[0x0] SCB_TAG[0xff]
+Aug 30 10:06:12 newfish kernel:   8 SCB_CONTROL[0x0] SCB_SCSIID[0xff] SCB_LUN[0xff] SCB_TAG[0xff]
+Aug 30 10:06:12 newfish kernel:   9 SCB_CONTROL[0x0] SCB_SCSIID[0xff] SCB_LUN[0xff] SCB_TAG[0xff]
+Aug 30 10:06:12 newfish kernel:  10 SCB_CONTROL[0x0] SCB_SCSIID[0xff] SCB_LUN[0xff] SCB_TAG[0xff]
+
+2019-03-16T00:08:46		SingleFragmentActivity Keep device awake enabled.
+
+2019-03-16T00:10:34		SingleFragmentActivity:  Application starting.
+
+2019-03-16T00:10:34		SingleFragmentActivitySingleFragmentActivity :Shared preferences
+com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_CAMERAS->	
+[Name:  Front
+Name:  http://192.168.4.1:8081
+Name:  false
+Name:  null
+Name:  null
+]
+com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NODES->	
+
+
+		
+===============================================================================================
+
+===============================================================================================
+public class subActivity extends Activity {
+
+private TextView textView;
+private StringBuilder text = new StringBuilder();
+
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.text);
+    BufferedReader reader = null;
+
     try {
-        OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("config.txt", Context.MODE_PRIVATE));
-        outputStreamWriter.write(data);
-        outputStreamWriter.close();
-    }
-    catch (IOException e) {
-        Log.e("Exception", "File write failed: " + e.toString());
-    } 
-}
+        reader = new BufferedReader(
+            new InputStreamReader(getAssets().open("inputNews.txt")));
 
-//  Read File:
-private String readFromFile(Context context) {
-
-    String ret = "";
-
-    try {
-        InputStream inputStream = context.openFileInput("config.txt");
-
-        if ( inputStream != null ) {
-            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-            String receiveString = "";
-            StringBuilder stringBuilder = new StringBuilder();
-
-            while ( (receiveString = bufferedReader.readLine()) != null ) {
-                stringBuilder.append(receiveString);
-            }
-
-            inputStream.close();
-            ret = stringBuilder.toString();
+        // do reading, usually loop until end of file reading  
+        String mLine;
+        while ((mLine = reader.readLine()) != null) {
+            text.append(mLine);
+            text.append('\n');
+        }
+    } catch (IOException e) {
+        Toast.makeText(getApplicationContext(),"Error reading file!",Toast.LENGTH_LONG).show();
+        e.printStackTrace();
+    } finally {
+        if (reader != null) {
+        try {
+            reader.close();
+        } catch (IOException e) {
+            //log the exception
         }
     }
-    catch (FileNotFoundException e) {
-        Log.e("login activity", "File not found: " + e.toString());
-    } catch (IOException e) {
-        Log.e("login activity", "Can not read file: " + e.toString());
-    }
 
-    return ret;
+    TextView output= (TextView) findViewById(R.id.summtext);
+    output.setText((CharSequence) text);
+
+ }
 }
-
 ===============================================================================================
 
 ===============================================================================================
+   <TableLayout 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
 
-===============================================================================================
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
 
-===============================================================================================
+            <Button
+                android:id="@+id/button1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/short_text" />
+        </TableRow>
 
-===============================================================================================
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
 
-===============================================================================================
-
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/enter_manually" />
+        </TableRow>
+    </TableLayout>
 ===============================================================================================
 
 ===============================================================================================

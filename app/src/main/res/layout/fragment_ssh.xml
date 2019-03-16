@@ -31,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/btn_carputer_mgmt_execute_command"
-            style="?android:attr/borderlessButtonStyle" />
+            style="@style/ButtonAction" />
 
         <EditText
             android:id="@+id/txtExecuteCommand"
@@ -53,14 +53,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/btn_carputer_mgmt_ssh_poweroff_single"
-                style="?android:attr/borderlessButtonStyle" />
+                style="@style/ButtonAction" />
 
             <Button
                 android:id="@+id/btnPoweroffAll"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/btn_carputer_mgmt_ssh_poweroff_all"
-                style="?android:attr/borderlessButtonStyle" />
+                style="@style/ButtonAction" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -73,14 +74,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/btn_carputer_mgmt_ssh_sync_date_single"
-                style="?android:attr/borderlessButtonStyle" />
+                style="@style/ButtonAction" />
 
             <Button
                 android:id="@+id/btnSyncDateAll"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/btn_carputer_mgmt_ssh_sync_date_all"
-                style="?android:attr/borderlessButtonStyle" />
+                style="@style/ButtonAction" />
 
         </LinearLayout>
 
@@ -94,7 +95,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/btn_carputer_mgmt_ssh_ping"
-                style="?android:attr/borderlessButtonStyle" />
+                style="@style/ButtonAction" />
 
         </LinearLayout>
 

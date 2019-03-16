@@ -17,11 +17,15 @@
 
     <!--  Toolbar -->
     <string name="action_snapshot">Snapshot</string>
+    <string name="action_device_delete">Delete</string>
+    <string name="action_system_log_clear">Clear</string>
+    <string name="action_system_log_refresh">Refresh</string>
 
     <!--  Tab Layout Titles -->
     <string name="tab_camera_file_explorer">Snapshots</string>
     <string name="tab_carputer_mgmt_ssh">SSH</string>
     <string name="tab_carputer_mgmt_phpsysinfo">phpSysInfo</string>
+    <string name="tab_carputer_mgmt_system_log">System Log</string>
 
     <!--  Image Archive -->
     <string name="alert_title_delete_files">Confirm Delete…</string>
@@ -116,5 +120,7 @@
     <string name="toast_camera_connection_error">Camera connection error!</string>
     <string name="toast_file_delete_ok">You file has been deleted!</string>
     <string name="toast_file_delete_cancel">You file has NOT been deleted!</string>
+    <string name="toast_system_log_clear">System log has been cleared.</string>
+    <string name="toast_system_log_refresh">System log has been refreshed.</string>
 
 </resources>

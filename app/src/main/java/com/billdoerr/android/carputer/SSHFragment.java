@@ -28,7 +28,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import com.billdoerr.android.carputer.settings.Node;
-import com.billdoerr.android.carputer.utils.RPiUtils;
+import com.billdoerr.android.carputer.utils.NodeUtils;
 import com.billdoerr.android.carputer.utils.WiFiUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -295,7 +295,7 @@ public class SSHFragment extends Fragment {
         protected String doInBackground(Void... params) {
             String result = "";
             try {
-                RPiUtils utils = new RPiUtils();
+                NodeUtils utils = new NodeUtils();
                 String currentNode = spinnerNodes.getSelectedItem().toString();
                 result = utils.ping(currentNode);
                 Log.d(TAG, result);
@@ -326,7 +326,7 @@ public class SSHFragment extends Fragment {
         protected String doInBackground(String... params) {
             String result = "";
                 try {
-                    RPiUtils utils = new RPiUtils();
+                    NodeUtils utils = new NodeUtils();
                     int i = spinnerNodes.getSelectedItemPosition();
                     utils.initialize(mNodes.get(i).getIp(), mNodes.get(i).getSSHPort(),
                             mNodes.get(i).getUser(), mNodes.get(i).getPassword());
@@ -360,7 +360,7 @@ public class SSHFragment extends Fragment {
             Payload p = params[0];
             for (int i = 0; i < p.nodes.size(); i++) {
                 try {
-                    RPiUtils utils = new RPiUtils();
+                    NodeUtils utils = new NodeUtils();
                     utils.initialize(p.nodes.get(i).getIp(), p.nodes.get(i).getSSHPort(),
                             p.nodes.get(i).getUser(), p.nodes.get(i).getPassword());
                     result = utils.executeRemoteCommand(p.task);
@@ -417,6 +417,7 @@ public class SSHFragment extends Fragment {
         mDateSynced = true;
     }
 
+    //  TODO:  Put into SingleFragmentActivity in startUp()
     /**
      * Connect to network (WPA).
      */
@@ -449,6 +450,7 @@ public class SSHFragment extends Fragment {
         txtReply.setText(mCmdHistory);
     }
 
+    //  TODO:  Modify to use globalVariable.
     /**
      * Retrieve list of node's that are stored in SharedPreferences as a JSON string.
      * @param context  Context:  Application context.
@@ -465,6 +467,7 @@ public class SSHFragment extends Fragment {
         return nodes;
     }
 
+    //  TODO:  Modify to use globalVariable.
     /**
      * Get network details from shared preferences.
      * @param context Context:  Application context.

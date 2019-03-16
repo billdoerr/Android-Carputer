@@ -8,6 +8,7 @@ import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 
 import com.billdoerr.android.carputer.settings.SettingsActivity;
+import com.billdoerr.android.carputer.utils.FileStorageUtils;
 import com.google.android.material.navigation.NavigationView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -22,6 +23,8 @@ import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.view.WindowManager;
 
+import java.util.Arrays;
+
 /**
  * Main activity which other activities extend from.
  */
@@ -29,7 +32,12 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
 
     private static final String TAG = "SingleFragmentActivity";
 
+    // Calling Application class (see application tag in AndroidManifest.xml)
+    private GlobalClass globalVariable;
+
     private DrawerLayout mDrawerLayout;
+
+    private static final String lineSeparator = System.getProperty("line.separator");
 
     protected abstract Fragment createFragment();
 
@@ -123,19 +131,43 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
      * Application startup routine.
      */
     private void startUp() {
-        final String PREF_KEY_KEEP_DEVICE_AWAKE = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_KEEP_DEVICE_AWAKE";
-        boolean keepDeviceAwake = false;
 
-        SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        keepDeviceAwake = appSharedPrefs.getBoolean(PREF_KEY_KEEP_DEVICE_AWAKE, false);
+        // Calling Application class (see application tag in AndroidManifest.xml)
+        globalVariable = (GlobalClass) getApplicationContext();
+
+        writeSystemLog(TAG + ": Application starting.");
+        writeSystemLog(TAG + formatSharedPreferences());
 
         //  Goal is to prevent network from being dropped.  Plus we always want the application to never timeout.  Always viewable.
         //  https://developer.android.com/training/scheduling/wakelock
-        if (keepDeviceAwake) {
-//            updateCommandHistory(getString(R.string.msg_keep_device_awake));
+        if (globalVariable.isKeepDeviceAwake()) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            writeSystemLog(TAG + ": Keep device awake enabled.");
         }
 
+    }
+
+    private void writeSystemLog(String entry) {
+        globalVariable.FileStorageUtils.writeSystemLog(getApplicationContext(), entry, globalVariable.SYS_LOG);
+    }
+
+    /**
+     * Format shared preferences to be used for output to the system log.
+     * @return String:  Formatted string of shared preferences.
+     */
+    private String formatSharedPreferences() {
+
+        String entry = TAG + ": Shared preferences" + lineSeparator;
+
+        entry = entry + globalVariable.PREF_KEY_CAMERAS + "->\t"  + lineSeparator + Arrays.toString(globalVariable.getCameras().toArray()) + lineSeparator;
+        entry = entry + globalVariable.PREF_KEY_NODES + "->\t"  + lineSeparator + Arrays.toString(globalVariable.getNodes().toArray()) + lineSeparator;
+
+        entry = entry + globalVariable.PREF_KEY_NETWORK_ENABLED + "->\t" + globalVariable.isNetworkEnabled() + lineSeparator;
+        entry = entry + globalVariable.PREF_KEY_NETWORK_NAME + "->\t" + globalVariable.getNetworkName() + lineSeparator;
+        entry = entry + globalVariable.PREF_KEY_NETWORK_PASSPHRASE + "->\t" + globalVariable.getNetworkPassphrase() + lineSeparator;
+        entry = entry + globalVariable.PREF_KEY_KEEP_DEVICE_AWAKE + "->\t" + globalVariable.isKeepDeviceAwake() + lineSeparator;
+
+        return entry;
     }
 
 }

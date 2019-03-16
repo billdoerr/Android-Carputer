@@ -16,9 +16,9 @@ import java.util.Properties;
 /**
  * Raspberry Pi utilities.
  */
-public class RPiUtils {
+public class NodeUtils {
 
-    private static final String TAG = "RPiUtils";
+    private static final String TAG = "NodeUtils";
 
     //  Hosts info
     private String mIP;

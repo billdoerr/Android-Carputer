@@ -29,6 +29,8 @@ public class FileStorageUtils {
 
     private static final String TAG = "FileStorageUtils";
 
+    private static final String lineSeparator = System.getProperty("line.separator");
+
     //  Returns Snapshot
     public Bitmap getSnapshot(Context context, String filename) {
         String path = context.getFilesDir().toString();
@@ -88,7 +90,7 @@ public class FileStorageUtils {
      * @return boolean:  True if space available to save bitmap.
      */
 
-    private boolean isSpaceAvailable(File path, Bitmap bitmap) {
+    public boolean isSpaceAvailable(File path, Bitmap bitmap) {
         //  Being conservative and looking for space 2x bitmap size
         return (path.getFreeSpace() - 2 * sizeOf(bitmap)) > 0;
     }
@@ -98,7 +100,7 @@ public class FileStorageUtils {
      * @param data Bitmap:  Bitmap object
      * @return int:  Size of bitmap.
      */
-    private int sizeOf(Bitmap data) {
+    public int sizeOf(Bitmap data) {
         return data.getByteCount();
     }
 
@@ -106,7 +108,7 @@ public class FileStorageUtils {
      * Generate file name.
      * @return String:  Filename "yyyy-MM-dd'T'HH:mm:ss".jpg.
      */
-    private String generateImageFilename() {
+    public String generateImageFilename() {
         return getDateTime() + ".jpg";
     }
 
@@ -114,7 +116,7 @@ public class FileStorageUtils {
      * Generate date/time stamp that will be used to create a unique filename.
      * @return String:  date/time in format:  "yyyy-MM-dd'T'HH:mm:ss".
      */
-    private String getDateTime() {
+    public String getDateTime() {
         String dateFormat = "yyyy-MM-dd'T'HH:mm:ss";       //  "yyyy-MM-dd HH:mm:ss"
         Calendar c = Calendar.getInstance();
         @SuppressLint("SimpleDateFormat") SimpleDateFormat df = new SimpleDateFormat(dateFormat);
@@ -155,17 +157,18 @@ public class FileStorageUtils {
         }
     }
 
-    //  Write File:
 
     /**
      *
      * @param context Context:  Application context.
      * @param data String:  Data to be written to file.
      * @param filename String: The name of the file to open; can not contain path separators.
+     * @param mode int: File creation mode
      */
-    private void writeToFile(Context context, String data, String filename) {
+    public void writeToFile(Context context, String data, String filename, int mode) {
+
         try {
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(filename, Context.MODE_PRIVATE));
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(filename, mode));
             outputStreamWriter.write(data);
             outputStreamWriter.close();
         }
@@ -174,16 +177,15 @@ public class FileStorageUtils {
         }
     }
 
-    //  Read File:
-
     /**
      * Read data from file.
      * @param context Context:  Application context.
      * @param filename String: The name of the file to open; can not contain path separators.
      * @return String:  Contents of file being read.
      */
-    private String readFromFile(Context context, String filename) {
+    public String readFromFile(Context context, String filename) {
 
+        final String lineSeparator = System.getProperty("line.separator");
         String ret = "";
 
         try {
@@ -197,6 +199,7 @@ public class FileStorageUtils {
 
                 while ( (receiveString = bufferedReader.readLine()) != null ) {
                     stringBuilder.append(receiveString);
+                    stringBuilder.append(lineSeparator);
                 }
 
                 inputStream.close();
@@ -212,6 +215,87 @@ public class FileStorageUtils {
 
         return ret;
     }
+
+    /**
+     * Writes to the system log.  Each entry is preceded with a date/time stamp.
+     * @param context Context:  Application context.
+     * @param entry String:  Data to be written to log file.
+     * @param filename String:  Filename.
+     */
+    public void writeSystemLog(Context context, String entry, String filename) {
+
+        final int mode = Context.MODE_PRIVATE | Context.MODE_APPEND;
+
+        //  TODO:  fix this
+        String tabs = "\t\t";
+        String newline = lineSeparator + lineSeparator;    // Two empty line between entries
+
+//        System.getProperty(System.lineSeparator().toString());      //  This is returning null for me.
+
+//        output = getDateTime();     //  First add date/time
+//        output = output + tabs;     //  Add tabs
+//        output = output + entry;    //  Add log entry
+//        output = output + newline;  //  Add new line
+        String output = getDateTime() + tabs + entry + newline;
+
+        Log.d(TAG, output);
+
+        writeToFile(context, output, filename, mode);
+
+    }
+
+    /**
+     * Clears the system log
+     * @param context Context:  Application context.
+     * @param filename String:  Name of system log.
+     */
+    public void clearSystemLog(Context context, String filename) {
+        final int mode = Context.MODE_PRIVATE;
+        writeToFile(context, "", filename, mode);
+    }
+
+//    /**
+//     * Print pretty xml.
+//     * https://stackoverflow.com/questions/25864316/pretty-print-xml-in-java-8/33541820#33541820
+//     * @param xml
+//     * @param indent
+//     * @return
+//     */
+//    public static String makeXmlPretty(String xml, int indent) {
+//        try {
+//            // Turn xml string into a document
+//            Document document = DocumentBuilderFactory.newInstance()
+//                    .newDocumentBuilder()
+//                    .parse(new InputSource(new ByteArrayInputStream(xml.getBytes("utf-8"))));
+//
+//            // Remove whitespaces outside tags
+//            document.normalize();
+//            XPath xPath = XPathFactory.newInstance().newXPath();
+//            NodeList nodeList = (NodeList) xPath.evaluate("//text()[normalize-space()='']",
+//                    document,
+//                    XPathConstants.NODESET);
+//
+//            for (int i = 0; i < nodeList.getLength(); ++i) {
+//                Node node = nodeList.item(i);
+//                node.getParentNode().removeChild(node);
+//            }
+//
+//            // Setup pretty print options
+//            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+//            transformerFactory.setAttribute("indent-number", indent);
+//            Transformer transformer = transformerFactory.newTransformer();
+//            transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+//            transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+//            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+//
+//            // Return pretty print xml string
+//            StringWriter stringWriter = new StringWriter();
+//            transformer.transform(new DOMSource(document), new StreamResult(stringWriter));
+//            return stringWriter.toString();
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 
 }
 

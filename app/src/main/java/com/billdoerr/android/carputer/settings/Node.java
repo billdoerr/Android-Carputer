@@ -116,4 +116,30 @@ public class Node implements Serializable {
         mMotionEyeUrl = motionEyeUrl;
     }
 
+    /**
+     * Converts object to string.
+     * Usage:  Array.toString(List<Node>.toArray().
+     * @return String:  Output values of array.
+     */
+    @Override
+    public String toString() {
+
+        String c = "Name:  " + mName + "\n";
+        c = c + "Ip:  " + mIp + "\n";
+        c = c + "SSH Port:  " + mSSHPort + "\n";
+
+        c = c + "User Authentication:  " + mUseAuthentication + "\n";
+        c = c + "User:  " + mUser + "\n";
+        c = c + "Password:  " + mPassword + "\n";
+
+        c = c + "Use phpSysInfo:  " + mUsePhpSysInfo + "\n";
+        c = c + "phpSysInfo Url:  " + mPhpSysInfoUrl + "\n";
+
+
+        c = c + "Use motionEye:  " + mUseMotionEye + "\n";
+        c = c + "motionEye Url:  " + mMotionEyeUrl + "\n";
+
+        return c;
+    }
+
 }

@@ -293,6 +293,9 @@ private GlobalVariables mGlobalVariables;
 // Calling Application class (see application tag in AndroidManifest.xml)
 mGlobalVariables = (GlobalVariables) getApplicationContext();
 
+// Calling Application class (see application tag in AndroidManifest.xml)
+final GlobalVariables mGlobalVariables = (GlobalVariables) getActivity().getApplicationContext();
+
 
 
 //  System logging

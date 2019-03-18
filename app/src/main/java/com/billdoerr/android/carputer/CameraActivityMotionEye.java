@@ -16,9 +16,6 @@ public class CameraActivityMotionEye extends SingleFragmentActivity {
     // Calling Application class (see application tag in AndroidManifest.xml)
     private GlobalVariables mGlobalVariables;
 
-    //  System logging
-    FileStorageUtils mSystemLog = new FileStorageUtils();
-
     @Override
     protected Fragment createFragment() {
         return CameraFragmentMotionEye.newInstance();
@@ -27,19 +24,18 @@ public class CameraActivityMotionEye extends SingleFragmentActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        startUp();
+        systemInitialization();
     }
 
     @Override
-    protected void startUp() {
+    protected void systemInitialization() {
 
         // Calling Application class (see application tag in AndroidManifest.xml)
         mGlobalVariables = (GlobalVariables) getApplicationContext();
 
         //  System logging
-        mSystemLog.initializeSystemLog(getApplicationContext(), mGlobalVariables.SYS_LOG);
-
-        mSystemLog.writeSystemLog(TAG + ": Application starting.");
+        FileStorageUtils.initializeSystemLog(getApplicationContext(), mGlobalVariables.SYS_LOG);
+        FileStorageUtils.writeSystemLog(TAG + ": Application starting.");
     }
 
 }

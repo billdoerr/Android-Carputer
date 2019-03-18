@@ -81,32 +81,26 @@ class SettingsMessageEvent {
         return mCamera;
     }
 
-    //  TODO:  Remove int device param since always of type Camera
     /**
      * Send message to event bus.
      * @param action int:  Value for action to be taken.
-     * @param device int:  Identifier for type of device.
      * @param camera Camera:  Object of type Camera.
      * @param index int:  Index of list of devices.
      */
-    public void sendMessage(int action, int device, Camera camera, int index) {
+    public void sendMessage(int action, Camera camera, int index) {
         mAction = action;
-        mDevice = device;
         mCamera = camera;
         mIndex = index;
     }
 
-    //  TODO:  Remove int device param since always of type Node
     /**
      * Send message to event bus.
      * @param action int:  Value for action to be taken.
-     * @param device int:  Identifier for type of device.
      * @param node Node:   Object of type Camera.
      * @param index int:  Index of list of devices.
      */
-    public void sendMessage(int action, int device, Node node, int index) {
+    public void sendMessage(int action, Node node, int index) {
         mAction = action;
-        mDevice = device;
         mNode = node;
         mIndex = index;
     }

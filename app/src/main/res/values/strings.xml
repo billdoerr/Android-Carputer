@@ -11,6 +11,9 @@
     <string name="activity_title_carputer_mgmt">Carputer Management</string>
     <string name="activity_title_about">About</string>
 
+    <!--  Dialog Titles -->
+    <string name="fragment_system_status">System Status</string>
+
     <!--  Draw Layout -->
     <string name="drawer_open">drawer open</string>
     <string name="drawer_close">drawer close</string>
@@ -40,6 +43,7 @@
     <string name="btn_carputer_mgmt_ssh_sync_date_single">Sync Date (Single)</string>
     <string name="btn_carputer_mgmt_ssh_sync_date_all">Sync Date (All)</string>
     <string name="btn_carputer_mgmt_execute_command">Execute Command</string>
+    <string name="btn_carputer_mgmt_system_status">System Status</string>
     <string name="btn_save">Save</string>
     <string name="btn_cancel">Cancel</string>
     <string name="btn_not_enabled">......</string>
@@ -101,9 +105,11 @@
     <string name="pref_default_network_name">PINET</string>
     <string name="pref_default_network_password">scoobydoo</string>
 
-    <string name="msg_connecting_to_network">Network is enabled.  Connecting now.</string>
-    <string name="msg_connected_to_network_date_sync">Network connection made.  Syncing date.</string>
+    <string name="msg_network_connecting_now">Network is enabled.  Connecting now.</string>
+    <string name="msg_network_connected_date_sync">Network connection made.  Syncing date.</string>
     <string name="msg_keep_device_awake">Flag set to keep device awake.</string>
+    <string name="msg_network_connection_fail">Unable to connect to network.</string>
+    <string name="msg_network_connection_success">Successfully connected to network.</string>
 
 
     <!--  About -->

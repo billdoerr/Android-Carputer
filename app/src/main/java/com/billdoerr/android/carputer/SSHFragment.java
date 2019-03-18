@@ -2,14 +2,12 @@ package com.billdoerr.android.carputer;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,13 +28,6 @@ import java.util.List;
 import com.billdoerr.android.carputer.settings.Node;
 import com.billdoerr.android.carputer.utils.NodeUtils;
 import com.billdoerr.android.carputer.utils.WiFiUtils;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-/**
- * TODO: THIS FRAGMENT IS A TOTAL HACK!!!!
- */
-
 
 /**
  *  Child fragment of CarputerFragmentMgmt.
@@ -48,12 +39,11 @@ public class SSHFragment extends Fragment {
 
     private static final String ARGS_NODE_DETAIL = "ARGS_NODE_DETAIL";
 
-    //  TODO:  Modify to use globalVariable.
-    private static final String PREF_KEY_NETWORK_ENABLED  = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NETWORK_ENABLED";
-    private static final String PREF_KEY_NETWORK_NAME  = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NETWORK_NAME";
-    private static final String PREF_KEY_NETWORK_PASSPHRASE  = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NETWORK_PASSPHRASE";
+    // Calling Application class (see application tag in AndroidManifest.xml)
+    private GlobalVariables mGlobalVariables;
 
     private static List<Node> mNodes = new ArrayList<Node>();
+    private WiFiUtils mWiFiUtils;
 
     //  Widgets
     private EditText txtExecuteCommand;
@@ -63,13 +53,6 @@ public class SSHFragment extends Fragment {
     //  Misc
     private static boolean mDateSynced = false;
     private static String mCmdHistory = "";
-
-    //  Network related
-    private static WiFiUtils mWiFi = new WiFiUtils();
-    private static boolean mIsNetworkEnabled;
-    private static String mNetworkSSID;
-    private static String mNetworkPassphrase;
-    private static boolean mIsConnected = false;
 
     //  Class:  Task
     private static class Payload {
@@ -86,13 +69,12 @@ public class SSHFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //  TODO:  Modify to use globalVariable.
-        //  Get devices
-        mNodes = getNodesFromSharedPrefs(getActivity());
+        // Calling Application class (see application tag in AndroidManifest.xml)
+        mGlobalVariables = (GlobalVariables) getActivity().getApplicationContext();
 
-        //  TODO:  Modify to use globalVariable.
-        //  Get network preferences
-        getNetworkPreferences(getActivity());
+        //  Get devices
+        mNodes = mGlobalVariables.getNodes();
+
     }
 
     @Override
@@ -244,6 +226,19 @@ public class SSHFragment extends Fragment {
             }
         });
 
+        //  Button:  System Status
+        Button btnSystemStatus = (Button) view.findViewById(R.id.btnSystemStatus);
+        btnSystemStatus.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("StaticFieldLeak")
+            @Override
+            public void onClick(View v) {
+                //  Display dialog
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                CarputerMgmtFragmentSystemStatus dialogSystemStatus = CarputerMgmtFragmentSystemStatus.newInstance(getString(R.string.fragment_system_status));
+                dialogSystemStatus.show(fm, getString(R.string.fragment_system_status));
+            }
+        });
+
         /*
          *  Spinner:  Command History
          */
@@ -271,6 +266,7 @@ public class SSHFragment extends Fragment {
 
         return view;
     }
+
 
    @Override
     public void onPause() {
@@ -420,30 +416,6 @@ public class SSHFragment extends Fragment {
         mDateSynced = true;
     }
 
-    //  TODO:  Put into SingleFragmentActivity in startUp()
-    /**
-     * Connect to network (WPA).
-     */
-    private boolean WiFiConnect() {
-
-        String reply;
-
-        if (!mIsConnected) {
-            mIsConnected = mWiFi.connectWPA(getActivity(), mNetworkSSID, mNetworkPassphrase);
-        }
-
-        if (mIsConnected) {
-            reply = "Connected to network: " + mNetworkSSID + "\n\n";
-        } else {
-            reply = "Unable to network: \" + mNetworkSSID + \"\\n\\n";
-        }
-
-        updateCommandHistory(reply);
-
-        return mIsConnected;
-
-    }
-
     /**
      * Command history to EditText.
      * @param msg String: Message that will be added to command history.
@@ -453,59 +425,18 @@ public class SSHFragment extends Fragment {
         txtReply.setText(mCmdHistory);
     }
 
-    //  TODO:  Modify to use globalVariable.
-    /**
-     * Retrieve list of node's that are stored in SharedPreferences as a JSON string.
-     * @param context  Context:  Application context.
-     * @return List<Node>:  Object of type List<Node>.
-     */
-    private static List<Node> getNodesFromSharedPrefs(Context context) {
-        SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
-        Gson gson = new Gson();
-        String json = appSharedPrefs.getString(Node.PrefKey.PREF_KEY_NODES, "");
-        List<Node> nodes = gson.fromJson(json, new TypeToken<ArrayList<Node>>(){}.getType());
-        if (nodes == null) {
-            nodes = new ArrayList<Node>();
-        }
-        return nodes;
-    }
-
-    //  TODO:  Modify to use globalVariable.
-    /**
-     * Get network details from shared preferences.
-     * @param context Context:  Application context.
-     */
-    private void getNetworkPreferences(Context context) {
-        SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
-        mIsNetworkEnabled = appSharedPrefs.getBoolean(PREF_KEY_NETWORK_ENABLED, false);
-
-        if (mIsNetworkEnabled) {
-            mNetworkSSID = appSharedPrefs.getString(PREF_KEY_NETWORK_NAME, "");
-            mNetworkPassphrase = appSharedPrefs.getString(PREF_KEY_NETWORK_PASSPHRASE, "");
-        }
-    }
-
     //  TODO:  Create initialization function and add the below.  Move to main activity.
     /**
      * Steps performed when app is launched.
      */
     private void startUp() {
 
-        //  Connect to network, if enabled in Shared Preferences
-        if (mIsNetworkEnabled) {
-            updateCommandHistory(getString(R.string.msg_connecting_to_network));
-            mIsConnected = WiFiConnect();
+        //  Networking
+        mWiFiUtils = WiFiUtils.getInstance(getActivity());
 
-            //  Take a nap before syncing dates
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {}
-
-        }
-
-        // Sync Dates
-        if (mIsConnected) {
-            updateCommandHistory(getString(R.string.msg_connected_to_network_date_sync));
+        // Sync dates
+        if (mWiFiUtils.isConnected()) {
+            updateCommandHistory(getString(R.string.msg_network_connected_date_sync));
             syncDateAll();
         }
 

@@ -129,13 +129,13 @@ public class CameraFragmentSnapshotViewer extends Fragment {
     }
 
     private void updateItems() {
-        mFileList = new FileStorageUtils().getSnapshotFileList(getContext());
+        mFileList = FileStorageUtils.getSnapshotFileList(getContext());
         mySort(mFileList);
     }
 
     private void update() {
         mFileList.clear();  //  Clear all data
-        List<String> newFileList = new FileStorageUtils().getSnapshotFileList(getContext());
+        List<String> newFileList = FileStorageUtils.getSnapshotFileList(getContext());
         mFileList.addAll(newFileList);
         mySort(mFileList);
         setupAdapter();
@@ -226,7 +226,7 @@ public class CameraFragmentSnapshotViewer extends Fragment {
                 mTextView.setText(listItem);
 
                 //  Display image
-                Bitmap bitmap = new FileStorageUtils().getSnapshot(getActivity(), listItem);
+                Bitmap bitmap = FileStorageUtils.getSnapshot(getActivity(), listItem);
                 mImageView.setImageBitmap(bitmap);
             }
         }

@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 
 import com.billdoerr.android.carputer.settings.Camera;
 import com.billdoerr.android.carputer.settings.Node;
+import com.billdoerr.android.carputer.utils.FileStorageUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 

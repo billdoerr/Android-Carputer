@@ -47,9 +47,11 @@ public class CarputerFragmentMgmt extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //  TODO:  Modify to use globalVariable.
+        // Calling Application class (see application tag in AndroidManifest.xml)
+        final GlobalVariables mGlobalVariables = (GlobalVariables) getActivity().getApplicationContext();
+
         //  Get devices
-        mNodes = getNodesFromSharedPrefs(getActivity());
+        mNodes = mGlobalVariables.getNodes();
     }
 
     @Override
@@ -166,23 +168,6 @@ public class CarputerFragmentMgmt extends Fragment {
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
         }
-    }
-
-    //  TODO:  Modify to use globalVariable.
-    /**
-     * Retrieve list of node's that are stored in SharedPreferences as a JSON string
-     * @param context Context of application
-     * @return Object of type List<Node>
-     */
-    private static List<Node> getNodesFromSharedPrefs(Context context) {
-        SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
-        Gson gson = new Gson();
-        String json = appSharedPrefs.getString(Node.PrefKey.PREF_KEY_NODES, "");
-        List<Node> nodes = gson.fromJson(json, new TypeToken<ArrayList<Node>>(){}.getType());
-        if (nodes == null) {
-            nodes = new ArrayList<Node>();
-        }
-        return nodes;
     }
 
 }

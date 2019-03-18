@@ -159,9 +159,9 @@ public class SettingsFragmentCameraDetail extends Fragment {
                 if (!isMissingData) {
                     mCamera = getCameraDetail();
                     if (mAdd) {
-                        sendMessage(SettingsMessageEvent.Action.ADD, SettingsMessageEvent.Device.CAMERA, mCamera, -1);
+                        sendMessage(SettingsMessageEvent.Action.ADD, mCamera, -1);
                     } else {
-                        sendMessage(SettingsMessageEvent.Action.UPDATE, SettingsMessageEvent.Device.CAMERA, mCamera, mIndex);
+                        sendMessage(SettingsMessageEvent.Action.UPDATE, mCamera, mIndex);
                     }
                     getActivity().onBackPressed();
                 }
@@ -218,7 +218,7 @@ public class SettingsFragmentCameraDetail extends Fragment {
 
             //  Delete device
             case R.id.action_delete:
-                sendMessage(SettingsMessageEvent.Action.DELETE, SettingsMessageEvent.Device.CAMERA, mCamera, mIndex);
+                sendMessage(SettingsMessageEvent.Action.DELETE, mCamera, mIndex);
                 getActivity().onBackPressed();
                 return true;
             default:
@@ -251,17 +251,15 @@ public class SettingsFragmentCameraDetail extends Fragment {
         }
     }
 
-    //  TODO:  Remove int device param since always of type Camera
     /**
      * Post preference change to EventBus.
      * @param action int: Value for action to be taken.
-     * @param device int: Identifier for type of device.
      * @param camera Camera:  Object of type Camera.
      * @param index int:  Index of list of devices.
      */
-    private void sendMessage(int action, int device, Camera camera, int index) {
+    private void sendMessage(int action, Camera camera, int index) {
         SettingsMessageEvent event = new SettingsMessageEvent();
-        event.sendMessage(action, device, camera, index);
+        event.sendMessage(action, camera, index);
         EventBus.getDefault().post(event);
     }
 

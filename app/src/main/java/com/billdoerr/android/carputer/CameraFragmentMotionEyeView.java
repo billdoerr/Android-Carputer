@@ -83,7 +83,7 @@ public class CameraFragmentMotionEyeView extends Fragment {
         Canvas canvas = new Canvas(bitmap);
         mWebView.draw(canvas);
         try {
-            new FileStorageUtils().saveImage(getActivity(), bitmap);
+            FileStorageUtils.saveImage(getActivity(), bitmap);
         } catch (FileStorageUtils.FreeSpaceException e) {
             //  Handle exception
             Log.i(TAG, e.getMessage() );

@@ -35,8 +35,15 @@ public class FileStorageUtils {
     private static Context mContext;
     private static String mFilename;
 
-    //  Returns Snapshot
-    public Bitmap getSnapshot(Context context, String filename) {
+    //
+
+    /**
+     * Returns bitmap of save image (snapshot)
+     * @param context Context:  Application context.
+     * @param filename String: Filename of image.
+     * @return Bitmap:  Returns bitmap of requested filename.
+     */
+    public static Bitmap getSnapshot(Context context, String filename) {
         String path = context.getFilesDir().toString();
         File imgFile = new  File(path + "/" + filename);
         if(imgFile.exists()){
@@ -46,14 +53,12 @@ public class FileStorageUtils {
         }
     }
 
-    //
-
     /**
      * Returns list of saved images (snapshots).
      * @param context Context:  Application context.
      * @return List<String>:  List of snapshot files.
      */
-    public List<String> getSnapshotFileList(Context context) {
+    public static List<String> getSnapshotFileList(Context context) {
         String[] fileList1 = context.getFilesDir().list();
         return new ArrayList<String>(Arrays.asList(fileList1)); //new ArrayList is only needed if you absolutely need an ArrayList
     }
@@ -65,7 +70,7 @@ public class FileStorageUtils {
      * @return String:  Url string of resource that was saved to internal storage.
      * @throws FreeSpaceException: Custom exception thrown is space not available to save image to local storage.
      */
-    public String saveImage(Context context, Bitmap bitmap) throws FreeSpaceException {
+    public static String saveImage(Context context, Bitmap bitmap) throws FreeSpaceException {
         FileOutputStream outputStream;
         File path = context.getFilesDir();
         String url = "";
@@ -94,7 +99,7 @@ public class FileStorageUtils {
      * @return boolean:  True if space available to save bitmap.
      */
 
-    public boolean isSpaceAvailable(File path, Bitmap bitmap) {
+    public static boolean isSpaceAvailable(File path, Bitmap bitmap) {
         //  Being conservative and looking for space 2x bitmap size
         return (path.getFreeSpace() - 2 * sizeOf(bitmap)) > 0;
     }
@@ -104,7 +109,7 @@ public class FileStorageUtils {
      * @param data Bitmap:  Bitmap object
      * @return int:  Size of bitmap.
      */
-    public int sizeOf(Bitmap data) {
+    public static int sizeOf(Bitmap data) {
         return data.getByteCount();
     }
 
@@ -112,7 +117,7 @@ public class FileStorageUtils {
      * Generate file name.
      * @return String:  Filename "yyyy-MM-dd'T'HH:mm:ss".jpg.
      */
-    public String generateImageFilename() {
+    public static String generateImageFilename() {
         return getDateTime() + ".jpg";
     }
 
@@ -120,7 +125,7 @@ public class FileStorageUtils {
      * Generate date/time stamp that will be used to create a unique filename.
      * @return String:  date/time in format:  "yyyy-MM-dd'T'HH:mm:ss".
      */
-    public String getDateTime() {
+    public static String getDateTime() {
         String dateFormat = "yyyy-MM-dd'T'HH:mm:ss";       //  "yyyy-MM-dd HH:mm:ss"
         Calendar c = Calendar.getInstance();
         @SuppressLint("SimpleDateFormat") SimpleDateFormat df = new SimpleDateFormat(dateFormat);
@@ -131,7 +136,7 @@ public class FileStorageUtils {
      * Generate date/time stamp that will be used to for system log entries.
      * @return String:  date/time in format:  "dd MMM yyyy HH:mm:ss".
      */
-    public String getDateTime2() {
+    public static String getDateTime2() {
         String dateFormat = "dd MMM yyyy HH:mm:ss";
         Calendar c = Calendar.getInstance();
         @SuppressLint("SimpleDateFormat") SimpleDateFormat df = new SimpleDateFormat(dateFormat);
@@ -141,7 +146,7 @@ public class FileStorageUtils {
     /**
      * Generate custom exception.
      */
-    public class FreeSpaceException extends Exception {
+    public static class FreeSpaceException extends Exception {
         public FreeSpaceException () {
 
         }
@@ -172,7 +177,6 @@ public class FileStorageUtils {
         }
     }
 
-
     /**
      *
      * @param context Context:  Application context.
@@ -180,7 +184,7 @@ public class FileStorageUtils {
      * @param filename String: The name of the file to open; can not contain path separators.
      * @param mode int: File creation mode
      */
-    public void writeToFile(Context context, String data, String filename, int mode) {
+    public static void writeToFile(Context context, String data, String filename, int mode) {
 
         try {
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(filename, mode));
@@ -198,7 +202,7 @@ public class FileStorageUtils {
      * @param filename String: The name of the file to open; can not contain path separators.
      * @return String:  Contents of file being read.
      */
-    public String readFromFile(Context context, String filename) {
+    public static String readFromFile(Context context, String filename) {
 
         final String lineSeparator = System.getProperty("line.separator");
         String ret = "";
@@ -231,7 +235,13 @@ public class FileStorageUtils {
         return ret;
     }
 
-    public void initializeSystemLog(Context context, String filename) {
+    /**
+     * Sets application context and system log filename.
+     * Required to be called prior to calling writeSystemLog() or readSystemLog().
+     * @param context Context:  Application context.
+     * @param filename String:  System log filename.
+     */
+    public static void initializeSystemLog(Context context, String filename) {
         mContext = context;
         mFilename = filename;
     }
@@ -240,25 +250,24 @@ public class FileStorageUtils {
      * Writes to the system log.  Each entry is preceded with a date/time stamp.
      * @param entry String:  Data to be written to log file.
      */
-    public void writeSystemLog(String entry) {
+    public static void writeSystemLog(String entry) {
         final int mode = Context.MODE_PRIVATE | Context.MODE_APPEND;
         String output = getDateTime2() + mTabs + entry + mLineSeparator + mLineSeparator;
         writeToFile(mContext, output, mFilename, mode);
-        Log.d(TAG, output);
     }
 
     /**
      * Read the system log.
      * @return String:  Contents of system log.
      */
-    public String readSystemLog() {
+    public static String readSystemLog() {
         return readFromFile(mContext, mFilename);
     }
 
     /**
-     * Clears the system log
+     * Clears the contents of the system log.
      */
-    public void clearSystemLog() {
+    public static void clearSystemLog() {
         final int mode = Context.MODE_PRIVATE;
         writeToFile(mContext, "", mFilename, mode);
     }

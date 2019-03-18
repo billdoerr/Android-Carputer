@@ -48,9 +48,11 @@ public class CameraFragmentMjpeg extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //  TODO:  Modify to use globalVariable.
+        // Calling Application class (see application tag in AndroidManifest.xml)
+        final GlobalVariables mGlobalVariables = (GlobalVariables) getActivity().getApplicationContext();
+
         //  Get list of devices
-        mCameras = getCamerasFromSharedPrefs(getActivity());
+        mCameras = mGlobalVariables.getCameras();
     }
 
     @Override
@@ -147,23 +149,6 @@ public class CameraFragmentMjpeg extends Fragment {
             return mFragmentTitleList.get(position);
         }
 
-    }
-
-    //  TODO:  Modify to use globalVariable.
-    /**
-     * Retrieve list of camera's that are stored in SharedPreferences as a JSON string.
-     * @param context Context of application.
-     * @return List<Camera>: Object of type List<Camera>.
-     */
-    private static List<Camera> getCamerasFromSharedPrefs(Context context) {
-        SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
-        Gson gson = new Gson();
-        String json = appSharedPrefs.getString(Camera.PrefKey.PREF_KEY_CAMERAS, "");
-        List<Camera> cameras = gson.fromJson(json, new TypeToken<ArrayList<Camera>>(){}.getType());
-        if (cameras == null) {
-            cameras = new ArrayList<Camera>();
-        }
-        return cameras;
     }
 
 }

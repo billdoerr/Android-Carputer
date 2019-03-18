@@ -7,18 +7,41 @@ import android.util.Log;
 
 import java.util.List;
 
+import androidx.core.content.ContextCompat;
+
 /**
- * WIFI network utilities.
+ * WIFI network utilities.  Singleton class.
  */
 public class WiFiUtils {
 
     private static final String TAG = "WiFiUtils";
-//    private static final String WIFI_LOCK = "WIFI_LOCK";
 
-    private static WifiManager.WifiLock mWifiLock = null;
+    private static WiFiUtils sWiFiUtils;
+
+    private static boolean mIsConnected = false;
 
     private boolean mConnectionMade = false;
     private int mNetworkId = -1;
+
+    /**
+     * Singleton class
+     * @param context Context:  Application context.
+     * @return
+     */
+    public static WiFiUtils getInstance(Context context) {
+        if (sWiFiUtils == null) {
+            sWiFiUtils = new WiFiUtils(context);
+        }
+        return sWiFiUtils;
+    }
+
+    private WiFiUtils (Context context) {
+        //  Required
+    }
+
+    public boolean isConnected() {
+        return mIsConnected;
+    }
 
     /**
      * Connect to network (WPA).  Also performs WiFiUtils lock if shared preference enabled.
@@ -65,7 +88,7 @@ public class WiFiUtils {
 
         }
 
-        return isConnected;
+        return mIsConnected = isConnected;
     }
 
     /**
@@ -174,37 +197,5 @@ public class WiFiUtils {
         return isConnected;
     }
 
-//    /***
-//     * Calling this method will aquire the lock on wifi. This is avoid wifi
-//     * from going to sleep as long as <code>releaseWifiLock</code> method is called.
-//     * @param context Context:  Application context.
-//     **/
-//    public void holdWifiLock(Context context) {
-//        WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-//
-//        if( mWifiLock == null )
-//            mWifiLock = wifiManager.createWifiLock(WifiManager.WIFI_MODE_FULL, TAG);
-//
-//        mWifiLock.setReferenceCounted(false);
-//
-//        if( !mWifiLock.isHeld() )
-//            mWifiLock.acquire();
-//    }
-
-//    /***
-//     * Calling this method will release if the lock is already help. After this method is called,
-//     * the Wifi on the device can goto sleep.
-//     **/
-//    public void releaseWifiLock() {
-//
-//        if( mWifiLock == null )
-//            Log.w(TAG, "#releaseWifiLock mWifiLock was not created previously");
-//
-//        if( mWifiLock != null && mWifiLock.isHeld() ){
-//            mWifiLock.release();
-//            //mWifiLock = null;
-//        }
-//
-//    }
 
 }

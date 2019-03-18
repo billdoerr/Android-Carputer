@@ -173,7 +173,7 @@ public class CameraFragmentMjpegSnapshot extends Fragment implements OnFrameCapt
             Log.d(TAG, "Image captured.");
             mImageView.setImageBitmap(mLastPreview);
             try {
-                new FileStorageUtils().saveImage(getActivity(), mLastPreview);
+                FileStorageUtils.saveImage(getActivity(), mLastPreview);
             } catch (FileStorageUtils.FreeSpaceException e) {
                 //  Handle exception
                 Log.i(TAG, e.getMessage() );

@@ -59,11 +59,11 @@
                             style="@style/ButtonAction" />
 
                         <Button
-                            android:id="@+id/btn_unused_1_2"
+                            android:id="@+id/btnSystemStatus"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="1dp"
-                            android:text="@string/btn_not_enabled"
+                            android:text="@string/btn_carputer_mgmt_system_status"
                             style="@style/ButtonAction" />
 
                         <Button

@@ -242,32 +242,74 @@ protected void onCreate(Bundle savedInstanceState) {
 ===============================================================================================
 
 ===============================================================================================
-   <TableLayout 
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
+//    /**
+//     * Print pretty xml.
+//     * https://stackoverflow.com/questions/25864316/pretty-print-xml-in-java-8/33541820#33541820
+//     * @param xml
+//     * @param indent
+//     * @return
+//     */
+//    public static String makeXmlPretty(String xml, int indent) {
+//        try {
+//            // Turn xml string into a document
+//            Document document = DocumentBuilderFactory.newInstance()
+//                    .newDocumentBuilder()
+//                    .parse(new InputSource(new ByteArrayInputStream(xml.getBytes("utf-8"))));
+//
+//            // Remove whitespaces outside tags
+//            document.normalize();
+//            XPath xPath = XPathFactory.newInstance().newXPath();
+//            NodeList nodeList = (NodeList) xPath.evaluate("//text()[normalize-space()='']",
+//                    document,
+//                    XPathConstants.NODESET);
+//
+//            for (int i = 0; i < nodeList.getLength(); ++i) {
+//                Node node = nodeList.item(i);
+//                node.getParentNode().removeChild(node);
+//            }
+//
+//            // Setup pretty print options
+//            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+//            transformerFactory.setAttribute("indent-number", indent);
+//            Transformer transformer = transformerFactory.newTransformer();
+//            transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+//            transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+//            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+//
+//            // Return pretty print xml string
+//            StringWriter stringWriter = new StringWriter();
+//            transformer.transform(new DOMSource(document), new StreamResult(stringWriter));
+//            return stringWriter.toString();
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
+===============================================================================================
 
-        <TableRow
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+===============================================================================================
+// Calling Application class (see application tag in AndroidManifest.xml)
+private GlobalVariables mGlobalVariables;
 
-            <Button
-                android:id="@+id/button1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/short_text" />
-        </TableRow>
+// Calling Application class (see application tag in AndroidManifest.xml)
+mGlobalVariables = (GlobalVariables) getApplicationContext();
 
-        <TableRow
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
 
-            <Button
-                android:id="@+id/button2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/enter_manually" />
-        </TableRow>
-    </TableLayout>
+
+//  System logging
+FileStorageUtils mSystemLog = new FileStorageUtils();
+
+
+@Override
+protected void startUp() {
+
+	// Calling Application class (see application tag in AndroidManifest.xml)
+	mGlobalVariables = (GlobalClass) getApplicationContext();
+
+	//  System logging
+	mSystemLog.initializeSystemLog(getApplicationContext(), mGlobalVariables.SYS_LOG);
+
+	mSystemLog.writeSystemLog(TAG + ": Application starting.");
+}
 ===============================================================================================
 
 ===============================================================================================
@@ -295,10 +337,67 @@ protected void onCreate(Bundle savedInstanceState) {
 ===============================================================================================
 
 ===============================================================================================
-
-===============================================================================================
-
-===============================================================================================
+//    //  TODO:  Modify to use globalVariable.
+//    /**
+//     * Retrieve list of camera's that are stored in SharedPreferences as a JSON string.
+//     * @param context Context:  Application context.
+//     * @return List<Camera>:  Returns List<Camera> of configured cameras.
+//     */
+//    private static List<Camera> getCamerasFromSharedPrefs(Context context) {
+//        SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+//        Gson gson = new Gson();
+//        String json = appSharedPrefs.getString(Camera.PrefKey.PREF_KEY_CAMERAS, "");
+//        mCameras = gson.fromJson(json, new TypeToken<ArrayList<Camera>>(){}.getType());
+//        if (mCameras == null) {
+//            mCameras = new ArrayList<Camera>();
+//        }
+//        return mCameras;
+//    }
+//
+//    //  TODO:  Modify to use globalVariable.
+//    /**
+//     * Save list of camera's that are stored in SharedPreferences as a JSON string.
+//     * @param context Context:  Application context.
+//     */
+//    private static void saveCamerasToSharedPrefs(Context context) {
+//        SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+//        SharedPreferences.Editor prefsEditor = appSharedPrefs.edit();
+//        Gson gson = new Gson();
+//        String json = gson.toJson(mCameras); //tasks is an ArrayList instance variable
+//        prefsEditor.putString(Camera.PrefKey.PREF_KEY_CAMERAS, json);
+//        prefsEditor.apply();
+//    }
+//
+//    //  TODO:  Modify to use globalVariable.
+//    /**
+//     * Retrieve list of node's that are stored in SharedPreferences as a JSON string.
+//     * @param context Context:  Application context.
+//     * @return List<Node>:  Returns List<Node> of configured nodes.
+//     */
+//    private static List<Node> getNodesFromSharedPrefs(Context context) {
+//        SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+//        Gson gson = new Gson();
+//        String json = appSharedPrefs.getString(Node.PrefKey.PREF_KEY_NODES, "");
+//        mNodes = gson.fromJson(json, new TypeToken<ArrayList<Node>>(){}.getType());
+//        if (mNodes == null) {
+//            mNodes = new ArrayList<Node>();
+//        }
+//        return mNodes;
+//    }
+//
+//    //  TODO:  Modify to use globalVariable.
+//    /**
+//     * Save list of node's that are stored in SharedPreferences as a JSON string.
+//     * @param context Context:  Application context.
+//     */
+//    private static void saveNodesToSharedPrefs(Context context) {
+//        SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+//        SharedPreferences.Editor prefsEditor = appSharedPrefs.edit();
+//        Gson gson = new Gson();
+//        String json = gson.toJson(mNodes); //tasks is an ArrayList instance variable
+//        prefsEditor.putString(Node.PrefKey.PREF_KEY_NODES, json);
+//        prefsEditor.apply();
+//    }
 
 ===============================================================================================
 

@@ -42,6 +42,7 @@
     <string name="btn_carputer_mgmt_execute_command">Execute Command</string>
     <string name="btn_save">Save</string>
     <string name="btn_cancel">Cancel</string>
+    <string name="btn_not_enabled">......</string>
 
     <string name="txt_carputer_mgmt_ssh_results">Command results…</string>
     <string name="txt_carputer_mgmt_ssh_command_processing">Command processing…</string>

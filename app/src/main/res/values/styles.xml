@@ -32,8 +32,9 @@
     </style>
 
     <style name="ButtonAction" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:background">@drawable/button_action</item>
-        <item name="android:textColor">@color/colorButtonSaveText</item>
+        <item name="android:background">@color/colorButtonActionBackground</item>
+        <item name="android:borderlessButtonStyle">?android:attr/borderlessButtonStyle</item>
+        <item name="android:textColor">@color/colorButtonActionText</item>
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">12dp</item>
     </style>

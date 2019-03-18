@@ -48,6 +48,7 @@ public class CameraFragmentMjpeg extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //  TODO:  Modify to use globalVariable.
         //  Get list of devices
         mCameras = getCamerasFromSharedPrefs(getActivity());
     }
@@ -148,6 +149,7 @@ public class CameraFragmentMjpeg extends Fragment {
 
     }
 
+    //  TODO:  Modify to use globalVariable.
     /**
      * Retrieve list of camera's that are stored in SharedPreferences as a JSON string.
      * @param context Context of application.

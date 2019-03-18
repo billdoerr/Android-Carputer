@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.billdoerr.android.carputer.GlobalVariables;
 import com.billdoerr.android.carputer.R;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -41,6 +42,10 @@ public class SettingsActivity extends AppCompatActivity implements
     private static final String ARGS_ADD = "ARGS_ADD";
     private static final String ARGS_INDEX = "ARGS_INDEX";
 
+    // Calling Application class (see application tag in AndroidManifest.xml)
+    private static GlobalVariables mGlobalVariables;
+
+    //  Device objects
     private static List<Camera> mCameras = new ArrayList<Camera>();
     private static List<Node> mNodes = new ArrayList<Node>();
 
@@ -48,6 +53,9 @@ public class SettingsActivity extends AppCompatActivity implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings_layout);
+
+        // Calling Application class (see application tag in AndroidManifest.xml)
+        mGlobalVariables = (GlobalVariables) getApplicationContext();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -91,69 +99,6 @@ public class SettingsActivity extends AppCompatActivity implements
         return true;
     }
 
-    //  TODO:  Modify to use globalVariable.
-    /**
-     * Retrieve list of camera's that are stored in SharedPreferences as a JSON string.
-     * @param context Context:  Application context.
-     * @return List<Camera>:  Returns List<Camera> of configured cameras.
-     */
-    private static List<Camera> getCamerasFromSharedPrefs(Context context) {
-        SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
-        Gson gson = new Gson();
-        String json = appSharedPrefs.getString(Camera.PrefKey.PREF_KEY_CAMERAS, "");
-        mCameras = gson.fromJson(json, new TypeToken<ArrayList<Camera>>(){}.getType());
-        if (mCameras == null) {
-            mCameras = new ArrayList<Camera>();
-        }
-        return mCameras;
-    }
-
-    //  TODO:  Modify to use globalVariable.
-    /**
-     * Save list of camera's that are stored in SharedPreferences as a JSON string.
-     * @param context Context:  Application context.
-     */
-    private static void saveCamerasToSharedPrefs(Context context) {
-        SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
-        SharedPreferences.Editor prefsEditor = appSharedPrefs.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(mCameras); //tasks is an ArrayList instance variable
-        prefsEditor.putString(Camera.PrefKey.PREF_KEY_CAMERAS, json);
-        prefsEditor.apply();
-    }
-
-    //  TODO:  Modify to use globalVariable.
-    /**
-     * Retrieve list of node's that are stored in SharedPreferences as a JSON string.
-     * @param context Context:  Application context.
-     * @return List<Node>:  Returns List<Node> of configured nodes.
-     */
-    private static List<Node> getNodesFromSharedPrefs(Context context) {
-        SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
-        Gson gson = new Gson();
-        String json = appSharedPrefs.getString(Node.PrefKey.PREF_KEY_NODES, "");
-        mNodes = gson.fromJson(json, new TypeToken<ArrayList<Node>>(){}.getType());
-        if (mNodes == null) {
-            mNodes = new ArrayList<Node>();
-        }
-        return mNodes;
-    }
-
-    //  TODO:  Modify to use globalVariable.
-    /**
-     * Save list of node's that are stored in SharedPreferences as a JSON string.
-     * @param context Context:  Application context.
-     */
-    private static void saveNodesToSharedPrefs(Context context) {
-        SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
-        SharedPreferences.Editor prefsEditor = appSharedPrefs.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(mNodes); //tasks is an ArrayList instance variable
-        prefsEditor.putString(Node.PrefKey.PREF_KEY_NODES, json);
-        prefsEditor.apply();
-    }
-
-
     /**
      * The root preference fragment that displays preferences that link to the other preference
      * fragments below.
@@ -185,10 +130,10 @@ public class SettingsActivity extends AppCompatActivity implements
             setPreferencesFromResource(R.xml.pref_root, rootKey);
 
             //  Retrieve list of camera's that are stored in SharedPreferences as a JSON string
-            getCamerasFromSharedPrefs(getActivity());
+            mCameras = mGlobalVariables.getCameras();
 
             //  Retrieve list of node's that are stored in SharedPreferences as a JSON string
-            getNodesFromSharedPrefs(getActivity());
+            mNodes = mGlobalVariables.getNodes();
 
             //  Update preference summary
             updateCameraPreferenceSummary(getActivity());
@@ -292,7 +237,7 @@ public class SettingsActivity extends AppCompatActivity implements
                     break;
             }
             //  Update shared preferences with devices
-            saveCamerasToSharedPrefs(getActivity());
+            mGlobalVariables.setCameras(mCameras);
         }
 
         /**
@@ -467,7 +412,7 @@ public class SettingsActivity extends AppCompatActivity implements
                     break;
             }
             //  Update shared preferences with devices
-            saveNodesToSharedPrefs(getActivity());
+            mGlobalVariables.setNodes(mNodes);
         }
 
         /**

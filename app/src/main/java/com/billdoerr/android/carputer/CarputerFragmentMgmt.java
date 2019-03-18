@@ -47,6 +47,7 @@ public class CarputerFragmentMgmt extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //  TODO:  Modify to use globalVariable.
         //  Get devices
         mNodes = getNodesFromSharedPrefs(getActivity());
     }
@@ -167,6 +168,7 @@ public class CarputerFragmentMgmt extends Fragment {
         }
     }
 
+    //  TODO:  Modify to use globalVariable.
     /**
      * Retrieve list of node's that are stored in SharedPreferences as a JSON string
      * @param context Context of application

@@ -1,7 +1,6 @@
 package com.billdoerr.android.carputer;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.LayoutRes;
@@ -19,7 +18,6 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.view.WindowManager;
 
@@ -33,7 +31,10 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
     private static final String TAG = "SingleFragmentActivity";
 
     // Calling Application class (see application tag in AndroidManifest.xml)
-    private GlobalClass globalVariable;
+    private GlobalVariables mGlobalVariables;
+
+    //  System logging
+    FileStorageUtils mSystemLog = new FileStorageUtils();
 
     private DrawerLayout mDrawerLayout;
 
@@ -50,6 +51,9 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.drawer_view);
+
+        //  System logging
+        mSystemLog.initializeSystemLog(this.getApplicationContext(), mGlobalVariables.SYS_LOG);
 
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.fragment_container);
@@ -130,25 +134,21 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
     /**
      * Application startup routine.
      */
-    private void startUp() {
+    protected void startUp() {
 
         // Calling Application class (see application tag in AndroidManifest.xml)
-        globalVariable = (GlobalClass) getApplicationContext();
+        mGlobalVariables = (GlobalVariables) getApplicationContext();
 
-        writeSystemLog(TAG + ": Application starting.");
-        writeSystemLog(TAG + formatSharedPreferences());
+        mSystemLog.writeSystemLog(TAG + ": Application starting.");
+        mSystemLog.writeSystemLog(TAG + formatSharedPreferences());
 
         //  Goal is to prevent network from being dropped.  Plus we always want the application to never timeout.  Always viewable.
         //  https://developer.android.com/training/scheduling/wakelock
-        if (globalVariable.isKeepDeviceAwake()) {
+        if (mGlobalVariables.isKeepDeviceAwake()) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-            writeSystemLog(TAG + ": Keep device awake enabled.");
+            mSystemLog.writeSystemLog(TAG + ": Keep device awake enabled.");
         }
 
-    }
-
-    private void writeSystemLog(String entry) {
-        globalVariable.FileStorageUtils.writeSystemLog(getApplicationContext(), entry, globalVariable.SYS_LOG);
     }
 
     /**
@@ -159,13 +159,13 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
 
         String entry = TAG + ": Shared preferences" + lineSeparator;
 
-        entry = entry + globalVariable.PREF_KEY_CAMERAS + "->\t"  + lineSeparator + Arrays.toString(globalVariable.getCameras().toArray()) + lineSeparator;
-        entry = entry + globalVariable.PREF_KEY_NODES + "->\t"  + lineSeparator + Arrays.toString(globalVariable.getNodes().toArray()) + lineSeparator;
+        entry = entry + mGlobalVariables.PREF_KEY_CAMERAS + ":\t"  + lineSeparator + Arrays.toString(mGlobalVariables.getCameras().toArray()) + lineSeparator;
+        entry = entry + mGlobalVariables.PREF_KEY_NODES + ":\t"  + lineSeparator + Arrays.toString(mGlobalVariables.getNodes().toArray()) + lineSeparator;
 
-        entry = entry + globalVariable.PREF_KEY_NETWORK_ENABLED + "->\t" + globalVariable.isNetworkEnabled() + lineSeparator;
-        entry = entry + globalVariable.PREF_KEY_NETWORK_NAME + "->\t" + globalVariable.getNetworkName() + lineSeparator;
-        entry = entry + globalVariable.PREF_KEY_NETWORK_PASSPHRASE + "->\t" + globalVariable.getNetworkPassphrase() + lineSeparator;
-        entry = entry + globalVariable.PREF_KEY_KEEP_DEVICE_AWAKE + "->\t" + globalVariable.isKeepDeviceAwake() + lineSeparator;
+        entry = entry + mGlobalVariables.PREF_KEY_NETWORK_ENABLED + ":\t" + mGlobalVariables.isNetworkEnabled() + lineSeparator;
+        entry = entry + mGlobalVariables.PREF_KEY_NETWORK_NAME + ":\t" + mGlobalVariables.getNetworkName() + lineSeparator;
+        entry = entry + mGlobalVariables.PREF_KEY_NETWORK_PASSPHRASE + ":\t" + mGlobalVariables.getNetworkPassphrase() + lineSeparator;
+        entry = entry + mGlobalVariables.PREF_KEY_KEEP_DEVICE_AWAKE + ":\t" + mGlobalVariables.isKeepDeviceAwake() + lineSeparator;
 
         return entry;
     }

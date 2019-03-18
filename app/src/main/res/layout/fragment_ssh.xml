@@ -26,13 +26,6 @@
             android:background="@android:drawable/btn_dropdown"
             android:spinnerMode="dropdown" />
 
-        <Button
-            android:id="@+id/btnExecuteCommand"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/btn_carputer_mgmt_execute_command"
-            style="@style/ButtonAction" />
-
         <EditText
             android:id="@+id/txtExecuteCommand"
             android:layout_width="match_parent"
@@ -43,61 +36,135 @@
             android:textColor="@android:color/holo_red_dark"
             android:hint="@string/btn_carputer_mgmt_execute_command"/>
 
-        <LinearLayout
+        <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_weight="1" >
 
-            <Button
-                android:id="@+id/btnPoweroffSingle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/btn_carputer_mgmt_ssh_poweroff_single"
-                style="@style/ButtonAction" />
+                <TableLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
 
-            <Button
-                android:id="@+id/btnPoweroffAll"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/btn_carputer_mgmt_ssh_poweroff_all"
-                style="@style/ButtonAction" />
+                    <TableRow
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="1dp" >
 
-        </LinearLayout>
+                        <Button
+                            android:id="@+id/btnExecuteCommand"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="1dp"
+                            android:text="@string/btn_carputer_mgmt_execute_command"
+                            style="@style/ButtonAction" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+                        <Button
+                            android:id="@+id/btn_unused_1_2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="1dp"
+                            android:text="@string/btn_not_enabled"
+                            style="@style/ButtonAction" />
 
-            <Button
-                android:id="@+id/btnSyncDateSingle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/btn_carputer_mgmt_ssh_sync_date_single"
-                style="@style/ButtonAction" />
+                        <Button
+                            android:id="@+id/btnPing"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="1dp"
+                            android:text="@string/btn_carputer_mgmt_ssh_ping"
+                            style="@style/ButtonAction" />
 
-            <Button
-                android:id="@+id/btnSyncDateAll"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/btn_carputer_mgmt_ssh_sync_date_all"
-                style="@style/ButtonAction" />
+                        <Button
+                            android:id="@+id/btn_unused_1_4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="1dp"
+                            android:text="@string/btn_not_enabled"
+                            style="@style/ButtonAction" />
 
-        </LinearLayout>
+                    </TableRow>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+                    <TableRow
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="1dp" >
 
-            <Button
-                android:id="@+id/btnPing"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/btn_carputer_mgmt_ssh_ping"
-                style="@style/ButtonAction" />
+                        <Button
+                            android:id="@+id/btnPoweroffSingle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="1dp"
+                            android:text="@string/btn_carputer_mgmt_ssh_poweroff_single"
+                            style="@style/ButtonAction" />
 
-        </LinearLayout>
+                        <Button
+                            android:id="@+id/btnPoweroffAll"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="1dp"
+                            android:text="@string/btn_carputer_mgmt_ssh_poweroff_all"
+                            style="@style/ButtonAction" />
+
+                        <Button
+                            android:id="@+id/btn_unused_2_3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="1dp"
+                            android:text="@string/btn_not_enabled"
+                            style="@style/ButtonAction" />
+
+                        <Button
+                            android:id="@+id/btn_unused_2_4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="1dp"
+                            android:text="@string/btn_not_enabled"
+                            style="@style/ButtonAction" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="1dp" >
+
+                        <Button
+                            android:id="@+id/btnSyncDateSingle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="1dp"
+                            android:text="@string/btn_carputer_mgmt_ssh_sync_date_single"
+                            style="@style/ButtonAction" />
+
+                        <Button
+                            android:id="@+id/btnSyncDateAll"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="1dp"
+                            android:text="@string/btn_carputer_mgmt_ssh_sync_date_all"
+                            style="@style/ButtonAction" />
+
+                        <Button
+                            android:id="@+id/btn_unused_3_3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="1dp"
+                            android:text="@string/btn_not_enabled"
+                            style="@style/ButtonAction" />
+
+                        <Button
+                            android:id="@+id/btn_unused_3_4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="1dp"
+                            android:text="@string/btn_not_enabled"
+                            style="@style/ButtonAction" />
+
+                    </TableRow>
+
+                </TableLayout>
+
+        </ScrollView>
 
     </LinearLayout>
 
@@ -110,14 +177,14 @@
             android:id="@+id/txtReply"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/black"
+            android:background="@android:color/white"
             android:enabled="false"
             android:fontFamily="monospace"
             android:gravity="top|start"
             android:minLines="30"
-            android:scrollbars="vertical"
+            android:scrollbars="vertical|horizontal"
             android:text="@string/txt_carputer_mgmt_ssh_results"
-            android:textColor="@android:color/holo_red_dark" />
+            android:textColor="@android:color/black" />
 
     </ScrollView>
 

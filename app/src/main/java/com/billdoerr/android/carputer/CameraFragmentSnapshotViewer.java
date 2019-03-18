@@ -112,7 +112,6 @@ public class CameraFragmentSnapshotViewer extends Fragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        Log.d(TAG, "setUserVisibleHint: " + isVisibleToUser);
         if( isVisibleToUser && mViewCreated) {
             update();
         }

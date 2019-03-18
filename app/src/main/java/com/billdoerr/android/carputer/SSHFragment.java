@@ -48,6 +48,7 @@ public class SSHFragment extends Fragment {
 
     private static final String ARGS_NODE_DETAIL = "ARGS_NODE_DETAIL";
 
+    //  TODO:  Modify to use globalVariable.
     private static final String PREF_KEY_NETWORK_ENABLED  = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NETWORK_ENABLED";
     private static final String PREF_KEY_NETWORK_NAME  = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NETWORK_NAME";
     private static final String PREF_KEY_NETWORK_PASSPHRASE  = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NETWORK_PASSPHRASE";
@@ -85,9 +86,11 @@ public class SSHFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //  TODO:  Modify to use globalVariable.
         //  Get devices
         mNodes = getNodesFromSharedPrefs(getActivity());
 
+        //  TODO:  Modify to use globalVariable.
         //  Get network preferences
         getNetworkPreferences(getActivity());
     }

@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.billdoerr.android.carputer.utils.FileStorageUtils;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
@@ -18,7 +20,10 @@ public class CarputerFragmentMgmtSystemLog extends Fragment {
     private static final String TAG = "FragmentSystemLog";
 
     // Calling Application class (see application tag in AndroidManifest.xml)
-    private GlobalClass globalVariable;
+    private GlobalVariables mGlobalVariables;
+
+    //  System logging
+    FileStorageUtils mSystemLog = new FileStorageUtils();
 
     //  System log viewer
     private TextView txtSystemLog;
@@ -36,7 +41,10 @@ public class CarputerFragmentMgmtSystemLog extends Fragment {
         setHasOptionsMenu(true);
 
         // Calling Application class (see application tag in AndroidManifest.xml)
-        globalVariable = (GlobalClass) getActivity().getApplicationContext();
+        mGlobalVariables = (GlobalVariables) getActivity().getApplicationContext();
+
+        //  System logging
+        mSystemLog.initializeSystemLog(getActivity(), mGlobalVariables.SYS_LOG);
     }
 
     @Override
@@ -64,6 +72,7 @@ public class CarputerFragmentMgmtSystemLog extends Fragment {
 
             //  Reload system log
             case R.id.action_refresh:
+                txtSystemLog.setText("");
                 //  Display system log
                 readSystemLog();
                 Toast.makeText(getActivity(), getResources().getString(R.string.toast_system_log_refresh), Toast.LENGTH_LONG).show();
@@ -107,7 +116,7 @@ public class CarputerFragmentMgmtSystemLog extends Fragment {
     private void readSystemLog() {
         //  Read system log
         String sysLog = "";
-        sysLog = globalVariable.FileStorageUtils.readFromFile(getActivity(), globalVariable.SYS_LOG);
+        sysLog = mSystemLog.readSystemLog();
         txtSystemLog.setText(sysLog);
     }
 
@@ -115,7 +124,7 @@ public class CarputerFragmentMgmtSystemLog extends Fragment {
      * Clear the system log
      */
     private void clearSystemLog() {
-        globalVariable.FileStorageUtils.clearSystemLog(getActivity(), globalVariable.SYS_LOG);
+        mSystemLog.clearSystemLog();
         txtSystemLog.setText("");
         readSystemLog();
     }

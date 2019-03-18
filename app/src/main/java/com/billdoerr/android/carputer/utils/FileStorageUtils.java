@@ -29,7 +29,11 @@ public class FileStorageUtils {
 
     private static final String TAG = "FileStorageUtils";
 
-    private static final String lineSeparator = System.getProperty("line.separator");
+    private static final String mLineSeparator = System.getProperty("line.separator");
+    private static final String mTabs = "\t\t";
+
+    private static Context mContext;
+    private static String mFilename;
 
     //  Returns Snapshot
     public Bitmap getSnapshot(Context context, String filename) {
@@ -118,6 +122,17 @@ public class FileStorageUtils {
      */
     public String getDateTime() {
         String dateFormat = "yyyy-MM-dd'T'HH:mm:ss";       //  "yyyy-MM-dd HH:mm:ss"
+        Calendar c = Calendar.getInstance();
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat df = new SimpleDateFormat(dateFormat);
+        return df.format(c.getTime());
+    }
+
+    /**
+     * Generate date/time stamp that will be used to for system log entries.
+     * @return String:  date/time in format:  "dd MMM yyyy HH:mm:ss".
+     */
+    public String getDateTime2() {
+        String dateFormat = "dd MMM yyyy HH:mm:ss";
         Calendar c = Calendar.getInstance();
         @SuppressLint("SimpleDateFormat") SimpleDateFormat df = new SimpleDateFormat(dateFormat);
         return df.format(c.getTime());
@@ -216,86 +231,37 @@ public class FileStorageUtils {
         return ret;
     }
 
+    public void initializeSystemLog(Context context, String filename) {
+        mContext = context;
+        mFilename = filename;
+    }
+
     /**
      * Writes to the system log.  Each entry is preceded with a date/time stamp.
-     * @param context Context:  Application context.
      * @param entry String:  Data to be written to log file.
-     * @param filename String:  Filename.
      */
-    public void writeSystemLog(Context context, String entry, String filename) {
-
+    public void writeSystemLog(String entry) {
         final int mode = Context.MODE_PRIVATE | Context.MODE_APPEND;
-
-        //  TODO:  fix this
-        String tabs = "\t\t";
-        String newline = lineSeparator + lineSeparator;    // Two empty line between entries
-
-//        System.getProperty(System.lineSeparator().toString());      //  This is returning null for me.
-
-//        output = getDateTime();     //  First add date/time
-//        output = output + tabs;     //  Add tabs
-//        output = output + entry;    //  Add log entry
-//        output = output + newline;  //  Add new line
-        String output = getDateTime() + tabs + entry + newline;
-
+        String output = getDateTime2() + mTabs + entry + mLineSeparator + mLineSeparator;
+        writeToFile(mContext, output, mFilename, mode);
         Log.d(TAG, output);
+    }
 
-        writeToFile(context, output, filename, mode);
-
+    /**
+     * Read the system log.
+     * @return String:  Contents of system log.
+     */
+    public String readSystemLog() {
+        return readFromFile(mContext, mFilename);
     }
 
     /**
      * Clears the system log
-     * @param context Context:  Application context.
-     * @param filename String:  Name of system log.
      */
-    public void clearSystemLog(Context context, String filename) {
+    public void clearSystemLog() {
         final int mode = Context.MODE_PRIVATE;
-        writeToFile(context, "", filename, mode);
+        writeToFile(mContext, "", mFilename, mode);
     }
-
-//    /**
-//     * Print pretty xml.
-//     * https://stackoverflow.com/questions/25864316/pretty-print-xml-in-java-8/33541820#33541820
-//     * @param xml
-//     * @param indent
-//     * @return
-//     */
-//    public static String makeXmlPretty(String xml, int indent) {
-//        try {
-//            // Turn xml string into a document
-//            Document document = DocumentBuilderFactory.newInstance()
-//                    .newDocumentBuilder()
-//                    .parse(new InputSource(new ByteArrayInputStream(xml.getBytes("utf-8"))));
-//
-//            // Remove whitespaces outside tags
-//            document.normalize();
-//            XPath xPath = XPathFactory.newInstance().newXPath();
-//            NodeList nodeList = (NodeList) xPath.evaluate("//text()[normalize-space()='']",
-//                    document,
-//                    XPathConstants.NODESET);
-//
-//            for (int i = 0; i < nodeList.getLength(); ++i) {
-//                Node node = nodeList.item(i);
-//                node.getParentNode().removeChild(node);
-//            }
-//
-//            // Setup pretty print options
-//            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-//            transformerFactory.setAttribute("indent-number", indent);
-//            Transformer transformer = transformerFactory.newTransformer();
-//            transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-//            transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-//            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-//
-//            // Return pretty print xml string
-//            StringWriter stringWriter = new StringWriter();
-//            transformer.transform(new DOMSource(document), new StreamResult(stringWriter));
-//            return stringWriter.toString();
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
 
 }
 

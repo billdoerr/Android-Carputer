@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 
 import com.billdoerr.android.carputer.settings.Camera;
 import com.billdoerr.android.carputer.settings.Node;
-import com.billdoerr.android.carputer.utils.FileStorageUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -19,19 +18,19 @@ import androidx.preference.PreferenceManager;
  * Define global variables is by extending the Application class.
  * This is the base class for maintaining global application state.
  */
-public class GlobalClass extends Application {
+public class GlobalVariables extends Application {
 
-    private static final String TAG = "GlobalClass";
+    private static final String TAG = "GlobalVariables";
 
     //  Shared preferences
     public static final String PREF_KEY_CAMERAS                = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_CAMERAS";
     public static final String PREF_KEY_NODES                  = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NODES";
-    public static final String PREF_KEY_NETWORK_ENABLED        ="com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NETWORK_ENABLED";
-    public static final String PREF_KEY_NETWORK_NAME           ="com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NETWORK_NAME";
-    public static final String PREF_KEY_NETWORK_PASSPHRASE     ="com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NETWORK_PASSPHRASE";
+    public static final String PREF_KEY_NETWORK_ENABLED        = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NETWORK_ENABLED";
+    public static final String PREF_KEY_NETWORK_NAME           = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NETWORK_NAME";
+    public static final String PREF_KEY_NETWORK_PASSPHRASE     = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NETWORK_PASSPHRASE";
     public static final String PREF_KEY_KEEP_DEVICE_AWAKE      = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_KEEP_DEVICE_AWAKE";
 
-    //  System log file
+    //  System log filename
     public static final String SYS_LOG = "system_log.log";
 
     //  Variables to store shared preferences
@@ -45,11 +44,10 @@ public class GlobalClass extends Application {
     private static String mNetworkPassphrase;
     private static boolean mKeepDeviceAwake = false;
 
-    //  Stuff goes here
-    public static FileStorageUtils FileStorageUtils;
+    //  We need application context.  Set in onCreate()
+    private static Context mContext;
 
-
-    //  Setters/Getters
+    //  Setters/Getters - some not used but there for future use
 
     public List<Camera> getCameras() {
         return mCameras;
@@ -57,6 +55,7 @@ public class GlobalClass extends Application {
 
     public void setCameras(List<Camera> cameras) {
         mCameras = cameras;
+        saveCamerasToSharedPrefs(mContext);
     }
 
     public List<Node> getNodes() {
@@ -65,6 +64,7 @@ public class GlobalClass extends Application {
 
     public void setNodes(List<Node> nodes) {
         mNodes = nodes;
+        saveNodesToSharedPrefs(mContext);
     }
 
     public static String getCamerasJson() {
@@ -72,7 +72,7 @@ public class GlobalClass extends Application {
     }
 
     public static void setCamerasJson(String mCamerasJson) {
-        GlobalClass.mCamerasJson = mCamerasJson;
+        GlobalVariables.mCamerasJson = mCamerasJson;
     }
 
     public static String getNodesJson() {
@@ -80,7 +80,7 @@ public class GlobalClass extends Application {
     }
 
     public static void setNodesJson(String mNodesJson) {
-        GlobalClass.mNodesJson = mNodesJson;
+        GlobalVariables.mNodesJson = mNodesJson;
     }
 
     public static boolean isNetworkEnabled() {
@@ -88,7 +88,7 @@ public class GlobalClass extends Application {
     }
 
     public static void setNetworkEnabled(boolean mNetworkEnabled) {
-        GlobalClass.mNetworkEnabled = mNetworkEnabled;
+        GlobalVariables.mNetworkEnabled = mNetworkEnabled;
     }
 
     public static String getNetworkName() {
@@ -96,7 +96,7 @@ public class GlobalClass extends Application {
     }
 
     public static void setNetworkName(String mNetworkName) {
-        GlobalClass.mNetworkName = mNetworkName;
+        GlobalVariables.mNetworkName = mNetworkName;
     }
 
     public static String getNetworkPassphrase() {
@@ -104,7 +104,7 @@ public class GlobalClass extends Application {
     }
 
     public static void setNetworkPassphrase(String mNetworkPassphrase) {
-        GlobalClass.mNetworkPassphrase = mNetworkPassphrase;
+        GlobalVariables.mNetworkPassphrase = mNetworkPassphrase;
     }
 
     public static boolean isKeepDeviceAwake() {
@@ -112,18 +112,18 @@ public class GlobalClass extends Application {
     }
 
     public static void setKeepDeviceAwake(boolean mKeepDeviceAwake) {
-        GlobalClass.mKeepDeviceAwake = mKeepDeviceAwake;
+        GlobalVariables.mKeepDeviceAwake = mKeepDeviceAwake;
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-        Context context = getApplicationContext();
+        //  We need the application context
+        mContext = getApplicationContext();
 
-        FileStorageUtils = new FileStorageUtils();
-
-        getSharedPreferences(context);
+        //  Read in the shared preferences
+        getSharedPreferences(mContext);
 
     }
 
@@ -167,6 +167,19 @@ public class GlobalClass extends Application {
     }
 
     /**
+     * Save list of node's that are stored in SharedPreferences as a JSON string.
+     * @param context Context:  Application context.
+     */
+    private static void saveNodesToSharedPrefs(Context context) {
+        SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+        SharedPreferences.Editor prefsEditor = appSharedPrefs.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(mNodes); //tasks is an ArrayList instance variable
+        prefsEditor.putString(Node.PrefKey.PREF_KEY_NODES, json);
+        prefsEditor.apply();
+    }
+
+    /**
      * Retrieve list of camera's that are stored in SharedPreferences as a JSON string.
      * @param context Context:  Application context.
      * @return List<Camera>:  Returns List<Camera> of configured cameras.
@@ -181,6 +194,19 @@ public class GlobalClass extends Application {
             cameras = new ArrayList<Camera>();
         }
         return cameras;
+    }
+
+    /**
+     * Save list of camera's that are stored in SharedPreferences as a JSON string.
+     * @param context Context:  Application context.
+     */
+    private static void saveCamerasToSharedPrefs(Context context) {
+        SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+        SharedPreferences.Editor prefsEditor = appSharedPrefs.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(mCameras); //tasks is an ArrayList instance variable
+        prefsEditor.putString(Camera.PrefKey.PREF_KEY_CAMERAS, json);
+        prefsEditor.apply();
     }
 
 }

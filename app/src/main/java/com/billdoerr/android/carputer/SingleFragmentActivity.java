@@ -165,6 +165,7 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
         // Calling Application class (see application tag in AndroidManifest.xml)
         mGlobalVariables = (GlobalVariables) getApplicationContext();
 
+        //  TODO:  How to only do this once rather than having to override in each activity?
         FileStorageUtils.writeSystemLog(TAG + ": Application starting.");
         FileStorageUtils.writeSystemLog(TAG + formatSharedPreferences());
 

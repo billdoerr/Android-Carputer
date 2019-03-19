@@ -26,6 +26,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import com.billdoerr.android.carputer.settings.Node;
+import com.billdoerr.android.carputer.utils.FileStorageUtils;
 import com.billdoerr.android.carputer.utils.NodeUtils;
 import com.billdoerr.android.carputer.utils.WiFiUtils;
 
@@ -42,7 +43,7 @@ public class SSHFragment extends Fragment {
     // Calling Application class (see application tag in AndroidManifest.xml)
     private GlobalVariables mGlobalVariables;
 
-    private static List<Node> mNodes = new ArrayList<Node>();
+    private List<Node> mNodes = new ArrayList<Node>();
     private WiFiUtils mWiFiUtils;
 
     //  Widgets
@@ -51,11 +52,11 @@ public class SSHFragment extends Fragment {
     private Spinner spinnerNodes;
 
     //  Misc
-    private static boolean mDateSynced = false;
-    private static String mCmdHistory = "";
+    private boolean mDateSynced = false;
+    private String mCmdHistory = "";
 
     //  Class:  Task
-    private static class Payload {
+    private class Payload {
         public String task;
         public List<Node> nodes;
     }
@@ -103,7 +104,14 @@ public class SSHFragment extends Fragment {
                 final String cmd = "sudo shutdown -h 0";
                 txtExecuteCommand.setText(cmd);
                 updateCommandHistory(getResources().getString(R.string.txt_carputer_mgmt_ssh_command_processing));
-                new ExecuteCommandTask().execute(cmd);
+
+                int index = spinnerNodes.getSelectedItemPosition();
+                Payload p = new Payload();
+                p.nodes = new ArrayList<>();
+                p.nodes.add(mNodes.get(index));
+                p.task = cmd;
+
+                new ExecuteCommandTask().execute(p);
             }
         });
 
@@ -118,7 +126,7 @@ public class SSHFragment extends Fragment {
                 p.nodes = mNodes;
                 p.task = cmd;
                 updateCommandHistory(getString(R.string.txt_carputer_mgmt_ssh_poweroff_all));
-                new ExecuteCommandTaskNew().execute(p);
+                new ExecuteCommandTask().execute(p);
             }
         });
 
@@ -138,7 +146,10 @@ public class SSHFragment extends Fragment {
                 inputManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
 
                 //  Execute task
-                new ExecuteCommandTask().execute(cmd);
+                Payload p = new Payload();
+                p.nodes = mNodes;
+                p.task = cmd;
+                new ExecuteCommandTask().execute(p);
             }
         });
 
@@ -166,7 +177,13 @@ public class SSHFragment extends Fragment {
                 txtExecuteCommand.setText(cmd);
                 updateCommandHistory(getResources().getString(R.string.txt_carputer_mgmt_ssh_command_processing));
 
-                new ExecuteCommandTask().execute(cmd);
+                int index = spinnerNodes.getSelectedItemPosition();
+                Payload p = new Payload();
+                p.nodes = new ArrayList<>();
+                p.nodes.add(mNodes.get(index));
+                p.task = cmd;
+
+                new ExecuteCommandTask().execute(p);
 
             }
         });
@@ -205,7 +222,7 @@ public class SSHFragment extends Fragment {
         // Creating adapter for spinner
         ArrayAdapter<String> dataAdapterNodes = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, nodes);
 
-        // Drop down layout style - list view with radio button
+        // Drop down layout style
         dataAdapterNodes.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         // attaching data adapter to spinner
@@ -226,6 +243,7 @@ public class SSHFragment extends Fragment {
             }
         });
 
+        //  TODO:  SystemStatus - UNDER CONSTRUCTION
         //  Button:  System Status
         Button btnSystemStatus = (Button) view.findViewById(R.id.btnSystemStatus);
         btnSystemStatus.setOnClickListener(new View.OnClickListener() {
@@ -297,7 +315,6 @@ public class SSHFragment extends Fragment {
                 NodeUtils utils = new NodeUtils();
                 String currentNode = spinnerNodes.getSelectedItem().toString();
                 result = utils.ping(currentNode);
-                Log.d(TAG, result);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -312,43 +329,11 @@ public class SSHFragment extends Fragment {
     }
 
     /**
-     * TODO : Get rid of this.  Rename ExecuteCommandTaskNew.
-     * Async Task to perform ping command.
-     * android.os.AsyncTask<Params, Progress, Result>.
-     */
-    private class ExecuteCommandTask extends AsyncTask<String, Void, String> {
-
-        private static final String TAG = "ExecuteCommandTask";
-
-        @SuppressLint("StaticFieldLeak")
-        @Override
-        protected String doInBackground(String... params) {
-            String result = "";
-                try {
-                    NodeUtils utils = new NodeUtils();
-                    int i = spinnerNodes.getSelectedItemPosition();
-                    utils.initialize(mNodes.get(i).getIp(), mNodes.get(i).getSSHPort(),
-                            mNodes.get(i).getUser(), mNodes.get(i).getPassword());
-                    result = utils.executeRemoteCommand(params[0]);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            return result;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-            updateCommandHistory(result);
-        }
-    }
-
-    /**
      * Async Task to perform ping command.
      * android.os.AsyncTask<Params, Progress, Result>.
      *
      */
-    private class ExecuteCommandTaskNew extends AsyncTask<Payload, Void, String> {
+    private class ExecuteCommandTask extends AsyncTask<Payload, Void, String> {
 
         private static final String TAG = "PowerOffAll";
 
@@ -377,55 +362,33 @@ public class SSHFragment extends Fragment {
         }
     }
 
-    /**
-     * Generate date/time stamp.
-     * https://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html
-     * "Thu Jan 17 03:19:37 PST 2019"
-     * @return String: Formatted date/time:  Ex.  Thu Jan 17 03:19:37 PST 2019"
-     */
-    private String getDateTime() {
-        String dateFormat = "EEE MMM dd hh:mm:ss z yyyy";
-        Calendar c = Calendar.getInstance();
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat df = new SimpleDateFormat(dateFormat);
-        return df.format(c.getTime());
-    }
 
     /**
      * Sync Android date/time with Pi.  Follow with 'date' command to view system date/time.
      */
     private void syncDateAll() {
         String date = getDateTime();
-        String reply = "";
+        String msg = "";
         final String cmd = "sudo date -s \"" + date + "\" ;date";
 
         //  Check if date already synced.
         if (mDateSynced) {
-            reply = reply + "syncDateAll: Date already synced!";
-            updateCommandHistory(reply);
+            msg = msg + "syncDateAll: Date already synced!";
+            updateCommandHistory(msg);
             return;
         }
 
-        reply = reply + "Syncing date on all nodes...\n";
-        updateCommandHistory(reply);
+        msg = msg + getString(R.string.msg_sync_date_all_nodes) + "\n";
+        updateCommandHistory(msg);
 
         Payload p = new Payload();
         p.nodes = mNodes;
         p.task = cmd;
-        new ExecuteCommandTaskNew().execute(p);
+        new ExecuteCommandTask().execute(p);
 
         mDateSynced = true;
     }
 
-    /**
-     * Command history to EditText.
-     * @param msg String: Message that will be added to command history.
-     */
-    private void updateCommandHistory(String msg) {
-        mCmdHistory = mCmdHistory + "\n" + msg + "\n";
-        txtReply.setText(mCmdHistory);
-    }
-
-    //  TODO:  Create initialization function and add the below.  Move to main activity.
     /**
      * Steps performed when app is launched.
      */
@@ -440,6 +403,32 @@ public class SSHFragment extends Fragment {
             syncDateAll();
         }
 
+    }
+
+    /**
+     * Generate date/time stamp.
+     * https://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html
+     * "Thu Jan 17 03:19:37 PST 2019"
+     * @return String: Formatted date/time:  Ex.  Thu Jan 17 03:19:37 PST 2019"
+     */
+    private String getDateTime() {
+        String dateFormat = "EEE MMM dd hh:mm:ss z yyyy";
+        Calendar c = Calendar.getInstance();
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat df = new SimpleDateFormat(dateFormat);
+        return df.format(c.getTime());
+    }
+
+    /**
+     * Command history to EditText.
+     * @param msg String: Message that will be added to command history.
+     */
+    private void updateCommandHistory(String msg) {
+        mCmdHistory = mCmdHistory + "\n" + msg + "\n";
+        txtReply.setText(mCmdHistory);
+    }
+
+    private void writeSystemLog(String msg) {
+        FileStorageUtils.writeSystemLog(TAG + msg);
     }
 
 }

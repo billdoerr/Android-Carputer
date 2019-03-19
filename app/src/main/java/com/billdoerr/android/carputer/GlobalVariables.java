@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 
 import com.billdoerr.android.carputer.settings.Camera;
 import com.billdoerr.android.carputer.settings.Node;
-import com.billdoerr.android.carputer.utils.FileStorageUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -35,85 +34,85 @@ public class GlobalVariables extends Application {
     public static final String SYS_LOG = "system_log.log";
 
     //  Variables to store shared preferences
-    private static List<Camera> mCameras = new ArrayList<Camera>();
+    private static List<Camera> sCameras = new ArrayList<Camera>();
 
-    private static String mCamerasJson;
-    private static List<Node> mNodes = new ArrayList<Node>();
-    private static String mNodesJson;
-    private static boolean mNetworkEnabled = false;
-    private static String mNetworkName;
-    private static String mNetworkPassphrase;
-    private static boolean mKeepDeviceAwake = false;
+    private static String sCamerasJson;
+    private static List<Node> sNodes = new ArrayList<Node>();
+    private static String sNodesJson;
+    private static boolean sNetworkEnabled = false;
+    private static String sNetworkName;
+    private static String sNetworkPassphrase;
+    private static boolean sKeepDeviceAwake = false;
 
     //  We need application context.  Set in onCreate()
-    private static Context mContext;
+    private static Context sContext;
 
     //  Setters/Getters - some not used but there for future use
 
     public List<Camera> getCameras() {
-        return mCameras;
+        return sCameras;
     }
 
     public void setCameras(List<Camera> cameras) {
-        mCameras = cameras;
-        saveCamerasToSharedPrefs(mContext);
+        sCameras = cameras;
+        saveCamerasToSharedPrefs(sContext);
     }
 
     public List<Node> getNodes() {
-        return mNodes;
+        return sNodes;
     }
 
     public void setNodes(List<Node> nodes) {
-        mNodes = nodes;
-        saveNodesToSharedPrefs(mContext);
+        sNodes = nodes;
+        saveNodesToSharedPrefs(sContext);
     }
 
     public static String getCamerasJson() {
-        return mCamerasJson;
+        return sCamerasJson;
     }
 
     public static void setCamerasJson(String mCamerasJson) {
-        GlobalVariables.mCamerasJson = mCamerasJson;
+        GlobalVariables.sCamerasJson = mCamerasJson;
     }
 
     public static String getNodesJson() {
-        return mNodesJson;
+        return sNodesJson;
     }
 
     public static void setNodesJson(String mNodesJson) {
-        GlobalVariables.mNodesJson = mNodesJson;
+        GlobalVariables.sNodesJson = mNodesJson;
     }
 
     public static boolean isNetworkEnabled() {
-        return mNetworkEnabled;
+        return sNetworkEnabled;
     }
 
     public static void setNetworkEnabled(boolean mNetworkEnabled) {
-        GlobalVariables.mNetworkEnabled = mNetworkEnabled;
+        GlobalVariables.sNetworkEnabled = mNetworkEnabled;
     }
 
     public static String getNetworkName() {
-        return mNetworkName;
+        return sNetworkName;
     }
 
     public static void setNetworkName(String mNetworkName) {
-        GlobalVariables.mNetworkName = mNetworkName;
+        GlobalVariables.sNetworkName = mNetworkName;
     }
 
     public static String getNetworkPassphrase() {
-        return mNetworkPassphrase;
+        return sNetworkPassphrase;
     }
 
     public static void setNetworkPassphrase(String mNetworkPassphrase) {
-        GlobalVariables.mNetworkPassphrase = mNetworkPassphrase;
+        GlobalVariables.sNetworkPassphrase = mNetworkPassphrase;
     }
 
     public static boolean isKeepDeviceAwake() {
-        return mKeepDeviceAwake;
+        return sKeepDeviceAwake;
     }
 
     public static void setKeepDeviceAwake(boolean mKeepDeviceAwake) {
-        GlobalVariables.mKeepDeviceAwake = mKeepDeviceAwake;
+        GlobalVariables.sKeepDeviceAwake = mKeepDeviceAwake;
     }
 
     @Override
@@ -121,10 +120,10 @@ public class GlobalVariables extends Application {
         super.onCreate();
 
         //  We need the application context
-        mContext = getApplicationContext();
+        sContext = getApplicationContext();
 
         //  Read in the shared preferences
-        getSharedPreferences(mContext);
+        getSharedPreferences(sContext);
 
     }
 
@@ -137,16 +136,16 @@ public class GlobalVariables extends Application {
 
         SharedPreferences appSharedPrefs = android.preference.PreferenceManager.getDefaultSharedPreferences(context);
 
-        mCameras = getCamerasFromSharedPrefs(context);
-        mNodes = getNodesFromSharedPrefs(context);
+        sCameras = getCamerasFromSharedPrefs(context);
+        sNodes = getNodesFromSharedPrefs(context);
 
-        mCamerasJson = appSharedPrefs.getString(PREF_KEY_CAMERAS, "");
-        mNodesJson = appSharedPrefs.getString(PREF_KEY_NODES, "");
+        sCamerasJson = appSharedPrefs.getString(PREF_KEY_CAMERAS, "");
+        sNodesJson = appSharedPrefs.getString(PREF_KEY_NODES, "");
 
-        mNetworkEnabled = appSharedPrefs.getBoolean(PREF_KEY_NETWORK_ENABLED, false);
-        mNetworkName = appSharedPrefs.getString(PREF_KEY_NETWORK_NAME, "");
-        mNetworkPassphrase = appSharedPrefs.getString(PREF_KEY_NETWORK_PASSPHRASE, "");
-        mKeepDeviceAwake = appSharedPrefs.getBoolean(PREF_KEY_KEEP_DEVICE_AWAKE, false);
+        sNetworkEnabled = appSharedPrefs.getBoolean(PREF_KEY_NETWORK_ENABLED, false);
+        sNetworkName = appSharedPrefs.getString(PREF_KEY_NETWORK_NAME, "");
+        sNetworkPassphrase = appSharedPrefs.getString(PREF_KEY_NETWORK_PASSPHRASE, "");
+        sKeepDeviceAwake = appSharedPrefs.getBoolean(PREF_KEY_KEEP_DEVICE_AWAKE, false);
 
     }
 
@@ -175,7 +174,7 @@ public class GlobalVariables extends Application {
         SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
         SharedPreferences.Editor prefsEditor = appSharedPrefs.edit();
         Gson gson = new Gson();
-        String json = gson.toJson(mNodes); //tasks is an ArrayList instance variable
+        String json = gson.toJson(sNodes); //tasks is an ArrayList instance variable
         prefsEditor.putString(Node.PrefKey.PREF_KEY_NODES, json);
         prefsEditor.apply();
     }
@@ -205,7 +204,7 @@ public class GlobalVariables extends Application {
         SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
         SharedPreferences.Editor prefsEditor = appSharedPrefs.edit();
         Gson gson = new Gson();
-        String json = gson.toJson(mCameras); //tasks is an ArrayList instance variable
+        String json = gson.toJson(sCameras); //tasks is an ArrayList instance variable
         prefsEditor.putString(Camera.PrefKey.PREF_KEY_CAMERAS, json);
         prefsEditor.apply();
     }

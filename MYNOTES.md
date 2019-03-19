@@ -316,6 +316,27 @@ protected void startUp() {
 ===============================================================================================
 
 ===============================================================================================
+If you're going to go to the trouble of changing the method signature with a dummy parameter, you might as well just change the name of the function.
+1. The overloading the toString method by adding a dummy parameter is of no real value since it won't be called implicitly by System.out.println(...). So what's the point?
+2. By adding the dummy parameter you're allocating stack space for a variable you never intend to use. That's just bad design.
+
+godfor101
+My answer to your question depends on how you are using the toString method. 
+
+If you are calling toString() explicitly as in myObj.toString(), then just create another method called something else (e.g. toString2()) and call it directly.
+
+If it is being called implicitly as in System.out.println(someObj), then you're going to have to be a bit more creative. Since I haven't seen your design it's really difficult for me to comment on your specific case. However, in general, you can use inheritance to get polymorphic behavior. You could extend your class with a sub-class that is empty except that it overrides the toString method to print differently. 
+
+1
+public class B extends A
+2
+{
+3
+  public String toString()
+4
+  {
+5
+    return "Something different than A Prints";
 
 ===============================================================================================
 

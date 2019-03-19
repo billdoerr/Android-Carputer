@@ -18,23 +18,15 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="Divider">
+    <style name="Divider" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_height">2dp</item>
         <item name="android:background">?android:attr/listDivider</item>
     </style>
 
     <style name="ButtonPrefSave" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:background">@drawable/button_save</item>
         <item name="android:textColor">@color/colorButtonSaveText</item>
-        <item name="android:textStyle">normal</item>
-        <item name="android:textSize">12dp</item>
-    </style>
-
-    <style name="ButtonAction" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:background">@color/colorButtonActionBackground</item>
-        <item name="android:borderlessButtonStyle">?android:attr/borderlessButtonStyle</item>
-        <item name="android:textColor">@color/colorButtonActionText</item>
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">12dp</item>
     </style>
@@ -52,6 +44,14 @@
         <item name="colorControlNormal">@color/colorPrimary</item>
         <item name="colorControlActivated">@color/colorPrimaryDark</item>
         <item name="colorControlHighlight">@color/colorPrimaryDark</item>
+    </style>
+
+    <style name="ButtonAction" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:background">@drawable/button_action</item>
+        <item name="android:borderlessButtonStyle">?android:attr/borderlessButtonStyle</item>
+        <item name="android:textColor">@color/colorButtonActionText</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">12dp</item>
     </style>
 
 </resources>

@@ -8,6 +8,11 @@ import android.view.ViewGroup;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+//  TODO:  SystemStatus - UNDER CONSTRUCTION
+
+/**
+ * https://guides.codepath.com/android/using-dialogfragment
+ */
 public class CarputerMgmtFragmentSystemStatus extends DialogFragment {
 
     public CarputerMgmtFragmentSystemStatus() {

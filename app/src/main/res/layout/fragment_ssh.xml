@@ -14,10 +14,10 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:layout_height="0px"
         android:focusableInTouchMode="true"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_weight="2">
 
         <Spinner
             android:id="@+id/spinnerCommandHistory"
@@ -38,8 +38,7 @@
 
         <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" >
+            android:layout_height="wrap_content" >
 
                 <TableLayout
                     android:layout_width="wrap_content"
@@ -171,24 +170,32 @@
 
     <View style="@style/Divider" />
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1" >
+        android:layout_height="0px"
+        android:orientation="vertical"
+        android:layout_weight="4" >
 
-        <TextView
-            android:id="@+id/txtReply"
+        <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/white"
-            android:enabled="false"
-            android:fontFamily="monospace"
-            android:gravity="top|start"
-            android:minLines="30"
-            android:scrollbars="vertical|horizontal"
-            android:text="@string/txt_carputer_mgmt_ssh_results"
-            android:textColor="@android:color/black" />
+            android:layout_height="wrap_content">
 
-    </ScrollView>
+            <TextView
+                android:id="@+id/txtReply"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:enabled="false"
+                android:fontFamily="monospace"
+                android:gravity="top|start"
+                android:minLines="30"
+                android:scrollbars="vertical|horizontal"
+                android:text=""
+                android:textColor="@android:color/black" />
+
+        </ScrollView>
+
+    </LinearLayout>
 
 </LinearLayout>

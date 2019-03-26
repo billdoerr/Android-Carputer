@@ -15,7 +15,7 @@ import android.widget.Toast;
 import com.github.niqdev.mjpeg.DisplayMode;
 import com.github.niqdev.mjpeg.Mjpeg;
 
-//  TODO:  Currently not used by application.  Superseded by the use of CameraFragmentMjpegSnapshot.  Ok to remove from application?
+//  TODO:  NOT IN USE - Currently not used by application.  Superseded by the use of CameraFragmentMjpegSnapshot.  Ok to remove from application?
 /**
  * Child fragment that displays Mjpeg streaming video.
  * Also provides the ability to save the current frame to storage (snapshot).

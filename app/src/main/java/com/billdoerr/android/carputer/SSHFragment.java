@@ -2,13 +2,12 @@ package com.billdoerr.android.carputer;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.os.AsyncTask;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
-import android.util.Log;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,19 +25,23 @@ import java.util.Calendar;
 import java.util.List;
 
 import com.billdoerr.android.carputer.settings.Node;
+import com.billdoerr.android.carputer.taskutils.AsyncTaskResponse;
+import com.billdoerr.android.carputer.taskutils.ExecuteCommandTask;
+import com.billdoerr.android.carputer.taskutils.ExecutePingTask;
+import com.billdoerr.android.carputer.taskutils.TaskCanceler;
+import com.billdoerr.android.carputer.taskutils.TaskRequest;
+import com.billdoerr.android.carputer.taskutils.TaskResult;
 import com.billdoerr.android.carputer.utils.FileStorageUtils;
-import com.billdoerr.android.carputer.utils.NodeUtils;
 import com.billdoerr.android.carputer.utils.WiFiUtils;
 
 /**
  *  Child fragment of CarputerFragmentMgmt.
  *  Use to perform simple remote operations on configured nodes.
  */
-public class SSHFragment extends Fragment {
+public class SSHFragment extends Fragment implements AsyncTaskResponse {
 
     private static final String TAG = "SSHFragment";
-
-    private static final String ARGS_NODE_DETAIL = "ARGS_NODE_DETAIL";
+    private static final long TIMEOUT = 30*1000;     //  Time in milliseconds
 
     // Calling Application class (see application tag in AndroidManifest.xml)
     private GlobalVariables mGlobalVariables;
@@ -53,13 +56,13 @@ public class SSHFragment extends Fragment {
 
     //  Misc
     private boolean mDateSynced = false;
-    private String mCmdHistory = "";
 
-    //  Class:  Task
-    private class Payload {
-        public String task;
-        public List<Node> nodes;
-    }
+    ProgressDialog progressDialog;
+    TaskResult taskResults;
+
+    ExecuteCommandTask mExecuteCommandTask = new ExecuteCommandTask();
+    ExecutePingTask mExecutePingTask = new ExecutePingTask();
+
 
     public static SSHFragment newInstance() {
         return new SSHFragment();
@@ -69,6 +72,10 @@ public class SSHFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //  This to set delegate/listener back to this class
+        mExecuteCommandTask.delegate = this;
+        mExecutePingTask.delegate = this;
 
         // Calling Application class (see application tag in AndroidManifest.xml)
         mGlobalVariables = (GlobalVariables) getActivity().getApplicationContext();
@@ -95,6 +102,32 @@ public class SSHFragment extends Fragment {
             }
         });
 
+        //  Button:  Ping
+        Button btnPing = (Button) view.findViewById(R.id.btnPing);
+        btnPing.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("StaticFieldLeak")
+            @Override
+            public void onClick(View v) {
+
+                //  Prepare system log and console message
+                String msg = getString(R.string.msg_executing_ping) + getString(R.string.msg_on_node) + spinnerNodes.getSelectedItem().toString() + FileStorageUtils.LINE_SEPARATOR;
+                updateConsoleAndSystemLog(msg);
+
+                //  Get node from dropdown
+                int index = spinnerNodes.getSelectedItemPosition();
+                TaskRequest p = new TaskRequest();
+                p.nodes = new ArrayList<>();
+                p.nodes.add(mNodes.get(index));     //  List<Node> will be of size one, since only pinging a single node.
+                p.cmd = "";     //  Ping does not send a command
+                p.taskName = getString(R.string.msg_executing_ping);
+
+                // Perform ping
+//                ExecutePingTask pingTask = new ExecutePingTask();
+//                new ExecutePingTask().execute(p);
+                executePingTask(p);
+            }
+        });
+
         //  Button:  Poweroff (Single)
         Button btnPoweroffSingle = (Button) view.findViewById(R.id.btnPoweroffSingle);
         btnPoweroffSingle.setOnClickListener(new View.OnClickListener() {
@@ -102,16 +135,23 @@ public class SSHFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 final String cmd = "sudo shutdown -h 0";
-                txtExecuteCommand.setText(cmd);
-                updateCommandHistory(getResources().getString(R.string.txt_carputer_mgmt_ssh_command_processing));
+                txtExecuteCommand.setText(cmd);     //  Display command
 
+                //  Prepare system log and console message
+                String msg = getString(R.string.msg_executing_command) + FileStorageUtils.TABS + cmd + FileStorageUtils.LINE_SEPARATOR;
+                msg = msg + getString(R.string.msg_power_off_single_node) + spinnerNodes.getSelectedItem().toString() + FileStorageUtils.LINE_SEPARATOR;
+                updateConsoleAndSystemLog(msg);
+
+                //  Get node from dropdown
                 int index = spinnerNodes.getSelectedItemPosition();
-                Payload p = new Payload();
-                p.nodes = new ArrayList<>();
-                p.nodes.add(mNodes.get(index));
-                p.task = cmd;
+                TaskRequest request = new TaskRequest();
+                request.nodes = new ArrayList<>();
+                request.nodes.add(mNodes.get(index));
+                request.cmd = cmd;
+                request.taskName = getString(R.string.msg_power_off_single_node) + spinnerNodes.getSelectedItem().toString();
 
-                new ExecuteCommandTask().execute(p);
+                //  Execute command
+                executeCommandTask(request);
             }
         });
 
@@ -122,11 +162,21 @@ public class SSHFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 final String cmd = "sudo shutdown -h 0";
-                Payload p = new Payload();
+                txtExecuteCommand.setText(cmd);     //  Display command
+
+                //  Prepare system log and console message
+                String msg = getString(R.string.msg_executing_command) + FileStorageUtils.TABS + cmd + FileStorageUtils.LINE_SEPARATOR;
+                msg = msg + getString(R.string.msg_power_off_all_nodes) + FileStorageUtils.LINE_SEPARATOR;
+                updateConsoleAndSystemLog(msg);
+
+                //  All nodes
+                TaskRequest p = new TaskRequest();
                 p.nodes = mNodes;
-                p.task = cmd;
-                updateCommandHistory(getString(R.string.txt_carputer_mgmt_ssh_poweroff_all));
-                new ExecuteCommandTask().execute(p);
+                p.cmd = cmd;
+                p.taskName = getString(R.string.msg_power_off_all_nodes);
+
+                //  Execute command
+                executeCommandTask(p);
             }
         });
 
@@ -138,30 +188,27 @@ public class SSHFragment extends Fragment {
             public void onClick(View v) {
                 String cmd = txtExecuteCommand.getText().toString();
                 txtExecuteCommand.setText(cmd);     //  Update text view with command
-                updateCommandHistory(getResources().getString(R.string.txt_carputer_mgmt_ssh_command_processing));
+
+                //  Prepare system log and console message
+                String msg = getString(R.string.msg_executing_command) + FileStorageUtils.TABS + cmd + FileStorageUtils.LINE_SEPARATOR;
+                msg = msg + getString(R.string.msg_on_node) + spinnerNodes.getSelectedItem().toString() + FileStorageUtils.LINE_SEPARATOR;
+                updateConsoleAndSystemLog(msg);
 
                 //  Hide soft keyboard
                 InputMethodManager inputManager = (InputMethodManager) getActivity()
                         .getSystemService(Activity.INPUT_METHOD_SERVICE);
                 inputManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
 
-                //  Execute task
-                Payload p = new Payload();
-                p.nodes = mNodes;
-                p.task = cmd;
-                new ExecuteCommandTask().execute(p);
-            }
-        });
+                //  Get node from dropdown
+                int index = spinnerNodes.getSelectedItemPosition();
+                TaskRequest p = new TaskRequest();
+                p.nodes = new ArrayList<>();
+                p.nodes.add(mNodes.get(index));
+                p.cmd = cmd;
+                p.taskName = msg;
 
-        //  Button:  Ping
-        Button btnPing = (Button) view.findViewById(R.id.btnPing);
-        btnPing.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("StaticFieldLeak")
-            @Override
-            public void onClick(View v) {
-                updateCommandHistory(getResources().getString(R.string.txt_carputer_mgmt_ssh_command_processing));
-                // Perform ping
-                new PingTask().execute();
+                //  Execute command
+                executeCommandTask(p);
             }
         });
 
@@ -175,15 +222,22 @@ public class SSHFragment extends Fragment {
                 //  Sync Android date/time with Pi.  Follow with 'date' command to view system date/time.
                 final String cmd = "sudo date -s \"" + date + "\" ;date";
                 txtExecuteCommand.setText(cmd);
-                updateCommandHistory(getResources().getString(R.string.txt_carputer_mgmt_ssh_command_processing));
 
+                //  Prepare system log and console message
+                String msg = getString(R.string.msg_executing_command) + FileStorageUtils.TABS + cmd + FileStorageUtils.LINE_SEPARATOR;
+                msg = msg + getString(R.string.msg_sync_date_single_node) + spinnerNodes.getSelectedItem().toString() + FileStorageUtils.LINE_SEPARATOR;
+                updateConsoleAndSystemLog(msg);
+
+                //  Get node from dropdown
                 int index = spinnerNodes.getSelectedItemPosition();
-                Payload p = new Payload();
+                TaskRequest p = new TaskRequest();
                 p.nodes = new ArrayList<>();
                 p.nodes.add(mNodes.get(index));
-                p.task = cmd;
+                p.cmd = cmd;
+                p.taskName = getString(R.string.msg_sync_date_single_node) + spinnerNodes.getSelectedItem().toString();
 
-                new ExecuteCommandTask().execute(p);
+                //  Execute command
+                executeCommandTask(p);
 
             }
         });
@@ -194,7 +248,8 @@ public class SSHFragment extends Fragment {
             @SuppressLint("StaticFieldLeak")
             @Override
             public void onClick(View v) {
-               syncDateAll();
+                //  Execute the command
+                syncDateAll();
             }
         });
 
@@ -212,7 +267,7 @@ public class SSHFragment extends Fragment {
 //        });
 
         /*
-        *  Spinner:  Nodes
+         *  Spinner:  Nodes
          */
         List<String> nodes = new ArrayList<>();
         for (int i = 0; i < mNodes.size(); i++) {
@@ -235,7 +290,7 @@ public class SSHFragment extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String cmd;
                 cmd = parent.getItemAtPosition(position).toString();
-                txtExecuteCommand.setText(cmd);
+                txtExecuteCommand.setText(cmd);     //  Update display with the selected command
             }
 
             @Override
@@ -243,19 +298,19 @@ public class SSHFragment extends Fragment {
             }
         });
 
-        //  TODO:  SystemStatus - UNDER CONSTRUCTION
-        //  Button:  System Status
-        Button btnSystemStatus = (Button) view.findViewById(R.id.btnSystemStatus);
-        btnSystemStatus.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("StaticFieldLeak")
-            @Override
-            public void onClick(View v) {
-                //  Display dialog
-                FragmentManager fm = getActivity().getSupportFragmentManager();
-                CarputerMgmtFragmentSystemStatus dialogSystemStatus = CarputerMgmtFragmentSystemStatus.newInstance(getString(R.string.fragment_system_status));
-                dialogSystemStatus.show(fm, getString(R.string.fragment_system_status));
-            }
-        });
+//        //  TODO:  UNDER CONSTRUCTION - SystemStatus
+//        //  Button:  System Status
+//        Button btnSystemStatus = (Button) view.findViewById(R.id.btnSystemStatus);
+//        btnSystemStatus.setOnClickListener(new View.OnClickListener() {
+//            @SuppressLint("StaticFieldLeak")
+//            @Override
+//            public void onClick(View v) {
+//                //  Display dialog
+//                FragmentManager fm = getActivity().getSupportFragmentManager();
+//                CarputerMgmtFragmentSystemStatus dialogSystemStatus = CarputerMgmtFragmentSystemStatus.newInstance(getString(R.string.fragment_system_status));
+//                dialogSystemStatus.show(fm, getString(R.string.fragment_system_status));
+//            }
+//        });
 
         /*
          *  Spinner:  Command History
@@ -285,8 +340,7 @@ public class SSHFragment extends Fragment {
         return view;
     }
 
-
-   @Override
+    @Override
     public void onPause() {
         super.onPause();
     }
@@ -301,65 +355,76 @@ public class SSHFragment extends Fragment {
         super.onDestroy();
     }
 
-    /**
-     * Async Task to perform ping command.
-     */
-    private class PingTask extends AsyncTask<Void, Void, String> {
+    //  This override the implemented method from asyncTask
+//    @Override
+    public void processFinish(TaskResult taskResults){
+        //Here you will receive the result fired from async class
+        //of onPostExecute(result) method.
 
-        private static final String TAG = "PingTask";
+        progressDialog.hide();
+        progressDialog = null;
 
-        @Override
-        protected String doInBackground(Void... params) {
-            String result = "";
-            try {
-                NodeUtils utils = new NodeUtils();
-                String currentNode = spinnerNodes.getSelectedItem().toString();
-                result = utils.ping(currentNode);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return result;
-        }
+        txtReply.append("Wheeeeeeeeee!");
+        updateConsoleAndSystemLog("Wheeeeeeeeee!");
 
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-            txtReply.setText(result);
-        }
     }
 
     /**
-     * Async Task to perform ping command.
-     * android.os.AsyncTask<Params, Progress, Result>.
-     *
+     * Wraps AsynTask in a handler to the request can be canceled after period of time.
+     * @param p TaskRequest:
      */
-    private class ExecuteCommandTask extends AsyncTask<Payload, Void, String> {
+    private void executeCommandTask(TaskRequest p) {
 
-        private static final String TAG = "PowerOffAll";
+        //  Using progress dialog even though is has been depreciated.
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setMessage(getString(R.string.msg_executing_command));
+        progressDialog.setIndeterminate(false);
+        progressDialog.setCancelable(true);
+        progressDialog.show();
 
-        @SuppressLint("StaticFieldLeak")
-        @Override
-        protected String doInBackground(Payload... params) {
-            String result = "";
-            Payload p = params[0];
-            for (int i = 0; i < p.nodes.size(); i++) {
-                try {
-                    NodeUtils utils = new NodeUtils();
-                    utils.initialize(p.nodes.get(i).getIp(), p.nodes.get(i).getSSHPort(),
-                            p.nodes.get(i).getUser(), p.nodes.get(i).getPassword());
-                    result = utils.executeRemoteCommand(p.task);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-            return result;
-        }
+        ExecuteCommandTask task = new ExecuteCommandTask();
+        task.delegate = this;
 
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-            updateCommandHistory(result);
-        }
+        Handler handler = new Handler();
+        TaskCanceler taskCanceler;
+        taskCanceler = new TaskCanceler(task);
+        handler.postDelayed(taskCanceler, TIMEOUT);
+
+        //  TODO:  I don't know if this is good technique.  Need to cancel Handler if remote command fails before timeout.
+        task.h = handler;
+        task.r = taskCanceler;
+
+        //  Execute task
+        task.execute(p);
+    }
+
+    /**
+     * Wraps AsynTask in a handler to the request can be canceled after period of time.
+     * @param p TaskRequest:
+     */
+    private void executePingTask(TaskRequest p) {
+
+        //  Using progress dialog even though is has been depreciated.
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setMessage(getString(R.string.msg_executing_ping));
+        progressDialog.setIndeterminate(false);
+        progressDialog.setCancelable(true);
+        progressDialog.show();
+
+        ExecutePingTask task = new ExecutePingTask();
+        task.delegate = this;
+
+        Handler handler = new Handler();
+        TaskCanceler taskCanceler;
+        taskCanceler = new TaskCanceler(task);
+        handler.postDelayed(taskCanceler, TIMEOUT);
+
+        //  TODO:  I don't know if this is good technique.  Need to cancel Handler if remote command fails before timeout.
+        task.h = handler;
+        task.r = taskCanceler;
+
+        //  Execute task
+        task.execute(p);
     }
 
 
@@ -367,24 +432,29 @@ public class SSHFragment extends Fragment {
      * Sync Android date/time with Pi.  Follow with 'date' command to view system date/time.
      */
     private void syncDateAll() {
-        String date = getDateTime();
-        String msg = "";
+        final String date = getDateTime();
         final String cmd = "sudo date -s \"" + date + "\" ;date";
+
+        //  Prepare system log and console message
+        String msg = getString(R.string.msg_executing_command) + FileStorageUtils.TABS + cmd + FileStorageUtils.LINE_SEPARATOR;
+        msg = msg + getString(R.string.msg_sync_date_all_nodes) + FileStorageUtils.LINE_SEPARATOR;
+        updateConsoleAndSystemLog(msg);
+
+        //  All nodes
+        TaskRequest p = new TaskRequest();
+        p.nodes = mNodes;
+        p.cmd = cmd;
+        p.taskName = getString(R.string.msg_sync_date_all_nodes);
 
         //  Check if date already synced.
         if (mDateSynced) {
             msg = msg + "syncDateAll: Date already synced!";
-            updateCommandHistory(msg);
+            updateConsoleAndSystemLog(msg);
             return;
         }
 
-        msg = msg + getString(R.string.msg_sync_date_all_nodes) + "\n";
-        updateCommandHistory(msg);
-
-        Payload p = new Payload();
-        p.nodes = mNodes;
-        p.task = cmd;
-        new ExecuteCommandTask().execute(p);
+        //  Execute command
+        executeCommandTask(p);
 
         mDateSynced = true;
     }
@@ -393,14 +463,16 @@ public class SSHFragment extends Fragment {
      * Steps performed when app is launched.
      */
     private void startUp() {
+        String msg = "";
 
         //  Networking
         mWiFiUtils = WiFiUtils.getInstance(getActivity());
 
         // Sync dates
         if (mWiFiUtils.isConnected()) {
-            updateCommandHistory(getString(R.string.msg_network_connected_date_sync));
-            syncDateAll();
+            msg = getString(R.string.msg_network_connected_date_sync) + FileStorageUtils.LINE_SEPARATOR;
+            updateConsoleAndSystemLog(msg);
+//            syncDateAll();
         }
 
     }
@@ -422,13 +494,20 @@ public class SSHFragment extends Fragment {
      * Command history to EditText.
      * @param msg String: Message that will be added to command history.
      */
-    private void updateCommandHistory(String msg) {
-        mCmdHistory = mCmdHistory + "\n" + msg + "\n";
-        txtReply.setText(mCmdHistory);
+    private void updateConsoleAndSystemLog(String msg) {
+        //  Output to system log
+        FileStorageUtils.writeSystemLog(TAG + FileStorageUtils.TABS + msg);
+
+        //  Output to console
+        txtReply.append(msg + FileStorageUtils.LINE_SEPARATOR);
     }
 
-    private void writeSystemLog(String msg) {
-        FileStorageUtils.writeSystemLog(TAG + msg);
+    private void updateConsoleAndSystemLog(String tag, String msg) {
+        //  Output to system log
+        FileStorageUtils.writeSystemLog(tag + FileStorageUtils.TABS + msg);
+
+        //  Output to console
+        txtReply.append(msg + FileStorageUtils.LINE_SEPARATOR);
     }
 
 }

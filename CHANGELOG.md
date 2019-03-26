@@ -19,6 +19,8 @@ All notable changes to this Android application project will be documented in th
 - [ ]  Update/Add javadocs comments.  Will be ongoing process to better document code.  
 - [ ]  Connectivity monitoring. 
 #### Changed
+- [ ]  I/Choreographer: Skipped frames!  The application may be doing too much work on its main thread.  
+	https://stackoverflow.com/questions/14678593/the-application-may-be-doing-too-much-work-on-its-main-thread
 #### Removed
 
 ## [Unreleased]
@@ -32,9 +34,13 @@ All notable changes to this Android application project will be documented in th
 	- [x]  Infrastructure added.
 	- [ ]  Add content.
 - [x]  System Logging.  Feature creep!
-   - [ ] Use across application.
+	- [ ]  Logging in SSH Fragment needs improvement.
+	- [ ] Use across application.
 #### Changed
 - [ ]  SSH Fragment is a complete hack!  Replace or improve.
+	- [ ] Add feature to display progress when executing command.  
+	https://stackoverflow.com/questions/12575068/how-to-get-the-result-of-onpostexecute-to-main-activity-because-asynctask-is-a  
+	https://stackoverflow.com/questions/3781751/android-anything-similar-to-the-iphone-sdk-delegate-callbacks  
 - [x]  Address TODO's relating to EventBus->sendMessage().  
 #### Removed
 

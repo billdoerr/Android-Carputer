@@ -48,11 +48,6 @@
     <string name="btn_cancel">Cancel</string>
     <string name="btn_not_enabled">......</string>
 
-    <string name="txt_carputer_mgmt_ssh_results">Command results…</string>
-    <string name="txt_carputer_mgmt_ssh_command_processing">Command processing…</string>
-    <string name="txt_carputer_mgmt_ssh_syncing_date">Syncing date on all nodes...</string>
-    <string name="txt_carputer_mgmt_ssh_poweroff_all">Shutting down, goodbye.</string>
-
     <string name="lbl_camera_details">Camera Details</string>
     <string name="lbl_camera_name">Camera Name*</string>
     <string name="lbl_camera_url">Camera Url*</string>
@@ -106,18 +101,27 @@
     <string name="pref_default_network_password">scoobydoo</string>
 
     <!--  Logging messages -->
-    <string name="msg_application_starting">Application starting.</string>
-    <string name="msg_network_connecting_now">Network is enabled.  Connecting now.</string>
-    <string name="msg_network_connected_date_sync">Network connection made.  Syncing date.</string>
+    <string name="msg_application_starting">Application starting&#8230;</string>
+    <string name="msg_network_connecting_now">Network is enabled.  Connecting now&#8230;</string>
+    <string name="msg_network_connected_date_sync">Network connection made.  Syncing date&#8230;</string>
     <string name="msg_keep_device_awake">Flag set to keep device awake.</string>
     <string name="msg_network_connection_fail">Unable to connect to network.</string>
     <string name="msg_network_connection_success">Successfully connected to network.</string>
-    <string name="msg_sync_date_all_nodes">Syncing date on all nodes...</string>
+    <string name="msg_sync_date_all_nodes">Syncing date on all nodes&#8230;</string>
     <string name="msg_sync_date_single_node">Syncing date on node:</string>
     <string name="msg_sync_date_already_performed">Date already synced.</string>
-    <string name="msg_power_off_all_nodes">Shutting down all nodes...</string>
-    <string name="msg_power_off_single_node">Shutting down node:</string>
+    <string name="msg_power_off_all_nodes">Shutting down all nodes, goodbye.</string>
+    <string name="msg_power_off_single_node">Shutting down node: </string>
     <string name="msg_ping_results">Ping results.</string>
+    <string name="msg_executing_ping">Executing Ping&#8230;</string>
+    <string name="msg_task_timeout">Task has timed out.</string>
+    <string name="msg_task_cancelled">Task cancelled.</string>
+    <string name="msg_task_already_canceled">Task already cancelled.</string>
+
+    <string name="msg_execute_command_results">Executing command results:\t</string>
+    <string name="msg_executing_command">Executing command&#8230;\t</string>
+    <string name="msg_on_node">&#032;on node:\t</string>
+
 
 
 

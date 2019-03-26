@@ -30,7 +30,6 @@ import java.util.Arrays;
 public abstract class SingleFragmentActivity extends AppCompatActivity {
 
     private static final String TAG = "SingleFragmentActivity";
-    private static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
     // Calling Application class (see application tag in AndroidManifest.xml)
     private GlobalVariables mGlobalVariables;
@@ -121,11 +120,6 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
         //  Initialization routine
         systemInitialization();
 
-        //  Connect to network if enabled in shared preferences
-        if (mGlobalVariables.isNetworkEnabled()) {
-            WiFiConnect();
-        }
-
     }
 
     @Override
@@ -144,15 +138,15 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
      */
     private String formatSharedPreferences() {
 
-        String entry = TAG + ": Shared preferences" + LINE_SEPARATOR;
+        String entry = TAG + ": Shared preferences" + FileStorageUtils.LINE_SEPARATOR;
 
-        entry = entry + mGlobalVariables.PREF_KEY_CAMERAS + ":\t"  + LINE_SEPARATOR + Arrays.toString(mGlobalVariables.getCameras().toArray()) + LINE_SEPARATOR;
-        entry = entry + mGlobalVariables.PREF_KEY_NODES + ":\t"  + LINE_SEPARATOR + Arrays.toString(mGlobalVariables.getNodes().toArray()) + LINE_SEPARATOR;
+        entry = entry + mGlobalVariables.PREF_KEY_CAMERAS + ":\t"  + FileStorageUtils.LINE_SEPARATOR + Arrays.toString(mGlobalVariables.getCameras().toArray()) + FileStorageUtils.LINE_SEPARATOR;
+        entry = entry + mGlobalVariables.PREF_KEY_NODES + ":\t"  + FileStorageUtils.LINE_SEPARATOR + Arrays.toString(mGlobalVariables.getNodes().toArray()) + FileStorageUtils.LINE_SEPARATOR;
 
-        entry = entry + mGlobalVariables.PREF_KEY_NETWORK_ENABLED + ":\t" + mGlobalVariables.isNetworkEnabled() + LINE_SEPARATOR;
-        entry = entry + mGlobalVariables.PREF_KEY_NETWORK_NAME + ":\t" + mGlobalVariables.getNetworkName() + LINE_SEPARATOR;
-        entry = entry + mGlobalVariables.PREF_KEY_NETWORK_PASSPHRASE + ":\t" + mGlobalVariables.getNetworkPassphrase() + LINE_SEPARATOR;
-        entry = entry + mGlobalVariables.PREF_KEY_KEEP_DEVICE_AWAKE + ":\t" + mGlobalVariables.isKeepDeviceAwake() + LINE_SEPARATOR;
+        entry = entry + mGlobalVariables.PREF_KEY_NETWORK_ENABLED + ":\t" + mGlobalVariables.isNetworkEnabled() + FileStorageUtils.LINE_SEPARATOR;
+        entry = entry + mGlobalVariables.PREF_KEY_NETWORK_NAME + ":\t" + mGlobalVariables.getNetworkName() + FileStorageUtils.LINE_SEPARATOR;
+        entry = entry + mGlobalVariables.PREF_KEY_NETWORK_PASSPHRASE + ":\t" + mGlobalVariables.getNetworkPassphrase() + FileStorageUtils.LINE_SEPARATOR;
+        entry = entry + mGlobalVariables.PREF_KEY_KEEP_DEVICE_AWAKE + ":\t" + mGlobalVariables.isKeepDeviceAwake() + FileStorageUtils.LINE_SEPARATOR;
 
         return entry;
     }
@@ -165,15 +159,22 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
         // Calling Application class (see application tag in AndroidManifest.xml)
         mGlobalVariables = (GlobalVariables) getApplicationContext();
 
-        //  TODO:  How to only do this once rather than having to override in each activity?
-        FileStorageUtils.writeSystemLog(TAG + ": Application starting.");
-        FileStorageUtils.writeSystemLog(TAG + formatSharedPreferences());
+        if (!mGlobalVariables.getIsInitialized()) {
+            mGlobalVariables.setIsInitialized(true);
+            FileStorageUtils.writeSystemLog(TAG + ":\t" + getString(R.string.msg_application_starting) + FileStorageUtils.LINE_SEPARATOR);
+            FileStorageUtils.writeSystemLog(TAG + formatSharedPreferences());
+
+            //  Connect to network if enabled in shared preferences
+            if (mGlobalVariables.isNetworkEnabled()) {
+                WiFiConnect();
+            }
+        }
 
         //  Goal is to prevent network from being dropped.  Plus we always want the application to never timeout.  Always viewable.
         //  https://developer.android.com/training/scheduling/wakelock
         if (mGlobalVariables.isKeepDeviceAwake()) {
+            FileStorageUtils.writeSystemLog(TAG + ":\t" + getString(R.string.msg_keep_device_awake) + FileStorageUtils.LINE_SEPARATOR);
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-            FileStorageUtils.writeSystemLog(TAG + ": Keep device awake enabled.");
         }
 
     }
@@ -188,17 +189,20 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
         //  Networking
         mWiFiUtils = WiFiUtils.getInstance(getApplicationContext());
 
+        //  Prepare system log and console message
+        FileStorageUtils.writeSystemLog(TAG + ":\t" + getString(R.string.msg_network_connecting_now) + FileStorageUtils.LINE_SEPARATOR);
+
         if (!mWiFiUtils.isConnected()) {
             isConnected = mWiFiUtils.connectWPA(getApplicationContext(), mGlobalVariables.getNetworkName(), mGlobalVariables.getNetworkPassphrase());
         }
 
-        String log = "";
+        String msg = "";
         if (isConnected) {
-            log = getString(R.string.msg_network_connection_success) + ": " + mGlobalVariables.getNetworkName() + "\n";
+            msg = getString(R.string.msg_network_connection_success) + ": " + mGlobalVariables.getNetworkName() + FileStorageUtils.LINE_SEPARATOR;
         } else {
-            log = getString(R.string.msg_network_connection_fail) + ": " + mGlobalVariables.getNetworkName() + "\n";
+            msg = getString(R.string.msg_network_connection_fail) + ": " + mGlobalVariables.getNetworkName() + FileStorageUtils.LINE_SEPARATOR;
         }
-        FileStorageUtils.writeSystemLog(TAG + ": " + log);
+        FileStorageUtils.writeSystemLog(TAG + ":\t" + msg);
 
     }
 

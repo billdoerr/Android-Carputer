@@ -29,6 +29,7 @@ Just some internal notes around this project.
 Url should have this syntax:  http://username:password@host or http://username:password@IP:PORT
 ===============================================================================================
 
+
 ===============================================================================================
 ###  Save for later use
 sudo date -s "Thu Jan  17 14:37:00 PST 2019"
@@ -36,12 +37,14 @@ sudo date -s "Thu Jan  17 14:37:00 PST 2019"
 shutdown -h 0
 ===============================================================================================
 
+
 ===============================================================================================
 **OBD-II/CANBUS**
 Python parser:  https://github.com/brendan-w/python-OBD
 Python timer:  https://stackoverflow.com/questions/474528/what-is-the-best-way-to-repeatedly-execute-a-function-every-x-seconds-in-python
 Android app:  https://github.com/fr3ts0n/AndrOBD
 ===============================================================================================
+
 
 ===============================================================================================
 phpSysInfo 
@@ -53,6 +56,7 @@ https://medium.com/@chrishantha/linux-performance-observability-tools-19ae2328f8
 https://opensource.com/article/17/7/20-sysadmin-commands
  	
 ===============================================================================================
+
 
 ===============================================================================================
 
@@ -71,13 +75,16 @@ if (strJson != null) {
   }
 ===============================================================================================
 
+
 ===============================================================================================
 startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
 ===============================================================================================
 
+
 ===============================================================================================	
 
 ===============================================================================================
+
 
 ===============================================================================================
    /**
@@ -104,6 +111,7 @@ startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
 	 
 ===============================================================================================
  
+ 
 ===============================================================================================
 	
  sudo shutdown -h now
@@ -125,9 +133,11 @@ static routers=192.168.4.1
 static domain_name_servers=192.168.4.1
 ===============================================================================================
 
+
 ===============================================================================================
 
 ===============================================================================================
+
 
 ===============================================================================================
 
@@ -166,80 +176,21 @@ private boolean isConnectedViaWifi() {
 }
 ===============================================================================================
 
-===============================================================================================
-
 
 ===============================================================================================
 
 ===============================================================================================
-&lt;%pri%&gt;%protocol-version% %timestamp:::date-rfc3339% %HOSTNAME% %app-name% %procid% %msgid% %msg%n
-
-Aug 30 10:06:12 newfish kernel:   3 SCB_CONTROL[0xe0] SCB_SCSIID[0x7] SCB_LUN[0x0] SCB_TAG[0xff]
-Aug 30 10:06:12 newfish kernel:   4 SCB_CONTROL[0xe0] SCB_SCSIID[0x7] SCB_LUN[0x0] SCB_TAG[0xff]
-Aug 30 10:06:12 newfish kernel:   5 SCB_CONTROL[0xe0] SCB_SCSIID[0x17] SCB_LUN[0x0] SCB_TAG[0xff]
-Aug 30 10:06:12 newfish kernel:   6 SCB_CONTROL[0x0] SCB_SCSIID[0x17] SCB_LUN[0x0] SCB_TAG[0xff]
-Aug 30 10:06:12 newfish kernel:   7 SCB_CONTROL[0xe0] SCB_SCSIID[0x17] SCB_LUN[0x0] SCB_TAG[0xff]
-Aug 30 10:06:12 newfish kernel:   8 SCB_CONTROL[0x0] SCB_SCSIID[0xff] SCB_LUN[0xff] SCB_TAG[0xff]
-Aug 30 10:06:12 newfish kernel:   9 SCB_CONTROL[0x0] SCB_SCSIID[0xff] SCB_LUN[0xff] SCB_TAG[0xff]
-Aug 30 10:06:12 newfish kernel:  10 SCB_CONTROL[0x0] SCB_SCSIID[0xff] SCB_LUN[0xff] SCB_TAG[0xff]
-
-2019-03-16T00:08:46		SingleFragmentActivity Keep device awake enabled.
-
-2019-03-16T00:10:34		SingleFragmentActivity:  Application starting.
-
-2019-03-16T00:10:34		SingleFragmentActivitySingleFragmentActivity :Shared preferences
-com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_CAMERAS->	
-[Name:  Front
-Name:  http://192.168.4.1:8081
-Name:  false
-Name:  null
-Name:  null
-]
-com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NODES->	
 
 
+===============================================================================================
 		
 ===============================================================================================
 
+
 ===============================================================================================
-public class subActivity extends Activity {
 
-private TextView textView;
-private StringBuilder text = new StringBuilder();
-
-protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.text);
-    BufferedReader reader = null;
-
-    try {
-        reader = new BufferedReader(
-            new InputStreamReader(getAssets().open("inputNews.txt")));
-
-        // do reading, usually loop until end of file reading  
-        String mLine;
-        while ((mLine = reader.readLine()) != null) {
-            text.append(mLine);
-            text.append('\n');
-        }
-    } catch (IOException e) {
-        Toast.makeText(getApplicationContext(),"Error reading file!",Toast.LENGTH_LONG).show();
-        e.printStackTrace();
-    } finally {
-        if (reader != null) {
-        try {
-            reader.close();
-        } catch (IOException e) {
-            //log the exception
-        }
-    }
-
-    TextView output= (TextView) findViewById(R.id.summtext);
-    output.setText((CharSequence) text);
-
- }
-}
 ===============================================================================================
+
 
 ===============================================================================================
 //    /**
@@ -286,143 +237,154 @@ protected void onCreate(Bundle savedInstanceState) {
 //    }
 ===============================================================================================
 
+
 ===============================================================================================
-// Calling Application class (see application tag in AndroidManifest.xml)
-private GlobalVariables mGlobalVariables;
+//here is the task protocol to can delegate on other object
+    public interface TaskDelegate {
+        //define you method headers to override
+        void onTaskEndWithResult(int success);
+        void onTaskFinishGettingData(Data result);
+		
+		
+		 @Override
+    protected Integer doInBackground(Object... params) {
+        //do something in background and get result
+        if (delegate != null) {
+            //return result to activity
+            delegate.onTaskFinishGettingData(result);
+        }   
+    }
 
-// Calling Application class (see application tag in AndroidManifest.xml)
-mGlobalVariables = (GlobalVariables) getApplicationContext();
-
-// Calling Application class (see application tag in AndroidManifest.xml)
-final GlobalVariables mGlobalVariables = (GlobalVariables) getActivity().getApplicationContext();
-
-
-
-//  System logging
-FileStorageUtils mSystemLog = new FileStorageUtils();
-
-
-@Override
-protected void startUp() {
-
-	// Calling Application class (see application tag in AndroidManifest.xml)
-	mGlobalVariables = (GlobalClass) getApplicationContext();
-
-	//  System logging
-	mSystemLog.initializeSystemLog(getApplicationContext(), mGlobalVariables.SYS_LOG);
-
-	mSystemLog.writeSystemLog(TAG + ": Application starting.");
+    @Override
+    protected void onPostExecute(Integer result) {
+        if (delegate != null) {
+            //return success or fail to activity
+            delegate.onTaskEndWithResult(result);
+        }   
+    }
 }
 ===============================================================================================
 
-===============================================================================================
-If you're going to go to the trouble of changing the method signature with a dummy parameter, you might as well just change the name of the function.
-1. The overloading the toString method by adding a dummy parameter is of no real value since it won't be called implicitly by System.out.println(...). So what's the point?
-2. By adding the dummy parameter you're allocating stack space for a variable you never intend to use. That's just bad design.
-
-godfor101
-My answer to your question depends on how you are using the toString method. 
-
-If you are calling toString() explicitly as in myObj.toString(), then just create another method called something else (e.g. toString2()) and call it directly.
-
-If it is being called implicitly as in System.out.println(someObj), then you're going to have to be a bit more creative. Since I haven't seen your design it's really difficult for me to comment on your specific case. However, in general, you can use inheritance to get polymorphic behavior. You could extend your class with a sub-class that is empty except that it overrides the toString method to print differently. 
-
-1
-public class B extends A
-2
-{
-3
-  public String toString()
-4
-  {
-5
-    return "Something different than A Prints";
 
 ===============================================================================================
 
 ===============================================================================================
 
-===============================================================================================
 
 ===============================================================================================
 
 ===============================================================================================
 
-===============================================================================================
 
 ===============================================================================================
 
 ===============================================================================================
 
-===============================================================================================
 
 ===============================================================================================
-
+Never EVER make API calls on the UI thread.
 ===============================================================================================
 
-===============================================================================================
-//    //  TODO:  Modify to use globalVariable.
-//    /**
-//     * Retrieve list of camera's that are stored in SharedPreferences as a JSON string.
-//     * @param context Context:  Application context.
-//     * @return List<Camera>:  Returns List<Camera> of configured cameras.
-//     */
-//    private static List<Camera> getCamerasFromSharedPrefs(Context context) {
-//        SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
-//        Gson gson = new Gson();
-//        String json = appSharedPrefs.getString(Camera.PrefKey.PREF_KEY_CAMERAS, "");
-//        mCameras = gson.fromJson(json, new TypeToken<ArrayList<Camera>>(){}.getType());
-//        if (mCameras == null) {
-//            mCameras = new ArrayList<Camera>();
-//        }
-//        return mCameras;
-//    }
-//
-//    //  TODO:  Modify to use globalVariable.
-//    /**
-//     * Save list of camera's that are stored in SharedPreferences as a JSON string.
-//     * @param context Context:  Application context.
-//     */
-//    private static void saveCamerasToSharedPrefs(Context context) {
-//        SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
-//        SharedPreferences.Editor prefsEditor = appSharedPrefs.edit();
-//        Gson gson = new Gson();
-//        String json = gson.toJson(mCameras); //tasks is an ArrayList instance variable
-//        prefsEditor.putString(Camera.PrefKey.PREF_KEY_CAMERAS, json);
-//        prefsEditor.apply();
-//    }
-//
-//    //  TODO:  Modify to use globalVariable.
-//    /**
-//     * Retrieve list of node's that are stored in SharedPreferences as a JSON string.
-//     * @param context Context:  Application context.
-//     * @return List<Node>:  Returns List<Node> of configured nodes.
-//     */
-//    private static List<Node> getNodesFromSharedPrefs(Context context) {
-//        SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
-//        Gson gson = new Gson();
-//        String json = appSharedPrefs.getString(Node.PrefKey.PREF_KEY_NODES, "");
-//        mNodes = gson.fromJson(json, new TypeToken<ArrayList<Node>>(){}.getType());
-//        if (mNodes == null) {
-//            mNodes = new ArrayList<Node>();
-//        }
-//        return mNodes;
-//    }
-//
-//    //  TODO:  Modify to use globalVariable.
-//    /**
-//     * Save list of node's that are stored in SharedPreferences as a JSON string.
-//     * @param context Context:  Application context.
-//     */
-//    private static void saveNodesToSharedPrefs(Context context) {
-//        SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
-//        SharedPreferences.Editor prefsEditor = appSharedPrefs.edit();
-//        Gson gson = new Gson();
-//        String json = gson.toJson(mNodes); //tasks is an ArrayList instance variable
-//        prefsEditor.putString(Node.PrefKey.PREF_KEY_NODES, json);
-//        prefsEditor.apply();
-//    }
 
+===============================================================================================
+I/Choreographer: Skipped frames!  The application may be doing too much work on its main thread.
+https://stackoverflow.com/questions/14678593/the-application-may-be-doing-too-much-work-on-its-main-thread
+===============================================================================================
+
+
+===============================================================================================
+23 Mar 2019 08:40:06		SSHFragment		Executing command…			sudo shutdown -h 0
+Shutting down node:192.168.4.1
+
+
+23 Mar 2019 08:40:16		ExecuteCommandTask		JSchException
+
+23 Mar 2019 08:40:16		ExecuteCommandTask		com.jcraft.jsch.JSchException: timeout: socket is not established
+
+23 Mar 2019 08:40:16		ExecuteCommandTask		Do in background completed
+
+23 Mar 2019 08:40:16		Do in background completed		Do in background completed
+
+23 Mar 2019 08:40:16		ExecuteCommandTask		Start:  onPostExecute
+
+23 Mar 2019 08:40:16		SSHFragment		Executing command results:			
+Shutting down node:192.168.4.1
+com.jcraft.jsch.JSchException: timeout: socket is not established
+
+
+23 Mar 2019 08:40:16		ExecuteCommandTask		End:  onPostExecute
+
+23 Mar 2019 08:40:36		TaskCanceler		Task has timed out.
+Task already cancelled.
+
+
+23 Mar 2019 08:41:15		SSHFragment		Executing command…			sudo shutdown -h 0
+Shutting down all nodes, goodbye.
+
+
+23 Mar 2019 08:41:25		ExecuteCommandTask		JSchException
+
+23 Mar 2019 08:41:25		ExecuteCommandTask		com.jcraft.jsch.JSchException: timeout: socket is not established
+
+23 Mar 2019 08:41:35		ExecuteCommandTask		JSchException
+
+23 Mar 2019 08:41:35		ExecuteCommandTask		com.jcraft.jsch.JSchException: timeout: socket is not established
+
+23 Mar 2019 08:41:35		ExecuteCommandTask		Do in background completed
+
+23 Mar 2019 08:41:35		Do in background completed		Do in background completed
+
+23 Mar 2019 08:41:35		ExecuteCommandTask		Start:  onPostExecute
+
+23 Mar 2019 08:41:35		SSHFragment		Executing command results:			
+Shutting down all nodes, goodbye.
+com.jcraft.jsch.JSchException: timeout: socket is not established
+
+
+23 Mar 2019 08:41:35		ExecuteCommandTask		End:  onPostExecute
+
+23 Mar 2019 08:41:45		TaskCanceler		Task has timed out.
+Task already cancelled.
+
+
+
+
+
+23 Mar 2019 08:45:49		SSHFragment		Executing command…			sudo date -s "Sat Mar 23 08:45:49 PDT 2019" ;date
+Syncing date on all nodes…
+
+
+23 Mar 2019 08:45:59		ExecuteCommandTask		JSchException
+
+23 Mar 2019 08:45:59		ExecuteCommandTask		com.jcraft.jsch.JSchException: timeout: socket is not established
+
+23 Mar 2019 08:46:09		ExecuteCommandTask		JSchException
+
+23 Mar 2019 08:46:09		ExecuteCommandTask		com.jcraft.jsch.JSchException: timeout: socket is not established
+
+23 Mar 2019 08:46:09		ExecuteCommandTask		Do in background completed
+
+23 Mar 2019 08:46:09		Do in background completed		Do in background completed
+
+23 Mar 2019 08:46:09		ExecuteCommandTask		Start:  onPostExecute
+
+23 Mar 2019 08:46:09		SSHFragment		Executing command results:			
+Syncing date on all nodes…
+com.jcraft.jsch.JSchException: timeout: socket is not established
+
+
+23 Mar 2019 08:46:09		ExecuteCommandTask		End:  onPostExecute
+
+23 Mar 2019 08:46:19		TaskCanceler		Task has timed out.
+Task already cancelled.
+===============================================================================================
+
+
+===============================================================================================
+Non-public, non-static field names start with m.
+Static field names start with s.
+Other fields start with a lower case letter.
+Public static final fields (constants) are ALL_CAPS_WITH_UNDERSCORES.
 ===============================================================================================
 
 

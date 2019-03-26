@@ -29,8 +29,8 @@ public class FileStorageUtils {
 
     private static final String TAG = "FileStorageUtils";
 
-    private static final String mLineSeparator = System.getProperty("line.separator");
-    private static final String mTabs = "\t\t";
+    public static final String LINE_SEPARATOR = System.getProperty("line.separator");
+    public static final String TABS = "\t\t";
 
     private static Context mContext;
     private static String mFilename;
@@ -252,7 +252,7 @@ public class FileStorageUtils {
      */
     public static void writeSystemLog(String entry) {
         final int mode = Context.MODE_PRIVATE | Context.MODE_APPEND;
-        String output = getDateTime2() + mTabs + entry + mLineSeparator + mLineSeparator;
+        String output = getDateTime2() + TABS + entry + LINE_SEPARATOR + LINE_SEPARATOR;
         writeToFile(mContext, output, mFilename, mode);
     }
 

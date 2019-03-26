@@ -99,6 +99,7 @@ public class CarputerFragmentMgmtSystemLog extends Fragment {
         super.onResume();
 
         //  Display system log
+        txtSystemLog.setText("");
         readSystemLog();
     }
 

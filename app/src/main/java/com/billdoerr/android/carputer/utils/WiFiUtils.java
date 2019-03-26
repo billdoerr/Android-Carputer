@@ -3,11 +3,8 @@ package com.billdoerr.android.carputer.utils;
 import android.content.Context;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
-import android.util.Log;
 
 import java.util.List;
-
-import androidx.core.content.ContextCompat;
 
 /**
  * WIFI network utilities.  Singleton class.
@@ -24,6 +21,7 @@ public class WiFiUtils {
     private int mNetworkId = -1;
 
     /**
+     * WiFi connection utility class.
      * Singleton class
      * @param context Context:  Application context.
      * @return
@@ -58,35 +56,35 @@ public class WiFiUtils {
 
         boolean isConnected = false;
 
-        //  Add network if not already configured
-        if (!isNetworkConfigured(context, networkSSID)) {
-            mNetworkId = addNetwork(context,networkSSID, networkPassphrase);
-        }
+//        //  Add network if not already configured
+//        if (!isNetworkConfigured(context, networkSSID)) {
+//            mNetworkId = addNetwork(context,networkSSID, networkPassphrase);
+//        }
 
         // If valid networkId
-        if (mNetworkId > -1) {
+//        if (mNetworkId > -1) {
 
-            WifiManager wifiManager = (WifiManager)context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        WifiManager wifiManager = (WifiManager)context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
 
-            //  And finally, you might need to enable it, so Android connects to it:
-            List<WifiConfiguration> list = wifiManager.getConfiguredNetworks();
+        //  And finally, you might need to enable it, so Android connects to it:
+        List<WifiConfiguration> list = wifiManager.getConfiguredNetworks();
 
-            //  Exit if no networks
-            if (list == null) {
-                return false;
-            }
-
-            for( WifiConfiguration i : list ) {
-//                if(i.SSID != null && i.SSID.equals("\"" + networkSSID + "\"")) {
-                if (i.networkId == mNetworkId) {
-                    wifiManager.disconnect();
-                    wifiManager.enableNetwork(i.networkId, true);
-                    isConnected = wifiManager.reconnect();
-                    break;
-                }
-            }
-
+        //  Exit if no networks
+        if (list == null) {
+            return false;
         }
+
+        for( WifiConfiguration i : list ) {
+            if(i.SSID != null && i.SSID.equals("\"" + networkSSID + "\"")) {
+//                if (i.networkId == mNetworkId) {
+                wifiManager.disconnect();
+                wifiManager.enableNetwork(i.networkId, true);
+                isConnected = wifiManager.reconnect();
+                break;
+            }
+        }
+
+//        }
 
         return mIsConnected = isConnected;
     }

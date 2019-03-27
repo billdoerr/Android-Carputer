@@ -48,6 +48,7 @@ public class SSHFragment extends Fragment implements TaskResponse {
     private static final long TIMEOUT = 30*1000;     //  Time in milliseconds
 
     private GlobalVariables mGlobalVariables;
+
     private List<Node> mNodes = new ArrayList<Node>();
     private WiFiUtils mWiFiUtils;
     private static TextView sTxtReply;
@@ -451,7 +452,6 @@ public class SSHFragment extends Fragment implements TaskResponse {
         taskTimeout = new TaskTimeout(task);
         handler.postDelayed(taskTimeout, TIMEOUT);
 
-        //  TODO:  I don't know if this is good technique.
         //  Need to cancel Handler if remote command fails before timeout.
         task.handler = handler;
         task.runnable = taskTimeout;
@@ -482,7 +482,6 @@ public class SSHFragment extends Fragment implements TaskResponse {
         taskTimeout = new TaskTimeout(task);
         handler.postDelayed(taskTimeout, TIMEOUT);
 
-        //  TODO:  I don't know if this is good technique.
         //  Need to cancel Handler if remote command fails before timeout.
         task.handler = handler;
         task.runnable = taskTimeout;
@@ -564,7 +563,7 @@ public class SSHFragment extends Fragment implements TaskResponse {
      */
     private void updateConsoleAndSystemLog(String msg) {
         //  Output to system log
-        FileStorageUtils.writeSystemLog(TAG + FileStorageUtils.TABS + msg);
+        FileStorageUtils.writeSystemLog(getActivity(), mGlobalVariables.SYS_LOG,TAG + FileStorageUtils.TABS + msg);
 
         //  Output to console
         sTxtReply.append(msg + FileStorageUtils.LINE_SEPARATOR);

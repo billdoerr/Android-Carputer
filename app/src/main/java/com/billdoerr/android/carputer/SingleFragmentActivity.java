@@ -52,9 +52,6 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.drawer_view);
 
-        //  System logging
-        FileStorageUtils.initializeSystemLog(this.getApplicationContext(), mGlobalVariables.SYS_LOG);
-
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.fragment_container);
 
@@ -161,20 +158,21 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
 
         if (!mGlobalVariables.getIsInitialized()) {
             mGlobalVariables.setIsInitialized(true);
-            FileStorageUtils.writeSystemLog(TAG + ":\t" + getString(R.string.msg_application_starting) + FileStorageUtils.LINE_SEPARATOR);
-            FileStorageUtils.writeSystemLog(TAG + formatSharedPreferences());
+            writeSystemLog(TAG + ":\t" + getString(R.string.msg_application_starting) + FileStorageUtils.LINE_SEPARATOR);
+            writeSystemLog(TAG + formatSharedPreferences());
 
             //  Connect to network if enabled in shared preferences
             if (mGlobalVariables.isNetworkEnabled()) {
                 WiFiConnect();
             }
-        }
 
-        //  Goal is to prevent network from being dropped.  Plus we always want the application to never timeout.  Always viewable.
-        //  https://developer.android.com/training/scheduling/wakelock
-        if (mGlobalVariables.isKeepDeviceAwake()) {
-            FileStorageUtils.writeSystemLog(TAG + ":\t" + getString(R.string.msg_keep_device_awake) + FileStorageUtils.LINE_SEPARATOR);
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            //  Goal is to prevent network from being dropped.  Plus we always want the application to never timeout.  Always viewable.
+            //  https://developer.android.com/training/scheduling/wakelock
+            if (mGlobalVariables.isKeepDeviceAwake()) {
+                writeSystemLog(TAG + ":\t" + getString(R.string.msg_keep_device_awake) + FileStorageUtils.LINE_SEPARATOR);
+                getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            }
+
         }
 
     }
@@ -190,7 +188,7 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
         mWiFiUtils = WiFiUtils.getInstance(getApplicationContext());
 
         //  Prepare system log and console message
-        FileStorageUtils.writeSystemLog(TAG + ":\t" + getString(R.string.msg_network_connecting_now) + FileStorageUtils.LINE_SEPARATOR);
+        writeSystemLog(TAG + ":\t" + getString(R.string.msg_network_connecting_now) + FileStorageUtils.LINE_SEPARATOR);
 
         if (!mWiFiUtils.isConnected()) {
             isConnected = mWiFiUtils.connectWPA(getApplicationContext(), mGlobalVariables.getNetworkName(), mGlobalVariables.getNetworkPassphrase());
@@ -202,8 +200,13 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
         } else {
             msg = getString(R.string.msg_network_connection_fail) + ": " + mGlobalVariables.getNetworkName() + FileStorageUtils.LINE_SEPARATOR;
         }
-        FileStorageUtils.writeSystemLog(TAG + ":\t" + msg);
+        writeSystemLog(TAG + ":\t" + msg);
 
+    }
+
+    //  Output to system log
+    private void writeSystemLog(String msg) {
+        FileStorageUtils.writeSystemLog(this.getApplicationContext(), mGlobalVariables.SYS_LOG,TAG + FileStorageUtils.TABS + msg + FileStorageUtils.LINE_SEPARATOR);
     }
 
 }

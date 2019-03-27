@@ -66,7 +66,6 @@ public class ExecutePingTask extends AsyncTask<TaskRequest, Void, TaskResult> {
             Log.d(TAG, "onPostExecute:  Returning result.");
             Log.d(TAG, result.response);
 
-            //  TODO:  I don't know if this is good technique.
             //   Cancel Handler if remote command fails before timeout.
             if (handler != null) {
                 Log.d(TAG, "onPostExecute:  Removing handler callbacks.");

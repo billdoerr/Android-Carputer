@@ -31,6 +31,8 @@ public class CameraFragmentMotionEyeView extends Fragment {
     private static final String TAG = "CameraFragMotionEyeView";
     private static final String ARGS_NODE_DETAIL = "ARGS_NODE_DETAIL";
 
+    private GlobalVariables mGlobalVariables;
+
     private WebView mWebView;
     private String mMotionEyeUrl;
 
@@ -43,6 +45,9 @@ public class CameraFragmentMotionEyeView extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         getArgs();
+
+        // Calling Application class (see application tag in AndroidManifest.xml)
+        mGlobalVariables = (GlobalVariables) getActivity().getApplicationContext();
     }
 
     @SuppressLint({"ClickableViewAccessibility", "SetJavaScriptEnabled"})
@@ -84,12 +89,14 @@ public class CameraFragmentMotionEyeView extends Fragment {
         mWebView.draw(canvas);
         try {
             FileStorageUtils.saveImage(getActivity(), bitmap);
+            writeSystemLog(FileStorageUtils.TABS + getString(R.string.toast_image_saved));
+            Toast.makeText(getActivity(), getResources().getString(R.string.toast_image_saved), Toast.LENGTH_LONG).show();
         } catch (FileStorageUtils.FreeSpaceException e) {
             //  Handle exception
             Log.i(TAG, e.getMessage() );
+            writeSystemLog(e.getMessage());
         }
 
-        Toast.makeText(getActivity(), getResources().getString(R.string.toast_image_saved), Toast.LENGTH_LONG).show();
     }
 
     /**
@@ -99,6 +106,11 @@ public class CameraFragmentMotionEyeView extends Fragment {
         Bundle args = getArguments();
         Node node = (Node) args.getSerializable(ARGS_NODE_DETAIL);
         mMotionEyeUrl = node.getMotionEyeUrl();
+    }
+
+    //  Output to system log
+    private void writeSystemLog(String msg) {
+        FileStorageUtils.writeSystemLog(getActivity(), mGlobalVariables.SYS_LOG, TAG + FileStorageUtils.TABS + msg + FileStorageUtils.LINE_SEPARATOR);
     }
 
 }

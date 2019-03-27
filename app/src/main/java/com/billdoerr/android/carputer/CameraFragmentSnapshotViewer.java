@@ -34,6 +34,8 @@ public class CameraFragmentSnapshotViewer extends Fragment {
 
     private static final String TAG = "CameraFragSnapshotView";
 
+    private GlobalVariables mGlobalVariables;
+
     private RecyclerView mRecyclerView;
     private ImageView mImageView;
     private TextView mTextView;
@@ -54,6 +56,9 @@ public class CameraFragmentSnapshotViewer extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+
+        // Calling Application class (see application tag in AndroidManifest.xml)
+        mGlobalVariables = (GlobalVariables) getActivity().getApplicationContext();
     }
 
     @Override
@@ -287,6 +292,11 @@ public class CameraFragmentSnapshotViewer extends Fragment {
             alertDialog.show();
         }
 
+    }
+
+    //  Output to system log
+    private void writeSystemLog(String msg) {
+        FileStorageUtils.writeSystemLog(getActivity(), mGlobalVariables.SYS_LOG,TAG + FileStorageUtils.TABS + msg + FileStorageUtils.LINE_SEPARATOR);
     }
 
 }

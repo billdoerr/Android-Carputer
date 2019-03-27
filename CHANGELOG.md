@@ -43,6 +43,7 @@ All notable changes to this Android application project will be documented in th
 	https://stackoverflow.com/questions/3781751/android-anything-similar-to-the-iphone-sdk-delegate-callbacks  
 - [x]  Address TODO's relating to EventBus->sendMessage().  
 #### Removed
+- [x]  Remove fragment:  CameraFragmentMjpegView
 
 ## [Released]
 ### v1.3.1 (15Mar2019)

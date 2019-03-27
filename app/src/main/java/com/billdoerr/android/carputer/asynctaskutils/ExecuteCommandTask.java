@@ -81,7 +81,6 @@ public class ExecuteCommandTask extends AsyncTask<TaskRequest, Void, TaskResult>
             Log.d(TAG, "onPostExecute:  Returning result.");
             Log.d(TAG, result.response);
 
-            //  TODO:  I don't know if this is good technique.
             //  Need to cancel Handler if remote command fails before timeout.
             if (handler != null) {
                 Log.d(TAG, "onPostExecute:  Removing handler callbacks.");

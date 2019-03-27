@@ -40,8 +40,6 @@ public class CarputerFragmentMgmtSystemLog extends Fragment {
         // Calling Application class (see application tag in AndroidManifest.xml)
         mGlobalVariables = (GlobalVariables) getActivity().getApplicationContext();
 
-        //  Initialize system logging
-        FileStorageUtils.initializeSystemLog(getActivity(), mGlobalVariables.SYS_LOG);
     }
 
     @Override
@@ -114,7 +112,7 @@ public class CarputerFragmentMgmtSystemLog extends Fragment {
     private void readSystemLog() {
         //  Read system log
         String sysLog = "";
-        sysLog = FileStorageUtils.readSystemLog();
+        sysLog = FileStorageUtils.readSystemLog(getActivity(), mGlobalVariables.SYS_LOG);
         txtSystemLog.setText(sysLog);
     }
 
@@ -122,7 +120,7 @@ public class CarputerFragmentMgmtSystemLog extends Fragment {
      * Clear the system log
      */
     private void clearSystemLog() {
-        FileStorageUtils.clearSystemLog();
+        FileStorageUtils.clearSystemLog(getActivity(), mGlobalVariables.SYS_LOG);
         txtSystemLog.setText("");
         readSystemLog();
     }

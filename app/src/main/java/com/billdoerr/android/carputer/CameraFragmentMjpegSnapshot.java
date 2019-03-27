@@ -35,6 +35,8 @@ public class CameraFragmentMjpegSnapshot extends Fragment implements OnFrameCapt
     private static final String ARGS_CAMERA_DETAIL = "ARGS_CAMERA_DETAIL";
     private static final int TIMEOUT = 5;
 
+    private GlobalVariables mGlobalVariables;
+
     private com.github.niqdev.mjpeg.MjpegView mjpegView;
     private ImageView mImageView;
     private Bitmap mLastPreview = null;
@@ -48,6 +50,10 @@ public class CameraFragmentMjpegSnapshot extends Fragment implements OnFrameCapt
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
+        // Calling Application class (see application tag in AndroidManifest.xml)
+        mGlobalVariables = (GlobalVariables) getActivity().getApplicationContext();
+
         mCameraAddress = getCameraAddress();
     }
 
@@ -126,22 +132,26 @@ public class CameraFragmentMjpegSnapshot extends Fragment implements OnFrameCapt
 
             switch (msg.obj.toString()){
                 case "DISCONNECTED" :
-                    Log.d(TAG, "DISCONNECTED");
+                    Log.d(TAG, getString(R.string.msg_camera_disconnected));
+                    writeSystemLog(FileStorageUtils.TABS + getString(R.string.msg_camera_disconnected));
                     break;
                 case "CONNECTION_PROGRESS" :
-                    Log.d(TAG, "CONNECTION_PROGRESS");
+                    Log.d(TAG, getString(R.string.msg_camera_connection_progress));
+                    writeSystemLog(FileStorageUtils.TABS + getString(R.string.msg_camera_connection_progress));
                     break;
                 case "CONNECTED" :
-                    Log.d(TAG, "CONNECTED");
+                    Log.d(TAG, getString(R.string.msg_camera_connected));
+                    writeSystemLog(FileStorageUtils.TABS + getString(R.string.msg_camera_connected));
                     break;
                 case "CONNECTION_ERROR" :
-                    Log.d(TAG, "CONNECTION_ERROR");
+                    Log.d(TAG, getString(R.string.msg_camera_connection_error));
+                    writeSystemLog(FileStorageUtils.TABS + getString(R.string.msg_camera_connection_error));
                     break;
                 case "STOPPING_PROGRESS" :
-                    Log.d(TAG, "STOPPING_PROGRESS");
+                    Log.d(TAG, getString(R.string.msg_camera_stopping_progress));
+                    writeSystemLog(FileStorageUtils.TABS + getString(R.string.msg_camera_stopping_progress));
                     break;
             }
-
         }
     };
 
@@ -159,8 +169,9 @@ public class CameraFragmentMjpegSnapshot extends Fragment implements OnFrameCapt
                             mjpegView.showFps(false);
                         },
                         throwable -> {
-                            Log.e(getClass().getSimpleName(), "mjpeg error", throwable);
-                            Toast.makeText(getActivity(), getResources().getString(R.string.toast_camera_connection_error), Toast.LENGTH_LONG).show();
+                            Log.e(getClass().getSimpleName(), getString(R.string.toast_camera_connection_error), throwable);
+                            writeSystemLog(FileStorageUtils.TABS + getString(R.string.toast_camera_connection_error));
+                            Toast.makeText(getActivity(), getString(R.string.toast_camera_connection_error), Toast.LENGTH_LONG).show();
                         });
     }
 
@@ -168,19 +179,20 @@ public class CameraFragmentMjpegSnapshot extends Fragment implements OnFrameCapt
      * Grab image of current frame (snapshot).
      */
     private void takeSnapshot() {
-        Log.d(TAG, "Image clicked.");
         if (mLastPreview != null) {
-            Log.d(TAG, "Image captured.");
             mImageView.setImageBitmap(mLastPreview);
             try {
                 FileStorageUtils.saveImage(getActivity(), mLastPreview);
+                //  Output to system log
+                Log.d(TAG, getString(R.string.toast_image_saved));
+                writeSystemLog(FileStorageUtils.TABS + getString(R.string.toast_image_saved));
+                Toast.makeText(getActivity(), getString(R.string.toast_image_saved), Toast.LENGTH_LONG).show();
             } catch (FileStorageUtils.FreeSpaceException e) {
                 //  Handle exception
-                Log.i(TAG, e.getMessage() );
+                //  Output to system log
+                Log.e(TAG, e.getMessage() );
+                writeSystemLog(e.getMessage());
             }
-
-            Toast.makeText(getActivity(), getResources().getString(R.string.toast_image_saved), Toast.LENGTH_LONG).show();
-            Log.d(TAG, "Image saved!");
         }
     }
 
@@ -192,6 +204,11 @@ public class CameraFragmentMjpegSnapshot extends Fragment implements OnFrameCapt
         Bundle args = getArguments();
         Camera camera = (Camera) args.getSerializable(ARGS_CAMERA_DETAIL);
         return camera.getUrl();
+    }
+
+    //  Output to system log
+    private void writeSystemLog(String msg) {
+        FileStorageUtils.writeSystemLog(getActivity(), mGlobalVariables.SYS_LOG, TAG + FileStorageUtils.TABS + msg + FileStorageUtils.LINE_SEPARATOR);
     }
 
 }

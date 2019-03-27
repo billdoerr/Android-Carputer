@@ -129,6 +129,12 @@
     <string name="msg_task_timeout">Task has timed out.</string>
     <string name="msg_task_cancelled">Task cancelled.</string>
 
+    <string name="msg_camera_disconnected">DISCONNECTED</string>
+    <string name="msg_camera_connection_progress">CONNECTION_PROGRESS</string>
+    <string name="msg_camera_connected">CONNECTED</string>
+    <string name="msg_camera_connection_error">CONNECTION_ERROR</string>
+    <string name="msg_camera_stopping_progress">STOPPING_PROGRESS</string>
+
     <!--  About -->
     <string name="version">Version</string>
 

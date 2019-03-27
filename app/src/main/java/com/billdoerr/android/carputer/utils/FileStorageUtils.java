@@ -235,41 +235,43 @@ public class FileStorageUtils {
         return ret;
     }
 
-    /**
-     * Sets application context and system log filename.
-     * Required to be called prior to calling writeSystemLog() or readSystemLog().
-     * @param context Context:  Application context.
-     * @param filename String:  System log filename.
-     */
-    public static void initializeSystemLog(Context context, String filename) {
-        mContext = context;
-        mFilename = filename;
-    }
+//    /**
+//     * Sets application context and system log filename.
+//     * Required to be called prior to calling writeSystemLog() or readSystemLog().
+//     * @param context Context:  Application context.
+//     * @param filename String:  System log filename.
+//     */
+//    public static void initializeSystemLog(Context context, String filename) {
+//        mContext = context;
+//        mFilename = filename;
+//    }
 
     /**
      * Writes to the system log.  Each entry is preceded with a date/time stamp.
+     * @param context Context:  Application context.
+     * @param filename String:  System log filename.
      * @param entry String:  Data to be written to log file.
      */
-    public static void writeSystemLog(String entry) {
+    public static void writeSystemLog(Context context, String filename, String entry) {
         final int mode = Context.MODE_PRIVATE | Context.MODE_APPEND;
         String output = getDateTime2() + TABS + entry + LINE_SEPARATOR + LINE_SEPARATOR;
-        writeToFile(mContext, output, mFilename, mode);
+        writeToFile(context, output, filename, mode);
     }
 
     /**
      * Read the system log.
      * @return String:  Contents of system log.
      */
-    public static String readSystemLog() {
-        return readFromFile(mContext, mFilename);
+    public static String readSystemLog(Context context, String filename) {
+        return readFromFile(context, filename);
     }
 
     /**
      * Clears the contents of the system log.
      */
-    public static void clearSystemLog() {
+    public static void clearSystemLog(Context context, String filename) {
         final int mode = Context.MODE_PRIVATE;
-        writeToFile(mContext, "", mFilename, mode);
+        writeToFile(context, "", filename, mode);
     }
 
 }

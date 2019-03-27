@@ -23,6 +23,7 @@
     <string name="action_device_delete">Delete</string>
     <string name="action_system_log_clear">Clear</string>
     <string name="action_system_log_refresh">Refresh</string>
+    <string name="action_clear_console">Clear console</string>
 
     <!--  Tab Layout Titles -->
     <string name="tab_camera_file_explorer">Snapshots</string>
@@ -37,8 +38,8 @@
     <string name="alert_negative_button">NO</string>
 
     <!-- Widgets -->
-    <string name="btn_carputer_mgmt_ssh_poweroff_single">Poweroff (Single)</string>
-    <string name="btn_carputer_mgmt_ssh_poweroff_all">Poweroff (All)</string>
+    <string name="btn_carputer_mgmt_ssh_poweroff_single">Power Off (Single)</string>
+    <string name="btn_carputer_mgmt_ssh_poweroff_all">Power Off (All)</string>
     <string name="btn_carputer_mgmt_ssh_ping">Ping</string>
     <string name="btn_carputer_mgmt_ssh_sync_date_single">Sync Date (Single)</string>
     <string name="btn_carputer_mgmt_ssh_sync_date_all">Sync Date (All)</string>
@@ -114,16 +115,19 @@
     <string name="msg_power_off_single_node">Shutting down node: </string>
     <string name="msg_ping_results">Ping results.</string>
     <string name="msg_executing_ping">Executing Ping&#8230;</string>
-    <string name="msg_task_timeout">Task has timed out.</string>
-    <string name="msg_task_cancelled">Task cancelled.</string>
-    <string name="msg_task_already_canceled">Task already cancelled.</string>
 
     <string name="msg_execute_command_results">Executing command results:\t</string>
     <string name="msg_executing_command">Executing command&#8230;\t</string>
     <string name="msg_on_node">&#032;on node:\t</string>
 
-
-
+    <string name="msg_task_already_canceled">Task already cancelled.</string>
+    <string name="msg_task_results">&#032;task results:</string>
+    <string name="msg_no_task_results">&#032;task did not produce any results.</string>
+    <string name="msg_task_exception">&#032;exception results:</string>
+    <string name="msg_no_task_exception">&#032;task did not produce any exceptions.</string>
+    <string name="msg_task_finished">Task finished.</string>
+    <string name="msg_task_timeout">Task has timed out.</string>
+    <string name="msg_task_cancelled">Task cancelled.</string>
 
     <!--  About -->
     <string name="version">Version</string>

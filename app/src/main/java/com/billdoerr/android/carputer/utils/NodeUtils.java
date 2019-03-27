@@ -64,8 +64,8 @@ public class NodeUtils {
             prop.put("StrictHostKeyChecking", "no");
 
             session.setConfig(prop);
-            session.connect();
-//            session.connect(TIMEOUT);
+//            session.connect();
+            session.connect(TIMEOUT);
 
             // SSH Channel
             channelssh = (ChannelExec) session.openChannel("exec");

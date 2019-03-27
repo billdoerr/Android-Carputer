@@ -34,11 +34,11 @@ All notable changes to this Android application project will be documented in th
 	- [x]  Infrastructure added.
 	- [ ]  Add content.
 - [x]  System Logging.  Feature creep!
-	- [ ]  Logging in SSH Fragment needs improvement.
+	- [x]  Logging in SSH Fragment needs improvement.
 	- [ ] Use across application.
 #### Changed
-- [ ]  SSH Fragment is a complete hack!  Replace or improve.
-	- [ ] Add feature to display progress when executing command.  
+- [x]  SSH Fragment is a complete hack!  Replace or improve.
+	- [x] Add feature to display progress when executing command.  
 	https://stackoverflow.com/questions/12575068/how-to-get-the-result-of-onpostexecute-to-main-activity-because-asynctask-is-a  
 	https://stackoverflow.com/questions/3781751/android-anything-similar-to-the-iphone-sdk-delegate-callbacks  
 - [x]  Address TODO's relating to EventBus->sendMessage().  

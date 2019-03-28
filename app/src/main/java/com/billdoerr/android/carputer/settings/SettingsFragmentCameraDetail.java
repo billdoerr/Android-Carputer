@@ -76,9 +76,9 @@ public class SettingsFragmentCameraDetail extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_settings_camera_detail, null);
 
-        mLblCameraNameRequired = (TextView) view.findViewById(R.id.lbl_camera_name_required_field);
+        mLblCameraNameRequired = view.findViewById(R.id.lbl_camera_name_required_field);
 
-        mTextCameraName = (EditText) view.findViewById(R.id.txt_camera_name);
+        mTextCameraName = view.findViewById(R.id.txt_camera_name);
         mTextCameraName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -92,9 +92,9 @@ public class SettingsFragmentCameraDetail extends Fragment {
             }
         });
 
-       mLblCameraUrlRequired = (TextView) view.findViewById(R.id.lbl_camera_url_required_field);
+       mLblCameraUrlRequired = view.findViewById(R.id.lbl_camera_url_required_field);
 
-        mTextCameraUrl = (EditText) view.findViewById(R.id.txt_camera_url);
+        mTextCameraUrl = view.findViewById(R.id.txt_camera_url);
         mTextCameraUrl.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -108,14 +108,14 @@ public class SettingsFragmentCameraDetail extends Fragment {
             }
         });
 
-        mTextUsername = (EditText) view.findViewById(R.id.txt_username);
+        mTextUsername = view.findViewById(R.id.txt_username);
         mTextUsername.setEnabled(false);  //  Disable by default
 
-        mTextPassword = (EditText) view.findViewById(R.id.txt_password);
+        mTextPassword = view.findViewById(R.id.txt_password);
         mTextPassword.setEnabled(false);  //  Disable by default
 
         //  TUsername/password currently not support
-        mSwitchUseAuthentication = (Switch) view.findViewById(R.id.switch_use_authentication);
+        mSwitchUseAuthentication = view.findViewById(R.id.switch_use_authentication);
         mSwitchUseAuthentication.setEnabled(false);
         mSwitchUseAuthentication.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -133,7 +133,7 @@ public class SettingsFragmentCameraDetail extends Fragment {
         });
 
         //  Save transaction
-        Button btnSave = (Button) view.findViewById(R.id.btn_save);
+        Button btnSave = view.findViewById(R.id.btn_save);
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -170,7 +170,7 @@ public class SettingsFragmentCameraDetail extends Fragment {
         });
 
         //  Cancel transaction
-        Button btnCancel = (Button) view.findViewById(R.id.btn_cancel);
+        Button btnCancel = view.findViewById(R.id.btn_cancel);
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

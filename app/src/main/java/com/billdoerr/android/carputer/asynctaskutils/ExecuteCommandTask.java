@@ -87,7 +87,7 @@ public class ExecuteCommandTask extends AsyncTask<TaskRequest, Void, TaskResult>
                 handler.removeCallbacks(runnable);
             }
 
-            delegate.hideProgress();
+//            delegate.hideProgress();
 
         } else {
             Log.d(TAG, "onPostExecute:  No result.");

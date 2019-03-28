@@ -47,7 +47,7 @@ public class CarputerFragmentMgmtSystemLog extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_system_log, container, false);
 
-        txtSystemLog = (TextView) view.findViewById(R.id.txt_system_log);
+        txtSystemLog = view.findViewById(R.id.txt_system_log);
 
         //  Display system log
         readSystemLog();

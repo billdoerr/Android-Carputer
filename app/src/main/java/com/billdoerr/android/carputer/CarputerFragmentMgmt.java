@@ -1,15 +1,10 @@
 package com.billdoerr.android.carputer;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import androidx.annotation.NonNull;
 
 import com.billdoerr.android.carputer.settings.Node;
 import com.google.android.material.tabs.TabLayout;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -61,10 +56,10 @@ public class CarputerFragmentMgmt extends Fragment {
         //  Setup action bar
         setupActionBar(view);
 
-        mViewPager = (ViewPager) view.findViewById(R.id.viewpager);
+        mViewPager = view.findViewById(R.id.viewpager);
         setupViewPager(mViewPager);
 
-        mTabLayout = (TabLayout) view.findViewById(R.id.tabs);
+        mTabLayout = view.findViewById(R.id.tabs);
         mTabLayout.setupWithViewPager(mViewPager);
 
         //  Add icons
@@ -108,7 +103,7 @@ public class CarputerFragmentMgmt extends Fragment {
      * @param view View holding the toolbar
      */
     private void setupActionBar(View view) {
-        Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
         ((CarputerActivityMgmt)getActivity()).setSupportActionBar(toolbar);
         ActionBar actionbar = ((CarputerActivityMgmt)getActivity()).getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);

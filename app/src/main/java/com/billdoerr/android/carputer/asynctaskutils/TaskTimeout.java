@@ -10,7 +10,7 @@ public class TaskTimeout implements Runnable {
 
     private static final String TAG = "TaskTimeout";
 
-    private AsyncTask task;
+    private final AsyncTask task;
 
     public TaskTimeout(AsyncTask task) {
         this.task = task;

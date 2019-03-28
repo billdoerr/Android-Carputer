@@ -17,14 +17,14 @@ public class WiFiUtils {
 
     private static boolean mIsConnected = false;
 
-    private boolean mConnectionMade = false;
+    private final boolean mConnectionMade = false;
     private int mNetworkId = -1;
 
     /**
      * WiFi connection utility class.
      * Singleton class
      * @param context Context:  Application context.
-     * @return
+     * @return WiFiUtils:  WiFiUtils object.
      */
     public static WiFiUtils getInstance(Context context) {
         if (sWiFiUtils == null) {

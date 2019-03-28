@@ -21,7 +21,6 @@ import com.billdoerr.android.carputer.R;
 import org.greenrobot.eventbus.EventBus;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.fragment.app.Fragment;
 
 /**
@@ -90,9 +89,9 @@ public class SettingsFragmentNodeDetail extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_settings_node_detail, null);
 
-        mLblNodeNameRequired = (TextView) view.findViewById(R.id.lbl_node_name_required_field);
+        mLblNodeNameRequired = view.findViewById(R.id.lbl_node_name_required_field);
 
-        mTextNodeName = (EditText) view.findViewById(R.id.txt_node_name);
+        mTextNodeName = view.findViewById(R.id.txt_node_name);
         mTextNodeName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -106,9 +105,9 @@ public class SettingsFragmentNodeDetail extends Fragment {
             }
         });
 
-        mLblNodeIpRequired = (TextView) view.findViewById(R.id.lbl_node_ip_required_field);
+        mLblNodeIpRequired = view.findViewById(R.id.lbl_node_ip_required_field);
 
-        mTextNodeIp = (EditText) view.findViewById(R.id.txt_node_ip);
+        mTextNodeIp = view.findViewById(R.id.txt_node_ip);
         mTextNodeIp.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -122,16 +121,16 @@ public class SettingsFragmentNodeDetail extends Fragment {
             }
         });
 
-        mTextSSHPort = (EditText) view.findViewById(R.id.txt_node_ssh_port);
+        mTextSSHPort = view.findViewById(R.id.txt_node_ssh_port);
 
-        mTextUsername = (EditText) view.findViewById(R.id.txt_username);
+        mTextUsername = view.findViewById(R.id.txt_username);
         mTextUsername.setEnabled(false);  //  Disable by default
 
-        mTextPassword = (EditText) view.findViewById(R.id.txt_password);
+        mTextPassword = view.findViewById(R.id.txt_password);
         mTextPassword.setEnabled(false);  //  Disable by default
 
         //  Use authentication
-        mSwitchUseAuthentication = (Switch) view.findViewById(R.id.switch_use_authentication);
+        mSwitchUseAuthentication = view.findViewById(R.id.switch_use_authentication);
         mSwitchUseAuthentication.setEnabled(true);
         mSwitchUseAuthentication.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -148,11 +147,11 @@ public class SettingsFragmentNodeDetail extends Fragment {
             }
         });
 
-        mTextPhpSysInfoUrl = (EditText) view.findViewById(R.id.txt_node_phpsysinfo_url);
+        mTextPhpSysInfoUrl = view.findViewById(R.id.txt_node_phpsysinfo_url);
         mTextPhpSysInfoUrl.setEnabled(false);
 
         //  Use phpSysInfo
-        mSwitchUsePhpSysInfo = (Switch) view.findViewById(R.id.switch_node_use_phpsysinfo);
+        mSwitchUsePhpSysInfo = view.findViewById(R.id.switch_node_use_phpsysinfo);
         mSwitchUsePhpSysInfo.setEnabled(true);
         mSwitchUsePhpSysInfo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -167,11 +166,11 @@ public class SettingsFragmentNodeDetail extends Fragment {
             }
         });
 
-        mTextMotionEyeUrl = (EditText) view.findViewById(R.id.txt_node_motioneye_url);
+        mTextMotionEyeUrl = view.findViewById(R.id.txt_node_motioneye_url);
         mTextMotionEyeUrl.setEnabled(false);
 
         //  Use motionEye
-        mSwitchUseMotionEye = (Switch) view.findViewById(R.id.switch_node_use_motioneye);
+        mSwitchUseMotionEye = view.findViewById(R.id.switch_node_use_motioneye);
         mSwitchUseMotionEye.setEnabled(true);
         mSwitchUseMotionEye.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -187,7 +186,7 @@ public class SettingsFragmentNodeDetail extends Fragment {
         });
 
         //  Save transaction
-        Button btnSave = (Button) view.findViewById(R.id.btn_save);
+        Button btnSave = view.findViewById(R.id.btn_save);
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -224,7 +223,7 @@ public class SettingsFragmentNodeDetail extends Fragment {
         });
 
         //  Cancel transaction
-        Button btnCancel = (Button) view.findViewById(R.id.btn_cancel);
+        Button btnCancel = view.findViewById(R.id.btn_cancel);
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

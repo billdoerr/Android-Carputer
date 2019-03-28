@@ -44,10 +44,10 @@ public class CameraFragmentImageArchive extends Fragment {
         //  Setup action bar
         setupActionBar(view);
 
-        mViewPager = (ViewPager) view.findViewById(R.id.viewpager);
+        mViewPager = view.findViewById(R.id.viewpager);
         setupViewPager(mViewPager);
 
-        mTabLayout = (TabLayout) view.findViewById(R.id.tabs);
+        mTabLayout = view.findViewById(R.id.tabs);
         mTabLayout.setupWithViewPager(mViewPager);
 
         //  Add icons
@@ -75,7 +75,7 @@ public class CameraFragmentImageArchive extends Fragment {
      * @param view View: Container for toolbar.
      */
     private void setupActionBar(View view) {
-        Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
         ((CameraActivityImageArchive)getActivity()).setSupportActionBar(toolbar);
         ActionBar actionbar = ((CameraActivityImageArchive)getActivity()).getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);

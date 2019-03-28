@@ -63,11 +63,11 @@ public class CameraFragmentMjpegSnapshot extends Fragment implements OnFrameCapt
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_camera_mjpeg_snapshot, container, false);
 
-        mjpegView = (com.github.niqdev.mjpeg.MjpegView) view.findViewById(R.id.video_view);
+        mjpegView = view.findViewById(R.id.video_view);
 
         mjpegView.setOnFrameCapturedListener(this);
 
-        mImageView = (ImageView) view.findViewById(R.id.image_view);
+        mImageView = view.findViewById(R.id.image_view);
         mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

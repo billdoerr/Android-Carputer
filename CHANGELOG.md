@@ -24,7 +24,7 @@ All notable changes to this Android application project will be documented in th
 #### Removed
 
 ## [Unreleased]
-### v1.4 (IN PROGRESS)
+### v1.4 (IN BETA)
 #### Added
 - [x]  Update/Add javadocs comments.  Will be ongoing process to better document code.  
 - [x]  Create syslog and make it viewable.  The SSHFragment->txtReply is a poor man's version of syslog. 
@@ -35,7 +35,7 @@ All notable changes to this Android application project will be documented in th
 	- [ ]  Add content.
 - [x]  System Logging.  Feature creep!
 	- [x]  Logging in SSH Fragment needs improvement.
-	- [ ] Use across application.
+	- [x] Use across application.
 #### Changed
 - [x]  SSH Fragment is a complete hack!  Replace or improve.
 	- [x] Add feature to display progress when executing command.  

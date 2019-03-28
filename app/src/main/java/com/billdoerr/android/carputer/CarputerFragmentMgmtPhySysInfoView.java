@@ -40,7 +40,7 @@ public class CarputerFragmentMgmtPhySysInfoView extends Fragment {
         View view = inflater.inflate(R.layout.fragment_carputer_mgmt_phpsysinfo_view, container, false);
 
         //  Display the phpSysInfo admin console web page
-        WebView webView = (WebView) view.findViewById(R.id.web_view);
+        WebView webView = view.findViewById(R.id.web_view);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setWebViewClient(new WebViewClient());
         webView.loadUrl(mPhpSysInfoUrl);

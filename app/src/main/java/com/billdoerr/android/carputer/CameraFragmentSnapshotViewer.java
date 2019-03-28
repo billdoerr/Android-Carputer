@@ -65,9 +65,9 @@ public class CameraFragmentSnapshotViewer extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_camera_file_explorer, container, false);
 
-        mImageView = (ImageView) view.findViewById(R.id.image_view);
+        mImageView = view.findViewById(R.id.image_view);
 
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        mRecyclerView = view.findViewById(R.id.recycler_view);
 
         //  Horizontal scrolling
         LinearLayoutManager layoutManager
@@ -167,8 +167,8 @@ public class CameraFragmentSnapshotViewer extends Fragment {
 
         private ListHolder(View itemView) {
             super(itemView);
-            mTextView = (TextView) itemView.findViewById(R.id.text_view);
-            mImageView = (ImageView) itemView.findViewById(R.id.image_view);
+            mTextView = itemView.findViewById(R.id.text_view);
+            mImageView = itemView.findViewById(R.id.image_view);
             itemView.setOnClickListener(this);
         }
 

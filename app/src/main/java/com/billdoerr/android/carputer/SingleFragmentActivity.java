@@ -62,19 +62,19 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
                     .commit();
         }
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_baseline_menu_24px);
 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerLayout = findViewById(R.id.drawer_layout);
 
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close);
         mDrawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -166,13 +166,14 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
                 WiFiConnect();
             }
 
-            //  Goal is to prevent network from being dropped.  Plus we always want the application to never timeout.  Always viewable.
-            //  https://developer.android.com/training/scheduling/wakelock
-            if (mGlobalVariables.isKeepDeviceAwake()) {
-                writeSystemLog(TAG + ":\t" + getString(R.string.msg_keep_device_awake) + FileStorageUtils.LINE_SEPARATOR);
-                getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-            }
+        }
 
+        //  This is kept outside the above 'if (!mGlobalVariables.getIsInitialized()' so it is run by each activity.
+        // Goal is to prevent network from being dropped.  Plus we always want the application to never timeout.  Always viewable.
+        //  https://developer.android.com/training/scheduling/wakelock
+        if (mGlobalVariables.isKeepDeviceAwake()) {
+            writeSystemLog(TAG + ":\t" + getString(R.string.msg_keep_device_awake) + FileStorageUtils.LINE_SEPARATOR);
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
 
     }

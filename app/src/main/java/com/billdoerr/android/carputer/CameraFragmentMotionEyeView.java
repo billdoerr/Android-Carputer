@@ -56,7 +56,7 @@ public class CameraFragmentMotionEyeView extends Fragment {
         View view = inflater.inflate(R.layout.fragment_camera_motioneye_view, container, false);
 
         //  Display the motioneye admin console web page
-        mWebView = (WebView) view.findViewById(R.id.web_view);
+        mWebView = view.findViewById(R.id.web_view);
         mWebView.getSettings().setJavaScriptEnabled(true);
         mWebView.setWebViewClient(new WebViewClient());
         mWebView.loadUrl(mMotionEyeUrl);

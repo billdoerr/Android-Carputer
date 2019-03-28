@@ -47,7 +47,7 @@ public class NodeUtils {
      *
      * @param cmd String: Remove command to be executed.
      * @return String: Result of command being executed.
-     * @throws Exception Exception: Exception being thrown.
+     * @throws JSchException JSchException: JSchException being thrown.
      */
     public String executeRemoteCommand(String cmd) throws JSchException {
         JSch jsch = new JSch();

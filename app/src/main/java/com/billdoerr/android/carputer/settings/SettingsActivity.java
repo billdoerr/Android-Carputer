@@ -1,14 +1,11 @@
 package com.billdoerr.android.carputer.settings;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 
 import com.billdoerr.android.carputer.GlobalVariables;
 import com.billdoerr.android.carputer.R;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -26,7 +23,6 @@ import androidx.fragment.app.Fragment;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceFragmentCompat;
-import androidx.preference.PreferenceManager;
 import androidx.preference.PreferenceScreen;
 
 /**
@@ -57,7 +53,7 @@ public class SettingsActivity extends AppCompatActivity implements
         // Calling Application class (see application tag in AndroidManifest.xml)
         mGlobalVariables = (GlobalVariables) getApplicationContext();
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionbar = getSupportActionBar();
         actionbar.setTitle(getString(R.string.pref_title_activity_settings));
@@ -148,7 +144,7 @@ public class SettingsActivity extends AppCompatActivity implements
                 size = mCameras.size();
             }
 
-            Preference pref = (Preference) findPreference(Camera.PrefKey.PREF_KEY_CAMERAS);
+            Preference pref = findPreference(Camera.PrefKey.PREF_KEY_CAMERAS);
             pref.setSummary(size + " camera\'s configured.");
 
         }
@@ -160,7 +156,7 @@ public class SettingsActivity extends AppCompatActivity implements
                 size = mNodes.size();
             }
 
-            Preference pref = (Preference) findPreference(Node.PrefKey.PREF_KEY_NODES);
+            Preference pref = findPreference(Node.PrefKey.PREF_KEY_NODES);
             pref.setSummary(size + " node\'s configured.");
         }
 

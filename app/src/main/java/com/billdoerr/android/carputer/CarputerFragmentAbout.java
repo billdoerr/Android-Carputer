@@ -38,7 +38,7 @@ public class CarputerFragmentAbout extends Fragment {
         String versionCode = String.valueOf(BuildConfig.VERSION_CODE);
         String versionName = BuildConfig.VERSION_NAME;
 
-        TextView txtVersion = (TextView) v.findViewById(R.id.txtVersion);
+        TextView txtVersion = v.findViewById(R.id.txtVersion);
         txtVersion.setText(versionName + " (" + versionCode + ")");
 
         return v;

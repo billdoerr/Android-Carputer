@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import com.billdoerr.android.carputer.asynctaskutils.ExecuteCommandTaskNew;
 import com.billdoerr.android.carputer.settings.Node;
 import com.billdoerr.android.carputer.asynctaskutils.TaskResponse;
 import com.billdoerr.android.carputer.asynctaskutils.ExecuteCommandTask;
@@ -53,11 +54,14 @@ public class SSHFragment extends Fragment implements TaskResponse {
     private WiFiUtils mWiFiUtils;
     private static TextView sTxtReply;
 
-    private ProgressDialog progressDialog;
+    private ProgressDialog mProgressDialog;
 
     //  AsyncTask
-    private ExecuteCommandTask mExecuteCommandTask = new ExecuteCommandTask();
-    private ExecutePingTask mExecutePingTask = new ExecutePingTask();
+    private final ExecuteCommandTask mExecuteCommandTask = new ExecuteCommandTask();
+    private final ExecutePingTask mExecutePingTask = new ExecutePingTask();
+    //  TODO:  Work in progress until I can implement an RTC
+    private final ExecuteCommandTaskNew mExecuteCommandTaskNew = new ExecuteCommandTaskNew();
+    private int mTaskCount;
 
     //  Indicate syncDateAll has been called
     private static boolean sDateSynced = false;
@@ -78,6 +82,8 @@ public class SSHFragment extends Fragment implements TaskResponse {
         //  This to set delegate/listener back to this class
         mExecuteCommandTask.delegate = this;
         mExecutePingTask.delegate = this;
+        //  TODO:  Work in progress until I can implement an RTC
+        mExecuteCommandTaskNew.delegate = this;
 
         // Calling Application class (see application tag in AndroidManifest.xml)
         mGlobalVariables = (GlobalVariables) getActivity().getApplicationContext();
@@ -101,10 +107,10 @@ public class SSHFragment extends Fragment implements TaskResponse {
         }
 
         //  TextView:  Reply
-        sTxtReply = (TextView) view.findViewById(R.id.txtReply);
+        sTxtReply = view.findViewById(R.id.txtReply);
 
         // Creating adapter for spinner
-        spinnerNodes = (Spinner) view.findViewById(R.id.spinnerNodes);
+        spinnerNodes = view.findViewById(R.id.spinnerNodes);
         List<String> nodes = new ArrayList<>();
         for (int i = 0; i < mNodes.size(); i++) {
             nodes.add(mNodes.get(i).getIp());
@@ -118,7 +124,7 @@ public class SSHFragment extends Fragment implements TaskResponse {
         spinnerNodes.setAdapter(dataAdapterNodes);
 
         //  EditText:  Execute Command
-        txtExecuteCommand = (EditText) view.findViewById(R.id.txtExecuteCommand);
+        txtExecuteCommand = view.findViewById(R.id.txtExecuteCommand);
         txtExecuteCommand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,7 +133,7 @@ public class SSHFragment extends Fragment implements TaskResponse {
         });
 
         //  Button:  Ping
-        Button btnPing = (Button) view.findViewById(R.id.btnPing);
+        Button btnPing = view.findViewById(R.id.btnPing);
         btnPing.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("StaticFieldLeak")
             @Override
@@ -143,7 +149,7 @@ public class SSHFragment extends Fragment implements TaskResponse {
                 p.nodes = new ArrayList<>();
                 p.nodes.add(mNodes.get(index));     //  List<Node> will be of size one, since only pinging a single node.
                 p.cmd = "";     //  Ping does not send a command
-                p.taskName = getString(R.string.msg_executing_ping) + getString(R.string.msg_on_node) + spinnerNodes.getSelectedItem().toString();;
+                p.taskName = getString(R.string.msg_executing_ping) + getString(R.string.msg_on_node) + spinnerNodes.getSelectedItem().toString();
 
                 // Perform ping
                 executePingTask(p);
@@ -151,7 +157,7 @@ public class SSHFragment extends Fragment implements TaskResponse {
         });
 
         //  Button:  PowerOff (Single)
-        Button btnPowerOffSingle = (Button) view.findViewById(R.id.btnPoweroffSingle);
+        Button btnPowerOffSingle = view.findViewById(R.id.btnPoweroffSingle);
         btnPowerOffSingle.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("StaticFieldLeak")
             @Override
@@ -178,7 +184,7 @@ public class SSHFragment extends Fragment implements TaskResponse {
         });
 
         //  Button:  PowerOff (All)
-        Button btnPowerOffAll = (Button) view.findViewById(R.id.btnPoweroffAll);
+        Button btnPowerOffAll = view.findViewById(R.id.btnPoweroffAll);
         btnPowerOffAll.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("StaticFieldLeak")
             @Override
@@ -203,7 +209,7 @@ public class SSHFragment extends Fragment implements TaskResponse {
         });
 
         //  Button:  Execute command
-        Button btnExecuteCommand = (Button) view.findViewById(R.id.btnExecuteCommand);
+        Button btnExecuteCommand = view.findViewById(R.id.btnExecuteCommand);
         btnExecuteCommand.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("StaticFieldLeak")
             @Override
@@ -235,7 +241,7 @@ public class SSHFragment extends Fragment implements TaskResponse {
         });
 
         //  Button:  SyncDate - Single Node
-        Button btnSyncDateSingle = (Button) view.findViewById(R.id.btnSyncDateSingle);
+        Button btnSyncDateSingle = view.findViewById(R.id.btnSyncDateSingle);
         btnSyncDateSingle.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("StaticFieldLeak")
             @Override
@@ -265,18 +271,19 @@ public class SSHFragment extends Fragment implements TaskResponse {
         });
 
         //  Button:  SyncDate - All Nodes
-        Button btnSyncDateAll = (Button) view.findViewById(R.id.btnSyncDateAll);
+        Button btnSyncDateAll = view.findViewById(R.id.btnSyncDateAll);
         btnSyncDateAll.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("StaticFieldLeak")
             @Override
             public void onClick(View v) {
                 //  Execute the command
-                syncDateAll();
+//                syncDateAll();
+                syncDateAllNew();
             }
         });
 
         //  Command history
-        final Spinner spinnerCommandHistory = (Spinner) view.findViewById(R.id.spinnerCommandHistory);
+        final Spinner spinnerCommandHistory = view.findViewById(R.id.spinnerCommandHistory);
         spinnerCommandHistory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -366,10 +373,13 @@ public class SSHFragment extends Fragment implements TaskResponse {
         //of onPostExecute(result) method.
 
         //  Dismiss the progress dialog
-        if (progressDialog !=null) {
-            progressDialog.hide();
-            progressDialog = null;
-        }
+        hideProgressDialog();
+//        if (mProgressDialog !=null) {
+//            mProgressDialog.hide();
+//            mProgressDialog = null;
+//        }
+
+        mTaskCount += -1;
 
         Log.d(TAG, getString(R.string.msg_task_finished));
         writeTaskResult(result,getString(R.string.msg_task_finished) );
@@ -377,13 +387,12 @@ public class SSHFragment extends Fragment implements TaskResponse {
     }
 
     public void hideProgress() {
-
         //  Dismiss the progress dialog
-        if (progressDialog !=null) {
-            progressDialog.hide();
-            progressDialog = null;
-        }
-
+        hideProgressDialog();
+//        if (mProgressDialog !=null) {
+//            mProgressDialog.hide();
+//            mProgressDialog = null;
+//        }
         Log.d(TAG, "hideProgress");
     }
 
@@ -397,15 +406,25 @@ public class SSHFragment extends Fragment implements TaskResponse {
     }
 
     public void taskCanceled(TaskResult result) {
-
         //  Dismiss the progress dialog
-        if (progressDialog !=null) {
-            progressDialog.hide();
-            progressDialog = null;
-        }
-
+        hideProgressDialog();
+//        if (mProgressDialog !=null) {
+//            mProgressDialog.hide();
+//            mProgressDialog = null;
+//        }
         Log.d(TAG, getString(R.string.msg_task_cancelled));
         writeTaskResult(result,getString(R.string.msg_task_cancelled) );
+    }
+
+    private void hideProgressDialog() {
+        //  Dismiss the progress dialog
+        if (mTaskCount == 1 ) {
+            if (mProgressDialog !=null) {
+                mProgressDialog.hide();
+                mProgressDialog = null;
+                mTaskCount = 0;
+            }
+        }
     }
 
     private void writeTaskResult(TaskResult result, String tag) {
@@ -436,12 +455,14 @@ public class SSHFragment extends Fragment implements TaskResponse {
      */
     private void executeCommandTask(TaskRequest request) {
 
+        mTaskCount = 1;
+
         //  Using progress dialog even though is has been depreciated.
-        progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setMessage(getString(R.string.msg_executing_command));
-        progressDialog.setIndeterminate(false);
-        progressDialog.setCancelable(true);
-        progressDialog.show();
+        mProgressDialog = new ProgressDialog(getActivity());
+        mProgressDialog.setMessage(getString(R.string.msg_executing_command));
+        mProgressDialog.setIndeterminate(false);
+        mProgressDialog.setCancelable(true);
+        mProgressDialog.show();
 
         ExecuteCommandTask task = new ExecuteCommandTask();
         task.delegate = this;   //  Callback
@@ -466,14 +487,50 @@ public class SSHFragment extends Fragment implements TaskResponse {
      */
     private void executePingTask(TaskRequest request) {
 
+        mTaskCount = 1;
+
         //  Using progress dialog even though is has been depreciated.
-        progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setMessage(getString(R.string.msg_executing_ping));
-        progressDialog.setIndeterminate(false);
-        progressDialog.setCancelable(true);
-        progressDialog.show();
+        mProgressDialog = new ProgressDialog(getActivity());
+        mProgressDialog.setMessage(getString(R.string.msg_executing_ping));
+        mProgressDialog.setIndeterminate(false);
+        mProgressDialog.setCancelable(true);
+        mProgressDialog.show();
 
         ExecutePingTask task = new ExecutePingTask();
+        task.delegate = this;   //  Callback
+
+        //  Wrap task in handler so that we can timeout task
+        Handler handler = new Handler();
+        TaskTimeout taskTimeout;
+        taskTimeout = new TaskTimeout(task);
+        handler.postDelayed(taskTimeout, TIMEOUT);
+
+        //  Need to cancel Handler if remote command fails before timeout.
+        task.handler = handler;
+        task.runnable = taskTimeout;
+
+        //  Execute task
+        task.execute(request);
+    }
+
+    //  TODO:  Work in progress until I can implement an RTC
+    /**
+     * Wraps AsyncTask in a handler to the request can be canceled after period of time.
+     * @param request TaskRequest:
+     */
+    private void executeCommandTaskNew(TaskRequest request) {
+
+        if (mTaskCount == 1 ){
+            //  Using progress dialog even though is has been depreciated.
+            mProgressDialog = new ProgressDialog(getActivity());
+            mProgressDialog.setMessage(getString(R.string.msg_executing_command));
+            mProgressDialog.setIndeterminate(false);
+            mProgressDialog.setCancelable(true);
+            mProgressDialog.show();
+        }
+
+
+        ExecuteCommandTaskNew task = new ExecuteCommandTaskNew();
         task.delegate = this;   //  Callback
 
         //  Wrap task in handler so that we can timeout task
@@ -518,6 +575,44 @@ public class SSHFragment extends Fragment implements TaskResponse {
 
     }
 
+    //  TODO:  Work in progress until I can implement an RTC
+    /**
+     * Sync Android date/time with Pi.  Follow with 'date' command to view system date/time.
+     */
+    private void syncDateAllNew() {
+        final String date = getDateTime();
+        final String cmd = "sudo date -s \"" + date + "\" ;date";
+
+        //  Prepare system log and console message
+        String msg = getString(R.string.msg_executing_command) + FileStorageUtils.TABS + cmd + FileStorageUtils.LINE_SEPARATOR;
+        msg = msg + getString(R.string.msg_sync_date_all_nodes) + FileStorageUtils.LINE_SEPARATOR;
+        updateConsoleAndSystemLog(msg);
+
+        mTaskCount = 0;
+
+        //  Loop through nodes
+        for (int index =0; index < mNodes.size(); index++) {
+
+            mTaskCount += 1;
+
+            msg = getString(R.string.msg_sync_date_single_node) + mNodes.get(index).getName() + ": " + mNodes.get(index).getIp() + FileStorageUtils.LINE_SEPARATOR;
+            updateConsoleAndSystemLog(msg);
+
+            TaskRequest request = new TaskRequest();
+            request.nodes = new ArrayList<>();
+            request.nodes.add(mNodes.get(index));
+            request.cmd = cmd;
+            request.taskName = msg;
+
+            //  Execute command
+            executeCommandTaskNew(request);
+        }
+
+        //  Indicate that date synced so that if we return to this fragment syncDateAll is not called again.
+        sDateSynced = true;
+
+    }
+
     /**
      * Steps performed when app is launched.
      */
@@ -535,7 +630,8 @@ public class SSHFragment extends Fragment implements TaskResponse {
                 updateConsoleAndSystemLog(msg);
 
                 //  Sync dates
-                syncDateAll();
+//                syncDateAll();
+                syncDateAllNew();
             } else {
                 msg = getString(R.string.msg_sync_date_already_performed) + FileStorageUtils.LINE_SEPARATOR;
                 updateConsoleAndSystemLog(msg);

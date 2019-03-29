@@ -5,7 +5,7 @@ import java.util.List;
 
 //  Class AsyncTask parameters
 public class TaskRequest {
-    public List<Node> nodes;
+    public Node node;
     public String cmd;
     public String taskName;
 }

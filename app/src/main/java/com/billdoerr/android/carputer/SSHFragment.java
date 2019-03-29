@@ -28,10 +28,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import com.billdoerr.android.carputer.asynctaskutils.ExecuteCommandTaskNew;
+import com.billdoerr.android.carputer.asynctaskutils.ExecuteCommandTask;
 import com.billdoerr.android.carputer.settings.Node;
 import com.billdoerr.android.carputer.asynctaskutils.TaskResponse;
-import com.billdoerr.android.carputer.asynctaskutils.ExecuteCommandTask;
 import com.billdoerr.android.carputer.asynctaskutils.ExecutePingTask;
 import com.billdoerr.android.carputer.asynctaskutils.TaskTimeout;
 import com.billdoerr.android.carputer.asynctaskutils.TaskRequest;
@@ -52,16 +51,16 @@ public class SSHFragment extends Fragment implements TaskResponse {
 
     private List<Node> mNodes = new ArrayList<Node>();
     private WiFiUtils mWiFiUtils;
-    private static TextView sTxtReply;
+    private TextView mTxtReply;
 
     private ProgressDialog mProgressDialog;
 
     //  AsyncTask
-    private final ExecuteCommandTask mExecuteCommandTask = new ExecuteCommandTask();
     private final ExecutePingTask mExecutePingTask = new ExecutePingTask();
-    //  TODO:  Work in progress until I can implement an RTC
-    private final ExecuteCommandTaskNew mExecuteCommandTaskNew = new ExecuteCommandTaskNew();
-    private int mTaskCount;
+    private final ExecuteCommandTask mExecuteCommandTask = new ExecuteCommandTask();
+
+    //  Keep track of tasks generated.  Used later to dismiss progress dialog
+    private int mTaskCount = 0;
 
     //  Indicate syncDateAll has been called
     private static boolean sDateSynced = false;
@@ -80,10 +79,8 @@ public class SSHFragment extends Fragment implements TaskResponse {
         setHasOptionsMenu(true);
 
         //  This to set delegate/listener back to this class
-        mExecuteCommandTask.delegate = this;
         mExecutePingTask.delegate = this;
-        //  TODO:  Work in progress until I can implement an RTC
-        mExecuteCommandTaskNew.delegate = this;
+        mExecuteCommandTask.delegate = this;
 
         // Calling Application class (see application tag in AndroidManifest.xml)
         mGlobalVariables = (GlobalVariables) getActivity().getApplicationContext();
@@ -107,7 +104,7 @@ public class SSHFragment extends Fragment implements TaskResponse {
         }
 
         //  TextView:  Reply
-        sTxtReply = view.findViewById(R.id.txtReply);
+        mTxtReply = view.findViewById(R.id.txtReply);
 
         // Creating adapter for spinner
         spinnerNodes = view.findViewById(R.id.spinnerNodes);
@@ -143,16 +140,18 @@ public class SSHFragment extends Fragment implements TaskResponse {
                 String msg = getString(R.string.msg_executing_ping) + getString(R.string.msg_on_node) + spinnerNodes.getSelectedItem().toString() + FileStorageUtils.LINE_SEPARATOR;
                 updateConsoleAndSystemLog(msg);
 
+                //  Keep track of tasks generated.  Used later to dismiss progress dialog
+                mTaskCount = 1;     //  Only executing a single task
+
                 //  Get node from dropdown
                 int index = spinnerNodes.getSelectedItemPosition();
-                TaskRequest p = new TaskRequest();
-                p.nodes = new ArrayList<>();
-                p.nodes.add(mNodes.get(index));     //  List<Node> will be of size one, since only pinging a single node.
-                p.cmd = "";     //  Ping does not send a command
-                p.taskName = getString(R.string.msg_executing_ping) + getString(R.string.msg_on_node) + spinnerNodes.getSelectedItem().toString();
+                TaskRequest request = new TaskRequest();
+                request.node = mNodes.get(index);
+                request.cmd = "";     //  Ping does not send a command
+                request.taskName = getString(R.string.msg_executing_ping) + getString(R.string.msg_on_node) + spinnerNodes.getSelectedItem().toString();
 
                 // Perform ping
-                executePingTask(p);
+                executePingTask(request);
             }
         });
 
@@ -170,11 +169,13 @@ public class SSHFragment extends Fragment implements TaskResponse {
                 msg = msg + getString(R.string.msg_power_off_single_node) + spinnerNodes.getSelectedItem().toString() + FileStorageUtils.LINE_SEPARATOR;
                 updateConsoleAndSystemLog(msg);
 
+                //  Keep track of tasks generated.  Used later to dismiss progress dialog
+                mTaskCount = 1;     //  Only executing a single task
+
                 //  Get node from dropdown
                 int index = spinnerNodes.getSelectedItemPosition();
                 TaskRequest request = new TaskRequest();
-                request.nodes = new ArrayList<>();
-                request.nodes.add(mNodes.get(index));
+                request.node = mNodes.get(index);
                 request.cmd = cmd;
                 request.taskName = getString(R.string.msg_power_off_single_node) + spinnerNodes.getSelectedItem().toString();
 
@@ -189,22 +190,8 @@ public class SSHFragment extends Fragment implements TaskResponse {
             @SuppressLint("StaticFieldLeak")
             @Override
             public void onClick(View v) {
-                final String cmd = "sudo shutdown -h 0";
-                txtExecuteCommand.setText(cmd);     //  Display command
-
-                //  Prepare system log and console message
-                String msg = getString(R.string.msg_executing_command) + FileStorageUtils.TABS + cmd + FileStorageUtils.LINE_SEPARATOR;
-                msg = msg + getString(R.string.msg_power_off_all_nodes) + FileStorageUtils.LINE_SEPARATOR;
-                updateConsoleAndSystemLog(msg);
-
-                //  All nodes
-                TaskRequest request = new TaskRequest();
-                request.nodes = mNodes;
-                request.cmd = cmd;
-                request.taskName = getString(R.string.msg_power_off_all_nodes);
-
                 //  Execute command
-                executeCommandTask(request);
+                powerOffAll();
             }
         });
 
@@ -227,11 +214,13 @@ public class SSHFragment extends Fragment implements TaskResponse {
                         .getSystemService(Activity.INPUT_METHOD_SERVICE);
                 inputManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
 
+                //  Keep track of tasks generated.  Used later to dismiss progress dialog
+                mTaskCount = 1;     //  Only executing a single task
+
                 //  Get node from dropdown
                 int index = spinnerNodes.getSelectedItemPosition();
                 TaskRequest request = new TaskRequest();
-                request.nodes = new ArrayList<>();
-                request.nodes.add(mNodes.get(index));
+                request.node = mNodes.get(index);
                 request.cmd = cmd;
                 request.taskName = msg;
 
@@ -256,11 +245,13 @@ public class SSHFragment extends Fragment implements TaskResponse {
                 msg = msg + getString(R.string.msg_sync_date_single_node) + spinnerNodes.getSelectedItem().toString() + FileStorageUtils.LINE_SEPARATOR;
                 updateConsoleAndSystemLog(msg);
 
+                //  Keep track of tasks generated.  Used later to dismiss progress dialog
+                mTaskCount = 1;     //  Only executing a single task
+
                 //  Get node from dropdown
                 int index = spinnerNodes.getSelectedItemPosition();
                 TaskRequest request = new TaskRequest();
-                request.nodes = new ArrayList<>();
-                request.nodes.add(mNodes.get(index));
+                request.node = mNodes.get(index);
                 request.cmd = cmd;
                 request.taskName = getString(R.string.msg_sync_date_single_node) + spinnerNodes.getSelectedItem().toString();
 
@@ -277,8 +268,7 @@ public class SSHFragment extends Fragment implements TaskResponse {
             @Override
             public void onClick(View v) {
                 //  Execute the command
-//                syncDateAll();
-                syncDateAllNew();
+                syncDateAll();
             }
         });
 
@@ -352,7 +342,7 @@ public class SSHFragment extends Fragment implements TaskResponse {
 
             //  Clear console
             case R.id.action_clear_console:
-                sTxtReply.setText("");
+                mTxtReply.setText("");
             default:
                 break;
 
@@ -374,11 +364,8 @@ public class SSHFragment extends Fragment implements TaskResponse {
 
         //  Dismiss the progress dialog
         hideProgressDialog();
-//        if (mProgressDialog !=null) {
-//            mProgressDialog.hide();
-//            mProgressDialog = null;
-//        }
 
+        //  Keep track of tasks generated.  Used later to dismiss progress dialog
         mTaskCount += -1;
 
         Log.d(TAG, getString(R.string.msg_task_finished));
@@ -389,10 +376,7 @@ public class SSHFragment extends Fragment implements TaskResponse {
     public void hideProgress() {
         //  Dismiss the progress dialog
         hideProgressDialog();
-//        if (mProgressDialog !=null) {
-//            mProgressDialog.hide();
-//            mProgressDialog = null;
-//        }
+
         Log.d(TAG, "hideProgress");
     }
 
@@ -408,14 +392,12 @@ public class SSHFragment extends Fragment implements TaskResponse {
     public void taskCanceled(TaskResult result) {
         //  Dismiss the progress dialog
         hideProgressDialog();
-//        if (mProgressDialog !=null) {
-//            mProgressDialog.hide();
-//            mProgressDialog = null;
-//        }
+
         Log.d(TAG, getString(R.string.msg_task_cancelled));
         writeTaskResult(result,getString(R.string.msg_task_cancelled) );
     }
 
+    //  Dismiss progress dialog when task counter = 1
     private void hideProgressDialog() {
         //  Dismiss the progress dialog
         if (mTaskCount == 1 ) {
@@ -449,20 +431,52 @@ public class SSHFragment extends Fragment implements TaskResponse {
 
     }
 
+//    /**
+//     * Wraps AsyncTask in a handler to the request can be canceled after period of time.
+//     * @param request TaskRequest:
+//     */
+//    private void executeCommandTask(TaskRequest request) {
+//
+//        if (mTaskCount == 1 ){
+//            //  Using progress dialog even though is has been depreciated.
+//            mProgressDialog = new ProgressDialog(getActivity());
+//            mProgressDialog.setMessage(getString(R.string.msg_executing_command));
+//            mProgressDialog.setIndeterminate(false);
+//            mProgressDialog.setCancelable(true);
+//            mProgressDialog.show();
+//        }
+//
+//        ExecuteCommandTaskOld task = new ExecuteCommandTaskOld();
+//        task.delegate = this;   //  Callback
+//
+//        //  Wrap task in handler so that we can timeout task
+//        Handler handler = new Handler();
+//        TaskTimeout taskTimeout;
+//        taskTimeout = new TaskTimeout(task);
+//        handler.postDelayed(taskTimeout, TIMEOUT);
+//
+//        //  Need to cancel Handler if remote command fails before timeout.
+//        task.handler = handler;
+//        task.runnable = taskTimeout;
+//
+//        //  Execute task
+//        task.execute(request);
+//    }
+
     /**
      * Wraps AsyncTask in a handler to the request can be canceled after period of time.
      * @param request TaskRequest:
      */
     private void executeCommandTask(TaskRequest request) {
 
-        mTaskCount = 1;
-
-        //  Using progress dialog even though is has been depreciated.
-        mProgressDialog = new ProgressDialog(getActivity());
-        mProgressDialog.setMessage(getString(R.string.msg_executing_command));
-        mProgressDialog.setIndeterminate(false);
-        mProgressDialog.setCancelable(true);
-        mProgressDialog.show();
+        if (mTaskCount == 1 ){
+            //  Using progress dialog even though is has been depreciated.
+            mProgressDialog = new ProgressDialog(getActivity());
+            mProgressDialog.setMessage(getString(R.string.msg_executing_command));
+            mProgressDialog.setIndeterminate(false);
+            mProgressDialog.setCancelable(true);
+            mProgressDialog.show();
+        }
 
         ExecuteCommandTask task = new ExecuteCommandTask();
         task.delegate = this;   //  Callback
@@ -515,101 +529,78 @@ public class SSHFragment extends Fragment implements TaskResponse {
 
     //  TODO:  Work in progress until I can implement an RTC
     /**
-     * Wraps AsyncTask in a handler to the request can be canceled after period of time.
-     * @param request TaskRequest:
-     */
-    private void executeCommandTaskNew(TaskRequest request) {
-
-        if (mTaskCount == 1 ){
-            //  Using progress dialog even though is has been depreciated.
-            mProgressDialog = new ProgressDialog(getActivity());
-            mProgressDialog.setMessage(getString(R.string.msg_executing_command));
-            mProgressDialog.setIndeterminate(false);
-            mProgressDialog.setCancelable(true);
-            mProgressDialog.show();
-        }
-
-
-        ExecuteCommandTaskNew task = new ExecuteCommandTaskNew();
-        task.delegate = this;   //  Callback
-
-        //  Wrap task in handler so that we can timeout task
-        Handler handler = new Handler();
-        TaskTimeout taskTimeout;
-        taskTimeout = new TaskTimeout(task);
-        handler.postDelayed(taskTimeout, TIMEOUT);
-
-        //  Need to cancel Handler if remote command fails before timeout.
-        task.handler = handler;
-        task.runnable = taskTimeout;
-
-        //  Execute task
-        task.execute(request);
-    }
-
-
-    /**
      * Sync Android date/time with Pi.  Follow with 'date' command to view system date/time.
      */
     private void syncDateAll() {
         final String date = getDateTime();
         final String cmd = "sudo date -s \"" + date + "\" ;date";
-        String msg = "";
 
-        //  Prepare system log and console message
-        msg = getString(R.string.msg_executing_command) + FileStorageUtils.TABS + cmd + FileStorageUtils.LINE_SEPARATOR;
+        //  Update system log and console
+        String msg = getString(R.string.msg_executing_command) + FileStorageUtils.TABS + cmd + FileStorageUtils.LINE_SEPARATOR;
         msg = msg + getString(R.string.msg_sync_date_all_nodes) + FileStorageUtils.LINE_SEPARATOR;
         updateConsoleAndSystemLog(msg);
 
-        //  All nodes
-        TaskRequest request = new TaskRequest();
-        request.nodes = mNodes;
-        request.cmd = cmd;
-        request.taskName = getString(R.string.msg_sync_date_all_nodes);
+        //  Keep track of tasks generated.  Used later to dismiss progress dialog
+        mTaskCount = 0;
 
-        //  Execute command
-        executeCommandTask(request);
+        //  Loop through nodes
+        for (int index =0; index < mNodes.size(); index++) {
+
+            //  Keep track of tasks generated.  Used later to dismiss progress dialog
+            mTaskCount += 1;
+
+            //  Update system log and console
+            msg = getString(R.string.msg_sync_date_single_node) + mNodes.get(index).getName() + ": " + mNodes.get(index).getIp() + FileStorageUtils.LINE_SEPARATOR;
+            updateConsoleAndSystemLog(msg);
+
+            //  Compose task request
+            TaskRequest request = new TaskRequest();
+            request.node = mNodes.get(index);
+            request.cmd = cmd;
+            request.taskName = msg;
+
+            //  Execute command
+            executeCommandTask(request);
+        }
 
         //  Indicate that date synced so that if we return to this fragment syncDateAll is not called again.
         sDateSynced = true;
 
     }
 
-    //  TODO:  Work in progress until I can implement an RTC
     /**
-     * Sync Android date/time with Pi.  Follow with 'date' command to view system date/time.
+     * Sends shutdown command to all nodes.  No value is returned from this command.
      */
-    private void syncDateAllNew() {
-        final String date = getDateTime();
-        final String cmd = "sudo date -s \"" + date + "\" ;date";
+    private void powerOffAll() {
+        final String cmd = "sudo shutdown -h 0";
 
-        //  Prepare system log and console message
+        //  Update system log and console
         String msg = getString(R.string.msg_executing_command) + FileStorageUtils.TABS + cmd + FileStorageUtils.LINE_SEPARATOR;
-        msg = msg + getString(R.string.msg_sync_date_all_nodes) + FileStorageUtils.LINE_SEPARATOR;
+        msg = msg + getString(R.string.msg_power_off_all_nodes) + FileStorageUtils.LINE_SEPARATOR;
         updateConsoleAndSystemLog(msg);
 
+        //  Keep track of tasks generated.  Used later to dismiss progress dialog
         mTaskCount = 0;
 
         //  Loop through nodes
         for (int index =0; index < mNodes.size(); index++) {
 
+            //  Keep track of tasks generated.  Used later to dismiss progress dialog
             mTaskCount += 1;
 
-            msg = getString(R.string.msg_sync_date_single_node) + mNodes.get(index).getName() + ": " + mNodes.get(index).getIp() + FileStorageUtils.LINE_SEPARATOR;
+            //  Update system log and console
+            msg = getString(R.string.msg_power_off_single_node) + mNodes.get(index).getName() + ": " + mNodes.get(index).getIp() + FileStorageUtils.LINE_SEPARATOR;
             updateConsoleAndSystemLog(msg);
 
+            //  Compose task request
             TaskRequest request = new TaskRequest();
-            request.nodes = new ArrayList<>();
-            request.nodes.add(mNodes.get(index));
+            request.node = mNodes.get(index);
             request.cmd = cmd;
             request.taskName = msg;
 
             //  Execute command
-            executeCommandTaskNew(request);
+            executeCommandTask(request);
         }
-
-        //  Indicate that date synced so that if we return to this fragment syncDateAll is not called again.
-        sDateSynced = true;
 
     }
 
@@ -630,8 +621,7 @@ public class SSHFragment extends Fragment implements TaskResponse {
                 updateConsoleAndSystemLog(msg);
 
                 //  Sync dates
-//                syncDateAll();
-                syncDateAllNew();
+                syncDateAll();
             } else {
                 msg = getString(R.string.msg_sync_date_already_performed) + FileStorageUtils.LINE_SEPARATOR;
                 updateConsoleAndSystemLog(msg);
@@ -662,7 +652,7 @@ public class SSHFragment extends Fragment implements TaskResponse {
         FileStorageUtils.writeSystemLog(getActivity(), mGlobalVariables.SYS_LOG,TAG + FileStorageUtils.TABS + msg);
 
         //  Output to console
-        sTxtReply.append(msg + FileStorageUtils.LINE_SEPARATOR);
+        mTxtReply.append(msg + FileStorageUtils.LINE_SEPARATOR);
     }
 
 }

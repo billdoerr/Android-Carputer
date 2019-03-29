@@ -34,7 +34,7 @@ public class ExecutePingTask extends AsyncTask<TaskRequest, Void, TaskResult> {
         TaskRequest taskParams = params[0];
 
         //  Ping command will only have one node
-        String currentNode = taskParams.nodes.get(0).getIp();
+        String currentNode = taskParams.node.getIp();
 
         //  Task results
         mTaskResult = new TaskResult();

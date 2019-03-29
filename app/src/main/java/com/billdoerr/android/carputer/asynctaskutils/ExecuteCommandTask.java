@@ -9,6 +9,7 @@ import com.billdoerr.android.carputer.utils.FileStorageUtils;
 import com.billdoerr.android.carputer.utils.NodeUtils;
 import com.jcraft.jsch.JSchException;
 
+
 /**
  * Async Task to perform ping command.
  * android.os.AsyncTask<Params, Progress, Result>.
@@ -43,26 +44,22 @@ public class ExecuteCommandTask extends AsyncTask<TaskRequest, Void, TaskResult>
         mTaskResults.request = taskParams;   //  Assigning TaskParams to TaskResult so we can use this info later in the UI.
         mTaskResults.exception = "";
 
-        //  Loop through nodes
-        for (int i = 0; i < taskParams.nodes.size(); i++) {
-            try {
-                NodeUtils utils = new NodeUtils();
-                utils.initialize(taskParams.nodes.get(i).getIp(), taskParams.nodes.get(i).getSSHPort(),
-                        taskParams.nodes.get(i).getUser(), taskParams.nodes.get(i).getPassword());
-                mTaskResults.response = utils.executeRemoteCommand(taskParams.cmd);
+        try {
+            NodeUtils utils = new NodeUtils();
+            utils.initialize(taskParams.node.getIp(), taskParams.node.getSSHPort(),
+                    taskParams.node.getUser(), taskParams.node.getPassword());
+            mTaskResults.response = utils.executeRemoteCommand(taskParams.cmd);
 
-                Log.d(TAG, "doInBackground:  Looping through nodes.");
-                if (mTaskResults.response != null) {
-                    Log.d(TAG, "doInBackground:  Task Results:\t" + FileStorageUtils.TABS + mTaskResults.response);
-                } else {
-                    Log.d(TAG, "doInBackground:  Task Results:\t" + FileStorageUtils.TABS + "No result returned.");
-                }
-
-            } catch (JSchException e) {
-                mTaskResults.exception = e.toString();
-                Log.e(TAG, e.getMessage());
+            Log.d(TAG, "doInBackground:  Looping through nodes.");
+            if (mTaskResults.response != null) {
+                Log.d(TAG, "doInBackground:  Task Results:\t" + FileStorageUtils.TABS + mTaskResults.response);
+            } else {
+                Log.d(TAG, "doInBackground:  Task Results:\t" + FileStorageUtils.TABS + "No result returned.");
             }
 
+        } catch (JSchException e) {
+            mTaskResults.exception = e.toString();
+            Log.e(TAG, e.getMessage());
         }
 
         Log.d(TAG,"doInBackground:  completed");

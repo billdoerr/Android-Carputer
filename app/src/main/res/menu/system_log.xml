@@ -5,10 +5,10 @@
         android:id="@+id/action_refresh"
         android:icon="@drawable/ic_baseline_refresh_24px"
         android:title="@string/action_system_log_refresh"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_clear"
         android:icon="@drawable/ic_baseline_clear_24px"
         android:title="@string/action_system_log_clear"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
 </menu>

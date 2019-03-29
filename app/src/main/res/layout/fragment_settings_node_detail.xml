@@ -51,7 +51,8 @@
                     style="@style/EditTextTheme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="text" />
+                    android:inputType="text"
+                    android:importantForAutofill="no" />
 
                 <TextView
                     android:id="@+id/lbl_node_name_required_field"
@@ -73,7 +74,8 @@
                     style="@style/EditTextTheme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textUri" />
+                    android:inputType="textUri"
+                    android:importantForAutofill="no" />
 
                 <TextView
                     android:id="@+id/lbl_node_ip_required_field"
@@ -97,7 +99,8 @@
                     style="@style/EditTextTheme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textUri" />
+                    android:inputType="textUri"
+                    android:importantForAutofill="no" />
 
                 <Switch
                     android:id="@+id/switch_use_authentication"
@@ -120,7 +123,8 @@
                     style="@style/EditTextTheme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="text" />
+                    android:inputType="text"
+                    android:importantForAutofill="no" />
 
                 <TextView
                     android:id="@+id/lbl_password"
@@ -135,7 +139,8 @@
                     style="@style/EditTextTheme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPassword" />
+                    android:inputType="textPassword"
+                    android:importantForAutofill="no" />
 
                 <Switch
                     android:id="@+id/switch_node_use_motioneye"
@@ -157,7 +162,8 @@
                     style="@style/EditTextTheme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textUri" />
+                    android:inputType="textUri"
+                    android:importantForAutofill="no" />
 
                 <Switch
                     android:id="@+id/switch_node_use_phpsysinfo"
@@ -179,7 +185,8 @@
                     style="@style/EditTextTheme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textUri" />
+                    android:inputType="textUri"
+                    android:importantForAutofill="no" />
 
                 <TextView
                     android:layout_width="wrap_content"

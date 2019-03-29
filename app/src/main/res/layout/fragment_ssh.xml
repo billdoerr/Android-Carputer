@@ -34,7 +34,8 @@
             android:enabled="true"
             android:inputType="textNoSuggestions"
             android:textColor="@android:color/holo_red_dark"
-            android:hint="@string/btn_carputer_mgmt_execute_command"/>
+            android:hint="@string/btn_carputer_mgmt_execute_command"
+            android:importantForAutofill="no" />
 
         <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"

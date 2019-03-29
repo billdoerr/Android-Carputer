@@ -51,7 +51,8 @@
                     style="@style/EditTextTheme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="text" />
+                    android:inputType="text"
+                    android:importantForAutofill="no" />
 
                 <TextView
                     android:id="@+id/lbl_camera_name_required_field"
@@ -74,7 +75,8 @@
                     style="@style/EditTextTheme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textUri" />
+                    android:inputType="textUri"
+                    android:importantForAutofill="no" />
 
                 <TextView
                     android:id="@+id/lbl_camera_url_required_field"

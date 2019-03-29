@@ -20,6 +20,7 @@ All notable changes to this Android application project will be documented in th
 - [ ]  Connectivity monitoring. 
 #### Changed
 - [ ]  I/Choreographer: Skipped frames!  The application may be doing too much work on its main thread.  
+		First guess it is caused by CameraFragmentMjpegSnapshot grabbing frames.  If so, nothing I can do if I want to keep this functionality.
 	https://stackoverflow.com/questions/14678593/the-application-may-be-doing-too-much-work-on-its-main-thread
 #### Removed
 
@@ -32,7 +33,7 @@ All notable changes to this Android application project will be documented in th
     - [x]  Change code to utilize GlobalVariables.
 - [ ]  **(STRETCH GOAL)**  System Status dialog.   Feature creep!  
 	- [x]  Infrastructure added.
-	- [ ]  Add content.
+	- [ ]  Add content.  ON HOLD. PROBABLY WILL NOT GO FORWARD WITH THIS.
 - [x]  System Logging.  Feature creep!
 	- [x]  Logging in SSH Fragment needs improvement.
 	- [x] Use across application.

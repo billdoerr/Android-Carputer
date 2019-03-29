@@ -65,6 +65,9 @@ public class SSHFragment extends Fragment implements TaskResponse {
     //  Indicate syncDateAll has been called
     private static boolean sDateSynced = false;
 
+    //  Store console text in bundle
+    private static String sTxtConsole;
+
     public static SSHFragment newInstance() {
         return new SSHFragment();
     }
@@ -97,11 +100,6 @@ public class SSHFragment extends Fragment implements TaskResponse {
         Spinner spinnerNodes;
 
         View view = inflater.inflate(R.layout.fragment_ssh, container, false);
-
-        //  Restore state
-        if (savedInstanceState != null) {
-            sDateSynced = savedInstanceState.getBoolean("DateSynced");
-        }
 
         //  TextView:  Reply
         mTxtReply = view.findViewById(R.id.txtReply);
@@ -309,6 +307,8 @@ public class SSHFragment extends Fragment implements TaskResponse {
         // attaching data adapter to spinner
         spinnerCommandHistory.setAdapter(dataAdapterCmd);
 
+        mTxtReply.setText(sTxtConsole);
+
         // App startup calls
         startUp();
 
@@ -343,11 +343,10 @@ public class SSHFragment extends Fragment implements TaskResponse {
             //  Clear console
             case R.id.action_clear_console:
                 mTxtReply.setText("");
+                sTxtConsole = "";
             default:
                 break;
-
         }
-
         return false;
     }
 
@@ -355,6 +354,22 @@ public class SSHFragment extends Fragment implements TaskResponse {
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
         savedInstanceState.putBoolean("DateSynced", sDateSynced);
+        savedInstanceState.putString("ConsoleText", mTxtReply.getText().toString());
+    }
+
+    /**
+     * Restores instance state.
+     * @param savedInstanceState  Bundle:
+     */
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        //  Restore state
+        if (savedInstanceState != null) {
+            sDateSynced = savedInstanceState.getBoolean("DateSynced");
+            sTxtConsole = savedInstanceState.getString("ConsoleText");
+            mTxtReply.setText(sTxtConsole);
+        }
     }
 
     //  This override the implemented method from asyncTask
@@ -431,38 +446,6 @@ public class SSHFragment extends Fragment implements TaskResponse {
 
     }
 
-//    /**
-//     * Wraps AsyncTask in a handler to the request can be canceled after period of time.
-//     * @param request TaskRequest:
-//     */
-//    private void executeCommandTask(TaskRequest request) {
-//
-//        if (mTaskCount == 1 ){
-//            //  Using progress dialog even though is has been depreciated.
-//            mProgressDialog = new ProgressDialog(getActivity());
-//            mProgressDialog.setMessage(getString(R.string.msg_executing_command));
-//            mProgressDialog.setIndeterminate(false);
-//            mProgressDialog.setCancelable(true);
-//            mProgressDialog.show();
-//        }
-//
-//        ExecuteCommandTaskOld task = new ExecuteCommandTaskOld();
-//        task.delegate = this;   //  Callback
-//
-//        //  Wrap task in handler so that we can timeout task
-//        Handler handler = new Handler();
-//        TaskTimeout taskTimeout;
-//        taskTimeout = new TaskTimeout(task);
-//        handler.postDelayed(taskTimeout, TIMEOUT);
-//
-//        //  Need to cancel Handler if remote command fails before timeout.
-//        task.handler = handler;
-//        task.runnable = taskTimeout;
-//
-//        //  Execute task
-//        task.execute(request);
-//    }
-
     /**
      * Wraps AsyncTask in a handler to the request can be canceled after period of time.
      * @param request TaskRequest:
@@ -527,7 +510,6 @@ public class SSHFragment extends Fragment implements TaskResponse {
         task.execute(request);
     }
 
-    //  TODO:  Work in progress until I can implement an RTC
     /**
      * Sync Android date/time with Pi.  Follow with 'date' command to view system date/time.
      */
@@ -620,6 +602,13 @@ public class SSHFragment extends Fragment implements TaskResponse {
                 msg = getString(R.string.msg_network_connected_date_sync) + FileStorageUtils.LINE_SEPARATOR;
                 updateConsoleAndSystemLog(msg);
 
+                try {
+                    Thread.sleep(2000);
+                }
+                catch (Exception e) {
+                    Log.e(TAG, e.getMessage());
+                }
+
                 //  Sync dates
                 syncDateAll();
             } else {
@@ -653,6 +642,7 @@ public class SSHFragment extends Fragment implements TaskResponse {
 
         //  Output to console
         mTxtReply.append(msg + FileStorageUtils.LINE_SEPARATOR);
+        sTxtConsole = mTxtReply.getText().toString();
     }
 
 }

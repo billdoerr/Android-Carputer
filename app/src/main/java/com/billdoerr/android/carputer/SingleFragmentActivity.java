@@ -8,7 +8,7 @@ import androidx.annotation.NonNull;
 
 import com.billdoerr.android.carputer.settings.SettingsActivity;
 import com.billdoerr.android.carputer.utils.FileStorageUtils;
-import com.billdoerr.android.carputer.utils.WiFiUtils;
+import com.billdoerr.android.carputer.utils.WifiUtils;
 import com.google.android.material.navigation.NavigationView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -18,6 +18,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.MenuItem;
 import android.view.WindowManager;
@@ -35,7 +36,7 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
     private GlobalVariables mGlobalVariables;
 
     //  Networking
-    private WiFiUtils mWiFiUtils;
+    private WifiUtils mWifiUtils;
 
     //  Menu
     private DrawerLayout mDrawerLayout;
@@ -186,13 +187,13 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
         boolean isConnected = false;
 
         //  Networking
-        mWiFiUtils = WiFiUtils.getInstance(getApplicationContext());
+        mWifiUtils = WifiUtils.getInstance(getApplicationContext());
 
         //  Prepare system log and console message
         writeSystemLog(TAG + ":\t" + getString(R.string.msg_network_connecting_now) + FileStorageUtils.LINE_SEPARATOR);
 
-        if (!mWiFiUtils.isConnected()) {
-            isConnected = mWiFiUtils.connectWPA(getApplicationContext(), mGlobalVariables.getNetworkName(), mGlobalVariables.getNetworkPassphrase());
+        if (!mWifiUtils.isConnected()) {
+            isConnected = mWifiUtils.connectWPA(getApplicationContext(), mGlobalVariables.getNetworkName(), mGlobalVariables.getNetworkPassphrase());
         }
 
         String msg = "";

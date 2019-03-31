@@ -14,7 +14,7 @@ All notable changes to this Android application project will be documented in th
 #### Removed
 
 ## [Unreleased]
-### v1.5 (RESEARCH)
+### v1.6 (RESEARCH)
 #### Added
 - [ ]  Update/Add javadocs comments.  Will be ongoing process to better document code.  
 - [ ]  Connectivity monitoring. 
@@ -25,7 +25,15 @@ All notable changes to this Android application project will be documented in th
 #### Removed
 
 ## [Unreleased]
-### v1.4 (IN BETA)
+### v1.5 (RESEARCH)
+#### Added
+#### Changed
+- [ ]  Migrate to a single activity implementation.  (Note:  Settings will remain as a one-off activity).
+	- [ ] 
+#### Removed
+
+## [Released]
+### v1.4 (31Mar2019)
 #### Added
 - [x]  Update/Add javadocs comments.  Will be ongoing process to better document code.  
 - [x]  Create syslog and make it viewable.  The SSHFragment->txtReply is a poor man's version of syslog. 

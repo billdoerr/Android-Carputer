@@ -36,7 +36,7 @@ import com.billdoerr.android.carputer.asynctaskutils.TaskTimeout;
 import com.billdoerr.android.carputer.asynctaskutils.TaskRequest;
 import com.billdoerr.android.carputer.asynctaskutils.TaskResult;
 import com.billdoerr.android.carputer.utils.FileStorageUtils;
-import com.billdoerr.android.carputer.utils.WiFiUtils;
+import com.billdoerr.android.carputer.utils.WifiUtils;
 
 /**
  *  Child fragment of CarputerFragmentMgmt.
@@ -50,7 +50,7 @@ public class SSHFragment extends Fragment implements TaskResponse {
     private GlobalVariables mGlobalVariables;
 
     private List<Node> mNodes = new ArrayList<Node>();
-    private WiFiUtils mWiFiUtils;
+    private WifiUtils mWifiUtils;
     private TextView mTxtReply;
 
     private ProgressDialog mProgressDialog;
@@ -593,10 +593,10 @@ public class SSHFragment extends Fragment implements TaskResponse {
         String msg = "";
 
         //  Networking
-        mWiFiUtils = WiFiUtils.getInstance(getActivity());
+        mWifiUtils = WifiUtils.getInstance(getActivity());
 
         // Sync dates
-        if (mWiFiUtils.isConnected()) {
+        if (mWifiUtils.isConnected()) {
             //  Check if syncDateAll already run on fragment create/resume.
             if (!sDateSynced) {
                 msg = getString(R.string.msg_network_connected_date_sync) + FileStorageUtils.LINE_SEPARATOR;

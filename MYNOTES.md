@@ -178,7 +178,47 @@ private boolean isConnectedViaWifi() {
 
 
 ===============================================================================================
+https://stackoverflow.com/questions/36100187/how-to-start-fragment-from-an-activity
+https://stackoverflow.com/questions/18634207/difference-between-add-replace-and-addtobackstack
 
+FragmentManager fm = getFragmentManager();
+FragmentTransaction ft = fm.beginTransaction();
+ft.add(R.id.container,YOUR_FRAGMENT_NAME,YOUR_FRAGMENT_STRING_TAG);
+ft.addToBackStack(null);
+ft.commit();
+And to replace fragment do this:
+
+FragmentManager fm = getFragmentManager();
+FragmentTransaction ft = fm.beginTransaction();
+ft.replace(R.id.container,YOUR_FRAGMENT_NAME,YOUR_FRAGMENT_STRING_TAG);
+ft.addToBackStack(null);
+ft.commit();
+
+@Override
+    public boolean onPreferenceStartFragment(PreferenceFragmentCompat caller, Preference pref) {
+        // Instantiate the new Fragment
+        final Bundle args = pref.getExtras();
+        final Fragment fragment = getSupportFragmentManager().getFragmentFactory().instantiate (
+                getClassLoader(),
+                pref.getFragment(),
+                args);
+        fragment.setArguments(args);
+        fragment.setTargetFragment(caller, 0);
+        // Replace the existing Fragment with the new Fragment
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
+                .commit();
+        return true;
+    }
+	
+
+                        FragmentManager fm = getSupportFragmentManager();
+                        FragmentTransaction ft = fm.beginTransaction();
+                                CarputerFragmentAbout fragment =  CarputerFragmentAbout.newInstance();
+                                ft.add(R.id.fragment_container, fragment);
+                                ft.addToBackStack(null);
+                                ft.commit();	
 ===============================================================================================
 
 
@@ -239,35 +279,14 @@ private boolean isConnectedViaWifi() {
 
 
 ===============================================================================================
-//here is the task protocol to can delegate on other object
-    public interface TaskDelegate {
-        //define you method headers to override
-        void onTaskEndWithResult(int success);
-        void onTaskFinishGettingData(Data result);
-		
-		
-		 @Override
-    protected Integer doInBackground(Object... params) {
-        //do something in background and get result
-        if (delegate != null) {
-            //return result to activity
-            delegate.onTaskFinishGettingData(result);
-        }   
-    }
 
-    @Override
-    protected void onPostExecute(Integer result) {
-        if (delegate != null) {
-            //return success or fail to activity
-            delegate.onTaskEndWithResult(result);
-        }   
-    }
-}
 ===============================================================================================
 
 
 ===============================================================================================
+FF000000
 
+FFFFFFFF
 ===============================================================================================
 
 
@@ -293,98 +312,12 @@ https://stackoverflow.com/questions/14678593/the-application-may-be-doing-too-mu
 
 
 ===============================================================================================
-23 Mar 2019 08:40:06		SSHFragment		Executing command…			sudo shutdown -h 0
-Shutting down node:192.168.4.1
 
-
-23 Mar 2019 08:40:16		ExecuteCommandTask		JSchException
-
-23 Mar 2019 08:40:16		ExecuteCommandTask		com.jcraft.jsch.JSchException: timeout: socket is not established
-
-23 Mar 2019 08:40:16		ExecuteCommandTask		Do in background completed
-
-23 Mar 2019 08:40:16		Do in background completed		Do in background completed
-
-23 Mar 2019 08:40:16		ExecuteCommandTask		Start:  onPostExecute
-
-23 Mar 2019 08:40:16		SSHFragment		Executing command results:			
-Shutting down node:192.168.4.1
-com.jcraft.jsch.JSchException: timeout: socket is not established
-
-
-23 Mar 2019 08:40:16		ExecuteCommandTask		End:  onPostExecute
-
-23 Mar 2019 08:40:36		TaskCanceler		Task has timed out.
-Task already cancelled.
-
-
-23 Mar 2019 08:41:15		SSHFragment		Executing command…			sudo shutdown -h 0
-Shutting down all nodes, goodbye.
-
-
-23 Mar 2019 08:41:25		ExecuteCommandTask		JSchException
-
-23 Mar 2019 08:41:25		ExecuteCommandTask		com.jcraft.jsch.JSchException: timeout: socket is not established
-
-23 Mar 2019 08:41:35		ExecuteCommandTask		JSchException
-
-23 Mar 2019 08:41:35		ExecuteCommandTask		com.jcraft.jsch.JSchException: timeout: socket is not established
-
-23 Mar 2019 08:41:35		ExecuteCommandTask		Do in background completed
-
-23 Mar 2019 08:41:35		Do in background completed		Do in background completed
-
-23 Mar 2019 08:41:35		ExecuteCommandTask		Start:  onPostExecute
-
-23 Mar 2019 08:41:35		SSHFragment		Executing command results:			
-Shutting down all nodes, goodbye.
-com.jcraft.jsch.JSchException: timeout: socket is not established
-
-
-23 Mar 2019 08:41:35		ExecuteCommandTask		End:  onPostExecute
-
-23 Mar 2019 08:41:45		TaskCanceler		Task has timed out.
-Task already cancelled.
-
-
-
-
-
-23 Mar 2019 08:45:49		SSHFragment		Executing command…			sudo date -s "Sat Mar 23 08:45:49 PDT 2019" ;date
-Syncing date on all nodes…
-
-
-23 Mar 2019 08:45:59		ExecuteCommandTask		JSchException
-
-23 Mar 2019 08:45:59		ExecuteCommandTask		com.jcraft.jsch.JSchException: timeout: socket is not established
-
-23 Mar 2019 08:46:09		ExecuteCommandTask		JSchException
-
-23 Mar 2019 08:46:09		ExecuteCommandTask		com.jcraft.jsch.JSchException: timeout: socket is not established
-
-23 Mar 2019 08:46:09		ExecuteCommandTask		Do in background completed
-
-23 Mar 2019 08:46:09		Do in background completed		Do in background completed
-
-23 Mar 2019 08:46:09		ExecuteCommandTask		Start:  onPostExecute
-
-23 Mar 2019 08:46:09		SSHFragment		Executing command results:			
-Syncing date on all nodes…
-com.jcraft.jsch.JSchException: timeout: socket is not established
-
-
-23 Mar 2019 08:46:09		ExecuteCommandTask		End:  onPostExecute
-
-23 Mar 2019 08:46:19		TaskCanceler		Task has timed out.
-Task already cancelled.
 ===============================================================================================
 
 
 ===============================================================================================
-Non-public, non-static field names start with m.
-Static field names start with s.
-Other fields start with a lower case letter.
-Public static final fields (constants) are ALL_CAPS_WITH_UNDERSCORES.
+
 ===============================================================================================
 
 

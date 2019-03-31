@@ -2,6 +2,7 @@ package com.billdoerr.android.carputer.utils;
 
 import android.content.Context;
 import android.net.wifi.WifiConfiguration;
+import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 
 import java.util.List;
@@ -9,11 +10,11 @@ import java.util.List;
 /**
  * WIFI network utilities.  Singleton class.
  */
-public class WiFiUtils {
+public class WifiUtils {
 
-    private static final String TAG = "WiFiUtils";
+    private static final String TAG = "WifiUtils";
 
-    private static WiFiUtils sWiFiUtils;
+    private static WifiUtils sWifiUtils;
 
     private static boolean mIsConnected = false;
 
@@ -24,16 +25,16 @@ public class WiFiUtils {
      * WiFi connection utility class.
      * Singleton class
      * @param context Context:  Application context.
-     * @return WiFiUtils:  WiFiUtils object.
+     * @return WifiUtils:  WifiUtils object.
      */
-    public static WiFiUtils getInstance(Context context) {
-        if (sWiFiUtils == null) {
-            sWiFiUtils = new WiFiUtils(context);
+    public static WifiUtils getInstance(Context context) {
+        if (sWifiUtils == null) {
+            sWifiUtils = new WifiUtils(context);
         }
-        return sWiFiUtils;
+        return sWifiUtils;
     }
 
-    private WiFiUtils (Context context) {
+    private WifiUtils(Context context) {
         //  Required
     }
 
@@ -42,7 +43,7 @@ public class WiFiUtils {
     }
 
     /**
-     * Connect to network (WPA).  Also performs WiFiUtils lock if shared preference enabled.
+     * Connect to network (WPA).  Also performs WifiUtils lock if shared preference enabled.
      * Refer to:  https://developer.android.com/reference/android/net/wifi/WifiConfiguration.
      * Refer to:  https://stackoverflow.com/questions/8818290/how-do-i-connect-to-a-specific-wi-fi-network-in-android-programmatically.
      * @param context Context:  Application context.
@@ -90,7 +91,7 @@ public class WiFiUtils {
     }
 
     /**
-     * Disconnect to network (WPA).  Also performs WiFiUtils lock if shared preference enabled.
+     * Disconnect to network (WPA).  Also performs WifiUtils lock if shared preference enabled.
      * Refer to:  https://developer.android.com/reference/android/net/wifi/WifiConfiguration.
      * Refer to:  https://stackoverflow.com/questions/8818290/how-do-i-connect-to-a-specific-wi-fi-network-in-android-programmatically.
      * @param context Context:  Application context.

@@ -143,37 +143,210 @@ static domain_name_servers=192.168.4.1
 
 //  You can register a BroadcastReceiver to be notified when a WiFi connection is established (or if the connection changed).
 
-//  Register the BroadcastReceiver:
+<receiver android:name=".NetworkChangeReceiver" >
+	<intent-filter>
+		<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+		<action android:name="android.net.wifi.WIFI_STATE_CHANGED"/>
+		<action android:name="android.net.wifi.STATE_CHANGE"/>
+	</intent-filter>
+</receiver>
 
-IntentFilter intentFilter = new IntentFilter();
-intentFilter.addAction(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION);
-registerReceiver(broadcastReceiver, intentFilter);
+<intent-filter>
+<action android:name="android.net.wifi.WIFI_STATE_CHANGED"/>
+<action android:name="android.net.wifi.STATE_CHANGE"/>
+</intent-filter>
 
-//  And then in your BroadcastReceiver do something like this:
 
-@Override
-public void onReceive(Context context, Intent intent) {
-    final String action = intent.getAction();
-    if (action.equals(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION)) {
-        if (intent.getBooleanExtra(WifiManager.EXTRA_SUPPLICANT_CONNECTED, false)) {
-            //do stuff
+
+final IntentFilter filters = new IntentFilter();
+filters.addAction("android.net.wifi.WIFI_STATE_CHANGED");
+filters.addAction("android.net.wifi.STATE_CHANGE");
+super.registerReceiver(yourReceiver, filters);
+
+
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
+ConnectivityManager conMngr = (ConnectivityManager)this.getSystemService(this.CONNECTIVITY_SERVICE);
+android.net.NetworkInfo wifi = conMngr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+android.net.NetworkInfo mobile = conMngr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+
+
+public class NetworkChangeReceiver extends BroadcastReceiver {
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo wifi = connMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        NetworkInfo mobile = connMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+
+        boolean isConnected = wifi != null && wifi.isConnectedOrConnecting() ||
+            mobile != null && mobile.isConnectedOrConnecting();
+        if (isConnected) {
+            Log.d("Network Available ", "YES");
         } else {
-            // wifi connection was lost
+            Log.d("Network Available ", "NO");
         }
     }
 }
 
-// For more info, see the documentation for BroadcastReceiver and WifiManager
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.util.Log;
 
-// Of course you should check whether the device is already connected to WiFi before this.
+public class NetworkChangeReceiver extends BroadcastReceiver {
 
-//  EDIT: Thanks to ban-geoengineering, here's a method to check whether the device is already connected:
+    @Override
+    public void onReceive(Context context, Intent intent) {
+    ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo wifi = connMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        NetworkInfo mobile = connMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
 
-private boolean isConnectedViaWifi() {
-     ConnectivityManager connectivityManager = (ConnectivityManager) appObj.getSystemService(Context.CONNECTIVITY_SERVICE);
-     NetworkInfo mWifi = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);     
-     return mWifi.isConnected();
+        boolean isConnected = wifi != null && wifi.isConnectedOrConnecting() || mobile != null && mobile.isConnectedOrConnecting(); 
+        if (isConnected) {
+            Log.d("Network Available ", "YES");
+        }else{
+           Log.d("Network Available ", "NO");
+        }
+    }
 }
+
+=========================================================
+ public class BroadCastSampleActivity extends Activity {
+    /** Called when the activity is first created. */
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        super.onCreate(savedInstanceState);
+        this.registerReceiver(this.mConnReceiver,
+                new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+    }
+    private BroadcastReceiver mConnReceiver = new BroadcastReceiver() {
+        public void onReceive(Context context, Intent intent) {
+            boolean noConnectivity = intent.getBooleanExtra(ConnectivityManager.EXTRA_NO_CONNECTIVITY, false);
+            String reason = intent.getStringExtra(ConnectivityManager.EXTRA_REASON);
+            boolean isFailover = intent.getBooleanExtra(ConnectivityManager.EXTRA_IS_FAILOVER, false);
+
+            NetworkInfo currentNetworkInfo = (NetworkInfo) intent.getParcelableExtra(ConnectivityManager.EXTRA_NETWORK_INFO);
+            NetworkInfo otherNetworkInfo = (NetworkInfo) intent.getParcelableExtra(ConnectivityManager.EXTRA_OTHER_NETWORK_INFO);
+
+            if(currentNetworkInfo.isConnected()){
+                Toast.makeText(getApplicationContext(), "Connected", Toast.LENGTH_LONG).show();
+            }else{
+                Toast.makeText(getApplicationContext(), "Not Connected", Toast.LENGTH_LONG).show();
+            }
+        }
+    };
+}
+==============================================================
+public class ConnectionChangeReceiver extends BroadcastReceiver
+{
+  @Override
+  public void onReceive( Context context, Intent intent )
+  {
+    ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService( Context.CONNECTIVITY_SERVICE );
+    NetworkInfo activeNetInfo = connectivityManager.getActiveNetworkInfo();
+    NetworkInfo mobNetInfo = connectivityManager.getNetworkInfo(     ConnectivityManager.TYPE_MOBILE );
+    if ( activeNetInfo != null )
+    {
+
+      Toast.makeText( context, "Active Network Type : " + activeNetInfo.getTypeName(), Toast.LENGTH_SHORT ).show();
+    }
+    if( mobNetInfo != null )
+    {
+      Toast.makeText( context, "Mobile Network Type : " + mobNetInfo.getTypeName(), Toast.LENGTH_SHORT ).show();
+    }
+  }
+}
+
+==============================================================
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 
+ CONNECTIVITY_SERVICE ("connection")
+A ConnectivityManager for handling management of network connections.
+IPSEC_SERVICE ("ipsec")
+A IpSecManager for managing IPSec on sockets and networks.
+WIFI_SERVICE ("wifi")
+A WifiManager for management of Wi-Fi connectivity. On releases before NYC, it should only be obtained from an application context, 
+and not from any other derived context to avoid memory leaks within the calling process.
+WIFI_AWARE_SERVICE ("wifiaware")
+A WifiAwareManager for management of Wi-Fi Aware discovery and connectivity.
+void	onAvailable(Network network)
+Called when the framework connects and has declared a new network ready for use.
+
+void	onBlockedStatusChanged(Network network, boolean blocked)
+Called when access to the specified network is blocked or unblocked.
+
+void	onCapabilitiesChanged(Network network, NetworkCapabilities networkCapabilities)
+Called when the network the framework connected to for this request changes capabilities but still satisfies the stated need.
+
+void	onLinkPropertiesChanged(Network network, LinkProperties linkProperties)
+Called when the network the framework connected to for this request changes LinkProperties.
+
+void	onLosing(Network network, int maxMsToLive)
+Called when the network is about to be disconnected.
+
+void	onLost(Network network)
+Called when the framework has a hard loss of the network or when the graceful failure ends.
+
+void	onUnavailable()
+Called if no network is found in the timeout time specified in ConnectivityManager.requestNetwork(android.net.NetworkRequest, android.net.ConnectivityManager.NetworkCallback, int) call.
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 
+ ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.WIFI_SERVICE);
+ 
+    NetworkRequest.Builder builder = new NetworkRequest.Builder();
+
+    connectivityManager.registerNetworkCallback(
+            builder.build(),
+            new ConnectivityManager.NetworkCallback() {
+                /**
+                 * @param network
+                 */
+                @Override
+                public void onAvailable(Network network) {
+
+                    sendBroadcast(
+                            getConnectivityIntent(false)
+                    );
+
+                }
+
+                /**
+                 * @param network
+                 */
+                @Override
+                public void onLost(Network network) {
+
+                    sendBroadcast(
+                            getConnectivityIntent(true)
+                    );
+
+                }
+            }
+
+    );
+
+}
+
+ /**
+ * @param noConnection
+ * @return
+ */
+private Intent getConnectivityIntent(boolean noConnection) {
+
+    Intent intent = new Intent();
+
+    intent.setAction("mypackage.CONNECTIVITY_CHANGE");
+    intent.putExtra(ConnectivityManager.EXTRA_NO_CONNECTIVITY, noConnection);
+
+    return intent;
+
+}
+
+
+
 ===============================================================================================
 
 
@@ -223,7 +396,39 @@ ft.commit();
 
 
 ===============================================================================================
-		
+D/EGL_emulation: eglMakeCurrent: 0xae554600: ver 3 1 (tinfo 0xae552ae0)
+E/Surface: getSlotFromBufferLocked: unknown buffer: 0xa2899460
+D/AndroidRuntime: Shutting down VM
+E/AndroidRuntime: FATAL EXCEPTION: main
+    Process: com.billdoerr.android.carputer, PID: 8618
+    java.lang.RuntimeException: Unable to stop activity {com.billdoerr.android.carputer/com.billdoerr.android.carputer.CarputerActivityMgmt}: java.lang.IllegalArgumentException: Receiver not registered: com.billdoerr.android.carputer.utils.NetworkChangeReceiver@8094503
+        at android.app.ActivityThread.performStopActivityInner(ActivityThread.java:3500)
+        at android.app.ActivityThread.handleStopActivity(ActivityThread.java:3550)
+        at android.app.ActivityThread.-wrap20(ActivityThread.java)
+        at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1373)
+        at android.os.Handler.dispatchMessage(Handler.java:102)
+        at android.os.Looper.loop(Looper.java:148)
+        at android.app.ActivityThread.main(ActivityThread.java:5417)
+        at java.lang.reflect.Method.invoke(Native Method)
+        at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:726)
+        at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:616)
+     Caused by: java.lang.IllegalArgumentException: Receiver not registered: com.billdoerr.android.carputer.utils.NetworkChangeReceiver@8094503
+        at android.app.LoadedApk.forgetReceiverDispatcher(LoadedApk.java:780)
+        at android.app.ContextImpl.unregisterReceiver(ContextImpl.java:1195)
+        at android.content.ContextWrapper.unregisterReceiver(ContextWrapper.java:576)
+        at com.billdoerr.android.carputer.SingleFragmentActivity.onStop(SingleFragmentActivity.java:148)
+        at android.app.Instrumentation.callActivityOnStop(Instrumentation.java:1278)
+        at android.app.Activity.performStop(Activity.java:6380)
+        at android.app.ActivityThread.performStopActivityInner(ActivityThread.java:3497)
+        at android.app.ActivityThread.handleStopActivity(ActivityThread.java:3550) 
+        at android.app.ActivityThread.-wrap20(ActivityThread.java) 
+        at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1373) 
+        at android.os.Handler.dispatchMessage(Handler.java:102) 
+        at android.os.Looper.loop(Looper.java:148) 
+        at android.app.ActivityThread.main(ActivityThread.java:5417) 
+        at java.lang.reflect.Method.invoke(Native Method) 
+        at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:726) 
+        at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:616) 		
 ===============================================================================================
 
 

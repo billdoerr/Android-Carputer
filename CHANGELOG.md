@@ -11,26 +11,27 @@ All notable changes to this Android application project will be documented in th
 	https://www.journaldev.com/10356/android-broadcastreceiver-example-tutorial  
 #### Changed
 - [ ]  Test and validate performance using RaspberryPi with USBStick + two USB Cameras + router.
-#### Removed
-
-## [Unreleased]
-### v1.6 (RESEARCH)
-#### Added
-- [ ]  Update/Add javadocs comments.  Will be ongoing process to better document code.  
-- [ ]  Connectivity monitoring. 
-#### Changed
 - [ ]  I/Choreographer: Skipped frames!  The application may be doing too much work on its main thread.  
 		First guess it is caused by CameraFragmentMjpegSnapshot grabbing frames.  If so, nothing I can do if I want to keep this functionality.
 	https://stackoverflow.com/questions/14678593/the-application-may-be-doing-too-much-work-on-its-main-thread
+- [ ]  Migrate to a single activity implementation.  This would be CarputerActivity which extends the SingleFragmentActivity.   (Note:  Settings will remain as a one-off activity).
+	- [ ] 	
 #### Removed
 
 ## [Unreleased]
-### v1.5 (RESEARCH)
+### v1.5 (PROPOSED)
 #### Added
 #### Changed
-- [ ]  Migrate to a single activity implementation.  (Note:  Settings will remain as a one-off activity).
-	- [ ] 
+
 #### Removed
+
+## [Released]
+### v1.4.1 (4Apr2019)
+#### Added 
+- [x]  Connectivity monitoring. Logs Wifi connection change to system log.
+#### Changed
+#### Removed
+
 
 ## [Released]
 ### v1.4 (31Mar2019)

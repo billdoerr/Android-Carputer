@@ -1,6 +1,13 @@
 package com.billdoerr.android.carputer;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkInfo;
+import android.net.NetworkRequest;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 
 import androidx.annotation.LayoutRes;
@@ -8,6 +15,7 @@ import androidx.annotation.NonNull;
 
 import com.billdoerr.android.carputer.settings.SettingsActivity;
 import com.billdoerr.android.carputer.utils.FileStorageUtils;
+import com.billdoerr.android.carputer.utils.NetworkChangeReceiver;
 import com.billdoerr.android.carputer.utils.WifiUtils;
 import com.google.android.material.navigation.NavigationView;
 import androidx.fragment.app.Fragment;
@@ -20,6 +28,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.WindowManager;
 
@@ -34,6 +43,9 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
 
     // Calling Application class (see application tag in AndroidManifest.xml)
     private GlobalVariables mGlobalVariables;
+
+    //  Broadcast receiver
+    NetworkChangeReceiver mNetworkChangeReceiver;
 
     //  Networking
     private WifiUtils mWifiUtils;
@@ -130,6 +142,21 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onStop()
+    {
+        //  Unregister broadcast receiver
+        try {
+            this.unregisterReceiver(mNetworkChangeReceiver);
+        }
+        catch (final Exception exception) {
+            // The receiver was not registered.
+            // There is nothing to do in that case.
+            // Everything is fine.
+        }
+        super.onStop();
+    }
+
     /**
      * Format shared preferences to be used for output to the system log.
      * @return String:  Formatted string of shared preferences.
@@ -177,6 +204,10 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
 
+        //  TODO:  v1.4.1  WORK-IN-PROGRESS
+        //  Start network broadcast receiver
+        startNetworkChangeReceiver();
+
     }
 
     /**
@@ -185,6 +216,7 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
     private void WiFiConnect() {
 
         boolean isConnected = false;
+        String msg;
 
         //  Networking
         mWifiUtils = WifiUtils.getInstance(getApplicationContext());
@@ -196,7 +228,7 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
             isConnected = mWifiUtils.connectWPA(getApplicationContext(), mGlobalVariables.getNetworkName(), mGlobalVariables.getNetworkPassphrase());
         }
 
-        String msg = "";
+
         if (isConnected) {
             msg = getString(R.string.msg_network_connection_success) + ": " + mGlobalVariables.getNetworkName() + FileStorageUtils.LINE_SEPARATOR;
         } else {
@@ -209,6 +241,17 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
     //  Output to system log
     private void writeSystemLog(String msg) {
         FileStorageUtils.writeSystemLog(this.getApplicationContext(), mGlobalVariables.SYS_LOG,TAG + FileStorageUtils.TABS + msg + FileStorageUtils.LINE_SEPARATOR);
+    }
+
+    /**
+     * Register Broadcast Receiver
+     */
+    private void startNetworkChangeReceiver() {
+        mNetworkChangeReceiver = new NetworkChangeReceiver();
+        final IntentFilter filters = new IntentFilter();
+        filters.addAction("android.net.wifi.WIFI_STATE_CHANGED");
+        filters.addAction("android.net.wifi.STATE_CHANGE");
+        this.registerReceiver(mNetworkChangeReceiver, filters);
     }
 
 }

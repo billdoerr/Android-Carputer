@@ -5,6 +5,9 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +33,7 @@ public class CarputerFragment extends Fragment {
         View view = inflater.inflate(R.layout.activity_fragment, container, false);
 
         startActivity(new Intent(getActivity(), CarputerActivityMgmt.class));
+
         return view;
     }
 

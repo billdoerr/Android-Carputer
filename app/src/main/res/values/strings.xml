@@ -103,16 +103,23 @@
 
     <!--  Logging messages -->
     <string name="msg_application_starting">Application starting&#8230;</string>
+
     <string name="msg_network_connecting_now">Network is enabled.  Connecting now&#8230;</string>
     <string name="msg_network_connected_date_sync">Network connection made.  Syncing date&#8230;</string>
-    <string name="msg_keep_device_awake">Flag set to keep device awake.</string>
     <string name="msg_network_connection_fail">Unable to connect to network.</string>
     <string name="msg_network_connection_success">Successfully connected to network.</string>
+    <string name="msg_network_connected_to">Network connected to:\t</string>
+    <string name="msg_network_connection_dropped">Network connection dropped.</string>
+
+    <string name="msg_keep_device_awake">Flag set to keep device awake.</string>
+
     <string name="msg_sync_date_all_nodes">Syncing date on all nodes&#8230;</string>
     <string name="msg_sync_date_single_node">Syncing date on node:&#032;</string>
     <string name="msg_sync_date_already_performed">Date already synced.</string>
+
     <string name="msg_power_off_all_nodes">Shutting down all nodes, goodbye.</string>
     <string name="msg_power_off_single_node">Shutting down node:&#032;</string>
+
     <string name="msg_ping_results">Ping results.</string>
     <string name="msg_executing_ping">Executing Ping&#8230;</string>
 

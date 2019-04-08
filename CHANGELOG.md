@@ -1,6 +1,7 @@
 # Changelog
 All notable changes to this Android application project will be documented in this file.
 
+##  NO ADDITIONAL RELEASES PLANNED AT THIS TIME.
 
 ## [Unreleased]
 ### v1.x (NOT STARTED)
@@ -18,17 +19,18 @@ All notable changes to this Android application project will be documented in th
 	- [ ] 	
 #### Removed
 
-## [Unreleased]
-### v1.5 (PROPOSED)
+## [Released]
+### v1.5 (8Apr2019)
 #### Added
+- [x] Ability to view archived video from the RaspberryPi.  Create new fragment that hosts web view.  On RaspberryPi quick and easy implementation by creating 
+		symbolic link to motioneye video archive.  Apache web server is configured to display index of directory.
 #### Changed
-
 #### Removed
 
 ## [Released]
 ### v1.4.1 (4Apr2019)
 #### Added 
-- [x]  Connectivity monitoring. Logs Wifi connection change to system log.
+- [x]  Connectivity monitoring. Logs Wifi connection change to system log.  
 #### Changed
 #### Removed
 

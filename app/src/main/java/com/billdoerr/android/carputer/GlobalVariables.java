@@ -29,6 +29,7 @@ public class GlobalVariables extends Application {
     public static final String PREF_KEY_NETWORK_NAME           = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NETWORK_NAME";
     public static final String PREF_KEY_NETWORK_PASSPHRASE     = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NETWORK_PASSPHRASE";
     public static final String PREF_KEY_KEEP_DEVICE_AWAKE      = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_KEEP_DEVICE_AWAKE";
+    public static final String PREF_IMAGE_ARCHIVE_URL          = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_IMAGE_ARCHIVE_URL";
 
     //  System log filename
     public static final String SYS_LOG = "system_log.log";
@@ -43,6 +44,7 @@ public class GlobalVariables extends Application {
     private static String sNetworkName;
     private static String sNetworkPassphrase;
     private static boolean sKeepDeviceAwake = false;
+    private static String sImageArchiveUrl;
 
     //  We need application context.  Set in onCreate()
     private static Context sContext;
@@ -129,6 +131,15 @@ public class GlobalVariables extends Application {
         GlobalVariables.sKeepDeviceAwake = mKeepDeviceAwake;
     }
 
+    public String getImageArchiveUrl() {
+        return sImageArchiveUrl;
+    }
+
+    public void setImageArchiveUrl(String imageArchiveUrl) {
+        sImageArchiveUrl = imageArchiveUrl;
+    }
+
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -160,6 +171,7 @@ public class GlobalVariables extends Application {
         sNetworkName = appSharedPrefs.getString(PREF_KEY_NETWORK_NAME, "");
         sNetworkPassphrase = appSharedPrefs.getString(PREF_KEY_NETWORK_PASSPHRASE, "");
         sKeepDeviceAwake = appSharedPrefs.getBoolean(PREF_KEY_KEEP_DEVICE_AWAKE, false);
+        sImageArchiveUrl = appSharedPrefs.getString(PREF_IMAGE_ARCHIVE_URL, "");
 
     }
 

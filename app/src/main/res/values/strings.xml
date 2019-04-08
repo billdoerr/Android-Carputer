@@ -24,12 +24,14 @@
     <string name="action_system_log_clear">Clear</string>
     <string name="action_system_log_refresh">Refresh</string>
     <string name="action_clear_console">Clear console</string>
+    <string name="action_go_back">Go back</string>
 
     <!--  Tab Layout Titles -->
     <string name="tab_camera_file_explorer">Snapshots</string>
     <string name="tab_carputer_mgmt_ssh">SSH</string>
     <string name="tab_carputer_mgmt_phpsysinfo">phpSysInfo</string>
     <string name="tab_carputer_mgmt_system_log">System Log</string>
+    <string name="tab_camera_image_archive_web_view">Image Archive</string>
 
     <!--  Image Archive -->
     <string name="alert_title_delete_files">Confirm Delete…</string>
@@ -89,6 +91,7 @@
     <string name="pref_title_network_password">Network Passphrase</string>
     <string name="pref_title_network_auto_connect">Auto connect</string>
     <string name="pref_title_misc_keep_device_awake">Keep Device Awake</string>
+    <string name="pref_title_image_archive_url">Image Archive Url</string>
 
     <!--  Default Shared Preference Values -->
     <string name="pref_default_camera_name">Front</string>
@@ -100,6 +103,7 @@
     <string name="pref_default_node_physysinfo_url">http://192.168.4.1/phpsysinfo</string>
     <string name="pref_default_network_name">PINET</string>
     <string name="pref_default_network_password">scoobydoo</string>
+    <string name="pref_default_image_archive_url">http://192.168.4.1/image_archive</string>
 
     <!--  Logging messages -->
     <string name="msg_application_starting">Application starting&#8230;</string>

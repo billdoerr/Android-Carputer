@@ -23,9 +23,11 @@ import java.util.List;
 public class CameraFragmentImageArchive extends Fragment {
 
     private static final String TAG = "CameraFragmentImageArchive";
+    private static final String ARGS_IMAGE_ARCHIVE_URL = "ARGS_IMAGE_ARCHIVE_URL";
 
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
+    private String mImageArchiveUrl;
 
     public static CameraFragmentImageArchive newInstance() {
         return new CameraFragmentImageArchive();
@@ -34,6 +36,12 @@ public class CameraFragmentImageArchive extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Calling Application class (see application tag in AndroidManifest.xml)
+        final GlobalVariables mGlobalVariables = (GlobalVariables) getActivity().getApplicationContext();
+
+        mImageArchiveUrl = mGlobalVariables.getImageArchiveUrl();
+
     }
 
     @Override
@@ -65,6 +73,13 @@ public class CameraFragmentImageArchive extends Fragment {
 
         //  Image archive fragment
         adapter.addFragment(new CameraFragmentSnapshotViewer(), getResources().getString(R.string.tab_camera_file_explorer));
+
+        //  Image archive fragment
+        Bundle args = new Bundle();
+        args.putString(ARGS_IMAGE_ARCHIVE_URL, mImageArchiveUrl);
+        CameraFragmentImageArchiveWebViewer cameraFragmentImageArchiveWebViewer = new CameraFragmentImageArchiveWebViewer();
+        cameraFragmentImageArchiveWebViewer.setArguments(args);
+        adapter.addFragment(cameraFragmentImageArchiveWebViewer, getResources().getString(R.string.tab_camera_image_archive_web_view));
 
         //  Set adapter to view pager
         viewPager.setAdapter(adapter);

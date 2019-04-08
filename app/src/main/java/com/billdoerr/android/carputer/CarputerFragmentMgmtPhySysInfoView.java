@@ -37,7 +37,7 @@ public class CarputerFragmentMgmtPhySysInfoView extends Fragment {
     @SuppressLint({"ClickableViewAccessibility", "SetJavaScriptEnabled"})
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_carputer_mgmt_phpsysinfo_view, container, false);
+        View view = inflater.inflate(R.layout.fragment_web_view, container, false);
 
         //  Display the phpSysInfo admin console web page
         WebView webView = view.findViewById(R.id.web_view);

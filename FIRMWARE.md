@@ -16,23 +16,44 @@ All notable changes to the nodes required for the Android application project wi
 - [ ]
 - [ ]
 
-
 ## [Unreleased]
-### v1.1
+### v1.2 (NOT STARTED)
 #### Added
-- [ ]  Version OS images independent of Android app versions
 - [ ]  Add power off switch  
 	https://github.com/TonyLHansen/raspberry-pi-safe-off-switch/
-- [ ]  Add Real Time Clock (RTC)  
+#### Changed
+#### Removed
+
+## [Unreleased]
+### v1.1 (IN PROGRESS)
+#### Added
+- [x]  Version OS images independent of Android app versions
+
+        cd /bin
+        sudo vi carputer
+        #! /bin/sh
+        cat /etc/carputer/version
+
+        sudo chmod +x carputer
+
+
+        cd /etc
+        sudo mkdir carputer
+        cd carputer
+        sudo vi carputer
+        v1.1
+        Released 20Apr2019
+
+- [x]  Add Real Time Clock (RTC)  
+    https://pimylifeup.com/raspberry-pi-rtc/  
     https://learn.adafruit.com/adding-a-real-time-clock-to-raspberry-pi/overview  
     https://www.sparkfun.com/products/12708  
-
 #### Changed
 #### Removed
 
 
 ## [Released]
-### v1.0 28Feb2019
+### v1.0 (28Feb2019)
 - [x]  Install Raspbian.
 - [x]  Enable SSH.
 - [x]  Enable VNC.
@@ -48,7 +69,7 @@ All notable changes to the nodes required for the Android application project wi
 - [x]  Create final Raspbian image for Carputer-Rear.
 	- [x]  Need to configure motioneye to use PiCamera rather than USB camera.
 - [x]  Create final Raspbian image for Carputer.
-    - [x]  Need to redo mouting of usb flash drive.
+    - [x]  Need to redo mounting of usb flash drive.
 	- [x]  Need to configure motioneye to use PiCamera from Carputer-Rear rather than the USB camera from Carputer-Rear.  
 	
 

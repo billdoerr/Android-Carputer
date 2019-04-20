@@ -19,6 +19,20 @@ All notable changes to this Android application project will be documented in th
 	- [ ] 	
 #### Removed
 
+
+## [Released]
+### v1.5.1 (20Apr2019)
+#### Added
+#### Changed
+- [x]  Added 'sudo hwclock -w' following by 'sudo hwclock -r' to list of hard coded commands.  These will write/read the date set in the real time clock module.  
+       This has been added to the 'Sync Date' feature.  
+       Only the master RaspberryPi has an RTC implemented.
+#### Removed
+- [x]  Removed the auto syncing of the Android date/time with the connected nodes.  Implemented real time clock on master RaspberryPi so need to sync date when app starts.  
+       Will not be concerned with date on nodes other than master.
+       Still keeping the functionallity to where a button is coded to set the date.
+
+       
 ## [Released]
 ### v1.5 (8Apr2019)
 #### Added

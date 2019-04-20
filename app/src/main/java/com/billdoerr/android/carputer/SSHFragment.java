@@ -235,7 +235,7 @@ public class SSHFragment extends Fragment implements TaskResponse {
             public void onClick(View v) {
                 String date = getDateTime();
                 //  Sync Android date/time with Pi.  Follow with 'date' command to view system date/time.
-                final String cmd = "sudo date -s \"" + date + "\" ;date";
+                final String cmd = "sudo date -s \"" + date + "\" ;date" + "\" ;sudo hwlcock -w" + "\" ;sudo hwclock -r";
                 txtExecuteCommand.setText(cmd);
 
                 //  Prepare system log and console message
@@ -297,6 +297,8 @@ public class SSHFragment extends Fragment implements TaskResponse {
         commandHistory.add("top -n1 -b");
         commandHistory.add("ps -eaf");
         commandHistory.add("sudo reboot");
+        commandHistory.add("sudo hwclock -r");      //  Read date to RTC
+        commandHistory.add("sudo hwclock -w");      //  Write date to RTC
 
         // Creating adapter for spinner
         ArrayAdapter<String> dataAdapterCmd = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, commandHistory);
@@ -515,7 +517,7 @@ public class SSHFragment extends Fragment implements TaskResponse {
      */
     private void syncDateAll() {
         final String date = getDateTime();
-        final String cmd = "sudo date -s \"" + date + "\" ;date";
+        final String cmd = "sudo date -s \"" + date + "\" ;date" + "\" ;sudo hwlcock -w" + "\" ;sudo hwclock -r";
 
         //  Update system log and console
         String msg = getString(R.string.msg_executing_command) + FileStorageUtils.TABS + cmd + FileStorageUtils.LINE_SEPARATOR;
@@ -595,27 +597,29 @@ public class SSHFragment extends Fragment implements TaskResponse {
         //  Networking
         mWifiUtils = WifiUtils.getInstance(getActivity());
 
-        // Sync dates
-        if (mWifiUtils.isConnected()) {
-            //  Check if syncDateAll already run on fragment create/resume.
-            if (!sDateSynced) {
-                msg = getString(R.string.msg_network_connected_date_sync) + FileStorageUtils.LINE_SEPARATOR;
-                updateConsoleAndSystemLog(msg);
-
-                try {
-                    Thread.sleep(2000);
-                }
-                catch (Exception e) {
-                    Log.e(TAG, e.getMessage());
-                }
-
-                //  Sync dates
-                syncDateAll();
-            } else {
-                msg = getString(R.string.msg_sync_date_already_performed) + FileStorageUtils.LINE_SEPARATOR;
-                updateConsoleAndSystemLog(msg);
-            }
-        }
+        //  TODO:  Keep for posterity?
+        //  Obsolete code due to the implementation of a RTC (Real Time Clock)
+//        // Sync dates
+//        if (mWifiUtils.isConnected()) {
+//            //  Check if syncDateAll already run on fragment create/resume.
+//            if (!sDateSynced) {
+//                msg = getString(R.string.msg_network_connected_date_sync) + FileStorageUtils.LINE_SEPARATOR;
+//                updateConsoleAndSystemLog(msg);
+//
+//                try {
+//                    Thread.sleep(2000);
+//                }
+//                catch (Exception e) {
+//                    Log.e(TAG, e.getMessage());
+//                }
+//
+//                //  Sync dates
+//                syncDateAll();
+//            } else {
+//                msg = getString(R.string.msg_sync_date_already_performed) + FileStorageUtils.LINE_SEPARATOR;
+//                updateConsoleAndSystemLog(msg);
+//            }
+//        }
 
     }
 

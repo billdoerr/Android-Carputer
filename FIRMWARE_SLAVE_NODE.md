@@ -24,8 +24,9 @@ All notable changes to the nodes required for the Android application project wi
 #### Changed
 #### Removed
 
-## [Unreleased]
-### v1.2 (IN PROGRESS)
+
+## [Released]
+### v1.1 (24Apr2019)
 #### Added
 - [ ]  Auto sync dates of nodes that dont' have RTC with that of the master.  
         Use SSH command to retrieve date from master.  
@@ -38,14 +39,16 @@ All notable changes to the nodes required for the Android application project wi
 crontab -e
 @reboot /bin/timesync.sh
 
-# /bin/timesync.sh
+sudo vi /bin/timesync.sh
 #! /bin/sh
 
 # Need delay
 sleep 20
 
 # Get date from master node and set date
-sudo date -s "`ssh pi@192.168.4.1 'date'`" >> /tmp/timesync.log   
+sudo date -s "`ssh pi@192.168.4.1 'date'`" >> /tmp/timesync.log  
+
+sudo chmod 755  /bin/timesync.sh
 
 -------------------------------------------
 2. PERFORM THE FOLLOWING ON THE SLAVE NODE
@@ -53,13 +56,7 @@ sudo date -s "`ssh pi@192.168.4.1 'date'`" >> /tmp/timesync.log
 
 ssh-keygen -t rsa -b 2048
 ssh-copy-id -i ~/.ssh/id_rsa pi@192.168.4.1
-              
-#### Changed
-#### Removed
 
-## [Released]
-### v1.1 (20Apr2019)
-#### Added
 - [x]  Version OS images independent of Android app versions
 
 cd /bin
@@ -71,11 +68,11 @@ sudo chmod +x carputer
 
 
 cd /etc
-sudo mkdir carputer
+sudo mkdir carput
 cd carputer
 sudo vi version
 v1.1
-Released 20Apr2019
+Released 24Apr2019
 
 - [x]  Add Real Time Clock (RTC)  
     https://pimylifeup.com/raspberry-pi-rtc/  

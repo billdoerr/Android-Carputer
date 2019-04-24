@@ -24,43 +24,22 @@ All notable changes to the nodes required for the Android application project wi
 #### Changed
 #### Removed
 
-## [Unreleased]
-### v1.2 (IN PROGRESS)
+## [Released]
+### v1.2 (24Apr2019)
 #### Added
-- [ ]  Auto sync dates of nodes that dont' have RTC with that of the master.  
-        Use SSH command to retrieve date from master.  
-        https://superuser.com/questions/685471/how-can-i-run-a-command-after-boot  
-        
-        -------------------------------------------
-        1.  PERFORM THE FOLLOWING ON THE SLAVE NODE
-        -------------------------------------------
-        
-crontab -e
-@reboot /bin/timesync.sh
-
-# /bin/timesync.sh
-#! /bin/sh
-
-# Need delay
-sleep 20
-
-# Get date from master node and set date
-sudo date -s "`ssh pi@192.168.4.1 'date'`" >> /tmp/timesync.log   
-
--------------------------------------------
-2. PERFORM THE FOLLOWING ON THE SLAVE NODE
--------------------------------------------
-
-ssh-keygen -t rsa -b 2048
-ssh-copy-id -i ~/.ssh/id_rsa pi@192.168.4.1
-              
+- [x]  Auto sync dates of nodes that dont' have RTC with that of the master.  Refer to FIRMWARE_SLAVE_NODE.md v1.1 for details where an SSH cert was deployed to master.
 #### Changed
+- [ ] Update version
+sudo vi version
+Master Node
+v1.2
+Released 24Apr2019
 #### Removed
 
 ## [Released]
-### v1.1 (20Apr2019)
+### v1.1 (24Apr2019)
 #### Added
-- [x]  Version OS images independent of Android app versions
+- [ ]  Auto sync dates of nodes that dont' have RTC with that of the master.  
 
 cd /bin
 sudo vi carputer

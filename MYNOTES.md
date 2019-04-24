@@ -133,9 +133,46 @@ static routers=192.168.4.1
 static domain_name_servers=192.168.4.1
 ===============================================================================================
 
+===============================================================================================
+Run a Program On Your Raspberry Pi At Startup
+https://www.dexterindustries.com/howto/run-a-program-on-your-raspberry-pi-at-startup/
+===============================================================================================
 
 ===============================================================================================
 
+apt-get install ntp <-- server
+
+apt-get install ntpdate <-- client
+
+You could setup a NTP server - there are tutorials describing how to do this, although this requires an understanding of NTP. 
+The clients need to be configured to use the local NTP server in /etc/ntp.conf (Jessie) or  /etc/systemd/timesyncd.conf (Stretch).
+
+A much simpler solution is to copy the date from the host (which I use when no network is available).
+This can be done manually over ssh by running
+ssh pi@hostname.local sudo date -s$(date -Ins)
+
+ntpq -p shows the correct ntp server, but ntpdate -d ipaddress gives me the following error: 
+
+Nov 13:26:00 ntpdate[11724]: no server suitable for synchronization found
+
+ sudo ntpdate 1.ro.pool.ntp.org
+ 
+ 
+ ssh pi@192.168.4.1 sudo date -s$(date -Ins)
+ 
+ ssh-copy-id -i ~/.ssh/tatu-key-ecdsa user@host
+ ssh-copy-id -i ~/.ssh/id_rsa pi@192.168.4.5
+ 
+ date +%Y%m%d%T -s "`ssh user@server 'date "+%Y%m%d %T"'`"
+
+------------------------------------------------ 
+ssh-keygen -t rsa -b 2048
+ssh-copy-id -i ~/.ssh/id_rsa pi@192.168.4.5
+
+ssh -v pi@192.168.4.1
+ 
+ https://www.commandlinefu.com/commands/view/9153/synchronize-date-and-time-with-a-server-over-ssh
+ sudo date -s "`ssh pi@192.168.4.1 'date'`"
 ===============================================================================================
 
 

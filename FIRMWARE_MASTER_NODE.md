@@ -29,8 +29,8 @@ All notable changes to the nodes required for the Android application project wi
 #### Added
 - [x]  Auto sync dates of nodes that dont' have RTC with that of the master.  Refer to FIRMWARE_SLAVE_NODE.md v1.1 for details where an SSH cert was deployed to master.
 #### Changed
-- [ ] Update version
-sudo vi version
+- [x] Update version
+sudo vi /etc/carputer/version
 Master Node
 v1.2
 Released 24Apr2019
@@ -39,7 +39,7 @@ Released 24Apr2019
 ## [Released]
 ### v1.1 (24Apr2019)
 #### Added
-- [ ]  Auto sync dates of nodes that dont' have RTC with that of the master.  
+- [x]  Auto sync dates of nodes that dont' have RTC with that of the master.  
 
 cd /bin
 sudo vi carputer

@@ -513,6 +513,31 @@ public class SSHFragment extends Fragment implements TaskResponse {
     }
 
     /**
+     *
+     * @param cmd String:  String containing command to be executed.
+     * @param nodeIndex int:  Index of node command to be executed against.
+     */
+    public void executeCmd(String cmd, int nodeIndex) {
+
+        //  Prepare system log and console message
+        String msg = getString(R.string.msg_executing_command) + FileStorageUtils.TABS + cmd + FileStorageUtils.LINE_SEPARATOR;
+        msg = msg + getString(R.string.msg_on_node) + mNodes.get(nodeIndex).getName() + FileStorageUtils.LINE_SEPARATOR;
+        updateConsoleAndSystemLog(msg);
+
+        //  Keep track of tasks generated.  Used later to dismiss progress dialog
+        mTaskCount += 1;
+
+        //  Get node from dropdown
+        TaskRequest request = new TaskRequest();
+        request.node = mNodes.get(nodeIndex);
+        request.cmd = cmd;
+        request.taskName = msg;
+
+        //  Execute command
+        executeCommandTask(request);
+    }
+
+    /**
      * Sync Android date/time with Pi.  Follow with 'date' command to view system date/time.
      */
     private void syncDateAll() {
@@ -596,6 +621,13 @@ public class SSHFragment extends Fragment implements TaskResponse {
 
         //  Networking
         mWifiUtils = WifiUtils.getInstance(getActivity());
+
+        //  Get dates and versions from master/slave devices
+        updateConsoleAndSystemLog(getString(R.string.msg_node_info) + FileStorageUtils.LINE_SEPARATOR);
+        for (int i = 0; i < mNodes.size(); i++) {
+            executeCmd("date;carputer", i);
+//            executeCmd("carputer", i);
+        }
 
         //  TODO:  Keep for posterity?
         //  Obsolete code due to the implementation of a RTC (Real Time Clock)

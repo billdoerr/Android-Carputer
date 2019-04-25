@@ -130,6 +130,7 @@
     <string name="msg_execute_command_results">Executing command results:\t</string>
     <string name="msg_executing_command">Executing command&#8230;\t</string>
     <string name="msg_on_node">&#032;on node:\t</string>
+    <string name="msg_node_info">Retrieving date and firmware version.</string>
 
     <string name="msg_task_already_canceled">Task already cancelled.</string>
     <string name="msg_task_results">&#032;task results:</string>

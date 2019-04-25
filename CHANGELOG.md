@@ -19,6 +19,13 @@ All notable changes to this Android application project will be documented in th
 	- [ ] 	
 #### Removed
 
+## [Released]
+### v1.5.2 (25Apr2019)
+#### Added
+- [x]  RTC (real time clock) has been added to master node.  Slave nodes will sync date/time upon boot-up with master.  Carputer app has two log entries added with starting of SSHFragment.
+These include outputing the date on the nodes to verify date/time functionality is working as expected and also logs the firmware version of the nodes, because, why not.
+#### Changed
+#### Removed
 
 ## [Released]
 ### v1.5.1 (20Apr2019)

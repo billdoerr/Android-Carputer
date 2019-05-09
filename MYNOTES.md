@@ -47,13 +47,47 @@ Android app:  https://github.com/fr3ts0n/AndrOBD
 
 
 ===============================================================================================
-phpSysInfo 
-http://192.168.4.1/phpsysinfo 
-http://192.168.1.104/phpsysinfo/xml.php?plugin=complete&json
+# https://werxltd.com/wp/2012/01/05/simple-init-d-script-template/
 
-Linux perf commands
-https://medium.com/@chrishantha/linux-performance-observability-tools-19ae2328f87f
-https://opensource.com/article/17/7/20-sysadmin-commands
+sudo update-rc.d listen_for_shutdown.sh defaults
+
+#!/bin/bash
+# chkconfig: 2345 20 80
+# description: Description comes here....
+
+# Source function library.
+. /etc/init.d/functions
+
+start() {
+    # code to start app comes here 
+    # example: daemon program_name &
+}
+
+stop() {
+    # code to stop app comes here 
+    # example: killproc program_name
+}
+
+case "$1" in 
+    start)
+       start
+       ;;
+    stop)
+       stop
+       ;;
+    restart)
+       stop
+       start
+       ;;
+    status)
+       # code to check status of app comes here 
+       # example: status program_name
+       ;;
+    *)
+       echo "Usage: $0 {start|stop|status|restart}"
+esac
+
+exit 0 
  	
 ===============================================================================================
 
@@ -82,7 +116,35 @@ startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
 
 
 ===============================================================================================	
+# http://raspi.tv/2013/rpi-gpio-basics-3-how-to-exit-gpio-programs-cleanly-avoid-warnings-and-protect-your-pi
 
+import RPi.GPIO as GPIO  
+  
+# here you would put all your code for setting up GPIO,  
+# we'll cover that tomorrow  
+# initial values of variables etc...  
+counter = 0  
+  
+try:  
+    # here you put your main loop or block of code  
+    while counter < 9000000:  
+        # count up to 9000000 - takes ~20s  
+        counter += 1  
+    print "Target reached: %d" % counter  
+  
+except KeyboardInterrupt:  
+    # here you put any code you want to run before the program   
+    # exits when you press CTRL+C  
+    print "\n", counter # print value of counter  
+  
+except:  
+    # this catches ALL other exceptions including errors.  
+    # You won't get any error messages for debugging  
+    # so only use it once your code is working  
+    print "Other error or exception occurred!"  
+  
+finally:  
+    GPIO.cleanup() # this ensures a clean exit  
 ===============================================================================================
 
 
@@ -118,6 +180,10 @@ startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
  
 **List dhcp leases**
 sudo cat /var/lib/misc/dnsmasq.leases 
+
+1478279949 00:c2:c6:dd:a4:e6 192.168.4.19 SKULL-CANYON 01:00:c2:c6:dd:a4:e6
+1478280180 14:dd:a9:45:53:c5 192.168.4.17 android-2484d27dda64c42c 01:14:dd:a9:45:53:c5
+1478280827 38:80:df:ef:49:73 192.168.4.18 android-e26387ee2616931b 01:38:80:df:ef:49:73
  
 # =======================================
 sudo nano /etc/dhcpcd.conf

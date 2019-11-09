@@ -7,20 +7,14 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true" >
 
-    <FrameLayout
+    <RelativeLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?android:attr/actionBarSize"
-            android:background="?android:attr/colorPrimary"
-            app:layout_scrollFlags="scroll|enterAlways"
-            android:theme="@style/ThemeOverlay.AppCompat.ActionBar" />
+        <include layout="@layout/toolbar" />
 
-    </FrameLayout>
+    </RelativeLayout>
 
     <!-- Container for contents of drawer - use NavigationView to make configuration easier -->
     <com.google.android.material.navigation.NavigationView

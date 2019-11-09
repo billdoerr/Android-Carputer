@@ -51,6 +51,7 @@ public class CameraFragmentMjpegSnapshot extends Fragment implements OnFrameCapt
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setHasOptionsMenu(true);
 
         // Calling Application class (see application tag in AndroidManifest.xml)
@@ -78,6 +79,7 @@ public class CameraFragmentMjpegSnapshot extends Fragment implements OnFrameCapt
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
         inflater.inflate(R.menu.toolbar_options_menu_snapshot, menu);
     }
 
@@ -87,7 +89,7 @@ public class CameraFragmentMjpegSnapshot extends Fragment implements OnFrameCapt
             takeSnapshot();
             return true;
         }
-        return true;
+        return false;
     }
 
     @Override

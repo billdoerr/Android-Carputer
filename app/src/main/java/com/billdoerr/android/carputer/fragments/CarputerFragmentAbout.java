@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,18 +14,15 @@ import android.widget.TextView;
 import com.billdoerr.android.carputer.BuildConfig;
 import com.billdoerr.android.carputer.R;
 
+import java.util.Objects;
+
 /**
  *  Fragment that displays information about this application.  Application name and version #.
- *  Created by the CarputerActivityAbout class.
  */
 public class CarputerFragmentAbout extends Fragment {
 
     public CarputerFragmentAbout() {
         // Required empty public constructor
-    }
-
-    public static CarputerFragmentAbout newInstance() {
-        return new CarputerFragmentAbout();
     }
 
     @Override
@@ -45,6 +43,15 @@ public class CarputerFragmentAbout extends Fragment {
         txtVersion.setText(versionName + " (" + versionCode + ")");
 
         return v;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        // Change the toolbar title text
+        Objects.requireNonNull(((AppCompatActivity) Objects.requireNonNull(getActivity())).getSupportActionBar()).setTitle(R.string.activity_title_about);
+
     }
 
 }

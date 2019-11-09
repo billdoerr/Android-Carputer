@@ -288,6 +288,7 @@ public class SSHFragment extends Fragment implements TaskResponse {
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
         inflater.inflate(R.menu.menu_options_ssh_fragment, menu);
     }
 

@@ -5,16 +5,15 @@ import androidx.annotation.NonNull;
 
 import com.billdoerr.android.carputer.utils.GlobalVariables;
 import com.billdoerr.android.carputer.R;
-import com.billdoerr.android.carputer.activities.CarputerActivityMgmt;
 import com.billdoerr.android.carputer.settings.Node;
 import com.google.android.material.tabs.TabLayout;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.widget.Toolbar;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,13 +32,6 @@ public class CarputerFragmentMgmt extends Fragment {
 
     private static List<Node> mNodes = new ArrayList<>();
 
-    private TabLayout mTabLayout;
-    private ViewPager mViewPager;
-
-    public static CarputerFragmentMgmt newInstance() {
-        return new CarputerFragmentMgmt();
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,21 +45,28 @@ public class CarputerFragmentMgmt extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, final Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_camera, container, false);
+        View view = inflater.inflate(R.layout.tab_view_pager, container, false);
 
-        //  Setup action bar
-        setupActionBar(view);
+        ViewPager viewPager = view.findViewById(R.id.viewpager);
+        setupViewPager(viewPager);
 
-        mViewPager = view.findViewById(R.id.viewpager);
-        setupViewPager(mViewPager);
-
-        mTabLayout = view.findViewById(R.id.tabs);
-        mTabLayout.setupWithViewPager(mViewPager);
+        TabLayout tabLayout = view.findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(viewPager);
 
         //  Add icons
-        addTabLayoutIcons();
+        addTabLayoutIcons(viewPager, tabLayout);
 
         return view;
+    }
+
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        // Change the toolbar title text
+        Objects.requireNonNull(((AppCompatActivity) Objects.requireNonNull(getActivity())).getSupportActionBar()).setTitle(R.string.activity_title_carputer_mgmt);
+
     }
 
     /**
@@ -75,7 +74,7 @@ public class CarputerFragmentMgmt extends Fragment {
      * @param viewPager ViewPager that adapter will be assigned
      */
     private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(Objects.requireNonNull(getActivity()).getSupportFragmentManager());
+        ViewPagerAdapter adapter = new ViewPagerAdapter(Objects.requireNonNull(getChildFragmentManager()));
 
         //  Fragment:  SSH
         SSHFragment sshFragment = new SSHFragment();
@@ -101,34 +100,22 @@ public class CarputerFragmentMgmt extends Fragment {
     }
 
     /**
-     * Setup action bar
-     * @param view View holding the toolbar
-     */
-    private void setupActionBar(View view) {
-        Toolbar toolbar = view.findViewById(R.id.toolbar);
-        ((CarputerActivityMgmt) Objects.requireNonNull(getActivity())).setSupportActionBar(toolbar);
-        ActionBar actionbar = ((CarputerActivityMgmt)getActivity()).getSupportActionBar();
-        Objects.requireNonNull(actionbar).setDisplayHomeAsUpEnabled(true);
-        actionbar.setHomeAsUpIndicator(R.drawable.ic_baseline_menu_24px);
-    }
-
-    /**
      * Add icons to tabs
      */
-    private void addTabLayoutIcons() {
-        for (int i = 0; i < Objects.requireNonNull(mViewPager.getAdapter()).getCount(); i++) {
-            String sentence = Objects.requireNonNull(Objects.requireNonNull(mTabLayout.getTabAt(i)).getText()).toString();
-            Objects.requireNonNull(mTabLayout.getTabAt(i)).setIcon(R.drawable.ic_camera);
-            String s = Objects.requireNonNull(Objects.requireNonNull(mTabLayout.getTabAt(i)).getText()).toString();
+    private void addTabLayoutIcons(ViewPager viewPager, TabLayout tabLayout) {
+        for (int i = 0; i < Objects.requireNonNull(viewPager.getAdapter()).getCount(); i++) {
+            String sentence = Objects.requireNonNull(Objects.requireNonNull(tabLayout.getTabAt(i)).getText()).toString();
+            Objects.requireNonNull(tabLayout.getTabAt(i)).setIcon(R.drawable.ic_camera);
+            String s = Objects.requireNonNull(Objects.requireNonNull(tabLayout.getTabAt(i)).getText()).toString();
             //  SSH
             if (s.equals(getResources().getString(R.string.tab_carputer_mgmt_ssh))) {
-                Objects.requireNonNull(mTabLayout.getTabAt(i)).setIcon(R.drawable.ic_ssh_24px);
+                Objects.requireNonNull(tabLayout.getTabAt(i)).setIcon(R.drawable.ic_ssh_24px);
             //  phpSysInfo
             } else if (sentence.toLowerCase().contains(getString(R.string.tab_carputer_mgmt_phpsysinfo).toLowerCase()))  {
-                Objects.requireNonNull(mTabLayout.getTabAt(i)).setIcon(R.drawable.ic_phpsysinfo_24px);
+                Objects.requireNonNull(tabLayout.getTabAt(i)).setIcon(R.drawable.ic_phpsysinfo_24px);
             //  Default
             } else {
-                Objects.requireNonNull(mTabLayout.getTabAt(i)).setIcon(R.drawable.ic_baseline_developer_board_24px);
+                Objects.requireNonNull(tabLayout.getTabAt(i)).setIcon(R.drawable.ic_baseline_developer_board_24px);
             }
         }
     }

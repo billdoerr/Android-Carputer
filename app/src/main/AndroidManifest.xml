@@ -20,49 +20,25 @@
 		android:launchMode="singleTop"
         android:usesCleartextTraffic="true"
         android:fullBackupContent="@xml/backup_descriptor">
+
         <activity 
-		    android:name=".activities.CarputerActivity"
+		    android:name=".activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-		<activity
-            android:name=".activities.CameraActivityMjpeg"
-            android:label="@string/activity_title_camera">
-        </activity>
-
-        <activity
-            android:name=".activities.CameraActivityMotionEye"
-            android:label="@string/activity_title_camera_motioneye">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-                <!-- Include the host attribute if you want your app to respond
-                     only to URLs with your app's domain. -->
-                <data android:scheme="http" android:host="www.example.com" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <!-- The BROWSABLE category is required to get links from web pages. -->
-                <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activities.CameraActivityImageArchive"
-            android:label="@string/activity_title_camera_image_archive">
-        </activity>
-        <activity
-            android:name=".activities.CarputerActivityMgmt"
-            android:label="@string/activity_title_carputer_mgmt">
-        </activity>
+
         <activity
             android:name=".settings.SettingsActivity"
             android:label="@string/activity_title_settings"
             android:theme="@style/AppTheme">
         </activity>
-        <activity
-            android:name=".activities.CarputerActivityAbout"
-            android:label="@string/activity_title_about">
-        </activity>
+
         <provider
             android:authorities="com.billdoerr.android.carputer.fileprovider"
             android:name="androidx.core.content.FileProvider"

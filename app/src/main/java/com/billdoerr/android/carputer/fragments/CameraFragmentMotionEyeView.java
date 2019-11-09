@@ -69,6 +69,7 @@ public class CameraFragmentMotionEyeView extends Fragment {
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
         inflater.inflate(R.menu.toolbar_options_menu_snapshot, menu);
     }
 

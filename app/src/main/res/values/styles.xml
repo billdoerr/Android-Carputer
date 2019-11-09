@@ -50,6 +50,10 @@
         <item name="android:textSize">12sp</item>
     </style>
 
+    <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
+        <item name="android:background">?android:attr/colorPrimary</item>
+    </style>
+
     <style name="DrawerTheme" parent="@style/ThemeOverlay.AppCompat.Dark">
         <item name="android:background">?attr/colorPrimaryDark</item>
     </style>

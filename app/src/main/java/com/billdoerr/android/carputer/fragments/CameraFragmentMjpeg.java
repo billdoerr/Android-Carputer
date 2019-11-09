@@ -5,16 +5,14 @@ import androidx.annotation.NonNull;
 
 import com.billdoerr.android.carputer.utils.GlobalVariables;
 import com.billdoerr.android.carputer.R;
-import com.billdoerr.android.carputer.activities.CameraActivityMjpeg;
 import com.billdoerr.android.carputer.settings.Camera;
 import com.google.android.material.tabs.TabLayout;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,20 +24,12 @@ import java.util.Objects;
 /**
  * Fragment that will host child fragments in a tab layout.
  * The child fragments display the streaming Mjpeg video.
- * Created by the CameraActivityMjpeg class.
  */
 public class CameraFragmentMjpeg extends Fragment {
 
     private static final String ARGS_CAMERA_DETAIL = "ARGS_CAMERA_DETAIL";
 
     private static List<Camera> mCameras = new ArrayList<>();
-
-    private TabLayout mTabLayout;
-    private ViewPager mViewPager;
-
-    public static CameraFragmentMjpeg newInstance() {
-        return new CameraFragmentMjpeg();
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,28 +38,34 @@ public class CameraFragmentMjpeg extends Fragment {
         // Calling Application class (see application tag in AndroidManifest.xml)
         final GlobalVariables mGlobalVariables = (GlobalVariables) Objects.requireNonNull(getActivity()).getApplicationContext();
 
-        //  Get list of devices
+        //  Get list of cameras
         mCameras = mGlobalVariables.getCameras();
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, final Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_camera, container, false);
+        View view = inflater.inflate(R.layout.tab_view_pager, container, false);
 
-        //  Setup action bar
-        setupActionBar(view);
+        ViewPager viewPager = view.findViewById(R.id.viewpager);
+        setupViewPager(viewPager);
 
-        mViewPager = view.findViewById(R.id.viewpager);
-        setupViewPager(mViewPager);
-
-        mTabLayout = view.findViewById(R.id.tabs);
-        mTabLayout.setupWithViewPager(mViewPager);
+        TabLayout tabLayout = view.findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(viewPager);
 
         //  Add icons
-        addTabLayoutIcons();
+        addTabLayoutIcons(viewPager, tabLayout);
 
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        // Change the toolbar title text
+        Objects.requireNonNull(((AppCompatActivity) Objects.requireNonNull(getActivity())).getSupportActionBar()).setTitle(R.string.activity_title_camera);
+
     }
 
     /**
@@ -77,7 +73,7 @@ public class CameraFragmentMjpeg extends Fragment {
      * @param viewPager ViewPager:  Adapter will be assigned the child fragments.
      */
     private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(Objects.requireNonNull(getActivity()).getSupportFragmentManager());
+        ViewPagerAdapter adapter = new ViewPagerAdapter(Objects.requireNonNull(getChildFragmentManager()));
 
         for (int i = 0; i < mCameras.size(); i++) {
             Bundle args = new Bundle();
@@ -93,23 +89,11 @@ public class CameraFragmentMjpeg extends Fragment {
     }
 
     /**
-     * Setup action bar.
-     * @param view View:  Container for the toolbar.
+     * Add icons to tabs.
      */
-    private void setupActionBar(View view) {
-        Toolbar toolbar = view.findViewById(R.id.toolbar);
-        ((CameraActivityMjpeg) Objects.requireNonNull(getActivity())).setSupportActionBar(toolbar);
-        ActionBar actionbar = ((CameraActivityMjpeg)getActivity()).getSupportActionBar();
-        Objects.requireNonNull(actionbar).setDisplayHomeAsUpEnabled(true);
-        actionbar.setHomeAsUpIndicator(R.drawable.ic_baseline_menu_24px);
-    }
-
-    /**
-     * Add icons to tab.
-     */
-    private void addTabLayoutIcons() {
-        for (int i = 0; i < Objects.requireNonNull(mViewPager.getAdapter()).getCount(); i++) {
-            Objects.requireNonNull(mTabLayout.getTabAt(i)).setIcon(R.drawable.ic_baseline_camera_24px);
+    private void addTabLayoutIcons(ViewPager viewPager, TabLayout tabLayout) {
+        for (int i = 0; i < Objects.requireNonNull(viewPager.getAdapter()).getCount(); i++) {
+            Objects.requireNonNull(tabLayout.getTabAt(i)).setIcon(R.drawable.ic_baseline_visibility_24px);
         }
     }
 

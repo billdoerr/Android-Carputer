@@ -5,9 +5,9 @@ import androidx.fragment.app.Fragment;
 import com.billdoerr.android.carputer.fragments.CameraFragmentMotionEye;
 
 /**
- * Camera motionEye activity which extends from SingleFragmentActivity.
+ * Carputer activity which extends from BaseActivity.
  */
-public class CameraActivityMotionEye extends SingleFragmentActivity {
+public class MainActivity extends BaseActivity {
 
     @Override
     protected Fragment createFragment() {

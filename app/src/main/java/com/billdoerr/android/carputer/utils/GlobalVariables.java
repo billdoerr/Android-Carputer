@@ -1,4 +1,4 @@
-package com.billdoerr.android.carputer;
+package com.billdoerr.android.carputer.utils;
 
 import android.app.Application;
 import android.content.Context;
@@ -18,6 +18,7 @@ import androidx.preference.PreferenceManager;
  * Define global variables is by extending the Application class.
  * This is the base class for maintaining global application state.
  */
+@SuppressWarnings("unused")
 public class GlobalVariables extends Application {
 
     private static final String TAG = "GlobalVariables";
@@ -29,16 +30,17 @@ public class GlobalVariables extends Application {
     public static final String PREF_KEY_NETWORK_NAME           = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NETWORK_NAME";
     public static final String PREF_KEY_NETWORK_PASSPHRASE     = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NETWORK_PASSPHRASE";
     public static final String PREF_KEY_KEEP_DEVICE_AWAKE      = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_KEEP_DEVICE_AWAKE";
+    @SuppressWarnings("WeakerAccess")
     public static final String PREF_IMAGE_ARCHIVE_URL          = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_IMAGE_ARCHIVE_URL";
 
     //  System log filename
     public static final String SYS_LOG = "system_log.log";
 
     //  Variables to store shared preferences
-    private static List<Camera> sCameras = new ArrayList<Camera>();
+    private static List<Camera> sCameras = new ArrayList<>();
 
     private static String sCamerasJson;
-    private static List<Node> sNodes = new ArrayList<Node>();
+    private static List<Node> sNodes = new ArrayList<>();
     private static String sNodesJson;
     private static boolean sNetworkEnabled = false;
     private static String sNetworkName;
@@ -47,7 +49,7 @@ public class GlobalVariables extends Application {
     private static String sImageArchiveUrl;
 
     //  We need application context.  Set in onCreate()
-    private static Context sContext;
+    private Context sContext;
 
     private static boolean mIsInitialized = false;
 
@@ -139,7 +141,6 @@ public class GlobalVariables extends Application {
         sImageArchiveUrl = imageArchiveUrl;
     }
 
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -151,7 +152,6 @@ public class GlobalVariables extends Application {
         getSharedPreferences(sContext);
 
     }
-
 
     /**
      * Get shared preferences.
@@ -181,13 +181,12 @@ public class GlobalVariables extends Application {
      * @return List<Node>:  Returns List<Node> of configured nodes.
      */
     private List<Node> getNodesFromSharedPrefs(Context context) {
-        List<Node> nodes = new ArrayList<>();
         SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
         Gson gson = new Gson();
         String json = appSharedPrefs.getString(Node.PrefKey.PREF_KEY_NODES, "");
-        nodes = gson.fromJson(json, new TypeToken<ArrayList<Node>>(){}.getType());
+        List<Node> nodes = gson.fromJson(json, new TypeToken<ArrayList<Node>>(){}.getType());
         if (nodes == null) {
-            nodes = new ArrayList<Node>();
+            nodes = new ArrayList<>();
         }
         return nodes;
     }
@@ -211,13 +210,12 @@ public class GlobalVariables extends Application {
      * @return List<Camera>:  Returns List<Camera> of configured cameras.
      */
     private List<Camera> getCamerasFromSharedPrefs(Context context) {
-        List<Camera> cameras = new ArrayList<>();
         SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         Gson gson = new Gson();
         String json = appSharedPrefs.getString(Camera.PrefKey.PREF_KEY_CAMERAS, "");
-        cameras = gson.fromJson(json, new TypeToken<ArrayList<Camera>>(){}.getType());
+        List<Camera> cameras = gson.fromJson(json, new TypeToken<ArrayList<Camera>>(){}.getType());
         if (cameras == null) {
-            cameras = new ArrayList<Camera>();
+            cameras = new ArrayList<>();
         }
         return cameras;
     }

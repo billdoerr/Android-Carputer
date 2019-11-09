@@ -3,9 +3,7 @@ package com.billdoerr.android.carputer.asynctaskutils;
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Handler;
-import android.util.Log;
 
-import com.billdoerr.android.carputer.utils.FileStorageUtils;
 import com.billdoerr.android.carputer.utils.NodeUtils;
 import com.jcraft.jsch.JSchException;
 
@@ -18,13 +16,9 @@ import com.jcraft.jsch.JSchException;
  */
 public class ExecuteCommandTask extends AsyncTask<TaskRequest, Void, TaskResult> {
 
-    private static final String TAG = "ExecuteCommandTask";
-
     public TaskResponse delegate = null;   //  Call back interface
     public Handler handler;
     public Runnable runnable;
-
-    private TaskResult mTaskResults;
 
     @Override
     protected void onPreExecute() {
@@ -40,65 +34,38 @@ public class ExecuteCommandTask extends AsyncTask<TaskRequest, Void, TaskResult>
         TaskRequest taskParams = params[0];
 
         //  Task results
-        mTaskResults = new TaskResult();
-        mTaskResults.request = taskParams;   //  Assigning TaskParams to TaskResult so we can use this info later in the UI.
-        mTaskResults.exception = "";
+        TaskResult taskResults = new TaskResult();
+        taskResults.request = taskParams;   //  Assigning TaskParams to TaskResult so we can use this info later in the UI.
+        taskResults.exception = "";
 
         try {
             NodeUtils utils = new NodeUtils();
             utils.initialize(taskParams.node.getIp(), taskParams.node.getSSHPort(),
                     taskParams.node.getUser(), taskParams.node.getPassword());
-            mTaskResults.response = utils.executeRemoteCommand(taskParams.cmd);
-
-            Log.d(TAG, "doInBackground:  Looping through nodes.");
-            if (mTaskResults.response != null) {
-                Log.d(TAG, "doInBackground:  Task Results:\t" + FileStorageUtils.TABS + mTaskResults.response);
-            } else {
-                Log.d(TAG, "doInBackground:  Task Results:\t" + FileStorageUtils.TABS + "No result returned.");
-            }
-
+            taskResults.response = utils.executeRemoteCommand(taskParams.cmd);
         } catch (JSchException e) {
-            mTaskResults.exception = e.toString();
-            Log.e(TAG, e.getMessage());
+            taskResults.exception = e.toString();
         }
 
-        Log.d(TAG,"doInBackground:  completed");
-
-        return mTaskResults;
+        return taskResults;
     }
 
     @Override
     protected void onPostExecute(TaskResult result) {
         super.onPostExecute(result);
-
-        Log.d(TAG, "onPostExecute:  Begin");
-
         if ( (result.response != null) && (!result.response.isEmpty()) ) {
-
-            Log.d(TAG, "onPostExecute:  Returning result.");
-            Log.d(TAG, result.response);
-
             //  Need to cancel Handler if remote command fails before timeout.
             if (handler != null) {
-                Log.d(TAG, "onPostExecute:  Removing handler callbacks.");
                 handler.removeCallbacks(runnable);
             }
-
 //            delegate.hideProgress();
-
-        } else {
-            Log.d(TAG, "onPostExecute:  No result.");
         }
-
         delegate.taskFinished(result);
-
     }
 
     @Override
     protected void onCancelled (TaskResult result) {
-        Log.d(TAG, "onCancelled");
         delegate.taskCanceled(result);
-
     }
 
 }

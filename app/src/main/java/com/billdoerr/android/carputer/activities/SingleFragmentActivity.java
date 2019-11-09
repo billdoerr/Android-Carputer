@@ -1,18 +1,13 @@
-package com.billdoerr.android.carputer;
+package com.billdoerr.android.carputer.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.net.ConnectivityManager;
-import android.net.Network;
-import android.net.NetworkInfo;
-import android.net.NetworkRequest;
-import android.net.wifi.WifiManager;
 import android.os.Bundle;
 
 import androidx.annotation.LayoutRes;
-import androidx.annotation.NonNull;
 
+import com.billdoerr.android.carputer.utils.GlobalVariables;
+import com.billdoerr.android.carputer.R;
 import com.billdoerr.android.carputer.settings.SettingsActivity;
 import com.billdoerr.android.carputer.utils.FileStorageUtils;
 import com.billdoerr.android.carputer.utils.NetworkChangeReceiver;
@@ -26,9 +21,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.FragmentTransaction;
 
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.WindowManager;
 
@@ -45,16 +38,14 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
     private GlobalVariables mGlobalVariables;
 
     //  Broadcast receiver
-    NetworkChangeReceiver mNetworkChangeReceiver;
-
-    //  Networking
-    private WifiUtils mWifiUtils;
+    private NetworkChangeReceiver mNetworkChangeReceiver;
 
     //  Menu
     private DrawerLayout mDrawerLayout;
 
     protected abstract Fragment createFragment();
 
+    @SuppressWarnings({"SameReturnValue", "unused"})
     @LayoutRes
     protected int getLayoutResId() {
         return R.layout.activity_fragment;
@@ -78,6 +69,7 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionbar = getSupportActionBar();
+        assert actionbar != null;
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_baseline_menu_24px);
 
@@ -89,41 +81,38 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                        // Set item as selected to persist highlight
-                        menuItem.setChecked(true);
-                        // Close drawer when item is tapped
-                        mDrawerLayout.closeDrawers();
+                menuItem -> {
+                    // Set item as selected to persist highlight
+                    menuItem.setChecked(true);
+                    // Close drawer when item is tapped
+                    mDrawerLayout.closeDrawers();
 
-                        // Launch activities
-                        switch (menuItem.getItemId()) {
-                            //  Activity:  Mjpeg
-                            case R.id.nav_camera:
-                                startActivity(new Intent(SingleFragmentActivity.this, CameraActivityMjpeg.class));
-                                return true;
-                            //  Activity:  MotionEye
-                            case R.id.nav_motioneye:
-                                startActivity(new Intent(SingleFragmentActivity.this, CameraActivityMotionEye.class));
-                                return true;
-                            //  Activity:  Image Archive
-                            case R.id.nav_image_archive:
-                                startActivity(new Intent(SingleFragmentActivity.this, CameraActivityImageArchive.class));
-                                return true;
-                            //  Activity:  Carputer Management
-                            case R.id.nav_management:
-                                startActivity(new Intent(SingleFragmentActivity.this, CarputerActivityMgmt.class));
-                                return true;
-                            //  Activity:  Settings
-                            case R.id.nav_settings:
-                                startActivity(new Intent(SingleFragmentActivity.this, SettingsActivity.class));
-                                return true;
-                            case R.id.nav_about:
-                                startActivity(new Intent(SingleFragmentActivity.this, CarputerActivityAbout.class));
-                            default:
-                                return true;
-                        }
+                    // Launch activities
+                    switch (menuItem.getItemId()) {
+                        //  Activity:  Mjpeg
+                        case R.id.nav_camera:
+                            startActivity(new Intent(SingleFragmentActivity.this, CameraActivityMjpeg.class));
+                            return true;
+                        //  Activity:  MotionEye
+                        case R.id.nav_motioneye:
+                            startActivity(new Intent(SingleFragmentActivity.this, CameraActivityMotionEye.class));
+                            return true;
+                        //  Activity:  Image Archive
+                        case R.id.nav_image_archive:
+                            startActivity(new Intent(SingleFragmentActivity.this, CameraActivityImageArchive.class));
+                            return true;
+                        //  Activity:  Carputer Management
+                        case R.id.nav_management:
+                            startActivity(new Intent(SingleFragmentActivity.this, CarputerActivityMgmt.class));
+                            return true;
+                        //  Activity:  Settings
+                        case R.id.nav_settings:
+                            startActivity(new Intent(SingleFragmentActivity.this, SettingsActivity.class));
+                            return true;
+                        case R.id.nav_about:
+                            startActivity(new Intent(SingleFragmentActivity.this, CarputerActivityAbout.class));
+                        default:
+                            return true;
                     }
                 });
 
@@ -134,10 +123,9 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                mDrawerLayout.openDrawer(GravityCompat.START);
-                return true;
+        if (item.getItemId() == android.R.id.home) {
+            mDrawerLayout.openDrawer(GravityCompat.START);
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -165,13 +153,13 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
 
         String entry = TAG + ": Shared preferences" + FileStorageUtils.LINE_SEPARATOR;
 
-        entry = entry + mGlobalVariables.PREF_KEY_CAMERAS + ":\t"  + FileStorageUtils.LINE_SEPARATOR + Arrays.toString(mGlobalVariables.getCameras().toArray()) + FileStorageUtils.LINE_SEPARATOR;
-        entry = entry + mGlobalVariables.PREF_KEY_NODES + ":\t"  + FileStorageUtils.LINE_SEPARATOR + Arrays.toString(mGlobalVariables.getNodes().toArray()) + FileStorageUtils.LINE_SEPARATOR;
+        entry = entry + GlobalVariables.PREF_KEY_CAMERAS + ":\t"  + FileStorageUtils.LINE_SEPARATOR + Arrays.toString(mGlobalVariables.getCameras().toArray()) + FileStorageUtils.LINE_SEPARATOR;
+        entry = entry + GlobalVariables.PREF_KEY_NODES + ":\t"  + FileStorageUtils.LINE_SEPARATOR + Arrays.toString(mGlobalVariables.getNodes().toArray()) + FileStorageUtils.LINE_SEPARATOR;
 
-        entry = entry + mGlobalVariables.PREF_KEY_NETWORK_ENABLED + ":\t" + mGlobalVariables.isNetworkEnabled() + FileStorageUtils.LINE_SEPARATOR;
-        entry = entry + mGlobalVariables.PREF_KEY_NETWORK_NAME + ":\t" + mGlobalVariables.getNetworkName() + FileStorageUtils.LINE_SEPARATOR;
-        entry = entry + mGlobalVariables.PREF_KEY_NETWORK_PASSPHRASE + ":\t" + mGlobalVariables.getNetworkPassphrase() + FileStorageUtils.LINE_SEPARATOR;
-        entry = entry + mGlobalVariables.PREF_KEY_KEEP_DEVICE_AWAKE + ":\t" + mGlobalVariables.isKeepDeviceAwake() + FileStorageUtils.LINE_SEPARATOR;
+        entry = entry + GlobalVariables.PREF_KEY_NETWORK_ENABLED + ":\t" + mGlobalVariables.isNetworkEnabled() + FileStorageUtils.LINE_SEPARATOR;
+        entry = entry + GlobalVariables.PREF_KEY_NETWORK_NAME + ":\t" + mGlobalVariables.getNetworkName() + FileStorageUtils.LINE_SEPARATOR;
+        entry = entry + GlobalVariables.PREF_KEY_NETWORK_PASSPHRASE + ":\t" + mGlobalVariables.getNetworkPassphrase() + FileStorageUtils.LINE_SEPARATOR;
+        entry = entry + GlobalVariables.PREF_KEY_KEEP_DEVICE_AWAKE + ":\t" + mGlobalVariables.isKeepDeviceAwake() + FileStorageUtils.LINE_SEPARATOR;
 
         return entry;
     }
@@ -179,7 +167,7 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
     /**
      * Application startup routine.
      */
-    protected void systemInitialization() {
+    private void systemInitialization() {
 
         // Calling Application class (see application tag in AndroidManifest.xml)
         mGlobalVariables = (GlobalVariables) getApplicationContext();
@@ -219,13 +207,13 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
         String msg;
 
         //  Networking
-        mWifiUtils = WifiUtils.getInstance(getApplicationContext());
+        WifiUtils wifiUtils = WifiUtils.getInstance();
 
         //  Prepare system log and console message
         writeSystemLog(TAG + ":\t" + getString(R.string.msg_network_connecting_now) + FileStorageUtils.LINE_SEPARATOR);
 
-        if (!mWifiUtils.isConnected()) {
-            isConnected = mWifiUtils.connectWPA(getApplicationContext(), mGlobalVariables.getNetworkName(), mGlobalVariables.getNetworkPassphrase());
+        if (!wifiUtils.isConnected()) {
+            isConnected = wifiUtils.connectWPA(getApplicationContext(), mGlobalVariables.getNetworkName(), mGlobalVariables.getNetworkPassphrase());
         }
 
 
@@ -240,7 +228,7 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
 
     //  Output to system log
     private void writeSystemLog(String msg) {
-        FileStorageUtils.writeSystemLog(this.getApplicationContext(), mGlobalVariables.SYS_LOG,TAG + FileStorageUtils.TABS + msg + FileStorageUtils.LINE_SEPARATOR);
+        FileStorageUtils.writeSystemLog(this.getApplicationContext(), GlobalVariables.SYS_LOG,TAG + FileStorageUtils.TABS + msg + FileStorageUtils.LINE_SEPARATOR);
     }
 
     /**

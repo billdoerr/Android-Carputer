@@ -11,8 +11,6 @@ import androidx.annotation.StringDef;
  */
 public class Camera implements Serializable {
 
-    private static final String TAG = "Camera";
-
     @StringDef({
             PrefKey.PREF_KEY_CAMERAS
     })
@@ -24,9 +22,9 @@ public class Camera implements Serializable {
 
     private String mName;
     private String mUrl;
-    private boolean mUseAuthentication;
-    private String mUser;
-    private String mPassword;
+//    private boolean mUseAuthentication;
+//    private String mUser;
+//    private String mPassword;
 
     public String getName() {
         return mName;
@@ -44,45 +42,58 @@ public class Camera implements Serializable {
         mUrl = Url;
     }
 
-    public boolean isUseAuthentication() {
-        return mUseAuthentication;
-    }
+// --Commented out by Inspection START (11/6/2019 1:35 PM):
+//    public boolean isUseAuthentication() {
+//        return mUseAuthentication;
+//    }
+// --Commented out by Inspection STOP (11/6/2019 1:35 PM)
 
-    public void setUseAuthentication(boolean useAuthentication) {
-        mUseAuthentication = useAuthentication;
-    }
+// --Commented out by Inspection START (11/6/2019 1:36 PM):
+//    public void setUseAuthentication(boolean useAuthentication) {
+//        mUseAuthentication = useAuthentication;
+//    }
+// --Commented out by Inspection STOP (11/6/2019 1:36 PM)
 
-    public String getUser() {
-        return mUser;
-    }
+// --Commented out by Inspection START (11/6/2019 1:35 PM):
+//    public String getUser() {
+//        return mUser;
+//    }
+// --Commented out by Inspection STOP (11/6/2019 1:35 PM)
 
-    public void setUser(String User) {
-        mUser = User;
-    }
+// --Commented out by Inspection START (11/6/2019 1:36 PM):
+//    public void setUser(String User) {
+//        mUser = User;
+//    }
+// --Commented out by Inspection STOP (11/6/2019 1:36 PM)
 
-    public String getPassword() {
-        return mPassword;
-    }
+// --Commented out by Inspection START (11/6/2019 1:35 PM):
+//    public String getPassword() {
+//        return mPassword;
+//    }
+// --Commented out by Inspection STOP (11/6/2019 1:35 PM)
 
-    public void setPassword(String Password) {
-        mPassword = Password;
-    }
+// --Commented out by Inspection START (11/6/2019 1:35 PM):
+//    public void setPassword(String Password) {
+//        mPassword = Password;
+//    }
+// --Commented out by Inspection STOP (11/6/2019 1:35 PM)
 
-    /**
-     * Converts object to string.
-     * Usage:  Array.toString(List<Camera>.toArray().
-     * @return String:  Output values of array.
-     */
-    @Override
-    public String toString() {
-
-        String c = "Name:  " + mName + "\n";
-        c = c + "Url:  " + mUrl + "\n";
-        c = c + "Use Authentication:  " + mUseAuthentication + "\n";
-        c = c + "User:  " + mUser + "\n";
-        c = c + "Password:  " + mPassword + "\n";
-
-        return c;
-    }
+//    /**
+//     * Converts object to string.
+//     * Usage:  Array.toString(List<Camera>.toArray().
+//     * @return String:  Output values of array.
+//     */
+//    @NonNull
+//    @Override
+//    public String toString() {
+//
+//        String c = "Name:  " + mName + "\n";
+//        c = c + "Url:  " + mUrl + "\n";
+//        c = c + "Use Authentication:  " + mUseAuthentication + "\n";
+//        c = c + "User:  " + mUser + "\n";
+//        c = c + "Password:  " + mPassword + "\n";
+//
+//        return c;
+//    }
 
 }

@@ -50,4 +50,8 @@
         <item name="android:textSize">12sp</item>
     </style>
 
+    <style name="DrawerTheme" parent="@style/ThemeOverlay.AppCompat.Dark">
+        <item name="android:background">?attr/colorPrimaryDark</item>
+    </style>
+
 </resources>

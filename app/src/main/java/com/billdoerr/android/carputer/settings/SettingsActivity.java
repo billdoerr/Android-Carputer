@@ -2,9 +2,8 @@ package com.billdoerr.android.carputer.settings;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 
-import com.billdoerr.android.carputer.GlobalVariables;
+import com.billdoerr.android.carputer.utils.GlobalVariables;
 import com.billdoerr.android.carputer.R;
 
 import org.greenrobot.eventbus.EventBus;
@@ -13,6 +12,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -31,8 +31,6 @@ import androidx.preference.PreferenceScreen;
 public class SettingsActivity extends AppCompatActivity implements
         PreferenceFragmentCompat.OnPreferenceStartFragmentCallback {
 
-    private static final String TAG = "SettingsActivity";
-
     private static final String ARGS_CAMERA_DETAIL = "ARGS_CAMERA_DETAIL";
     private static final String ARGS_NODE_DETAIL = "ARGS_NODE_DETAIL";
     private static final String ARGS_ADD = "ARGS_ADD";
@@ -42,8 +40,8 @@ public class SettingsActivity extends AppCompatActivity implements
     private static GlobalVariables mGlobalVariables;
 
     //  Device objects
-    private static List<Camera> mCameras = new ArrayList<Camera>();
-    private static List<Node> mNodes = new ArrayList<Node>();
+    private static List<Camera> mCameras = new ArrayList<>();
+    private static List<Node> mNodes = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,7 +54,7 @@ public class SettingsActivity extends AppCompatActivity implements
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionbar = getSupportActionBar();
-        actionbar.setTitle(getString(R.string.pref_title_activity_settings));
+        Objects.requireNonNull(actionbar).setTitle(getString(R.string.pref_title_activity_settings));
         actionbar.setDisplayHomeAsUpEnabled(true);
 
         getSupportFragmentManager()
@@ -70,10 +68,9 @@ public class SettingsActivity extends AppCompatActivity implements
     public boolean onPreferenceStartFragment(PreferenceFragmentCompat caller, Preference pref) {
         // Instantiate the new Fragment
         final Bundle args = pref.getExtras();
-        final Fragment fragment = getSupportFragmentManager().getFragmentFactory().instantiate (
-                getClassLoader(),
-                pref.getFragment(),
-                args);
+        final Fragment fragment = getSupportFragmentManager()
+                .getFragmentFactory()
+                .instantiate(getClassLoader(), pref.getFragment());
         fragment.setArguments(args);
         fragment.setTargetFragment(caller, 0);
         // Replace the existing Fragment with the new Fragment
@@ -101,8 +98,6 @@ public class SettingsActivity extends AppCompatActivity implements
      */
     public static class SettingsFragment extends PreferenceFragmentCompat {
 
-        private static final String TAG = "SettingsFragment";
-
         public SettingsFragment() {
             // Required empty public constructor
         }
@@ -117,8 +112,8 @@ public class SettingsActivity extends AppCompatActivity implements
             super.onResume();
 
             //  Update preference summary
-            updateCameraPreferenceSummary(getActivity());
-            updateNodePreferenceSummary(getActivity());
+            updateCameraPreferenceSummary();
+            updateNodePreferenceSummary();
         }
 
         @Override
@@ -132,32 +127,32 @@ public class SettingsActivity extends AppCompatActivity implements
             mNodes = mGlobalVariables.getNodes();
 
             //  Update preference summary
-            updateCameraPreferenceSummary(getActivity());
-            updateNodePreferenceSummary(getActivity());
+            updateCameraPreferenceSummary();
+            updateNodePreferenceSummary();
 
         }
 
         //  Update Camera's preference summary
-        private void updateCameraPreferenceSummary(Context context) {
+        private void updateCameraPreferenceSummary() {
             int size = 0;
             if (mCameras != null) {
                 size = mCameras.size();
             }
 
             Preference pref = findPreference(Camera.PrefKey.PREF_KEY_CAMERAS);
-            pref.setSummary(size + " camera\'s configured.");
+            Objects.requireNonNull(pref).setSummary(size + " camera\'s configured.");
 
         }
 
         //  Update Node's preference summary
-        private void updateNodePreferenceSummary(Context context) {
+        private void updateNodePreferenceSummary() {
             int size = 0;
             if (mNodes != null) {
                 size = mNodes.size();
             }
 
             Preference pref = findPreference(Node.PrefKey.PREF_KEY_NODES);
-            pref.setSummary(size + " node\'s configured.");
+            Objects.requireNonNull(pref).setSummary(size + " node\'s configured.");
         }
 
     }
@@ -166,10 +161,6 @@ public class SettingsActivity extends AppCompatActivity implements
      * The fragment that displays list of configured camera's.
      */
     public static class SettingsFragmentCameras extends PreferenceFragmentCompat {
-
-        private static final String TAG = "SettingsFragmentCameras";
-
-        private List<String> mPrefKeyList = new ArrayList<>();
 
         public SettingsFragmentCameras() {
             // Required empty public constructor
@@ -187,12 +178,6 @@ public class SettingsActivity extends AppCompatActivity implements
         }
 
         @Override
-        public void onResume() {
-            super.onResume();
-//            saveCamerasToSharedPrefs(getActivity());
-        }
-
-        @Override
         public void onDetach() {
             //  Remove subscription to event bus
             EventBus.getDefault().unregister(this);
@@ -207,6 +192,7 @@ public class SettingsActivity extends AppCompatActivity implements
         }
 
         // This method will be called when a MessageEvent is posted (in the UI thread for Toast)
+        @SuppressWarnings("unused")
         @Subscribe(threadMode = ThreadMode.MAIN)
         public void onMessageEvent(SettingsMessageEvent event) {
             switch (event.getAction()) {
@@ -239,6 +225,7 @@ public class SettingsActivity extends AppCompatActivity implements
         /**
          * Dynamically create PreferenceScreen of configured camera's.
          */
+        @SuppressWarnings("SameReturnValue")
         private void createPreferences() {
 
             Context context = getPreferenceManager().getContext();
@@ -250,8 +237,6 @@ public class SettingsActivity extends AppCompatActivity implements
 
             //  Dynamically create preferences
             for (int i = 0; i < mCameras.size(); i++) {
-                Log.i(TAG, "Dynamically create preferences: " + i);
-
                 Preference prefCamera = new Preference(context);
                 prefCamera.setTitle(mCameras.get(i).getName());
                 prefCamera.setIcon(ContextCompat.getDrawable(context, R.drawable.ic_baseline_camera_24px));
@@ -266,30 +251,27 @@ public class SettingsActivity extends AppCompatActivity implements
                 camerasConfiguredCategory.addPreference(prefCamera);
 
                 //  Launch fragment when preference is clicked.
-                prefCamera.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                    @Override
-                    public boolean onPreferenceClick(Preference preference) {
-                        //  Get list index from preference extras
-                        Bundle extras = prefCamera.getExtras();
-                        int index = extras.getInt(ARGS_INDEX);
-                        Camera camera = mCameras.get(index);
+                prefCamera.setOnPreferenceClickListener(preference -> {
+                    //  Get list index from preference extras
+                    Bundle extras1 = prefCamera.getExtras();
+                    int index = extras1.getInt(ARGS_INDEX);
+                    Camera camera = mCameras.get(index);
 
-                        //  Pass args to fragment
-                        Bundle args = new Bundle();
-                        args.putInt(ARGS_INDEX, index);
-                        args.putBoolean(ARGS_ADD, false);
-                        args.putSerializable(ARGS_CAMERA_DETAIL, camera);
+                    //  Pass args to fragment
+                    Bundle args = new Bundle();
+                    args.putInt(ARGS_INDEX, index);
+                    args.putBoolean(ARGS_ADD, false);
+                    args.putSerializable(ARGS_CAMERA_DETAIL, camera);
 
-                        Fragment settingsFragmentCameraDetail = new SettingsFragmentCameraDetail();
-                        settingsFragmentCameraDetail.setArguments(args);
-                        getActivity().getSupportFragmentManager()
-                                .beginTransaction()
-                                .replace(R.id.fragment_container, settingsFragmentCameraDetail)
-                                .addToBackStack(null)
-                                .commit();
+                    Fragment settingsFragmentCameraDetail = new SettingsFragmentCameraDetail();
+                    settingsFragmentCameraDetail.setArguments(args);
+                    Objects.requireNonNull(getActivity()).getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fragment_container, settingsFragmentCameraDetail)
+                            .addToBackStack(null)
+                            .commit();
 
-                        return true;
-                    }
+                    return true;
                 });
 
             }
@@ -305,28 +287,25 @@ public class SettingsActivity extends AppCompatActivity implements
             addCamerasCategory.addPreference(addCamera);
 
             //  Launch fragment when preference is clicked.
-            addCamera.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference arg0) {
-                    //  Assign default values
-                    Camera camera = new Camera();
-                    camera.setName(getString(R.string.pref_default_camera_name));
-                    camera.setUrl(getString(R.string.pref_default_camera_url));
+            addCamera.setOnPreferenceClickListener(arg0 -> {
+                //  Assign default values
+                Camera camera = new Camera();
+                camera.setName(getString(R.string.pref_default_camera_name));
+                camera.setUrl(getString(R.string.pref_default_camera_url));
 
-                    Bundle args = new Bundle();
-                    args.putBoolean(ARGS_ADD, true);    //  Add device flag
-                    args.putSerializable(ARGS_CAMERA_DETAIL, camera);
+                Bundle args = new Bundle();
+                args.putBoolean(ARGS_ADD, true);    //  Add device flag
+                args.putSerializable(ARGS_CAMERA_DETAIL, camera);
 
-                    Fragment settingsFragmentCameraDetail = new SettingsFragmentCameraDetail();
-                    settingsFragmentCameraDetail.setArguments(args);
-                    getActivity().getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.fragment_container, settingsFragmentCameraDetail)
-                            .addToBackStack(null)
-                            .commit();
+                Fragment settingsFragmentCameraDetail = new SettingsFragmentCameraDetail();
+                settingsFragmentCameraDetail.setArguments(args);
+                Objects.requireNonNull(getActivity()).getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, settingsFragmentCameraDetail)
+                        .addToBackStack(null)
+                        .commit();
 
-                    return true;
-                }
+                return true;
             });
 
             //  Set the root of the preference hierarchy that this fragment is showing.
@@ -338,11 +317,8 @@ public class SettingsActivity extends AppCompatActivity implements
     /**
      * The fragment that displays list of configured Node's.
      */
+    @SuppressWarnings("SameReturnValue")
     public static class SettingsFragmentNodes extends PreferenceFragmentCompat {
-
-        private static final String TAG = "SettingsFragmentNodes";
-
-        private List<String> mPrefKeyList = new ArrayList<>();
 
         public SettingsFragmentNodes() {
             // Required empty public constructor
@@ -357,11 +333,6 @@ public class SettingsActivity extends AppCompatActivity implements
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-        }
-
-        @Override
-        public void onResume() {
-            super.onResume();
         }
 
         @Override
@@ -382,6 +353,7 @@ public class SettingsActivity extends AppCompatActivity implements
          * This method will be called when a MessageEvent is posted in the UI thread
          * @param event SettingsMessageEvent object.
          */
+        @SuppressWarnings("unused")
         @Subscribe(threadMode = ThreadMode.MAIN)
         public void onMessageEvent(SettingsMessageEvent event) {
             switch (event.getAction()) {
@@ -419,14 +391,12 @@ public class SettingsActivity extends AppCompatActivity implements
             Context context = getPreferenceManager().getContext();
             PreferenceScreen screen = getPreferenceManager().createPreferenceScreen(context);
 
-            PreferenceCategory nodessConfiguredCategory = new PreferenceCategory(context);
-            nodessConfiguredCategory.setTitle(getResources().getString(R.string.pref_category_nodes_configured));
-            screen.addPreference(nodessConfiguredCategory);
+            PreferenceCategory nodesConfiguredCategory = new PreferenceCategory(context);
+            nodesConfiguredCategory.setTitle(getResources().getString(R.string.pref_category_nodes_configured));
+            screen.addPreference(nodesConfiguredCategory);
 
             //  Dynamically create preferences
             for (int i = 0; i < mNodes.size(); i++) {
-                Log.i(TAG, "Dynamically create preferences: " + i);
-
                 Preference prefNode = new Preference(context);
                 prefNode.setTitle(mNodes.get(i).getName());
                 prefNode.setIcon(ContextCompat.getDrawable(context, R.drawable.ic_raspberry_pi_24px));
@@ -438,33 +408,30 @@ public class SettingsActivity extends AppCompatActivity implements
                 extras.putInt(ARGS_INDEX, i);
 
                 //  Add preferences to PreferenceCategory
-                nodessConfiguredCategory.addPreference(prefNode);
+                nodesConfiguredCategory.addPreference(prefNode);
 
                 //  Launch fragment when preference is clicked.
-                prefNode.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                    @Override
-                    public boolean onPreferenceClick(Preference preference) {
-                        //  Get list index from preference extras
-                        Bundle extras = prefNode.getExtras();
-                        int index = extras.getInt(ARGS_INDEX);
-                        Node node = mNodes.get(index);
+                prefNode.setOnPreferenceClickListener(preference -> {
+                    //  Get list index from preference extras
+                    Bundle extras1 = prefNode.getExtras();
+                    int index = extras1.getInt(ARGS_INDEX);
+                    Node node = mNodes.get(index);
 
-                        //  Pass args to fragment
-                        Bundle args = new Bundle();
-                        args.putInt(ARGS_INDEX, index);
-                        args.putBoolean(ARGS_ADD, false);
-                        args.putSerializable(ARGS_NODE_DETAIL, node);
+                    //  Pass args to fragment
+                    Bundle args = new Bundle();
+                    args.putInt(ARGS_INDEX, index);
+                    args.putBoolean(ARGS_ADD, false);
+                    args.putSerializable(ARGS_NODE_DETAIL, node);
 
-                        Fragment settingsFragmentNodeDetail = new SettingsFragmentNodeDetail();
-                        settingsFragmentNodeDetail.setArguments(args);
-                        getActivity().getSupportFragmentManager()
-                                .beginTransaction()
-                                .replace(R.id.fragment_container, settingsFragmentNodeDetail)
-                                .addToBackStack(null)
-                                .commit();
+                    Fragment settingsFragmentNodeDetail = new SettingsFragmentNodeDetail();
+                    settingsFragmentNodeDetail.setArguments(args);
+                    Objects.requireNonNull(getActivity()).getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fragment_container, settingsFragmentNodeDetail)
+                            .addToBackStack(null)
+                            .commit();
 
-                        return true;
-                    }
+                    return true;
                 });
 
             }
@@ -480,39 +447,36 @@ public class SettingsActivity extends AppCompatActivity implements
             addNodesCategory.addPreference(addNode);
 
             //  Launch fragment when preference is clicked.
-            addNode.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference arg0) {
-                    //  Assign default values
-                    Node node = new Node();
-                    node.setName(getString(R.string.pref_default_node_name));
-                    node.setIp(getString(R.string.pref_default_node_ip));
-                    node.setSSHPort(getString(R.string.pref_default_node_ssh_port));
+            addNode.setOnPreferenceClickListener(arg0 -> {
+                //  Assign default values
+                Node node = new Node();
+                node.setName(getString(R.string.pref_default_node_name));
+                node.setIp(getString(R.string.pref_default_node_ip));
+                node.setSSHPort(getString(R.string.pref_default_node_ssh_port));
 
-                    node.setUseAuthentication(true);
-                    node.setUser("pi");
-                    node.setPassword("");
+                node.setUseAuthentication(true);
+                node.setUser("pi");
+                node.setPassword("");
 
-                    node.setUsePhpSysInfo(false);
-                    node.setPhpSysInfoUrl(getString(R.string.pref_default_node_physysinfo_url));
+                node.setUsePhpSysInfo(false);
+                node.setPhpSysInfoUrl(getString(R.string.pref_default_node_physysinfo_url));
 
-                    node.setUseMotionEye(true);
-                    node.setMotionEyeUrl(getString(R.string.pref_default_node_motioneye_url));
+                node.setUseMotionEye(true);
+                node.setMotionEyeUrl(getString(R.string.pref_default_node_motioneye_url));
 
-                    Bundle args = new Bundle();
-                    args.putBoolean(ARGS_ADD, true);    //  Add device flag
-                    args.putSerializable(ARGS_NODE_DETAIL, node);
+                Bundle args = new Bundle();
+                args.putBoolean(ARGS_ADD, true);    //  Add device flag
+                args.putSerializable(ARGS_NODE_DETAIL, node);
 
-                    Fragment settingsFragmentNodeDetail = new SettingsFragmentNodeDetail();
-                    settingsFragmentNodeDetail.setArguments(args);
-                    getActivity().getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.fragment_container, settingsFragmentNodeDetail)
-                            .addToBackStack(null)
-                            .commit();
+                Fragment settingsFragmentNodeDetail = new SettingsFragmentNodeDetail();
+                settingsFragmentNodeDetail.setArguments(args);
+                Objects.requireNonNull(getActivity()).getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, settingsFragmentNodeDetail)
+                        .addToBackStack(null)
+                        .commit();
 
-                    return true;
-                }
+                return true;
             });
 
             //  Set the root of the preference hierarchy that this fragment is showing.

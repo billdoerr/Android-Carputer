@@ -1,4 +1,4 @@
-package com.billdoerr.android.carputer;
+package com.billdoerr.android.carputer.fragments;
 
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
@@ -17,11 +17,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.billdoerr.android.carputer.utils.GlobalVariables;
+import com.billdoerr.android.carputer.R;
 import com.billdoerr.android.carputer.settings.Camera;
 import com.billdoerr.android.carputer.utils.FileStorageUtils;
 import com.github.niqdev.mjpeg.DisplayMode;
 import com.github.niqdev.mjpeg.Mjpeg;
 import com.github.niqdev.mjpeg.OnFrameCapturedListener;
+
+import java.util.Objects;
 
 /**
  * Child fragment that displays Mjpeg streaming video.
@@ -34,8 +38,6 @@ public class CameraFragmentMjpegSnapshot extends Fragment implements OnFrameCapt
 
     private static final String ARGS_CAMERA_DETAIL = "ARGS_CAMERA_DETAIL";
     private static final int TIMEOUT = 5;
-
-    private GlobalVariables mGlobalVariables;
 
     private com.github.niqdev.mjpeg.MjpegView mjpegView;
     private ImageView mImageView;
@@ -52,7 +54,7 @@ public class CameraFragmentMjpegSnapshot extends Fragment implements OnFrameCapt
         setHasOptionsMenu(true);
 
         // Calling Application class (see application tag in AndroidManifest.xml)
-        mGlobalVariables = (GlobalVariables) getActivity().getApplicationContext();
+//        mGlobalVariables = (GlobalVariables) Objects.requireNonNull(getActivity()).getApplicationContext();
 
         mCameraAddress = getCameraAddress();
     }
@@ -68,12 +70,7 @@ public class CameraFragmentMjpegSnapshot extends Fragment implements OnFrameCapt
         mjpegView.setOnFrameCapturedListener(this);
 
         mImageView = view.findViewById(R.id.image_view);
-        mImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                takeSnapshot();
-            }
-        });
+        mImageView.setOnClickListener(view1 -> takeSnapshot());
 
         return view;
     }
@@ -86,13 +83,11 @@ public class CameraFragmentMjpegSnapshot extends Fragment implements OnFrameCapt
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item){
-        switch(item.getItemId()){
-            case R.id.action_snapshot:
-                takeSnapshot();
-                return true;
-            default:
-                return true;
+        if (item.getItemId() == R.id.action_snapshot) {
+            takeSnapshot();
+            return true;
         }
+        return true;
     }
 
     @Override
@@ -124,6 +119,7 @@ public class CameraFragmentMjpegSnapshot extends Fragment implements OnFrameCapt
     /**
      * MjpegViewHandler
      */
+    @SuppressWarnings("unused")
     @SuppressLint("HandlerLeak")
     final Handler MjpegViewHandler = new Handler(){
         @Override
@@ -182,7 +178,7 @@ public class CameraFragmentMjpegSnapshot extends Fragment implements OnFrameCapt
         if (mLastPreview != null) {
             mImageView.setImageBitmap(mLastPreview);
             try {
-                FileStorageUtils.saveImage(getActivity(), mLastPreview);
+                FileStorageUtils.saveImage(Objects.requireNonNull(getActivity()), mLastPreview);
                 //  Output to system log
                 Log.d(TAG, getString(R.string.toast_image_saved));
                 writeSystemLog(FileStorageUtils.TABS + getString(R.string.toast_image_saved));
@@ -202,13 +198,13 @@ public class CameraFragmentMjpegSnapshot extends Fragment implements OnFrameCapt
      */
     private String getCameraAddress() {
         Bundle args = getArguments();
-        Camera camera = (Camera) args.getSerializable(ARGS_CAMERA_DETAIL);
-        return camera.getUrl();
+        Camera camera = (Camera) Objects.requireNonNull(args).getSerializable(ARGS_CAMERA_DETAIL);
+        return Objects.requireNonNull(camera).getUrl();
     }
 
     //  Output to system log
     private void writeSystemLog(String msg) {
-        FileStorageUtils.writeSystemLog(getActivity(), mGlobalVariables.SYS_LOG, TAG + FileStorageUtils.TABS + msg + FileStorageUtils.LINE_SEPARATOR);
+        FileStorageUtils.writeSystemLog(getActivity(), GlobalVariables.SYS_LOG, TAG + FileStorageUtils.TABS + msg + FileStorageUtils.LINE_SEPARATOR);
     }
 
 }

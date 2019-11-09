@@ -1,4 +1,4 @@
-package com.billdoerr.android.carputer;
+package com.billdoerr.android.carputer.fragments;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -27,7 +27,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 
+import com.billdoerr.android.carputer.utils.GlobalVariables;
+import com.billdoerr.android.carputer.R;
 import com.billdoerr.android.carputer.asynctaskutils.ExecuteCommandTask;
 import com.billdoerr.android.carputer.settings.Node;
 import com.billdoerr.android.carputer.asynctaskutils.TaskResponse;
@@ -36,7 +39,6 @@ import com.billdoerr.android.carputer.asynctaskutils.TaskTimeout;
 import com.billdoerr.android.carputer.asynctaskutils.TaskRequest;
 import com.billdoerr.android.carputer.asynctaskutils.TaskResult;
 import com.billdoerr.android.carputer.utils.FileStorageUtils;
-import com.billdoerr.android.carputer.utils.WifiUtils;
 
 /**
  *  Child fragment of CarputerFragmentMgmt.
@@ -47,10 +49,7 @@ public class SSHFragment extends Fragment implements TaskResponse {
     private static final String TAG = "SSHFragment";
     private static final long TIMEOUT = 30*1000;     //  Time in milliseconds
 
-    private GlobalVariables mGlobalVariables;
-
-    private List<Node> mNodes = new ArrayList<Node>();
-    private WifiUtils mWifiUtils;
+    private List<Node> mNodes = new ArrayList<>();
     private TextView mTxtReply;
 
     private ProgressDialog mProgressDialog;
@@ -68,11 +67,6 @@ public class SSHFragment extends Fragment implements TaskResponse {
     //  Store console text in bundle
     private static String sTxtConsole;
 
-    public static SSHFragment newInstance() {
-        return new SSHFragment();
-    }
-
-
     @SuppressLint("StaticFieldLeak")
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -86,10 +80,10 @@ public class SSHFragment extends Fragment implements TaskResponse {
         mExecuteCommandTask.delegate = this;
 
         // Calling Application class (see application tag in AndroidManifest.xml)
-        mGlobalVariables = (GlobalVariables) getActivity().getApplicationContext();
+        GlobalVariables globalVariables = (GlobalVariables) Objects.requireNonNull(getActivity()).getApplicationContext();
 
         //  Get devices
-        mNodes = mGlobalVariables.getNodes();
+        mNodes = globalVariables.getNodes();
 
     }
 
@@ -110,7 +104,7 @@ public class SSHFragment extends Fragment implements TaskResponse {
         for (int i = 0; i < mNodes.size(); i++) {
             nodes.add(mNodes.get(i).getIp());
         }
-        ArrayAdapter<String> dataAdapterNodes = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, nodes);
+        ArrayAdapter<String> dataAdapterNodes = new ArrayAdapter<>(Objects.requireNonNull(getActivity()), android.R.layout.simple_spinner_item, nodes);
 
         // Drop down layout style
         dataAdapterNodes.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -120,154 +114,127 @@ public class SSHFragment extends Fragment implements TaskResponse {
 
         //  EditText:  Execute Command
         txtExecuteCommand = view.findViewById(R.id.txtExecuteCommand);
-        txtExecuteCommand.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        txtExecuteCommand.setOnClickListener(v -> {
 //                txtExecuteCommand.setInputType(InputType.TYPE_CLASS_TEXT);  //  Show keyboard.  Execute command would have hidden keyboard.
-            }
         });
 
         //  Button:  Ping
         Button btnPing = view.findViewById(R.id.btnPing);
-        btnPing.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("StaticFieldLeak")
-            @Override
-            public void onClick(View v) {
+        btnPing.setOnClickListener(v -> {
 
-                //  Prepare system log and console message
-                String msg = getString(R.string.msg_executing_ping) + getString(R.string.msg_on_node) + spinnerNodes.getSelectedItem().toString() + FileStorageUtils.LINE_SEPARATOR;
-                updateConsoleAndSystemLog(msg);
+            //  Prepare system log and console message
+            String msg = getString(R.string.msg_executing_ping) + getString(R.string.msg_on_node) + spinnerNodes.getSelectedItem().toString() + FileStorageUtils.LINE_SEPARATOR;
+            updateConsoleAndSystemLog(msg);
 
-                //  Keep track of tasks generated.  Used later to dismiss progress dialog
-                mTaskCount = 1;     //  Only executing a single task
+            //  Keep track of tasks generated.  Used later to dismiss progress dialog
+            mTaskCount = 1;     //  Only executing a single task
 
-                //  Get node from dropdown
-                int index = spinnerNodes.getSelectedItemPosition();
-                TaskRequest request = new TaskRequest();
-                request.node = mNodes.get(index);
-                request.cmd = "";     //  Ping does not send a command
-                request.taskName = getString(R.string.msg_executing_ping) + getString(R.string.msg_on_node) + spinnerNodes.getSelectedItem().toString();
+            //  Get node from dropdown
+            int index = spinnerNodes.getSelectedItemPosition();
+            TaskRequest request = new TaskRequest();
+            request.node = mNodes.get(index);
+            request.cmd = "";     //  Ping does not send a command
+            request.taskName = getString(R.string.msg_executing_ping) + getString(R.string.msg_on_node) + spinnerNodes.getSelectedItem().toString();
 
-                // Perform ping
-                executePingTask(request);
-            }
+            // Perform ping
+            executePingTask(request);
         });
 
         //  Button:  PowerOff (Single)
         Button btnPowerOffSingle = view.findViewById(R.id.btnPoweroffSingle);
-        btnPowerOffSingle.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("StaticFieldLeak")
-            @Override
-            public void onClick(View v) {
-                final String cmd = "sudo shutdown -h 0";
-                txtExecuteCommand.setText(cmd);     //  Display command
+        btnPowerOffSingle.setOnClickListener(v -> {
+            final String cmd = "sudo shutdown -h 0";
+            txtExecuteCommand.setText(cmd);     //  Display command
 
-                //  Prepare system log and console message
-                String msg = getString(R.string.msg_executing_command) + FileStorageUtils.TABS + cmd + FileStorageUtils.LINE_SEPARATOR;
-                msg = msg + getString(R.string.msg_power_off_single_node) + spinnerNodes.getSelectedItem().toString() + FileStorageUtils.LINE_SEPARATOR;
-                updateConsoleAndSystemLog(msg);
+            //  Prepare system log and console message
+            String msg = getString(R.string.msg_executing_command) + FileStorageUtils.TABS + cmd + FileStorageUtils.LINE_SEPARATOR;
+            msg = msg + getString(R.string.msg_power_off_single_node) + spinnerNodes.getSelectedItem().toString() + FileStorageUtils.LINE_SEPARATOR;
+            updateConsoleAndSystemLog(msg);
 
-                //  Keep track of tasks generated.  Used later to dismiss progress dialog
-                mTaskCount = 1;     //  Only executing a single task
+            //  Keep track of tasks generated.  Used later to dismiss progress dialog
+            mTaskCount = 1;     //  Only executing a single task
 
-                //  Get node from dropdown
-                int index = spinnerNodes.getSelectedItemPosition();
-                TaskRequest request = new TaskRequest();
-                request.node = mNodes.get(index);
-                request.cmd = cmd;
-                request.taskName = getString(R.string.msg_power_off_single_node) + spinnerNodes.getSelectedItem().toString();
+            //  Get node from dropdown
+            int index = spinnerNodes.getSelectedItemPosition();
+            TaskRequest request = new TaskRequest();
+            request.node = mNodes.get(index);
+            request.cmd = cmd;
+            request.taskName = getString(R.string.msg_power_off_single_node) + spinnerNodes.getSelectedItem().toString();
 
-                //  Execute command
-                executeCommandTask(request);
-            }
+            //  Execute command
+            executeCommandTask(request);
         });
 
         //  Button:  PowerOff (All)
         Button btnPowerOffAll = view.findViewById(R.id.btnPoweroffAll);
-        btnPowerOffAll.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("StaticFieldLeak")
-            @Override
-            public void onClick(View v) {
-                //  Execute command
-                powerOffAll();
-            }
+        btnPowerOffAll.setOnClickListener(v -> {
+            //  Execute command
+            powerOffAll();
         });
 
         //  Button:  Execute command
         Button btnExecuteCommand = view.findViewById(R.id.btnExecuteCommand);
-        btnExecuteCommand.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("StaticFieldLeak")
-            @Override
-            public void onClick(View v) {
-                String cmd = txtExecuteCommand.getText().toString();
-                txtExecuteCommand.setText(cmd);     //  Update text view with command
+        btnExecuteCommand.setOnClickListener(v -> {
+            String cmd = txtExecuteCommand.getText().toString();
+            txtExecuteCommand.setText(cmd);     //  Update text view with command
 
-                //  Prepare system log and console message
-                String msg = getString(R.string.msg_executing_command) + FileStorageUtils.TABS + cmd + FileStorageUtils.LINE_SEPARATOR;
-                msg = msg + getString(R.string.msg_on_node) + spinnerNodes.getSelectedItem().toString() + FileStorageUtils.LINE_SEPARATOR;
-                updateConsoleAndSystemLog(msg);
+            //  Prepare system log and console message
+            String msg = getString(R.string.msg_executing_command) + FileStorageUtils.TABS + cmd + FileStorageUtils.LINE_SEPARATOR;
+            msg = msg + getString(R.string.msg_on_node) + spinnerNodes.getSelectedItem().toString() + FileStorageUtils.LINE_SEPARATOR;
+            updateConsoleAndSystemLog(msg);
 
-                //  Hide soft keyboard
-                InputMethodManager inputManager = (InputMethodManager) getActivity()
-                        .getSystemService(Activity.INPUT_METHOD_SERVICE);
-                inputManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
+            //  Hide soft keyboard
+            InputMethodManager inputManager = (InputMethodManager) getActivity()
+                    .getSystemService(Activity.INPUT_METHOD_SERVICE);
+            inputManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
 
-                //  Keep track of tasks generated.  Used later to dismiss progress dialog
-                mTaskCount = 1;     //  Only executing a single task
+            //  Keep track of tasks generated.  Used later to dismiss progress dialog
+            mTaskCount = 1;     //  Only executing a single task
 
-                //  Get node from dropdown
-                int index = spinnerNodes.getSelectedItemPosition();
-                TaskRequest request = new TaskRequest();
-                request.node = mNodes.get(index);
-                request.cmd = cmd;
-                request.taskName = msg;
+            //  Get node from dropdown
+            int index = spinnerNodes.getSelectedItemPosition();
+            TaskRequest request = new TaskRequest();
+            request.node = mNodes.get(index);
+            request.cmd = cmd;
+            request.taskName = msg;
 
-                //  Execute command
-                executeCommandTask(request);
-            }
+            //  Execute command
+            executeCommandTask(request);
         });
 
         //  Button:  SyncDate - Single Node
         Button btnSyncDateSingle = view.findViewById(R.id.btnSyncDateSingle);
-        btnSyncDateSingle.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("StaticFieldLeak")
-            @Override
-            public void onClick(View v) {
-                String date = getDateTime();
-                //  Sync Android date/time with Pi.  Follow with 'date' command to view system date/time.
-                final String cmd = "sudo date -s \"" + date + "\" ;date" + "\" ;sudo hwlcock -w" + "\" ;sudo hwclock -r";
-                txtExecuteCommand.setText(cmd);
+        btnSyncDateSingle.setOnClickListener(v -> {
+            String date = getDateTime();
+            //  Sync Android date/time with Pi.  Follow with 'date' command to view system date/time.
+            final String cmd = "sudo date -s \"" + date + "\" ;date" + "\" ;sudo hwlcock -w" + "\" ;sudo hwclock -r";
+            txtExecuteCommand.setText(cmd);
 
-                //  Prepare system log and console message
-                String msg = getString(R.string.msg_executing_command) + FileStorageUtils.TABS + cmd + FileStorageUtils.LINE_SEPARATOR;
-                msg = msg + getString(R.string.msg_sync_date_single_node) + spinnerNodes.getSelectedItem().toString() + FileStorageUtils.LINE_SEPARATOR;
-                updateConsoleAndSystemLog(msg);
+            //  Prepare system log and console message
+            String msg = getString(R.string.msg_executing_command) + FileStorageUtils.TABS + cmd + FileStorageUtils.LINE_SEPARATOR;
+            msg = msg + getString(R.string.msg_sync_date_single_node) + spinnerNodes.getSelectedItem().toString() + FileStorageUtils.LINE_SEPARATOR;
+            updateConsoleAndSystemLog(msg);
 
-                //  Keep track of tasks generated.  Used later to dismiss progress dialog
-                mTaskCount = 1;     //  Only executing a single task
+            //  Keep track of tasks generated.  Used later to dismiss progress dialog
+            mTaskCount = 1;     //  Only executing a single task
 
-                //  Get node from dropdown
-                int index = spinnerNodes.getSelectedItemPosition();
-                TaskRequest request = new TaskRequest();
-                request.node = mNodes.get(index);
-                request.cmd = cmd;
-                request.taskName = getString(R.string.msg_sync_date_single_node) + spinnerNodes.getSelectedItem().toString();
+            //  Get node from dropdown
+            int index = spinnerNodes.getSelectedItemPosition();
+            TaskRequest request = new TaskRequest();
+            request.node = mNodes.get(index);
+            request.cmd = cmd;
+            request.taskName = getString(R.string.msg_sync_date_single_node) + spinnerNodes.getSelectedItem().toString();
 
-                //  Execute command
-                executeCommandTask(request);
+            //  Execute command
+            executeCommandTask(request);
 
-            }
         });
 
         //  Button:  SyncDate - All Nodes
         Button btnSyncDateAll = view.findViewById(R.id.btnSyncDateAll);
-        btnSyncDateAll.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("StaticFieldLeak")
-            @Override
-            public void onClick(View v) {
-                //  Execute the command
-                syncDateAll();
-            }
+        btnSyncDateAll.setOnClickListener(v -> {
+            //  Execute the command
+            syncDateAll();
         });
 
         //  Command history
@@ -290,6 +257,7 @@ public class SSHFragment extends Fragment implements TaskResponse {
          */
         List<String> commandHistory = new ArrayList<>();
         commandHistory.add("date");
+        commandHistory.add("sudo cat /var/lib/misc/dnsmasq.leases");
         commandHistory.add("df -handler /dev/sda1");
         commandHistory.add("cd /mnt/motioneye/Front; ls -l");
         commandHistory.add("cd /mnt/motioneye/Rear; ls -l");
@@ -301,7 +269,7 @@ public class SSHFragment extends Fragment implements TaskResponse {
         commandHistory.add("sudo hwclock -w");      //  Write date to RTC
 
         // Creating adapter for spinner
-        ArrayAdapter<String> dataAdapterCmd = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, commandHistory);
+        ArrayAdapter<String> dataAdapterCmd = new ArrayAdapter<>(Objects.requireNonNull(getActivity()), android.R.layout.simple_spinner_item, commandHistory);
 
         // Drop down layout style - list view with radio button
         dataAdapterCmd.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -318,21 +286,6 @@ public class SSHFragment extends Fragment implements TaskResponse {
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
-    @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_options_ssh_fragment, menu);
@@ -340,20 +293,16 @@ public class SSHFragment extends Fragment implements TaskResponse {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-
-            //  Clear console
-            case R.id.action_clear_console:
-                mTxtReply.setText("");
-                sTxtConsole = "";
-            default:
-                break;
+        //  Clear console
+        if (item.getItemId() == R.id.action_clear_console) {
+            mTxtReply.setText("");
+            sTxtConsole = "";
         }
         return false;
     }
 
     @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
+    public void onSaveInstanceState(@NonNull Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
         savedInstanceState.putBoolean("DateSynced", sDateSynced);
         savedInstanceState.putString("ConsoleText", mTxtReply.getText().toString());
@@ -390,27 +339,24 @@ public class SSHFragment extends Fragment implements TaskResponse {
 
     }
 
-    public void hideProgress() {
-        //  Dismiss the progress dialog
-        hideProgressDialog();
-
-        Log.d(TAG, "hideProgress");
-    }
+//    public void hideProgress() {
+//        //  Dismiss the progress dialog
+//        hideProgressDialog();
+//
+//        Log.d(TAG, "hideProgress");
+//    }
 
     public void showProgress() {
         Log.d(TAG, "showProgress");
     }
 
-    public void taskTimeout(TaskResult result) {
-        Log.d(TAG, getString(R.string.msg_task_timeout));
-        writeTaskResult(result,getString(R.string.msg_task_timeout) );
-    }
+//    public void taskTimeout(TaskResult result) {
+//        writeTaskResult(result,getString(R.string.msg_task_timeout) );
+//    }
 
     public void taskCanceled(TaskResult result) {
         //  Dismiss the progress dialog
         hideProgressDialog();
-
-        Log.d(TAG, getString(R.string.msg_task_cancelled));
         writeTaskResult(result,getString(R.string.msg_task_cancelled) );
     }
 
@@ -426,6 +372,7 @@ public class SSHFragment extends Fragment implements TaskResponse {
         }
     }
 
+    @SuppressWarnings("UnusedAssignment")
     private void writeTaskResult(TaskResult result, String tag) {
 
         String msg = tag + FileStorageUtils.LINE_SEPARATOR;
@@ -481,7 +428,7 @@ public class SSHFragment extends Fragment implements TaskResponse {
     }
 
     /**
-     * Wraps AsynTask in a handler to the request can be canceled after period of time.
+     * Wraps AsyncTask in a handler to the request can be canceled after period of time.
      * @param request TaskRequest:
      */
     private void executePingTask(TaskRequest request) {
@@ -517,6 +464,7 @@ public class SSHFragment extends Fragment implements TaskResponse {
      * @param cmd String:  String containing command to be executed.
      * @param nodeIndex int:  Index of node command to be executed against.
      */
+    @SuppressWarnings("WeakerAccess")
     public void executeCmd(String cmd, int nodeIndex) {
 
         //  Prepare system log and console message
@@ -617,10 +565,8 @@ public class SSHFragment extends Fragment implements TaskResponse {
      * Steps performed when app is launched.
      */
     private void startUp() {
-        String msg = "";
-
         //  Networking
-        mWifiUtils = WifiUtils.getInstance(getActivity());
+//        WifiUtils wifiUtils = WifiUtils.getInstance(getActivity());
 
         //  Get dates and versions from master/slave devices
         updateConsoleAndSystemLog(getString(R.string.msg_node_info) + FileStorageUtils.LINE_SEPARATOR);
@@ -674,7 +620,7 @@ public class SSHFragment extends Fragment implements TaskResponse {
      */
     private void updateConsoleAndSystemLog(String msg) {
         //  Output to system log
-        FileStorageUtils.writeSystemLog(getActivity(), mGlobalVariables.SYS_LOG,TAG + FileStorageUtils.TABS + msg);
+        FileStorageUtils.writeSystemLog(getActivity(), GlobalVariables.SYS_LOG,TAG + FileStorageUtils.TABS + msg);
 
         //  Output to console
         mTxtReply.append(msg + FileStorageUtils.LINE_SEPARATOR);

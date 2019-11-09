@@ -12,7 +12,6 @@
     <string name="activity_title_about">About</string>
 
     <!--  Dialog Titles -->
-    <string name="fragment_system_status">System Status</string>
 
     <!--  Draw Layout -->
     <string name="drawer_open">drawer open</string>
@@ -46,7 +45,6 @@
     <string name="btn_carputer_mgmt_ssh_sync_date_single">Sync Date (Single)</string>
     <string name="btn_carputer_mgmt_ssh_sync_date_all">Sync Date (All)</string>
     <string name="btn_carputer_mgmt_execute_command">Execute Command</string>
-    <string name="btn_carputer_mgmt_system_status">System Status</string>
     <string name="btn_save">Save</string>
     <string name="btn_cancel">Cancel</string>
     <string name="btn_not_enabled">......</string>
@@ -109,7 +107,6 @@
     <string name="msg_application_starting">Application starting&#8230;</string>
 
     <string name="msg_network_connecting_now">Network is enabled.  Connecting now&#8230;</string>
-    <string name="msg_network_connected_date_sync">Network connection made.  Syncing date&#8230;</string>
     <string name="msg_network_connection_fail">Unable to connect to network.</string>
     <string name="msg_network_connection_success">Successfully connected to network.</string>
     <string name="msg_network_connected_to">Network connected to:\t</string>
@@ -119,26 +116,22 @@
 
     <string name="msg_sync_date_all_nodes">Syncing date on all nodes&#8230;</string>
     <string name="msg_sync_date_single_node">Syncing date on node:&#032;</string>
-    <string name="msg_sync_date_already_performed">Date already synced.</string>
 
     <string name="msg_power_off_all_nodes">Shutting down all nodes, goodbye.</string>
     <string name="msg_power_off_single_node">Shutting down node:&#032;</string>
 
-    <string name="msg_ping_results">Ping results.</string>
     <string name="msg_executing_ping">Executing Ping&#8230;</string>
 
-    <string name="msg_execute_command_results">Executing command results:\t</string>
     <string name="msg_executing_command">Executing command&#8230;\t</string>
     <string name="msg_on_node">&#032;on node:\t</string>
     <string name="msg_node_info">Retrieving date and firmware version.</string>
 
-    <string name="msg_task_already_canceled">Task already cancelled.</string>
     <string name="msg_task_results">&#032;task results:</string>
     <string name="msg_no_task_results">&#032;task did not produce any results.</string>
     <string name="msg_task_exception">&#032;exception results:</string>
     <string name="msg_no_task_exception">&#032;task did not produce any exceptions.</string>
     <string name="msg_task_finished">Task finished.</string>
-    <string name="msg_task_timeout">Task has timed out.</string>
+    <!-- <string name="msg_task_timeout">Task has timed out.</string> -->
     <string name="msg_task_cancelled">Task cancelled.</string>
 
     <string name="msg_camera_disconnected">DISCONNECTED</string>
@@ -151,11 +144,11 @@
     <string name="version">Version</string>
 
     <!--  Exceptions -->
-    <string name="exception_tag">Exception</string>
+    <!-- <string name="exception_tag">Exception</string> -->
     <string name="exception_no_free_space">The path has no free space available.</string>
-    <string name="exception_file_write_failed">File write failed:</string>
-    <string name="exception_file_not_found">File not found:</string>
-    <string name="exception_cannot_read_file">Cannot read file:</string>
+    <!-- <string name="exception_file_write_failed">File write failed:</string> -->
+    <!-- <string name="exception_file_not_found">File not found:</string> -->
+    <!-- <string name="exception_cannot_read_file">Cannot read file:</string> -->
 
     <!--  Toast messages -->
     <string name="toast_image_saved">Image has been saved.</string>

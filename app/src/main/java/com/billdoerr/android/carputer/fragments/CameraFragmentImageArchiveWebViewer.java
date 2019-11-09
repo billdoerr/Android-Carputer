@@ -1,4 +1,4 @@
-package com.billdoerr.android.carputer;
+package com.billdoerr.android.carputer.fragments;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -12,7 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Toast;
+
+import com.billdoerr.android.carputer.R;
+
+import java.util.Objects;
 
 
 /**
@@ -22,7 +25,6 @@ import android.widget.Toast;
  */
 public class CameraFragmentImageArchiveWebViewer extends Fragment {
 
-    private static final String TAG = "ImageArchiveWebViewer";
     private static final String ARGS_IMAGE_ARCHIVE_URL = "ARGS_IMAGE_ARCHIVE_URL";
 
     private WebView mWebView;
@@ -67,16 +69,12 @@ public class CameraFragmentImageArchiveWebViewer extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-
-            //  Reload system log
-            case R.id.action_go_back:
-                if (mWebView.canGoBack()) {
-                    mWebView.goBack();
-                }
-                return true;
-            default:
-                break;
+        //  Reload system log
+        if (item.getItemId() == R.id.action_go_back) {
+            if (mWebView.canGoBack()) {
+                mWebView.goBack();
+            }
+            return true;
         }
 
         return false;
@@ -87,7 +85,7 @@ public class CameraFragmentImageArchiveWebViewer extends Fragment {
      */
     private void getArgs() {
         Bundle args = getArguments();
-        mImageArchiveUrl = args.getString(ARGS_IMAGE_ARCHIVE_URL);
+        mImageArchiveUrl = Objects.requireNonNull(args).getString(ARGS_IMAGE_ARCHIVE_URL);
     }
 
 }

@@ -37,7 +37,7 @@
             android:hint="@string/btn_carputer_mgmt_execute_command"
             android:importantForAutofill="no" />
 
-        <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 
@@ -54,15 +54,14 @@
                             android:id="@+id/btnExecuteCommand"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="1dp"
+                            android:layout_marginEnd="1dp"
                             android:text="@string/btn_carputer_mgmt_execute_command"
                             style="@style/ButtonAction" />
 
                         <Button
-                            android:id="@+id/btnSystemStatus"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="1dp"
+                            android:layout_marginEnd="1dp"
                             android:text="@string/btn_not_enabled"
                             style="@style/ButtonAction"
                             android:enabled="false"/>
@@ -71,15 +70,14 @@
                             android:id="@+id/btnPing"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="1dp"
+                            android:layout_marginEnd="1dp"
                             android:text="@string/btn_carputer_mgmt_ssh_ping"
                             style="@style/ButtonAction" />
 
                         <Button
-                            android:id="@+id/btn_unused_1_4"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="1dp"
+                            android:layout_marginEnd="1dp"
                             android:text="@string/btn_not_enabled"
                             style="@style/ButtonAction" />
 
@@ -94,7 +92,7 @@
                             android:id="@+id/btnPoweroffSingle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="1dp"
+                            android:layout_marginEnd="1dp"
                             android:text="@string/btn_carputer_mgmt_ssh_poweroff_single"
                             style="@style/ButtonAction" />
 
@@ -102,23 +100,21 @@
                             android:id="@+id/btnPoweroffAll"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="1dp"
+                            android:layout_marginEnd="1dp"
                             android:text="@string/btn_carputer_mgmt_ssh_poweroff_all"
                             style="@style/ButtonAction" />
 
                         <Button
-                            android:id="@+id/btn_unused_2_3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="1dp"
+                            android:layout_marginEnd="1dp"
                             android:text="@string/btn_not_enabled"
                             style="@style/ButtonAction" />
 
                         <Button
-                            android:id="@+id/btn_unused_2_4"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="1dp"
+                            android:layout_marginEnd="1dp"
                             android:text="@string/btn_not_enabled"
                             style="@style/ButtonAction" />
 
@@ -133,7 +129,7 @@
                             android:id="@+id/btnSyncDateSingle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="1dp"
+                            android:layout_marginEnd="1dp"
                             android:text="@string/btn_carputer_mgmt_ssh_sync_date_single"
                             style="@style/ButtonAction" />
 
@@ -141,23 +137,21 @@
                             android:id="@+id/btnSyncDateAll"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="1dp"
+                            android:layout_marginEnd="1dp"
                             android:text="@string/btn_carputer_mgmt_ssh_sync_date_all"
                             style="@style/ButtonAction" />
 
                         <Button
-                            android:id="@+id/btn_unused_3_3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="1dp"
+                            android:layout_marginEnd="1dp"
                             android:text="@string/btn_not_enabled"
                             style="@style/ButtonAction" />
 
                         <Button
-                            android:id="@+id/btn_unused_3_4"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="1dp"
+                            android:layout_marginEnd="1dp"
                             android:text="@string/btn_not_enabled"
                             style="@style/ButtonAction" />
 
@@ -172,13 +166,12 @@
     <View style="@style/Divider" />
 
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="0px"
         android:orientation="vertical"
         android:layout_weight="4" >
 
-        <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 

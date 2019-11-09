@@ -1,7 +1,5 @@
 package com.billdoerr.android.carputer.utils;
 
-import android.util.Log;
-
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
@@ -12,14 +10,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Objects;
 import java.util.Properties;
 
 /**
  * Raspberry Pi utilities.
  */
 public class NodeUtils {
-
-    private static final String TAG = "NodeUtils";
 
     private static final int TIMEOUT = 10*1000;     //  Time in milliseconds
 
@@ -80,22 +77,20 @@ public class NodeUtils {
             Thread.sleep(1000);
 
         } catch (JSchException e) {
-            Log.e(TAG, e.toString());
+            e.printStackTrace();
             throw e;
         } catch (Exception e){
-            Log.e(TAG, e.toString());
+            e.printStackTrace();
         } finally{
             if (channelssh != null) {
                 channelssh.disconnect();
             }
-            session.disconnect();
+            Objects.requireNonNull(session).disconnect();
         }
 
         if (output != null) {
-            Log.d(TAG, "Execute Cmd Results...\n=====================\n" + output.toString());
             return output.toString();
         } else {
-            Log.d(TAG, "Execute Cmd Results...\n=====================\n" + "no results!");
             return "";
         }
     }
@@ -106,6 +101,7 @@ public class NodeUtils {
      * @param ip String: Ip address or hostname of destination.
      * @return String: Results of operation.
      */
+    @SuppressWarnings("SpellCheckingInspection")
     public String ping(String ip) {
      /*
         Usage: ping [-LRUbdfnqrvVaA] [-c count] [-i interval] [-w deadline]
@@ -114,7 +110,7 @@ public class NodeUtils {
         [ -T timestamp option ] [ -Q tos ] [hop1 ...] destination
      */
         String cmd = "/system/bin/ping -c 10 " + ip;
-        String reply = "";
+        StringBuilder reply = new StringBuilder();
         Runtime runtime = Runtime.getRuntime();
         try
         {
@@ -125,16 +121,14 @@ public class NodeUtils {
             BufferedReader br = new BufferedReader(isr);
 
             while ((line = br.readLine()) != null) {
-                reply = reply + System.getProperty("line.separator") + line;
-                Log.i(TAG, reply);
+                reply.append(System.getProperty("line.separator")).append(line);
             }
         }
-        catch (IOException e)
-        {
-            Log.e(TAG, e.getMessage());
+        catch (IOException e) {
+            e.printStackTrace();
         }
 
-        return reply;
+        return reply.toString();
 
     }
 

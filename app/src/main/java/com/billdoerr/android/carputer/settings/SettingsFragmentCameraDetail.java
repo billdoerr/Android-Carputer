@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -23,12 +22,12 @@ import org.greenrobot.eventbus.EventBus;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import java.util.Objects;
+
 /**
  * Fragment used to add/edit camera details.
  */
 public class SettingsFragmentCameraDetail extends Fragment {
-
-    private static final String TAG = "CameraDetail";
 
     private static final String ARGS_INDEX = "ARGS_INDEX";
     private static final String ARGS_CAMERA_DETAIL = "ARGS_CAMERA_DETAIL";
@@ -43,7 +42,6 @@ public class SettingsFragmentCameraDetail extends Fragment {
     private EditText mTextCameraUrl;
     private EditText mTextUsername;
     private EditText mTextPassword;
-    private Switch mSwitchUseAuthentication;
 
     private TextView mLblCameraNameRequired;
     private TextView mLblCameraUrlRequired;
@@ -59,7 +57,7 @@ public class SettingsFragmentCameraDetail extends Fragment {
         super.onCreate(saveInstanceState);
 
         Bundle args = getArguments();
-        mAdd = args.getBoolean(ARGS_ADD);
+        mAdd = Objects.requireNonNull(args).getBoolean(ARGS_ADD);
         mCamera = (Camera) args.getSerializable(ARGS_CAMERA_DETAIL);
         mIndex = args.getInt(ARGS_INDEX);
 
@@ -79,15 +77,12 @@ public class SettingsFragmentCameraDetail extends Fragment {
         mLblCameraNameRequired = view.findViewById(R.id.lbl_camera_name_required_field);
 
         mTextCameraName = view.findViewById(R.id.txt_camera_name);
-        mTextCameraName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    if (mTextCameraName.getText().toString().length() == 0) {
-                        mLblCameraNameRequired.setVisibility(View.VISIBLE);
-                    } else {
-                        mLblCameraNameRequired.setVisibility(View.GONE);
-                    }
+        mTextCameraName.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                if (mTextCameraName.getText().toString().length() == 0) {
+                    mLblCameraNameRequired.setVisibility(View.VISIBLE);
+                } else {
+                    mLblCameraNameRequired.setVisibility(View.GONE);
                 }
             }
         });
@@ -95,15 +90,12 @@ public class SettingsFragmentCameraDetail extends Fragment {
        mLblCameraUrlRequired = view.findViewById(R.id.lbl_camera_url_required_field);
 
         mTextCameraUrl = view.findViewById(R.id.txt_camera_url);
-        mTextCameraUrl.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    if (mTextCameraUrl.getText().toString().length() == 0) {
-                        mLblCameraUrlRequired.setVisibility(View.VISIBLE);
-                    } else {
-                        mLblCameraUrlRequired.setVisibility(View.GONE);
-                    }
+        mTextCameraUrl.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                if (mTextCameraUrl.getText().toString().length() == 0) {
+                    mLblCameraUrlRequired.setVisibility(View.VISIBLE);
+                } else {
+                    mLblCameraUrlRequired.setVisibility(View.GONE);
                 }
             }
         });
@@ -115,84 +107,62 @@ public class SettingsFragmentCameraDetail extends Fragment {
         mTextPassword.setEnabled(false);  //  Disable by default
 
         //  TUsername/password currently not support
-        mSwitchUseAuthentication = view.findViewById(R.id.switch_use_authentication);
-        mSwitchUseAuthentication.setEnabled(false);
-        mSwitchUseAuthentication.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    //  Enable username/password
-                    mTextUsername.setEnabled(true);
-                    mTextPassword.setEnabled(true);
-                } else {
-                    //  Disable username/password
-                    mTextUsername.setEnabled(false);
-                    mTextPassword.setEnabled(false);
-                }
+        Switch switchUseAuthentication = view.findViewById(R.id.switch_use_authentication);
+        switchUseAuthentication.setEnabled(false);
+        switchUseAuthentication.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                //  Enable username/password
+                mTextUsername.setEnabled(true);
+                mTextPassword.setEnabled(true);
+            } else {
+                //  Disable username/password
+                mTextUsername.setEnabled(false);
+                mTextPassword.setEnabled(false);
             }
         });
 
         //  Save transaction
         Button btnSave = view.findViewById(R.id.btn_save);
-        btnSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                boolean isMissingData = false;
+        btnSave.setOnClickListener(v -> {
+            boolean isMissingData = false;
 
-                //  Not sure if this is needed or issue with emulator.  No issues on real device if not called.
-                hideSoftKeyboard();
+            //  Not sure if this is needed or issue with emulator.  No issues on real device if not called.
+            hideSoftKeyboard();
 
-                if (mTextCameraName.getText().toString().length() == 0) {
-                    isMissingData = true;
-                    mLblCameraNameRequired.setVisibility(View.VISIBLE);
-                } else {
-                    mLblCameraNameRequired.setVisibility(View.GONE);
-                }
-
-                if (mTextCameraUrl.getText().toString().length() == 0) {
-                    isMissingData = true;
-                    mLblCameraUrlRequired.setVisibility(View.VISIBLE);
-                } else {
-                    mLblCameraUrlRequired.setVisibility(View.GONE);
-                }
-
-                if (!isMissingData) {
-                    mCamera = getCameraDetail();
-                    if (mAdd) {
-                        sendMessage(SettingsMessageEvent.Action.ADD, mCamera, -1);
-                    } else {
-                        sendMessage(SettingsMessageEvent.Action.UPDATE, mCamera, mIndex);
-                    }
-                    getActivity().onBackPressed();
-                }
-
+            if (mTextCameraName.getText().toString().length() == 0) {
+                isMissingData = true;
+                mLblCameraNameRequired.setVisibility(View.VISIBLE);
+            } else {
+                mLblCameraNameRequired.setVisibility(View.GONE);
             }
+
+            if (mTextCameraUrl.getText().toString().length() == 0) {
+                isMissingData = true;
+                mLblCameraUrlRequired.setVisibility(View.VISIBLE);
+            } else {
+                mLblCameraUrlRequired.setVisibility(View.GONE);
+            }
+
+            if (!isMissingData) {
+                mCamera = getCameraDetail();
+                if (mAdd) {
+                    sendMessage(SettingsMessageEvent.Action.ADD, mCamera, -1);
+                } else {
+                    sendMessage(SettingsMessageEvent.Action.UPDATE, mCamera, mIndex);
+                }
+                Objects.requireNonNull(getActivity()).onBackPressed();
+            }
+
         });
 
         //  Cancel transaction
         Button btnCancel = view.findViewById(R.id.btn_cancel);
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().onBackPressed();
-            }
-        });
+        btnCancel.setOnClickListener(v -> Objects.requireNonNull(getActivity()).onBackPressed());
 
         //  Assign values from passed in arguments
         setCameraDetail(mCamera);
 
         return view;
-    }
-
-    @Override
-    public void onStart()
-    {
-        super.onStart();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
     }
 
     /**
@@ -214,15 +184,11 @@ public class SettingsFragmentCameraDetail extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-
-            //  Delete device
-            case R.id.action_delete:
-                sendMessage(SettingsMessageEvent.Action.DELETE, mCamera, mIndex);
-                getActivity().onBackPressed();
-                return true;
-            default:
-                break;
+        //  Delete device
+        if (item.getItemId() == R.id.action_delete) {
+            sendMessage(SettingsMessageEvent.Action.DELETE, mCamera, mIndex);
+            Objects.requireNonNull(getActivity()).onBackPressed();
+            return true;
         }
 
         return false;
@@ -244,7 +210,7 @@ public class SettingsFragmentCameraDetail extends Fragment {
      */
     private void hideSoftKeyboard() {
         // Check if no view has focus:
-        View view = getActivity().getCurrentFocus();
+        View view = Objects.requireNonNull(getActivity()).getCurrentFocus();
         if (view != null) {
             InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);

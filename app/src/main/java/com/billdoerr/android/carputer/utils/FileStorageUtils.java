@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -25,17 +24,11 @@ import com.billdoerr.android.carputer.R.string;
 /**
  *  File storage utilities.
  */
+@SuppressWarnings("ALL")
 public class FileStorageUtils {
-
-    private static final String TAG = "FileStorageUtils";
 
     public static final String LINE_SEPARATOR = System.getProperty("line.separator");
     public static final String TABS = "\t\t";
-
-    private static Context mContext;
-    private static String mFilename;
-
-    //
 
     /**
      * Returns bitmap of save image (snapshot)
@@ -60,20 +53,18 @@ public class FileStorageUtils {
      */
     public static List<String> getSnapshotFileList(Context context) {
         String[] fileList1 = context.getFilesDir().list();
-        return new ArrayList<String>(Arrays.asList(fileList1)); //new ArrayList is only needed if you absolutely need an ArrayList
+        return new ArrayList<>(Arrays.asList(fileList1)); //new ArrayList is only needed if you absolutely need an ArrayList
     }
 
     /**
      * Save image to local storage.
      * @param context Context:  Application context.
      * @param bitmap Bitmap:  Bitmap of imaged that will be saved to local storage.
-     * @return String:  Url string of resource that was saved to internal storage.
      * @throws FreeSpaceException: Custom exception thrown is space not available to save image to local storage.
      */
-    public static String saveImage(Context context, Bitmap bitmap) throws FreeSpaceException {
+    public static void saveImage(Context context, Bitmap bitmap) throws FreeSpaceException {
         FileOutputStream outputStream;
         File path = context.getFilesDir();
-        String url = "";
         //  First check if space available
         if (isSpaceAvailable(path, bitmap)) {
             try {
@@ -81,7 +72,6 @@ public class FileStorageUtils {
                 outputStream = context.openFileOutput(filename, Context.MODE_PRIVATE);
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);      // PNG is a lossless format, the compression factor (100) is ignored
                 outputStream.close();
-                url = path + "/" + filename;
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -89,7 +79,6 @@ public class FileStorageUtils {
             //  Throw custom exception?  How?
             throw new FreeSpaceException(path + ": " + string.exception_no_free_space);
         }
-        return url;
     }
 
     /**
@@ -147,8 +136,9 @@ public class FileStorageUtils {
      * Generate custom exception.
      */
     public static class FreeSpaceException extends Exception {
-        public FreeSpaceException () {
 
+        public FreeSpaceException () {
+            // Pass
         }
 
         /**
@@ -192,7 +182,7 @@ public class FileStorageUtils {
             outputStreamWriter.close();
         }
         catch (IOException e) {
-            Log.e(context.getString(string.exception_tag), context.getString(string.exception_file_write_failed) + " " + e.toString());
+            e.printStackTrace();
         }
     }
 
@@ -213,7 +203,7 @@ public class FileStorageUtils {
             if ( inputStream != null ) {
                 InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
                 BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-                String receiveString = "";
+                String receiveString;
                 StringBuilder stringBuilder = new StringBuilder();
 
                 while ( (receiveString = bufferedReader.readLine()) != null ) {
@@ -227,9 +217,9 @@ public class FileStorageUtils {
             }
         }
         catch (FileNotFoundException e) {
-            Log.e(context.getString(string.exception_tag), context.getString(string.exception_file_not_found) + " " + e.toString());
+            e.printStackTrace();
         } catch (IOException e) {
-            Log.e(context.getString(string.exception_tag), context.getString(string.exception_cannot_read_file) + " " + e.toString());
+            e.printStackTrace();
         }
 
         return ret;

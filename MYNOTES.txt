@@ -19,22 +19,32 @@ Just some internal notes around this project.
 	- Partially implemented.
 	- (RESOLVED) PROBLEM:  How to have DrawView enabled for all activities/fragments?  
 		- (SOLUTION): Implemented DrawView in SingleFragmentActivity and which other activities are subclassed.
-	- (PARTIALLY RESOLVED) PROBLEM:  Difficulites getting ActionBar to display in SettingsActivity.
+	- (PARTIALLY RESOLVED) PROBLEM:  Difficulties getting ActionBar to display in SettingsActivity.
 		- (SOLUTION): DrawView not possible in SettingsActivity.  Implemented toolbar which just supports onBackPressed(). 
 
 5. **(RESOLVED)** **PROBLEM:**  Unable to use Android WebView to display MotionEye UI.  Current using Web Browser common content.
 	- **(SOLUTION)**:  User error.
 
 6. **PROBLEM:**  Unable to send Authentication Mode -> Basic in MotionEye but not able to pass url with credentials.  Still prompts for user/password.
-Url should have this syntax:  http://username:password@host or http://username:password@IP:PORT
+Url should have this syntax:  <http://username:password@host> or <http://username>:password@IP:PORT
 ===============================================================================================
 
 
 ===============================================================================================
 ###  Save for later use
-sudo date -s "Thu Jan  17 14:37:00 PST 2019"
+sudo date -s "Fri Dec 31 16:12:02 PDT 1999"
+sudo date -s "Thu May 16 10:03:00 PDT 2019"
 "EEE MMM dd hh:mm:ss z yyyy"
 shutdown -h 0
+
+sudo date -s "Thu Jun 13 06:23:30 PDT 2019"
+
+pi@carputer:~ $ sudo hwclock -r
+hwclock: Timed out waiting for time change.
+hwclock: The Hardware Clock registers contain values that are either invalid (e.g. 50th day of month) or beyond the range we can handle (e.g. Year 2095).
+pi@carputer:~ $ sudo hwclock -w
+hwclock: Timed out waiting for time change.
+
 ===============================================================================================
 
 
@@ -47,47 +57,6 @@ Android app:  https://github.com/fr3ts0n/AndrOBD
 
 
 ===============================================================================================
-# https://werxltd.com/wp/2012/01/05/simple-init-d-script-template/
-
-sudo update-rc.d listen_for_shutdown.sh defaults
-
-#!/bin/bash
-# chkconfig: 2345 20 80
-# description: Description comes here....
-
-# Source function library.
-. /etc/init.d/functions
-
-start() {
-    # code to start app comes here 
-    # example: daemon program_name &
-}
-
-stop() {
-    # code to stop app comes here 
-    # example: killproc program_name
-}
-
-case "$1" in 
-    start)
-       start
-       ;;
-    stop)
-       stop
-       ;;
-    restart)
-       stop
-       start
-       ;;
-    status)
-       # code to check status of app comes here 
-       # example: status program_name
-       ;;
-    *)
-       echo "Usage: $0 {start|stop|status|restart}"
-esac
-
-exit 0 
  	
 ===============================================================================================
 
@@ -454,8 +423,8 @@ private Intent getConnectivityIntent(boolean noConnection) {
 
 
 ===============================================================================================
-https://stackoverflow.com/questions/36100187/how-to-start-fragment-from-an-activity
-https://stackoverflow.com/questions/18634207/difference-between-add-replace-and-addtobackstack
+<https://stackoverflow.com/questions/36100187/how-to-start-fragment-from-an-activity>
+<https://stackoverflow.com/questions/18634207/difference-between-add-replace-and-addtobackstack>
 
 FragmentManager fm = getFragmentManager();
 FragmentTransaction ft = fm.beginTransaction();

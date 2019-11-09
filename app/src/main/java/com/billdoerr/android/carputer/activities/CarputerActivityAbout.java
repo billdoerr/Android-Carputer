@@ -1,13 +1,13 @@
-package com.billdoerr.android.carputer;
+package com.billdoerr.android.carputer.activities;
 
 import androidx.fragment.app.Fragment;
+
+import com.billdoerr.android.carputer.fragments.CarputerFragmentAbout;
 
 /**
  * About this application activity which extends from SingleFragmentActivity.
  */
 public class CarputerActivityAbout extends SingleFragmentActivity {
-
-    private static final String TAG = "CarputerActivityAbout";
 
     @Override
     protected Fragment createFragment() {

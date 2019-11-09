@@ -1,6 +1,5 @@
-package com.billdoerr.android.carputer;
+package com.billdoerr.android.carputer.fragments;
 
-import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -16,15 +15,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.billdoerr.android.carputer.R;
 import com.billdoerr.android.carputer.utils.FileStorageUtils;
 
 import java.io.File;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
-import static androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_DRAGGING;
-import static androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE;
-import static androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_SETTLING;
+//import static androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_DRAGGING;
+//import static androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE;
+//import static androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_SETTLING;
 
 /**
  *  Child fragment which displays a list of saved images (snapshots).
@@ -32,33 +33,17 @@ import static androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_SETTLING;
  */
 public class CameraFragmentSnapshotViewer extends Fragment {
 
-    private static final String TAG = "CameraFragSnapshotView";
-
-    private GlobalVariables mGlobalVariables;
-
     private RecyclerView mRecyclerView;
     private ImageView mImageView;
     private TextView mTextView;
 
     private List<String> mFileList;
-    private String mListItem;
-
-    private int mSpanCount = 1;
-    private boolean mScrolling = false;
-    private boolean mUserScrolling = false;
-    private boolean mViewCreated = false;
-
-    public static CameraFragmentSnapshotViewer newInstance() {
-        return new CameraFragmentSnapshotViewer();
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
 
-        // Calling Application class (see application tag in AndroidManifest.xml)
-        mGlobalVariables = (GlobalVariables) getActivity().getApplicationContext();
     }
 
     @Override
@@ -71,56 +56,45 @@ public class CameraFragmentSnapshotViewer extends Fragment {
 
         //  Horizontal scrolling
         LinearLayoutManager layoutManager
-                = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+                = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
 
 //        mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), mSpanCount));
 
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-
-                switch (newState) {
-                    case SCROLL_STATE_IDLE:
-                        mUserScrolling = false;
-                        break;
-                    // If scroll is caused by a touch (scroll touch, not any touch)
-                    case SCROLL_STATE_DRAGGING:
-                        // If scroll was initiated already, this is not a user scrolling, but probably a tap, else set userScrolling
-                        if (!mScrolling) {
-                            mUserScrolling = true;
-                        }
-                        break;
-                    case SCROLL_STATE_SETTLING:
-                        // The user's finger is not touching the list anymore, no need
-                        // for any alpha animation then
-                        mScrolling = true;
-                        break;
-                }
-            }
-        });
+//        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+//                super.onScrollStateChanged(recyclerView, newState);
+//
+//                switch (newState) {
+//                    case SCROLL_STATE_IDLE:
+//                        break;
+//                    // If scroll is caused by a touch (scroll touch, not any touch)
+//                    case SCROLL_STATE_DRAGGING:
+//                        // If scroll was initiated already, this is not a user scrolling, but probably a tap, else set userScrolling
+//                        break;
+//                    case SCROLL_STATE_SETTLING:
+//                        // The user's finger is not touching the list anymore, no need
+//                        // for any alpha animation then
+//                        mScrolling = true;
+//                        break;
+//                }
+//            }
+//        });
 
         updateItems();
         setupAdapter();
 
-        mViewCreated = true;
-
         return view;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if( isVisibleToUser && mViewCreated) {
-            update();
-        }
-    }
+//    @Override
+//    public void setUserVisibleHint(boolean isVisibleToUser) {
+//        super.setUserVisibleHint(isVisibleToUser);
+//        if( isVisibleToUser && mViewCreated) {
+//            update();
+//        }
+//    }
 
     @Override
     public void onHiddenChanged(boolean hidden) {
@@ -134,13 +108,13 @@ public class CameraFragmentSnapshotViewer extends Fragment {
     }
 
     private void updateItems() {
-        mFileList = FileStorageUtils.getSnapshotFileList(getContext());
+        mFileList = FileStorageUtils.getSnapshotFileList(Objects.requireNonNull(getContext()));
         mySort(mFileList);
     }
 
     private void update() {
         mFileList.clear();  //  Clear all data
-        List<String> newFileList = FileStorageUtils.getSnapshotFileList(getContext());
+        List<String> newFileList = FileStorageUtils.getSnapshotFileList(Objects.requireNonNull(getContext()));
         mFileList.addAll(newFileList);
         mySort(mFileList);
         setupAdapter();
@@ -163,7 +137,6 @@ public class CameraFragmentSnapshotViewer extends Fragment {
      * RECYCLERVIEW.VIEWHOLDER
      */
     private class ListHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private static final String TAG = "ListHolder";
 
         private ListHolder(View itemView) {
             super(itemView);
@@ -172,8 +145,9 @@ public class CameraFragmentSnapshotViewer extends Fragment {
             itemView.setOnClickListener(this);
         }
 
+        @SuppressWarnings({"EmptyMethod", "unused"})
         private void bindListItem(String listItem) {
-            mListItem = listItem;
+//            mListItem = listItem;
         }
 
         @Override
@@ -207,22 +181,19 @@ public class CameraFragmentSnapshotViewer extends Fragment {
             Log.i(TAG, "onBindViewHolder Position: ------------> " + position);
 
             //  On-click listener
-            listHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String path = getActivity().getFilesDir().toString();
-                    File imgFile = new  File( path + "/" + mListItems.get(position));
-                    if (imgFile.exists()) {
-                        Log.d(TAG, "FILE --> " + imgFile + " <-- DOES EXIST!");
-                        deleteFile(imgFile);
-                    }
+            listHolder.itemView.setOnClickListener(v -> {
+                String path = Objects.requireNonNull(getActivity()).getFilesDir().toString();
+                File imgFile = new  File( path + "/" + mListItems.get(position));
+                if (imgFile.exists()) {
+                    Log.d(TAG, "FILE --> " + imgFile + " <-- DOES EXIST!");
+                    deleteFile(imgFile);
                 }
             });
 
             String listItem = mListItems.get(position);
             listHolder.bindListItem(listItem);
 
-            String path = getActivity().getFilesDir().toString();
+            String path = Objects.requireNonNull(getActivity()).getFilesDir().toString();
             File imgFile = new  File( path + "/" + listItem);
             if (imgFile.exists()) {
                 Log.d(TAG, "FILE -> " + imgFile + " <- DOES  EXIST!");
@@ -246,7 +217,7 @@ public class CameraFragmentSnapshotViewer extends Fragment {
          * @param file File:  Object of type File that will deleted from internal storage.
          */
         private void deleteFile(File file) {
-            AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(Objects.requireNonNull(getActivity()));
 
             // Setting Dialog Title
             alertDialog.setTitle(getResources().getString(R.string.alert_title_delete_files));
@@ -260,43 +231,34 @@ public class CameraFragmentSnapshotViewer extends Fragment {
 
             // Setting Positive "Yes" Btn
             alertDialog.setPositiveButton(R.string.alert_positive_button,
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            // Write your code here to execute after dialog
-                            if ( file.exists() ) {
-                                try {
-                                    boolean isDeleted = file.delete();
-                                    if (isDeleted) {
-                                        Toast.makeText(getActivity(), R.string.toast_file_delete_ok, Toast.LENGTH_SHORT)
-                                                .show();
-                                        update();
-                                    }
-                                } catch (SecurityException e) {
-                                    Log.e(TAG, e.getMessage());
+                    (dialog, which) -> {
+                        // Write your code here to execute after dialog
+                        if ( file.exists() ) {
+                            try {
+                                boolean isDeleted = file.delete();
+                                if (isDeleted) {
+                                    Toast.makeText(getActivity(), R.string.toast_file_delete_ok, Toast.LENGTH_SHORT)
+                                            .show();
+                                    update();
                                 }
+                            } catch (SecurityException e) {
+                                Log.e(TAG, e.getMessage());
                             }
                         }
                     });
             // Setting Negative "NO" Btn
             alertDialog.setNegativeButton(R.string.alert_negative_button,
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            // Write your code here to execute after dialog
-                            Toast.makeText(getActivity(), R.string.toast_file_delete_cancel, Toast.LENGTH_SHORT)
-                                    .show();
-                            dialog.cancel();
-                        }
+                    (dialog, which) -> {
+                        // Write your code here to execute after dialog
+                        Toast.makeText(getActivity(), R.string.toast_file_delete_cancel, Toast.LENGTH_SHORT)
+                                .show();
+                        dialog.cancel();
                     });
 
             // Showing Alert Dialog
             alertDialog.show();
         }
 
-    }
-
-    //  Output to system log
-    private void writeSystemLog(String msg) {
-        FileStorageUtils.writeSystemLog(getActivity(), mGlobalVariables.SYS_LOG,TAG + FileStorageUtils.TABS + msg + FileStorageUtils.LINE_SEPARATOR);
     }
 
 }

@@ -1,8 +1,14 @@
-package com.billdoerr.android.carputer;
+package com.billdoerr.android.carputer.fragments;
 
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+
+import com.billdoerr.android.carputer.utils.GlobalVariables;
+import com.billdoerr.android.carputer.R;
+import com.billdoerr.android.carputer.activities.CameraActivityMotionEye;
+import com.billdoerr.android.carputer.settings.Node;
 import com.google.android.material.tabs.TabLayout;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -15,22 +21,22 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
- *  Fragment which contains a tab layout will host a child fragment to displays list of saved images (snapshots).
- *  Created by the CameraActivityImageArchive class.
+ * Fragment that contains tab layout hosting motionEye child fragments.
+ * Created by the CameraActivityMotionEye.
  */
-public class CameraFragmentImageArchive extends Fragment {
+public class CameraFragmentMotionEye extends Fragment {
 
-    private static final String TAG = "CameraFragmentImageArchive";
-    private static final String ARGS_IMAGE_ARCHIVE_URL = "ARGS_IMAGE_ARCHIVE_URL";
+    private static final String ARGS_NODE_DETAIL = "ARGS_NODE_DETAIL";
 
+    private static List<Node> mNodes = new ArrayList<>();
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
-    private String mImageArchiveUrl;
 
-    public static CameraFragmentImageArchive newInstance() {
-        return new CameraFragmentImageArchive();
+    public static CameraFragmentMotionEye newInstance() {
+        return new CameraFragmentMotionEye();
     }
 
     @Override
@@ -38,15 +44,14 @@ public class CameraFragmentImageArchive extends Fragment {
         super.onCreate(savedInstanceState);
 
         // Calling Application class (see application tag in AndroidManifest.xml)
-        final GlobalVariables mGlobalVariables = (GlobalVariables) getActivity().getApplicationContext();
+        final GlobalVariables mGlobalVariables = (GlobalVariables) Objects.requireNonNull(getActivity()).getApplicationContext();
 
-        mImageArchiveUrl = mGlobalVariables.getImageArchiveUrl();
-
+        //  Get devices
+        mNodes = mGlobalVariables.getNodes();
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, final Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_camera, container, false);
 
         //  Setup action bar
@@ -59,27 +64,27 @@ public class CameraFragmentImageArchive extends Fragment {
         mTabLayout.setupWithViewPager(mViewPager);
 
         //  Add icons
-        addTablayoutIcons();
+        addTabLayoutIcons();
 
         return view;
     }
 
     /**
      * Add fragments to tabs.
-     * @param viewPager ViewPager: Layout manager adapter will be assigned.
+     * @param viewPager ViewPager: Adapter that fragments will be added.
      */
     private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
+        ViewPagerAdapter adapter = new ViewPagerAdapter(Objects.requireNonNull(getActivity()).getSupportFragmentManager());
 
-        //  Image archive fragment
-        adapter.addFragment(new CameraFragmentSnapshotViewer(), getResources().getString(R.string.tab_camera_file_explorer));
+        //  MotionEye cameras
+        for (int i = 0; i < mNodes.size(); i++) {
+            Bundle args = new Bundle();
+            args.putSerializable(ARGS_NODE_DETAIL, mNodes.get(i));
 
-        //  Image archive fragment
-        Bundle args = new Bundle();
-        args.putString(ARGS_IMAGE_ARCHIVE_URL, mImageArchiveUrl);
-        CameraFragmentImageArchiveWebViewer cameraFragmentImageArchiveWebViewer = new CameraFragmentImageArchiveWebViewer();
-        cameraFragmentImageArchiveWebViewer.setArguments(args);
-        adapter.addFragment(cameraFragmentImageArchiveWebViewer, getResources().getString(R.string.tab_camera_image_archive_web_view));
+            CameraFragmentMotionEyeView cameraFragmentMotionEyeView = new CameraFragmentMotionEyeView();
+            cameraFragmentMotionEyeView.setArguments(args);
+            adapter.addFragment(cameraFragmentMotionEyeView, mNodes.get(i).getName());
+        }
 
         //  Set adapter to view pager
         viewPager.setAdapter(adapter);
@@ -87,22 +92,22 @@ public class CameraFragmentImageArchive extends Fragment {
 
     /**
      * Setup action bar.
-     * @param view View: Container for toolbar.
+     * @param view View:  Container holding the toolbar.
      */
     private void setupActionBar(View view) {
         Toolbar toolbar = view.findViewById(R.id.toolbar);
-        ((CameraActivityImageArchive)getActivity()).setSupportActionBar(toolbar);
-        ActionBar actionbar = ((CameraActivityImageArchive)getActivity()).getSupportActionBar();
-        actionbar.setDisplayHomeAsUpEnabled(true);
+        ((CameraActivityMotionEye) Objects.requireNonNull(getActivity())).setSupportActionBar(toolbar);
+        ActionBar actionbar = ((CameraActivityMotionEye)getActivity()).getSupportActionBar();
+        Objects.requireNonNull(actionbar).setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_baseline_menu_24px);
     }
 
     /**
      * Add icons to tabs.
      */
-    private void addTablayoutIcons() {
-        for (int i = 0; i < mViewPager.getAdapter().getCount(); i++) {
-            mTabLayout.getTabAt(i).setIcon(R.drawable.ic_baseline_photo_library_24px);
+    private void addTabLayoutIcons() {
+        for (int i = 0; i < Objects.requireNonNull(mViewPager.getAdapter()).getCount(); i++) {
+            Objects.requireNonNull(mTabLayout.getTabAt(i)).setIcon(R.drawable.ic_baseline_visibility_24px);
         }
     }
 
@@ -115,7 +120,7 @@ public class CameraFragmentImageArchive extends Fragment {
         private final List<String> mFragmentTitleList = new ArrayList<>();
 
         private ViewPagerAdapter(FragmentManager manager) {
-            super(manager);
+            super(manager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         }
 
         @NonNull
@@ -129,11 +134,6 @@ public class CameraFragmentImageArchive extends Fragment {
             return mFragmentList.size();
         }
 
-        /**
-         * Add fragment to tab.
-         * @param fragment Fragment: Fragment to be added to tab layout.
-         * @param title String:  Fragment title.
-         */
         private void addFragment(Fragment fragment, String title) {
             mFragmentList.add(fragment);
             mFragmentTitleList.add(title);
@@ -146,3 +146,4 @@ public class CameraFragmentImageArchive extends Fragment {
     }
 
 }
+

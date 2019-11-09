@@ -1,13 +1,13 @@
-package com.billdoerr.android.carputer;
+package com.billdoerr.android.carputer.activities;
 
 import androidx.fragment.app.Fragment;
+
+import com.billdoerr.android.carputer.fragments.CameraFragmentMotionEye;
 
 /**
  * Camera motionEye activity which extends from SingleFragmentActivity.
  */
 public class CameraActivityMotionEye extends SingleFragmentActivity {
-
-    private static final String TAG = "CameraActivityMotionEye";
 
     @Override
     protected Fragment createFragment() {

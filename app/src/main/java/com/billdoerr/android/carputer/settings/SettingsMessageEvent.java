@@ -10,8 +10,6 @@ import androidx.annotation.IntDef;
  */
 class SettingsMessageEvent {
 
-    private static final String TAG = "SettingsMessageEvent";
-
     @IntDef({Action.ADD, Action.DELETE, Action.UPDATE})
     @Retention(RetentionPolicy.SOURCE)
     @interface Action {
@@ -20,16 +18,15 @@ class SettingsMessageEvent {
         int UPDATE = 2;
     }
 
-    @IntDef({Device.CAMERA, Device.NODE, Device.OTHER})
-    @Retention(RetentionPolicy.SOURCE)
-    @interface Device {
-        int CAMERA = 0;
-        int NODE = 1;
-        int OTHER = 2;
-    }
+//    @IntDef({Device.CAMERA, Device.NODE, Device.OTHER})
+//    @Retention(RetentionPolicy.SOURCE)
+//    @interface Device {
+//        int CAMERA = 0;
+//        int NODE = 1;
+//        int OTHER = 2;
+//    }
 
     private int mAction;
-    private int mDevice;
     private int mIndex;
 
     private Camera mCamera;
@@ -57,13 +54,13 @@ class SettingsMessageEvent {
         return mAction;
     }
 
-    /**
-     *
-     * @param action int:  Set action to be performed.
-     */
-    public void setAction(int action) {
-        mAction = action;
-    }
+//    /**
+//     *
+//     * @param action int:  Set action to be performed.
+//     */
+//    public void setAction(int action) {
+//        mAction = action;
+//    }
 
     /**
      *

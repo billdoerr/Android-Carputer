@@ -1,8 +1,11 @@
-package com.billdoerr.android.carputer;
+package com.billdoerr.android.carputer.fragments;
 
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 
+import com.billdoerr.android.carputer.utils.GlobalVariables;
+import com.billdoerr.android.carputer.R;
+import com.billdoerr.android.carputer.activities.CarputerActivityMgmt;
 import com.billdoerr.android.carputer.settings.Node;
 import com.google.android.material.tabs.TabLayout;
 
@@ -18,6 +21,7 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Fragment that contains child fragments for managing Carputer operations.
@@ -25,11 +29,9 @@ import java.util.List;
  */
 public class CarputerFragmentMgmt extends Fragment {
 
-    private static final String TAG = "CarputerFragmentMgmt";
-
     private static final String ARGS_NODE_DETAIL = "ARGS_NODE_DETAIL";
 
-    private static List<Node> mNodes = new ArrayList<Node>();
+    private static List<Node> mNodes = new ArrayList<>();
 
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
@@ -43,7 +45,7 @@ public class CarputerFragmentMgmt extends Fragment {
         super.onCreate(savedInstanceState);
 
         // Calling Application class (see application tag in AndroidManifest.xml)
-        final GlobalVariables mGlobalVariables = (GlobalVariables) getActivity().getApplicationContext();
+        final GlobalVariables mGlobalVariables = (GlobalVariables) Objects.requireNonNull(getActivity()).getApplicationContext();
 
         //  Get devices
         mNodes = mGlobalVariables.getNodes();
@@ -73,7 +75,7 @@ public class CarputerFragmentMgmt extends Fragment {
      * @param viewPager ViewPager that adapter will be assigned
      */
     private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
+        ViewPagerAdapter adapter = new ViewPagerAdapter(Objects.requireNonNull(getActivity()).getSupportFragmentManager());
 
         //  Fragment:  SSH
         SSHFragment sshFragment = new SSHFragment();
@@ -104,9 +106,9 @@ public class CarputerFragmentMgmt extends Fragment {
      */
     private void setupActionBar(View view) {
         Toolbar toolbar = view.findViewById(R.id.toolbar);
-        ((CarputerActivityMgmt)getActivity()).setSupportActionBar(toolbar);
+        ((CarputerActivityMgmt) Objects.requireNonNull(getActivity())).setSupportActionBar(toolbar);
         ActionBar actionbar = ((CarputerActivityMgmt)getActivity()).getSupportActionBar();
-        actionbar.setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(actionbar).setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_baseline_menu_24px);
     }
 
@@ -114,19 +116,19 @@ public class CarputerFragmentMgmt extends Fragment {
      * Add icons to tabs
      */
     private void addTabLayoutIcons() {
-        for (int i = 0; i < mViewPager.getAdapter().getCount(); i++) {
-            String sentence = mTabLayout.getTabAt(i).getText().toString();
-            mTabLayout.getTabAt(i).setIcon(R.drawable.ic_camera);
-            String s = mTabLayout.getTabAt(i).getText().toString();
+        for (int i = 0; i < Objects.requireNonNull(mViewPager.getAdapter()).getCount(); i++) {
+            String sentence = Objects.requireNonNull(Objects.requireNonNull(mTabLayout.getTabAt(i)).getText()).toString();
+            Objects.requireNonNull(mTabLayout.getTabAt(i)).setIcon(R.drawable.ic_camera);
+            String s = Objects.requireNonNull(Objects.requireNonNull(mTabLayout.getTabAt(i)).getText()).toString();
             //  SSH
             if (s.equals(getResources().getString(R.string.tab_carputer_mgmt_ssh))) {
-                mTabLayout.getTabAt(i).setIcon(R.drawable.ic_ssh_24px);
+                Objects.requireNonNull(mTabLayout.getTabAt(i)).setIcon(R.drawable.ic_ssh_24px);
             //  phpSysInfo
             } else if (sentence.toLowerCase().contains(getString(R.string.tab_carputer_mgmt_phpsysinfo).toLowerCase()))  {
-                mTabLayout.getTabAt(i).setIcon(R.drawable.ic_phpsysinfo_24px);
+                Objects.requireNonNull(mTabLayout.getTabAt(i)).setIcon(R.drawable.ic_phpsysinfo_24px);
             //  Default
             } else {
-                mTabLayout.getTabAt(i).setIcon(R.drawable.ic_baseline_developer_board_24px);
+                Objects.requireNonNull(mTabLayout.getTabAt(i)).setIcon(R.drawable.ic_baseline_developer_board_24px);
             }
         }
     }
@@ -140,7 +142,7 @@ public class CarputerFragmentMgmt extends Fragment {
         private final List<String> mFragmentTitleList = new ArrayList<>();
 
         private ViewPagerAdapter(FragmentManager manager) {
-            super(manager);
+            super(manager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         }
 
         @NonNull

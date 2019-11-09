@@ -2,7 +2,6 @@ package com.billdoerr.android.carputer.asynctaskutils;
 
 import android.os.AsyncTask;
 import android.os.Handler;
-import android.util.Log;
 
 import com.billdoerr.android.carputer.utils.NodeUtils;
 
@@ -13,13 +12,9 @@ import com.billdoerr.android.carputer.utils.NodeUtils;
  */
 public class ExecutePingTask extends AsyncTask<TaskRequest, Void, TaskResult> {
 
-    private static final String TAG = "ExecutePingTask";
-
     public TaskResponse delegate = null;   //  Call back interface
     public Handler handler;
     public Runnable runnable;
-
-    private TaskResult mTaskResult;
 
     @Override
     protected void onPreExecute() {
@@ -37,54 +32,36 @@ public class ExecutePingTask extends AsyncTask<TaskRequest, Void, TaskResult> {
         String currentNode = taskParams.node.getIp();
 
         //  Task results
-        mTaskResult = new TaskResult();
-        mTaskResult.request = taskParams;   //  Assigning TaskParams to TaskResult so we can use this info later in the UI.
-        mTaskResult.exception = "";
-
+        TaskResult taskResult = new TaskResult();
+        taskResult.request = taskParams;   //  Assigning TaskParams to TaskResult so we can use this info later in the UI.
+        taskResult.exception = "";
 
         try {
-            Log.d(TAG, "doInBackground: Performing ping.");
-            mTaskResult.response = new NodeUtils().ping(currentNode);
+            taskResult.response = new NodeUtils().ping(currentNode);
         } catch (Exception e) {
-            mTaskResult.exception = e.getMessage();
-            Log.e(TAG, e.getMessage());
+            taskResult.exception = e.getMessage();
         }
 
-        return mTaskResult;
+        return taskResult;
     }
 
     @Override
     protected void onPostExecute(TaskResult result) {
         super.onPostExecute(result);
 
-
-        Log.d(TAG, "onPostExecute:  Begin");
-
         //  Check if we have a return value
         if ( (result.response != null) && (!result.response.isEmpty()) ) {
-
-            Log.d(TAG, "onPostExecute:  Returning result.");
-            Log.d(TAG, result.response);
-
             //   Cancel Handler if remote command fails before timeout.
             if (handler != null) {
-                Log.d(TAG, "onPostExecute:  Removing handler callbacks.");
                 handler.removeCallbacks(runnable);
             }
-
-            //  Hide progress
 //            delegate.hideProgress();
-
-        } else {
-            Log.d(TAG, "onPostExecute:  No result.");
         }
-
         delegate.taskFinished(result);
     }
 
     @Override
     protected void onCancelled (TaskResult result) {
-        Log.d(TAG, "onCancelled");
         delegate.taskCanceled(result);
     }
 

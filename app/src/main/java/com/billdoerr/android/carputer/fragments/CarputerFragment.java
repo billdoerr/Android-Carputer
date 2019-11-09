@@ -1,23 +1,22 @@
-package com.billdoerr.android.carputer;
+package com.billdoerr.android.carputer.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.billdoerr.android.carputer.R;
+import com.billdoerr.android.carputer.activities.CarputerActivityMgmt;
+
 /**
  * Carputer fragment created by the CarputerActivity class.
  */
 public class CarputerFragment extends Fragment {
-
-    private static final String TAG = "CarputerFragment";
 
     public static CarputerFragment newInstance() {
         return new CarputerFragment();
@@ -35,16 +34,6 @@ public class CarputerFragment extends Fragment {
         startActivity(new Intent(getActivity(), CarputerActivityMgmt.class));
 
         return view;
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
     }
 
 }

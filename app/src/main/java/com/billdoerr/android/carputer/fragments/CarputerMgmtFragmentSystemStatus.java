@@ -1,12 +1,15 @@
-package com.billdoerr.android.carputer;
+package com.billdoerr.android.carputer.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+
+import com.billdoerr.android.carputer.R;
 
 //  TODO:  UNDER CONSTRUCTION - SystemStatus
 
@@ -19,14 +22,6 @@ public class CarputerMgmtFragmentSystemStatus extends DialogFragment {
         //  Required
     }
 
-    public static CarputerMgmtFragmentSystemStatus newInstance(String title) {
-        CarputerMgmtFragmentSystemStatus frag = new CarputerMgmtFragmentSystemStatus();
-        Bundle args = new Bundle();
-        args.putString("title", title);
-        frag.setArguments(args);
-        return frag;
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -34,7 +29,7 @@ public class CarputerMgmtFragmentSystemStatus extends DialogFragment {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 //        // Get field from view
 //        mEditText = (EditText) view.findViewById(R.id.txt_your_name);

@@ -1,4 +1,4 @@
-package com.billdoerr.android.carputer;
+package com.billdoerr.android.carputer.fragments;
 
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
@@ -18,8 +18,12 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
+import com.billdoerr.android.carputer.utils.GlobalVariables;
+import com.billdoerr.android.carputer.R;
 import com.billdoerr.android.carputer.settings.Node;
 import com.billdoerr.android.carputer.utils.FileStorageUtils;
+
+import java.util.Objects;
 
 /**
  *  Child fragment of CameraFragmentMotionEye.
@@ -30,8 +34,6 @@ public class CameraFragmentMotionEyeView extends Fragment {
 
     private static final String TAG = "CameraFragMotionEyeView";
     private static final String ARGS_NODE_DETAIL = "ARGS_NODE_DETAIL";
-
-    private GlobalVariables mGlobalVariables;
 
     private WebView mWebView;
     private String mMotionEyeUrl;
@@ -47,7 +49,7 @@ public class CameraFragmentMotionEyeView extends Fragment {
         getArgs();
 
         // Calling Application class (see application tag in AndroidManifest.xml)
-        mGlobalVariables = (GlobalVariables) getActivity().getApplicationContext();
+//        mGlobalVariables = (GlobalVariables) Objects.requireNonNull(getActivity()).getApplicationContext();
     }
 
     @SuppressLint({"ClickableViewAccessibility", "SetJavaScriptEnabled"})
@@ -72,13 +74,11 @@ public class CameraFragmentMotionEyeView extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item){
-        switch(item.getItemId()){
-            case R.id.action_snapshot:
-                takeSnapshot();
-                return true;
-            default:
-                return true;
+        if (item.getItemId() == R.id.action_snapshot) {
+            takeSnapshot();
+            return true;
         }
+        return true;
     }
 
     //  Grab screenshot of current frame
@@ -88,7 +88,7 @@ public class CameraFragmentMotionEyeView extends Fragment {
         Canvas canvas = new Canvas(bitmap);
         mWebView.draw(canvas);
         try {
-            FileStorageUtils.saveImage(getActivity(), bitmap);
+            FileStorageUtils.saveImage(Objects.requireNonNull(getActivity()), bitmap);
             writeSystemLog(FileStorageUtils.TABS + getString(R.string.toast_image_saved));
             Toast.makeText(getActivity(), getResources().getString(R.string.toast_image_saved), Toast.LENGTH_LONG).show();
         } catch (FileStorageUtils.FreeSpaceException e) {
@@ -104,13 +104,13 @@ public class CameraFragmentMotionEyeView extends Fragment {
      */
     private void getArgs() {
         Bundle args = getArguments();
-        Node node = (Node) args.getSerializable(ARGS_NODE_DETAIL);
-        mMotionEyeUrl = node.getMotionEyeUrl();
+        Node node = (Node) Objects.requireNonNull(args).getSerializable(ARGS_NODE_DETAIL);
+        mMotionEyeUrl = Objects.requireNonNull(node).getMotionEyeUrl();
     }
 
     //  Output to system log
     private void writeSystemLog(String msg) {
-        FileStorageUtils.writeSystemLog(getActivity(), mGlobalVariables.SYS_LOG, TAG + FileStorageUtils.TABS + msg + FileStorageUtils.LINE_SEPARATOR);
+        FileStorageUtils.writeSystemLog(getActivity(), GlobalVariables.SYS_LOG, TAG + FileStorageUtils.TABS + msg + FileStorageUtils.LINE_SEPARATOR);
     }
 
 }

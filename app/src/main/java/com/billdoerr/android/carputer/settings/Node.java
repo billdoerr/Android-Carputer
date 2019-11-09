@@ -4,14 +4,13 @@ import java.io.Serializable;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.StringDef;
 
 /**
  * Node object.
  */
 public class Node implements Serializable {
-
-    private static final String TAG = "Node";
 
     @StringDef({
             PrefKey.PREF_KEY_NODES
@@ -121,6 +120,7 @@ public class Node implements Serializable {
      * Usage:  Array.toString(List<Node>.toArray().
      * @return String:  Output values of array.
      */
+    @NonNull
     @Override
     public String toString() {
 

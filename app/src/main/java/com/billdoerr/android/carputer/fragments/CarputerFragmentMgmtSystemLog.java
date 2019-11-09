@@ -1,4 +1,4 @@
-package com.billdoerr.android.carputer;
+package com.billdoerr.android.carputer.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,25 +10,18 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.billdoerr.android.carputer.utils.GlobalVariables;
+import com.billdoerr.android.carputer.R;
 import com.billdoerr.android.carputer.utils.FileStorageUtils;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+@SuppressWarnings("ALL")
 public class CarputerFragmentMgmtSystemLog extends Fragment {
-
-    private static final String TAG = "FragmentSystemLog";
-
-    // Calling Application class (see application tag in AndroidManifest.xml)
-    private GlobalVariables mGlobalVariables;
 
     //  System log viewer
     private TextView txtSystemLog;
-
-    public static CarputerFragmentMgmtSystemLog newInstance() {
-        return new CarputerFragmentMgmtSystemLog();
-    }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,7 +31,7 @@ public class CarputerFragmentMgmtSystemLog extends Fragment {
         setHasOptionsMenu(true);
 
         // Calling Application class (see application tag in AndroidManifest.xml)
-        mGlobalVariables = (GlobalVariables) getActivity().getApplicationContext();
+//        mGlobalVariables = (GlobalVariables) Objects.requireNonNull(getActivity()).getApplicationContext();
 
     }
 
@@ -88,11 +81,6 @@ public class CarputerFragmentMgmtSystemLog extends Fragment {
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
 
@@ -101,18 +89,13 @@ public class CarputerFragmentMgmtSystemLog extends Fragment {
         readSystemLog();
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
     /**
      * Read the system log and display contents
      */
     private void readSystemLog() {
         //  Read system log
-        String sysLog = "";
-        sysLog = FileStorageUtils.readSystemLog(getActivity(), mGlobalVariables.SYS_LOG);
+        String sysLog;
+        sysLog = FileStorageUtils.readSystemLog(getActivity(), GlobalVariables.SYS_LOG);
         txtSystemLog.setText(sysLog);
     }
 
@@ -120,7 +103,7 @@ public class CarputerFragmentMgmtSystemLog extends Fragment {
      * Clear the system log
      */
     private void clearSystemLog() {
-        FileStorageUtils.clearSystemLog(getActivity(), mGlobalVariables.SYS_LOG);
+        FileStorageUtils.clearSystemLog(getActivity(), GlobalVariables.SYS_LOG);
         txtSystemLog.setText("");
         readSystemLog();
     }

@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -23,12 +22,12 @@ import org.greenrobot.eventbus.EventBus;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import java.util.Objects;
+
 /**
  * Fragment used to add/edit node details.
  */
 public class SettingsFragmentNodeDetail extends Fragment {
-
-    private static final String TAG = "NodeDetail";
 
     private static final String ARGS_INDEX = "ARGS_INDEX";
     private static final String ARGS_NODE_DETAIL = "ARGS_NODE_DETAIL";
@@ -47,9 +46,9 @@ public class SettingsFragmentNodeDetail extends Fragment {
     private EditText mTextPhpSysInfoUrl;
     private EditText mTextMotionEyeUrl;
 
-    private boolean mUseAuthentication = false;
-    private boolean mUsePhpSysInfo = false;
-    private boolean mUseMotionEye = false;
+//    private boolean mUseAuthentication = false;
+//    private boolean mUsePhpSysInfo = false;
+//    private boolean mUseMotionEye = false;
 
     private Switch mSwitchUseAuthentication;
     private Switch mSwitchUsePhpSysInfo;
@@ -69,7 +68,7 @@ public class SettingsFragmentNodeDetail extends Fragment {
         super.onCreate(saveInstanceState);
 
         Bundle args = getArguments();
-        mAdd = args.getBoolean(ARGS_ADD);
+        mAdd = Objects.requireNonNull(args).getBoolean(ARGS_ADD);
         mNode = (Node) args.getSerializable(ARGS_NODE_DETAIL);
         mIndex = args.getInt(ARGS_INDEX);
 
@@ -92,15 +91,12 @@ public class SettingsFragmentNodeDetail extends Fragment {
         mLblNodeNameRequired = view.findViewById(R.id.lbl_node_name_required_field);
 
         mTextNodeName = view.findViewById(R.id.txt_node_name);
-        mTextNodeName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    if (mTextNodeName.getText().toString().length() == 0) {
-                        mLblNodeNameRequired.setVisibility(View.VISIBLE);
-                    } else {
-                        mLblNodeNameRequired.setVisibility(View.GONE);
-                    }
+        mTextNodeName.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                if (mTextNodeName.getText().toString().length() == 0) {
+                    mLblNodeNameRequired.setVisibility(View.VISIBLE);
+                } else {
+                    mLblNodeNameRequired.setVisibility(View.GONE);
                 }
             }
         });
@@ -108,15 +104,12 @@ public class SettingsFragmentNodeDetail extends Fragment {
         mLblNodeIpRequired = view.findViewById(R.id.lbl_node_ip_required_field);
 
         mTextNodeIp = view.findViewById(R.id.txt_node_ip);
-        mTextNodeIp.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    if (mTextNodeIp.getText().toString().length() == 0) {
-                        mLblNodeIpRequired.setVisibility(View.VISIBLE);
-                    } else {
-                        mLblNodeIpRequired.setVisibility(View.GONE);
-                    }
+        mTextNodeIp.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                if (mTextNodeIp.getText().toString().length() == 0) {
+                    mLblNodeIpRequired.setVisibility(View.VISIBLE);
+                } else {
+                    mLblNodeIpRequired.setVisibility(View.GONE);
                 }
             }
         });
@@ -132,18 +125,15 @@ public class SettingsFragmentNodeDetail extends Fragment {
         //  Use authentication
         mSwitchUseAuthentication = view.findViewById(R.id.switch_use_authentication);
         mSwitchUseAuthentication.setEnabled(true);
-        mSwitchUseAuthentication.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    //  Enable username/password
-                    mTextUsername.setEnabled(true);
-                    mTextPassword.setEnabled(true);
-                } else {
-                    //  Disable username/password
-                    mTextUsername.setEnabled(false);
-                    mTextPassword.setEnabled(false);
-                }
+        mSwitchUseAuthentication.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                //  Enable username/password
+                mTextUsername.setEnabled(true);
+                mTextPassword.setEnabled(true);
+            } else {
+                //  Disable username/password
+                mTextUsername.setEnabled(false);
+                mTextPassword.setEnabled(false);
             }
         });
 
@@ -153,16 +143,13 @@ public class SettingsFragmentNodeDetail extends Fragment {
         //  Use phpSysInfo
         mSwitchUsePhpSysInfo = view.findViewById(R.id.switch_node_use_phpsysinfo);
         mSwitchUsePhpSysInfo.setEnabled(true);
-        mSwitchUsePhpSysInfo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    //  Enable username/password
-                    mTextPhpSysInfoUrl.setEnabled(true);
-                } else {
-                    //  Disable username/password
-                    mTextPhpSysInfoUrl.setEnabled(false);
-                }
+        mSwitchUsePhpSysInfo.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                //  Enable username/password
+                mTextPhpSysInfoUrl.setEnabled(true);
+            } else {
+                //  Disable username/password
+                mTextPhpSysInfoUrl.setEnabled(false);
             }
         });
 
@@ -172,80 +159,60 @@ public class SettingsFragmentNodeDetail extends Fragment {
         //  Use motionEye
         mSwitchUseMotionEye = view.findViewById(R.id.switch_node_use_motioneye);
         mSwitchUseMotionEye.setEnabled(true);
-        mSwitchUseMotionEye.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    //  Enable username/password
-                    mTextMotionEyeUrl.setEnabled(true);
-                } else {
-                    //  Disable username/password
-                    mTextMotionEyeUrl.setEnabled(false);
-                }
+        mSwitchUseMotionEye.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                //  Enable username/password
+                mTextMotionEyeUrl.setEnabled(true);
+            } else {
+                //  Disable username/password
+                mTextMotionEyeUrl.setEnabled(false);
             }
         });
 
         //  Save transaction
         Button btnSave = view.findViewById(R.id.btn_save);
-        btnSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                boolean isMissingData = false;
+        btnSave.setOnClickListener(v -> {
+            boolean isMissingData = false;
 
-                //  Not sure if this is needed or issue with emulator.  No issues on real device if not called.
-                hideSoftKeyboard();
+            //  Not sure if this is needed or issue with emulator.  No issues on real device if not called.
+            hideSoftKeyboard();
 
-                if (mTextNodeName.getText().toString().length() == 0) {
-                    isMissingData = true;
-                    mLblNodeIpRequired.setVisibility(View.VISIBLE);
-                } else {
-                    mLblNodeIpRequired.setVisibility(View.GONE);
-                }
-
-                if (mTextNodeIp.getText().toString().length() == 0) {
-                    isMissingData = true;
-                    mLblNodeIpRequired.setVisibility(View.VISIBLE);
-                } else {
-                    mLblNodeIpRequired.setVisibility(View.GONE);
-                }
-
-                if (!isMissingData) {
-                    mNode = getNodeDetail();
-                    if (mAdd) {
-                        sendMessage(SettingsMessageEvent.Action.ADD, mNode, -1);
-                    } else {
-                        sendMessage(SettingsMessageEvent.Action.UPDATE, mNode, mIndex);
-                    }
-                    getActivity().onBackPressed();      //  Goodbye
-                }
-
+            if (mTextNodeName.getText().toString().length() == 0) {
+                isMissingData = true;
+                mLblNodeIpRequired.setVisibility(View.VISIBLE);
+            } else {
+                mLblNodeIpRequired.setVisibility(View.GONE);
             }
+
+            if (mTextNodeIp.getText().toString().length() == 0) {
+                isMissingData = true;
+                mLblNodeIpRequired.setVisibility(View.VISIBLE);
+            } else {
+                mLblNodeIpRequired.setVisibility(View.GONE);
+            }
+
+            if (!isMissingData) {
+                mNode = getNodeDetail();
+                if (mAdd) {
+                    sendMessage(SettingsMessageEvent.Action.ADD, mNode, -1);
+                } else {
+                    sendMessage(SettingsMessageEvent.Action.UPDATE, mNode, mIndex);
+                }
+                Objects.requireNonNull(getActivity()).onBackPressed();      //  Goodbye
+            }
+
         });
 
         //  Cancel transaction
         Button btnCancel = view.findViewById(R.id.btn_cancel);
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().onBackPressed();      //  Goodbye
-            }
+        btnCancel.setOnClickListener(v -> {
+            Objects.requireNonNull(getActivity()).onBackPressed();      //  Goodbye
         });
 
         //  Assign values from passed in arguments
         setNodeDetail(mNode);
 
         return view;
-    }
-
-    @Override
-    public void onStart()
-    {
-        super.onStart();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
     }
 
     @Override
@@ -256,15 +223,11 @@ public class SettingsFragmentNodeDetail extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-
-            //  Delete device
-            case R.id.action_delete:
-                sendMessage(SettingsMessageEvent.Action.DELETE, mNode, mIndex);
-                getActivity().onBackPressed();      //  Goodbye
-                return true;
-            default:
-                break;
+        //  Delete device
+        if (item.getItemId() == R.id.action_delete) {
+            sendMessage(SettingsMessageEvent.Action.DELETE, mNode, mIndex);
+            Objects.requireNonNull(getActivity()).onBackPressed();      //  Goodbye
+            return true;
         }
 
         return false;
@@ -317,7 +280,7 @@ public class SettingsFragmentNodeDetail extends Fragment {
      */
     private void hideSoftKeyboard() {
         // Check if no view has focus:
-        View view = getActivity().getCurrentFocus();
+        View view = Objects.requireNonNull(getActivity()).getCurrentFocus();
         if (view != null) {
             InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
@@ -335,7 +298,6 @@ public class SettingsFragmentNodeDetail extends Fragment {
         event.sendMessage(action, node, index);
         EventBus.getDefault().post(event);
     }
-
 
 }
 

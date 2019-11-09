@@ -1,4 +1,4 @@
-package com.billdoerr.android.carputer;
+package com.billdoerr.android.carputer.fragments;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -10,7 +10,10 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.billdoerr.android.carputer.R;
 import com.billdoerr.android.carputer.settings.Node;
+
+import java.util.Objects;
 
 /**
  *  Child fragment of CarputerFragmentMgmt.
@@ -19,7 +22,6 @@ import com.billdoerr.android.carputer.settings.Node;
  */
 public class CarputerFragmentMgmtPhySysInfoView extends Fragment {
 
-    private static final String TAG = "phySysInfoView";
     private static final String ARGS_NODE_DETAIL = "ARGS_NODE_DETAIL";
 
     private String mPhpSysInfoUrl;
@@ -53,8 +55,8 @@ public class CarputerFragmentMgmtPhySysInfoView extends Fragment {
      */
     private void getArgs() {
         Bundle args = getArguments();
-        Node node = (Node) args.getSerializable(ARGS_NODE_DETAIL);
-        mPhpSysInfoUrl = node.getPhpSysInfoUrl();
+        Node node = (Node) Objects.requireNonNull(args).getSerializable(ARGS_NODE_DETAIL);
+        mPhpSysInfoUrl = Objects.requireNonNull(node).getPhpSysInfoUrl();
     }
 
 }

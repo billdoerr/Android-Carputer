@@ -61,21 +61,20 @@ The options menu **Snapshot** captures a screen shot of current video frame.<br>
 The **Computer Management** view provides information of the connected nodes. <br>
 <img src="images/mgmt_view.png" width="200"/><br>
 This view contains tabs for:<br>
-    **SSH** - Provides simple commands and their output.<br>
-    **System Log** - View the system log. Contains options menu for **refresh** and **clear log**.<br>
-    **phpSysInfo** - Displays information about system facts like Uptime, CPU, Memory, PCI devices, SCSI devices, IDE devices, Network adapters, Disk usage, and more.<br>
+&nbsp;&nbsp;**SSH** - Provides simple commands and their output.<br>
+&nbsp;&nbsp;**System Log** - View the system log. Contains options menu for **refresh** and **clear log**.<br>
+&nbsp;&nbsp;**phpSysInfo** - Displays information about system facts like Uptime, CPU, Memory, PCI devices, SCSI devices, IDE devices, Network adapters, Disk usage, and more.<br>
 <img src="images/phpsysinfo.png" width="200"/><br>
 
 
 **Image Archive**<br>
 This contains two tabs:
-**Snapshots** - Contains list of images saved using **Snapshot**. To delete an image click on the image to delete.<br>
-<img src="images/image_archive_view.png" width="200"/>
+&nbsp;&nbsp;**Snapshots** - Contains list of images saved using **Snapshot**. To delete an image click on the image to delete.<br>
+&nbsp;&nbsp;**Image Archive** - If RaspberryPi has attached storage. motionEye is configured to archive the streamed video. This view gives access to that archive storage.<br>
+<img src="images/image_archive_view.png" width="200"/>&nbsp;&nbsp;<img src="images/image_archive_storage.png" width="200"/><br>
 
-**Image Archive** - If RaspberryPi has attached storage. motionEye is configured to archive the streamed video. This view gives access to that archive storage.<br>
-<img src="images/image_archive_storage.png" width="200"/>
 
-<br>
+
 
 
 **Settings**<br>

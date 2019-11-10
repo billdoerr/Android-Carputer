@@ -58,12 +58,12 @@ The options menu **Snapshot** captures a screen shot of current video frame.<br>
 
 
 **Computer Management** <br>
-The **Computer Management* view provides information of the connected nodes. <br>
+The **Computer Management** view provides information of the connected nodes. <br>
 <img src="images/mgmt_view.png" width="200"/><br>
 This view contains tabs for:<br>
-**SSH** - Provides simple commands and their output.<br>
-**System Log** - View the system log. Contains options menu for **refresh** and **clear log**.<br>
-**phpSysInfo** - Displays information about system facts like Uptime, CPU, Memory, PCI devices, SCSI devices, IDE devices, Network adapters, Disk usage, and more.<br>
+    **SSH** - Provides simple commands and their output.<br>
+    **System Log** - View the system log. Contains options menu for **refresh** and **clear log**.<br>
+    **phpSysInfo** - Displays information about system facts like Uptime, CPU, Memory, PCI devices, SCSI devices, IDE devices, Network adapters, Disk usage, and more.<br>
 <img src="images/phpsysinfo.png" width="200"/><br>
 
 

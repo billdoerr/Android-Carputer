@@ -25,7 +25,7 @@ All notable changes to this Android application project will be documented in th
 #### Removed
 
 
-## [Unreleased]
+## [Released]
 ### v1.5.3 (9Nov2019)
 #### Added
 - [x] Bottom drawer navigation. Preference settings added:  Misc -> Enable bottom navigation.

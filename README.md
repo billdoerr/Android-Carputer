@@ -68,7 +68,7 @@ This view contains tabs for:<br>
 
 
 **Image Archive**<br>
-This contains two tabs:<br>
+This contains two tabs:  <br>
 &nbsp;&nbsp;**Snapshots** - Contains list of images saved using **Snapshot**. To delete an image click on the image to delete.<br>
 &nbsp;&nbsp;**Image Archive** - If RaspberryPi has attached storage. motionEye is configured to archive the streamed video. This view gives access to that archive storage.<br>
 <img src="images/image_archive_view.png" width="200"/>&nbsp;&nbsp;<img src="images/image_archive_storage.png" width="200"/><br>

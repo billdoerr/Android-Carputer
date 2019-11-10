@@ -66,6 +66,13 @@
             app:title="@string/pref_title_misc_keep_device_awake"
             app:useSimpleSummaryProvider="true" />
 
+        <SwitchPreference
+            app:enabled="true"
+            app:defaultValue="true"
+            app:key="com.billdoerr.android.carputer.settings.SettingsActivity.PREF_ENABLE_BOTTOM_NAVIGATION"
+            app:title="@string/pref_title_enable_bottom_navigation"
+            app:useSimpleSummaryProvider="true" />
+
         <EditTextPreference
             app:defaultValue="@string/pref_default_image_archive_url"
             app:key="com.billdoerr.android.carputer.settings.SettingsActivity.PREF_IMAGE_ARCHIVE_URL"

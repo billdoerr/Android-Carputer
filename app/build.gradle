@@ -20,7 +20,7 @@ android {
         minSdkVersion 23
         targetSdkVersion 28
         versionCode getVersionCodeTimestamp()
-        versionName "v1.5.3 (BETA)"
+        versionName "v1.5.3 (9Nov2019)"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

@@ -13,10 +13,11 @@
     <color name="colorButtonActionBackground">#1C76BB</color>
     <color name="colorButtonActionText">#FFFFFF</color>
 
-
     <color name="button_pressed">@color/colorAccent</color>
     <color name="button_focused">@color/colorAccent</color>
     <color name="button_default">@color/colorButtonActionBackground</color>
 
+    <color name="colorNavIcon">#dae9f6</color>
+    <color name="colorNavText">#01294b</color>
 
 </resources>

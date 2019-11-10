@@ -8,7 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -324,10 +323,12 @@ public class SSHFragment extends Fragment implements TaskResponse {
         }
     }
 
-    //  This override the implemented method from asyncTask
-    public void taskFinished(TaskResult result){
-        //Here you will receive the result fired from async class
-        //of onPostExecute(result) method.
+    /**
+     * This override the implemented method from asyncTask.
+     * Here you will receive the result fired from async class of onPostExecute(result) method.
+     * @param result TaskResult
+     */
+    public void taskFinished(TaskResult result) {
 
         //  Dismiss the progress dialog
         hideProgressDialog();
@@ -335,8 +336,10 @@ public class SSHFragment extends Fragment implements TaskResponse {
         //  Keep track of tasks generated.  Used later to dismiss progress dialog
         mTaskCount += -1;
 
-        Log.d(TAG, getString(R.string.msg_task_finished));
-        writeTaskResult(result,getString(R.string.msg_task_finished) );
+        // Ensure fragment is attached
+        if (isAdded()) {
+            writeTaskResult(result,getString(R.string.msg_task_finished) );
+        }
 
     }
 
@@ -347,8 +350,9 @@ public class SSHFragment extends Fragment implements TaskResponse {
 //        Log.d(TAG, "hideProgress");
 //    }
 
+    @Override
     public void showProgress() {
-        Log.d(TAG, "showProgress");
+        // Pass
     }
 
 //    public void taskTimeout(TaskResult result) {
@@ -576,7 +580,6 @@ public class SSHFragment extends Fragment implements TaskResponse {
 //            executeCmd("carputer", i);
         }
 
-        //  TODO:  Keep for posterity?
         //  Obsolete code due to the implementation of a RTC (Real Time Clock)
 //        // Sync dates
 //        if (mWifiUtils.isConnected()) {

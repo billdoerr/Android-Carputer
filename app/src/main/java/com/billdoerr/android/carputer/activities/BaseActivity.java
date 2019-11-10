@@ -17,6 +17,7 @@ import com.billdoerr.android.carputer.settings.SettingsActivity;
 import com.billdoerr.android.carputer.utils.FileStorageUtils;
 import com.billdoerr.android.carputer.utils.NetworkChangeReceiver;
 import com.billdoerr.android.carputer.utils.WifiUtils;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.fragment.app.Fragment;
@@ -30,6 +31,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.WindowManager;
 
 import java.util.Arrays;
@@ -49,6 +51,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     private NetworkChangeReceiver mNetworkChangeReceiver;
 
     //  Menu
+    private BottomNavigationView mBottomNavigationView;
     private DrawerLayout mDrawerLayout;
     private Toolbar mToolbar;
 
@@ -83,6 +86,9 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         // Implement NavigationView
         createNavigationView();
+
+        // Implement BottomNavigationView
+        createBottomNavigationView();
 
         //  Initialization routine
         systemInitialization();
@@ -211,6 +217,43 @@ public abstract class BaseActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Creates the Bottom Navigation View
+     */
+    private void createBottomNavigationView() {
+        mBottomNavigationView = findViewById(R.id.bottom_navigation_view);
+        mBottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            Fragment fragment;
+            switch (item.getItemId()) {
+                case R.id.nav_camera:
+                    fragment = new CameraFragmentMjpeg();
+                    loadFragmentReplace(fragment);
+                    return true;
+                case R.id.nav_motioneye:
+                    fragment = new CameraFragmentMotionEye();
+                    loadFragmentReplace(fragment);
+                    return true;
+                case R.id.nav_management:
+                    fragment = new CarputerFragmentMgmt();
+                    loadFragmentReplace(fragment);
+                    return true;
+            }
+            return false;
+        });
+    }
+
+    /**
+     * Enable/Disable the visibility of the BottomNavigationView
+     * @param visible boolean
+     */
+    void setBottomNavigationViewVisibility(boolean visible) {
+        if (visible) {
+            mBottomNavigationView.setVisibility(View.VISIBLE);
+        } else {
+            mBottomNavigationView.setVisibility(View.GONE);
+        }
+    }
+
 //    /**
 //     * Creates fragment.  https://www.simplifiedcoding.net/bottom-navigation-android-example/
 //     * @param fragment Fragment
@@ -286,7 +329,6 @@ public abstract class BaseActivity extends AppCompatActivity {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
 
-        //  TODO:  v1.4.1  WORK-IN-PROGRESS
         //  Start network broadcast receiver
         startNetworkChangeReceiver();
 

@@ -24,14 +24,15 @@ public class GlobalVariables extends Application {
     private static final String TAG = "GlobalVariables";
 
     //  Shared preferences
-    public static final String PREF_KEY_CAMERAS                = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_CAMERAS";
-    public static final String PREF_KEY_NODES                  = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NODES";
-    public static final String PREF_KEY_NETWORK_ENABLED        = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NETWORK_ENABLED";
-    public static final String PREF_KEY_NETWORK_NAME           = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NETWORK_NAME";
-    public static final String PREF_KEY_NETWORK_PASSPHRASE     = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NETWORK_PASSPHRASE";
-    public static final String PREF_KEY_KEEP_DEVICE_AWAKE      = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_KEEP_DEVICE_AWAKE";
+    public static final String PREF_KEY_CAMERAS                     = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_CAMERAS";
+    public static final String PREF_KEY_NODES                       = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NODES";
+    public static final String PREF_KEY_NETWORK_ENABLED             = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NETWORK_ENABLED";
+    public static final String PREF_KEY_NETWORK_NAME                = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NETWORK_NAME";
+    public static final String PREF_KEY_NETWORK_PASSPHRASE          = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_NETWORK_PASSPHRASE";
+    public static final String PREF_KEY_KEEP_DEVICE_AWAKE           = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_KEY_KEEP_DEVICE_AWAKE";
+    public static final String PREF_ENABLE_BOTTOM_NAVIGATION        = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_ENABLE_BOTTOM_NAVIGATION";
     @SuppressWarnings("WeakerAccess")
-    public static final String PREF_IMAGE_ARCHIVE_URL          = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_IMAGE_ARCHIVE_URL";
+    public static final String PREF_IMAGE_ARCHIVE_URL               = "com.billdoerr.android.carputer.settings.SettingsActivity.PREF_IMAGE_ARCHIVE_URL";
 
     //  System log filename
     public static final String SYS_LOG = "system_log.log";
@@ -47,6 +48,7 @@ public class GlobalVariables extends Application {
     private static String sNetworkPassphrase;
     private static boolean sKeepDeviceAwake = false;
     private static String sImageArchiveUrl;
+    private static boolean sUseBottomNavigation = true;
 
     //  We need application context.  Set in onCreate()
     private Context sContext;
@@ -141,6 +143,11 @@ public class GlobalVariables extends Application {
         sImageArchiveUrl = imageArchiveUrl;
     }
 
+    public boolean isBottomNavigationEnabled() {
+        return sUseBottomNavigation;
+    }
+
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -172,6 +179,7 @@ public class GlobalVariables extends Application {
         sNetworkPassphrase = appSharedPrefs.getString(PREF_KEY_NETWORK_PASSPHRASE, "");
         sKeepDeviceAwake = appSharedPrefs.getBoolean(PREF_KEY_KEEP_DEVICE_AWAKE, false);
         sImageArchiveUrl = appSharedPrefs.getString(PREF_IMAGE_ARCHIVE_URL, "");
+        sUseBottomNavigation = appSharedPrefs.getBoolean(PREF_ENABLE_BOTTOM_NAVIGATION, true);
 
     }
 

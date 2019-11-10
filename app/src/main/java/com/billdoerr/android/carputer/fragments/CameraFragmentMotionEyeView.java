@@ -35,6 +35,7 @@ public class CameraFragmentMotionEyeView extends Fragment {
     private static final String TAG = "CameraFragMotionEyeView";
     private static final String ARGS_NODE_DETAIL = "ARGS_NODE_DETAIL";
 
+    private View mView;
     private WebView mWebView;
     private String mMotionEyeUrl;
 
@@ -55,15 +56,15 @@ public class CameraFragmentMotionEyeView extends Fragment {
     @SuppressLint({"ClickableViewAccessibility", "SetJavaScriptEnabled"})
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_camera_motioneye_view, container, false);
+        mView = inflater.inflate(R.layout.fragment_camera_motioneye_view, container, false);
 
-        //  Display the motioneye admin console web page
-        mWebView = view.findViewById(R.id.web_view);
-        mWebView.getSettings().setJavaScriptEnabled(true);
-        mWebView.setWebViewClient(new WebViewClient());
-        mWebView.loadUrl(mMotionEyeUrl);
+//        //  Display the motioneye admin console web page
+//        mWebView = view.findViewById(R.id.web_view);
+//        mWebView.getSettings().setJavaScriptEnabled(true);
+//        mWebView.setWebViewClient(new WebViewClient());
+//        mWebView.loadUrl(mMotionEyeUrl);
 
-        return view;
+        return mView;
     }
 
     @Override
@@ -80,6 +81,18 @@ public class CameraFragmentMotionEyeView extends Fragment {
             return true;
         }
         return true;
+    }
+
+    @SuppressLint("SetJavaScriptEnabled")
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        //  Display the motioneye admin console web page
+        mWebView = mView.findViewById(R.id.web_view);
+        mWebView.getSettings().setJavaScriptEnabled(true);
+        mWebView.setWebViewClient(new WebViewClient());
+        mWebView.loadUrl(mMotionEyeUrl);
     }
 
     //  Grab screenshot of current frame

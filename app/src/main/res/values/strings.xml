@@ -17,6 +17,11 @@
     <string name="drawer_open">drawer open</string>
     <string name="drawer_close">drawer close</string>
 
+    <!--  Bottom Navigation -->
+    <string name="navigation_mjpeg">mjpeg</string>
+    <string name="navigation_motioneye">motionEye</string>
+    <string name="navigation_mgmt">Mgmt</string>
+
     <!--  Toolbar -->
     <string name="action_snapshot">Snapshot</string>
     <string name="action_device_delete">Delete</string>
@@ -90,6 +95,7 @@
     <string name="pref_title_network_auto_connect">Auto connect</string>
     <string name="pref_title_misc_keep_device_awake">Keep Device Awake</string>
     <string name="pref_title_image_archive_url">Image Archive Url</string>
+    <string name="pref_title_enable_bottom_navigation">Enable bottom navigation</string>
 
     <!--  Default Shared Preference Values -->
     <string name="pref_default_camera_name">Front</string>

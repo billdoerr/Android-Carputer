@@ -22,19 +22,21 @@ All notable changes to this Android application project will be documented in th
 - [ ]  I/Choreographer: Skipped frames!  The application may be doing too much work on its main thread.  
 		First guess it is caused by CameraFragmentMjpegSnapshot grabbing frames.  If so, nothing I can do if I want to keep this functional<https://stackoverflow.com/questions/14678593/the-application-may-be-doing-too-much-work-on-its-main-thread>thread
 - [ ] 
-- [ ] Changed 'sudo poweroff' to 'sudo systemctl poweroff'.
 #### Removed
 
 
 ## [Unreleased]
-### v1.5.3 (IN BETA)
+### v1.5.3 (9Nov2019)
 #### Added
+- [x] Bottom drawer navigation. Preference settings added:  Misc -> Enable bottom navigation.
 - [x]  **List dhcp leases**
     sudo cat /var/lib/misc/dnsmasq.leases 
+#### Changed    
 - [x] Corrected launch icon. Was using default Android icon.
 - [x]  Migrate to a single activity implementation.  This would be CarputerActivity which extends the BaseActivity.   (Note:  Settings will remain as a one-off activity).
 - [ ] ~~Resolve issue where app is not able to connect with PINET where device has cellular capabilities.~~
     **UPDATE:** This is not doable.  To resolve this issue requires the disabling of **Cellular Data**. With BUILD > 21, this can only be performed in a system app. 
+- [ ] Updated README.md with app screen shots.    
 #### Removed
 
 

@@ -10,6 +10,7 @@ public interface TaskResponse {
 
 //    void hideProgress();
 
+    @SuppressWarnings("EmptyMethod")
     void showProgress();
 
 //    void taskTimeout(TaskResult taskResult);

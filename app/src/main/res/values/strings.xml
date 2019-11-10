@@ -95,7 +95,7 @@
     <string name="pref_title_network_auto_connect">Auto connect</string>
     <string name="pref_title_misc_keep_device_awake">Keep Device Awake</string>
     <string name="pref_title_image_archive_url">Image Archive Url</string>
-    <string name="pref_title_enable_bottom_navigation">Enable bottom navigation</string>
+    <string name="pref_title_enable_bottom_navigation">Enable Bottom Navigation</string>
 
     <!--  Default Shared Preference Values -->
     <string name="pref_default_camera_name">Front</string>
